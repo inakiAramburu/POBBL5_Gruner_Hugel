@@ -26,15 +26,5 @@ public class LoginController {
 
         return "redirect:/error";
     }
-
-    @GetMapping("/main")
-    public String main() {
-        return "main";
-    }
-
-    @GetMapping("/error")
-    public String error() {
-        return "error";
-    }
     
 }

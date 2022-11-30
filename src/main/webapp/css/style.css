@@ -16,6 +16,7 @@ header{
 	background-color: var(--orange);
 	padding: 0.5rem;
 	display: flex;
+	justify-content: space-between;
 }
 
 h1{

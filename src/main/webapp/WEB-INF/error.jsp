@@ -4,6 +4,5 @@
         <h2 class="card-title">Error</h2>
         <p class="card-body">Something went wrong. Please try again later.</p>
     </main>
-</body>
 
 <jsp:include page="/WEB-INF/include/footer.jsp" />
