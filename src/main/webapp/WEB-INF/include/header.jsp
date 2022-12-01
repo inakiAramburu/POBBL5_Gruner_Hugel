@@ -12,10 +12,10 @@
 
 <body>
 	<header>
-		<div class="logo">
-			<img src="img/icono.png" alt="Grüner Hügel Logo" />
+		<div class="title">
+			<img id="logo" src="img/icono.png" alt="Grüner Hügel Logo" />
+			<h1>Grüner Hügel</h1>
 		</div>
-		<h1>Grüner Hügel</h1>
 		<nav class="nav_items">
 			<a href="/console">Console</a>
 			<a href="/save">Save</a>
