@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
     
-    @GetMapping(path = "/login")
+    @GetMapping(path = {"/","/login"})
     public String index() {
         return "login";
     }
@@ -30,5 +30,4 @@ public class WebController {
     public String create() {
         return "user/user-form";
     }
-
 }
