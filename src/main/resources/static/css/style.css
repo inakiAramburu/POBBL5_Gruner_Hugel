@@ -1,0 +1,65 @@
+:root {
+	--orange : #EF5533;
+	--green: #2E7023;
+
+	font-size: 20px;
+	font-family: "Jockey One";
+
+	height: 100vh;
+	width: 100vw;
+}
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+body{
+	text-align: center;
+}
+
+img{
+	max-width: 100%;
+}
+
+main{
+	display: flex;
+	justify-content: center;
+    align-items: center;
+}
+
+.card{
+	background-color: white;
+	border: 1px solid black;
+}
+
+.card-body{
+	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: center;
+}
+
+#login_button{
+	margin-top: 10px;
+	background-color: black;
+	color: white;
+}
+
+footer{
+	text-align: center;
+}
+
+
+@supports (grid-template-columns: subgrid){
+	
+}
+
+@media (min-width: 512px){
+	
+	
+}
+
+@media (min-width: 900px){
+	
+	
+}
