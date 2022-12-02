@@ -1,19 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-
-<jsp:include page="/WEB-INF/include/header.jsp" />
-
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: head}">
+    <title></title>
+</head>
+<body>
+    <header th:replace="~{fragments/header :: header}"></header>
     <main>
-
         <section class="card">
-            <h2 class="card-title">Login user</h2>
-            <form class="card-body" action="/login" method="post">
+            <form class="card-body" th:action="@{/main}" method="get">
                 <label>
                     Username: 
                     <input	type="text"
                         name="username"
                         required
                         placeholder="Username"/>
-                </label>
+                    </label>
                 <label>
                     Password:
                     <input	type="password"
@@ -21,11 +22,9 @@
                         required
                         placeholder="Password"/>
                 </label>
-                <button id="login_button" type="submit" id="login">Login</button>
+                <button id="login_button" type="submit">Login</button>
             </form>
         </section>
     </main>
-    
 </body>
-
-<jsp:include page="/WEB-INF/include/footer.jsp" />
+</html>

@@ -1,41 +1,63 @@
 package gruner.huger.grunerhugel.model;
 
-import java.io.Serializable;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 
 @Entity
-public class User implements Serializable{
+public class User implements UserDetails{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     private String username;
     private String password;
+    @OneToOne
+    private Role role;
 
     public User() {
-      // TODO document why this constructor is empty
+    }
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public Integer getId() {
         return id;
     }
 
+
+
     public void setId(Integer id) {
         this.id = id;
     }
+
+
 
     public String getUsername() {
         return username;
     }
 
+
+
     public void setUsername(String username) {
         this.username = username;
     }
+
+
 
     public String getPassword() {
         return password;
@@ -45,10 +67,52 @@ public class User implements Serializable{
         this.password = password;
     }
 
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public boolean validate(User user){
+        if(user.getUsername().equals(this.username) && user.getPassword().equals(this.password)){
+            return true;
+        }
+        return false;
+    }
+
+
+
     @Override
     public String toString() {
         return "User [username=" + username + ", password=" + password + "]";
     }
 
-    
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        return authorities;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
