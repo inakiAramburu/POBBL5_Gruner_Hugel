@@ -20,10 +20,11 @@ public class WebSecurity{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         
         http.authorizeHttpRequests()
-            .requestMatchers("/css/**", "/img/**").permitAll()
-            .requestMatchers("/register", "/create", "/login", "/").permitAll()
-            .anyRequest().authenticated()
-            .and().formLogin().loginPage("/login").defaultSuccessUrl("/main").failureUrl("/login-error").permitAll()
+            .requestMatchers("/css/**", "/img/**","/js/**").permitAll()
+            .requestMatchers("/register", "/create", "/login", "/", "/error").permitAll()
+            .anyRequest().authenticated();
+        http
+            .formLogin().loginPage("/login").defaultSuccessUrl("/main").failureUrl("/login-error").permitAll()
             .and().logout().logoutSuccessUrl("/").permitAll()
             .and().csrf().disable();
 
@@ -31,7 +32,7 @@ public class WebSecurity{
     }
 
     @Bean 
-    public WebSecurityCustomizer webSecurityCustomizer(){
+    public WebSecurityCustomizer webSecurityCustomizer(){ //HAY QUE CAMBIARLO EN UN FUTURO
         return web -> web.ignoring().requestMatchers("/resources/**", "/static/**");
     }
 

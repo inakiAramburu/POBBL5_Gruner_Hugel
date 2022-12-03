@@ -11,19 +11,9 @@ public class WebController {
         return "login";
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "<h2> Welcome Admin!</h2>";
-    }
-
     @GetMapping("/main")
     public String main() {
         return "main";
-    }
-
-    @GetMapping("/error")
-    public String error() {
-        return "error";
     }
 
     @GetMapping("/create")

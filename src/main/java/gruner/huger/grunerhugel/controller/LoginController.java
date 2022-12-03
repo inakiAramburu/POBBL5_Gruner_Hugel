@@ -20,17 +20,6 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/login")
-    public String login(@RequestBody User user,ModelAndView model) throws Exception {
-        if(userRepository.findByUsername(user.getUsername())!= null){
-            ((Model) model).addAttribute("loginSuccess", true);
-            model.setViewName("/main");
-        }else{ 
-            return "/login-error";
-        }
-        return "main";
-	}
-
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
 

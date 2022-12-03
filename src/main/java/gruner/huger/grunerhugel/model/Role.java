@@ -1,16 +1,18 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class Role {
+public class Role implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private String role;
+    private String name;
 
     public Role() {
     }
@@ -21,7 +23,7 @@ public class Role {
         } else if(role.equals("ADMIN")) {
             this.id = 2;
         }
-        this.role = role;
+        this.name = role;
     }
 
     public int getId() {
@@ -31,10 +33,10 @@ public class Role {
 		this.id = id;
 	}
 	public String getRole() {
-		return role;
+		return name;
 	}
 	public void setRole(String role) {
-		this.role = role;
+		this.name = role;
 	}
 	
 }
