@@ -25,10 +25,10 @@ public class WebSecurity{
             .requestMatchers("/css/**", "/img/**","/js/**").permitAll()
             .requestMatchers("/register", "/create", "/login", "/", "/error").permitAll()
             .anyRequest().authenticated();
-        http
+            
+        http.csrf().disable()
             .formLogin().loginPage("/login").successHandler(customSuccesHandler).failureUrl("/login-error").permitAll()
-            .and().logout().logoutSuccessUrl("/").permitAll()
-            .and().csrf().disable();
+            .and().logout().logoutSuccessUrl("/").permitAll();
 
         return http.build();
     }

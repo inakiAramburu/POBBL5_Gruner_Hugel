@@ -9,29 +9,23 @@ import jakarta.persistence.Id;
 
 @Entity
 public class Role implements Serializable{
+    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    int id;
     private String name;
 
     public Role() {
     }
     
 	public Role(String role) {
-        if(role.equals("USER")) {
-            this.id = 1;
-        } else if(role.equals("ADMIN")) {
+        if(role.equals("ADMIN")){
             this.id = 2;
+        } else if(role.equals("USER")){
+            this.id = 1;
         }
         this.name = role;
     }
-
-    public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 
     public String getName() {
         return name;
@@ -39,5 +33,10 @@ public class Role implements Serializable{
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Role [id ="+id+" name=" + name + "]";
     }
 }
