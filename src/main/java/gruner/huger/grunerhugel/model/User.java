@@ -106,16 +106,6 @@ public class User implements Serializable{
         return this.role.getName().equals(roleName);
     }
 
-    public boolean validate(User user){
-
-        if(user != null){
-            if(this.username.equals(user.getUsername()) && this.password.equals(user.getPassword())){
-                return true;
-            }
-        }
-        return false;
-    }
-
     @Override
     public String toString() {
         return  "User [username = " + username + ", password= " + password + ", role= " + role.getId() + " ]";
