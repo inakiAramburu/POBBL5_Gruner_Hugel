@@ -7,17 +7,17 @@
     <main layout:fragment="main">
         <section class="card">
             <p th:if="${loginError}" class="error">Wrong user or password</p>
-            <form class="card-body" th:action="@{/login}" method="post">
+            <form class="card-body" th:action="@{/login}" th:method="post">
                 <label>
                     Username: 
-                    <input	type="text"
+                    <input	th:type="text"
                         name="username"
                         required
                         placeholder="Username"/>
                     </label>
                 <label>
                     Password:
-                    <input	type="password"
+                    <input	th:type="password"
                         name="password"
                         required
                         placeholder="Password"/>

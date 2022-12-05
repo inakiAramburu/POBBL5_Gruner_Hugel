@@ -1,34 +1,37 @@
 package gruner.huger.grunerhugel.model;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.Serializable;
 
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;
-
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
-public class User implements UserDetails{
+@Table(name = "user")
+public class User implements Serializable{
 
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
+
+    @Column(name = "firstName")
     private String firstName;
+    @Column(name = "secondName")
     private String secondName;
+    @Column(name = "email")
     private String email;
+    @Column(name = "username")
     private String username;
+    @Column(name = "password")
     private String password;
     @OneToOne
+    @PrimaryKeyJoinColumn(name = "FK_role")
     private Role role;
 
     public User() {
@@ -114,35 +117,8 @@ public class User implements UserDetails{
     }
 
     @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> listRole = new ArrayList<GrantedAuthority>();
-        listRole.add(new SimpleGrantedAuthority(role.getName())); // this is the problematic line!
-        return listRole;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-    @Override
     public String toString() {
-        return "User [role=" + role + ", username=" + username + "]";
+        return  "User [username = " + username + ", password= " + password + ", role= " + role.getId() + " ]";
     }
 
 }
