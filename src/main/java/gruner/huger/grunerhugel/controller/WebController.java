@@ -13,11 +13,17 @@ public class WebController {
 
     @GetMapping("/main")
     public String main() {
+        
         return "main";
     }
 
     @GetMapping("/create")
     public String create() {
         return "user/user-form";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
     }
 }

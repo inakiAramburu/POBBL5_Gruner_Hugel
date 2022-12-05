@@ -39,25 +39,17 @@ public class User implements UserDetails{
         return id;
     }
 
-
-
     public void setId(Integer id) {
         this.id = id;
     }
-
-
 
     public String getUsername() {
         return username;
     }
 
-
-
     public void setUsername(String username) {
         this.username = username;
     }
-
-
 
     public String getPassword() {
         return password;
@@ -75,24 +67,29 @@ public class User implements UserDetails{
         this.role = role;
     }
 
+    public boolean hasRole(String roleName){
+        return this.role.getName().equals(roleName);
+    }
+
     public boolean validate(User user){
-        if(user.getUsername().equals(this.username) && user.getPassword().equals(this.password)){
-            return true;
+
+        if(user != null){
+            if(this.username.equals(user.getUsername()) && this.password.equals(user.getPassword())){
+                return true;
+            }
         }
         return false;
     }
 
-
-
     @Override
     public String toString() {
-        return "User [username=" + username + ", password=" + password + "]";
+        return "User [username=" + username + ", role=" + role.getName() + "]";
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> authorities = new HashSet<>();
-        authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        authorities.add(new SimpleGrantedAuthority(role.getName()));
         return authorities;
     }
 
