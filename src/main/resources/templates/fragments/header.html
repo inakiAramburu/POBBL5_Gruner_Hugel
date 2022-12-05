@@ -11,8 +11,8 @@
 		<img id="logo" th:src="@{img/icono.png}" alt="Grüner Hügel Logo" />
 		<h1>Grüner Hügel</h1>
 	</div>
-	<nav class="nav_items">
-		<a href="/create">Register</a>
-		<a href="/">Logout</a>
-	</nav>
 </header>
+
+<nav class="nav_items" th:fragment="logout">
+	<a href="/">Logout</a>
+</nav>

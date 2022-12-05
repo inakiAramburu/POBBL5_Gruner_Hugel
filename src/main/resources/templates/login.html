@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: head}">
+<html lang=en layout:decorate = "~{layout/login_layout}">
+<head>
     <title></title>
 </head>
 <body>
-    <header th:replace="~{fragments/header :: header}"></header>
-    <main>
+    <main layout:fragment="main">
         <section class="card">
-            <form class="card-body" th:action="@{/main}" method="get">
+            <p th:if="${loginError}" class="error">Wrong user or password</p>
+            <form class="card-body" th:action="@{/login}" method="post">
                 <label>
                     Username: 
                     <input	type="text"
@@ -24,6 +24,7 @@
                 </label>
                 <button id="login_button" type="submit">Login</button>
             </form>
+            <p>New user? <a href="/create">Register here</a></p>
         </section>
     </main>
 </body>
