@@ -1,13 +1,34 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate = "~{layout/login_layout}"> <!--CAMBIALO, CREA NUEVO LAYOUT PARA MAIN-->
+<html lang="en" layout:decorate = "~{layout/admin_layout}">
 <head>
     <title></title>
 </head>
 <body>
     <main layout:fragment="main">
-        <nav th:replace="~{fragments/header :: logout}"></nav>
-        <br>
-        <h2>Welcome Admin!</h2>
+        <div class="card-body">
+            <table>
+                <caption>Users list</caption>
+                <tr>
+                    <th>Name</th>
+                    <th>Surname</th>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                </tr>
+                <tr th:each="user : ${users}">
+                    <td th:text="${user.firstName}"></td>
+                    <td th:text="${user.secondName}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td th:text="${user.role.getName()}"></td>
+                </tr>
+            </table>
+            <nav>
+                <a class="action" href="">Delete</a>
+                <a class="action" href="/create">Create</a>
+                <a class="action" href="">Update</a>
+            </nav>
+        </div>
     </main>
 </body>
 </html>

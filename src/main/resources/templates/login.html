@@ -9,23 +9,21 @@
             <p th:if="${loginError}" class="error">Wrong user or password</p>
             <form class="card-body" th:action="@{/login}" th:method="post">
                 <label>
-                    Username: 
+                    USERNAME: 
                     <input	th:type="text"
                         name="username"
-                        required
-                        placeholder="Username"/>
+                        required/>
                     </label>
                 <label>
-                    Password:
+                    PASSWORD:
                     <input	th:type="password"
                         name="password"
-                        required
-                        placeholder="Password"/>
+                        required/>
                 </label>
-                <button id="login_button" type="submit">Login</button>
+                <button id="login_button" type="submit">LOG IN</button>
             </form>
-            <p>New user? <a href="/create">Register here</a></p>
         </section>
+        <p>Don't have an account yet? <a href="/create">Create one</a></p>
     </main>
 </body>
 </html>

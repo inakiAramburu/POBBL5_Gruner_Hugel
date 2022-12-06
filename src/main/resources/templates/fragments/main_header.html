@@ -1,0 +1,18 @@
+<head th:fragment="head">
+    <meta charset="utf-8">
+    <link rel="stylesheet" th:href="@{css/style.css}"/>
+    <link rel="icon" th:href="@{img/logo.png}" type="image/png"/>
+    <script th:src="@{js/base.js}"></script>
+    <title>Grüner Hügel</title>
+</head>
+
+<header th:fragment="header(title)">
+	<div class="header">
+        <a id="logout" href="/">LOG OUT</a>
+        <h1 th:text="${title}"></h1>
+        <div class="perfil">
+            <img th:src="@{img/perfil.png}" alt="perfil">
+            <h2 th:text="${currentUsername}"></h2>
+        </div>
+    </div>
+</header>

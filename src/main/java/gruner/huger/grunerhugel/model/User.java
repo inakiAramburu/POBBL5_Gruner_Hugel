@@ -20,9 +20,9 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "firstName")
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "secondName")
+    @Column(name = "second_name")
     private String secondName;
     @Column(name = "email")
     private String email;

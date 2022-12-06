@@ -20,8 +20,6 @@ public class LoginController {
 
     @PostMapping("/register")
     public String register(@ModelAttribute User user) {
-
-        System.out.println(user);
         user.setRole(new Role("USER"));
         String password = user.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
