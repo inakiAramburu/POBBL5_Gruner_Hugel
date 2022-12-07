@@ -20,10 +20,10 @@ public class User implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
 
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "second_name")
-    private String secondName;
+    @Column(name = "name")
+    private String name;
+    @Column(name = "surname")
+    private String surname;
     @Column(name = "email")
     private String email;
     @Column(name = "username")
@@ -37,9 +37,9 @@ public class User implements Serializable{
     public User() {
     }
 
-    public User(String firstName, String secondName, String email, String username, String password, Role role) {
-        this.firstName = firstName;
-        this.secondName = secondName;
+    public User(String name, String surname, String email, String username, String password, Role role) {
+        this.name = name;
+        this.surname = surname;
         this.email = email;
         this.username = username;
         this.password = password;
@@ -54,20 +54,20 @@ public class User implements Serializable{
         this.id = id;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getName() {
+        return name;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSecondName(String secondName) {
-        this.secondName = secondName;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getEmail() {
@@ -108,7 +108,6 @@ public class User implements Serializable{
 
     @Override
     public String toString() {
-        return  "User [username = " + username + ", password= " + password + ", role= " + role.getId() + " ]";
+        return  "User [username = " + username + ", password= " + password + ", role= " + role.getId() + ", name= " + name + ", surname= " + surname + ", email= " + email + " ]";
     }
-
 }

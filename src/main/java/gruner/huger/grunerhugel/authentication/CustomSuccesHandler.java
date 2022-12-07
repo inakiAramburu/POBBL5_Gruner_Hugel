@@ -29,8 +29,6 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler{
     protected String determineTargetUrl(Authentication authentication){
         String url = "/login?error=true";
 
-        System.out.println(authentication.getAuthorities());
-
         if(authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))){
             url = "/admin";
         } else if(authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))){

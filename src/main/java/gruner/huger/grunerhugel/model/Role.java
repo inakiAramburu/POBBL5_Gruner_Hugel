@@ -17,9 +17,14 @@ public class Role implements Serializable{
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int id;
+    @Column(name = "name")
     private String name;
 
     public Role() {
+    }
+
+    public Role(int id) {
+        this.id = id;
     }
     
 	public Role(String role) {

@@ -10,7 +10,7 @@
 	<div class="header">
         <a id="logout" href="/">LOG OUT</a>
         <h1 th:text="${title}"></h1>
-        <div class="perfil">
+        <div th:if="${currentUsername != ''} "class="perfil">
             <img th:src="@{img/perfil.png}" alt="perfil">
             <h2 th:text="${currentUsername}"></h2>
         </div>

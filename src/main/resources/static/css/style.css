@@ -84,9 +84,21 @@ main{
 	gap: 20px;
 }
 
+.grid-datos{
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
+}
+
+.botones{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	gap: 10px;
+}
 input{
 	border: 2px black solid;
-	background-color: var(--pistacho);
+	background-color: var(--crema);
 	border-radius: 20px;
 }
 

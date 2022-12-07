@@ -5,7 +5,7 @@
 </head>
 <body>
     <main layout:fragment="main">
-        <div class="card-body">
+        <form class="card-body" th:object="${selectedUser}">
             <table>
                 <caption>Users list</caption>
                 <tr>
@@ -14,21 +14,23 @@
                     <th>Username</th>
                     <th>Email</th>
                     <th>Role</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
                 </tr>
                 <tr th:each="user : ${users}">
-                    <td th:text="${user.firstName}"></td>
-                    <td th:text="${user.secondName}"></td>
+                    <td th:text="${user.name}"></td>
+                    <td th:text="${user.surname}"></td>
                     <td th:text="${user.username}"></td>
                     <td th:text="${user.email}"></td>
                     <td th:text="${user.role.getName()}"></td>
+                    <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
+                    <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
                 </tr>
             </table>
             <nav>
-                <a class="action" href="">Delete</a>
                 <a class="action" href="/create">Create</a>
-                <a class="action" href="">Update</a>
             </nav>
-        </div>
+        </form>
     </main>
 </body>
 </html>

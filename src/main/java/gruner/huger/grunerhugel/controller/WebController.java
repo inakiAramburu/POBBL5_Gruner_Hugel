@@ -1,15 +1,17 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import gruner.huger.grunerhugel.domain.user.UserRepository;
+import gruner.huger.grunerhugel.model.User;
 
 @Controller
 public class WebController {
@@ -29,7 +31,8 @@ public class WebController {
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("user", new User());
         return "user/user-form";
     }
 
@@ -45,5 +48,21 @@ public class WebController {
             return "";
         }
         return authentication.getName();
+    }
+
+    @GetMapping("/edit/{id}")
+    public String update(@PathVariable int id,Model model) {
+
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            model.addAttribute("user", user.get());
+        }
+        return "user/user-edit";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable int id) {
+        userRepository.deleteById(id);
+        return "redirect:/admin";
     }
 }

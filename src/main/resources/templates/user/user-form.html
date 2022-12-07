@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate = "~{layout/login_layout}">
-<head>
+<html lang="en">
+<head th:replace="~{fragments/login_header :: head}">
     <title></title>
 </head>
 <body>
+    <header th:replace="~{fragments/main_header :: header(title = 'User Create')}"></header>
     <main layout:fragment="main">
-        <form th:action="@{/register}" method="post">
-            <div><input name="username" placeholder="Username"></div>
-            <div><input name="password" type="password" placeholder="Password"></div>
-            <div><input type="Submit"></div>
+        <form class="card-body" th:action="@{/register}" method="post" th:object="${user}">
+            <div class="grid-datos">
+                <div>USERNAME: <input name="username" th:field="*{username}"></div>
+                <div>PASSWORD: <input name="password" type="password" th:field="*{password}"></div>
+                <div>NAME: <input th:field="*{name}"></div>
+                <div>SURNAME: <input name="surname" th:field="*{surname}"></div>
+                <div>EMAIL: <input name="email" th:field="*{email}"></div>
+            </div>
+            <div class="botones">
+                <a class="action" href="/">CANCEL</a>
+                <button class="action" type="Submit">SUBMIT</button>
+            </div>
         </form>
     </main>
 </body>

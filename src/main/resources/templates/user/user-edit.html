@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/login_header :: head}">
+    <title></title>
+</head>
+<body>
+    <header th:replace="~{fragments/main_header :: header(title = 'User Edit')}"></header>
+    <main layout:fragment="main">
+        <div class="card-body">
+            <form th:action="@{/update}" method="post">
+                <div>USERNAME: <input name="username"></div>
+                <div>ROLE: <input name="role"></div>
+                <div>NAME: <input name="first_name"></div>
+                <div>SURNAME: <input name="second_name"></div>
+                <div>EMAIL: <input name="email"></div>
+                <a class="action" href="/">CANCEL</a>
+                <button class="action" type="Submit">SUBMIT</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
