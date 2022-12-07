@@ -31,4 +31,19 @@ public class Simulation implements Runnable {
         }
     }
 
+    public int getHoras() {
+        return horas;
+    }
+
+
+    public int getAccelerator() {
+        return accelerator;
+    }
+
+    public void setAccelerator(int accelerator) {
+        this.accelerator = accelerator;
+    }
+
+
+    
 }
