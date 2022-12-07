@@ -2,7 +2,7 @@ name: Build
 on:
   push:
     branches:
-      - pruebas # or the name of your main branch
+      - preubas # or the name of your main branch
 
 jobs:
   build:
