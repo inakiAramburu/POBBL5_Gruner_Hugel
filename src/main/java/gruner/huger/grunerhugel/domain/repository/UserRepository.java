@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.domain.user;
+package gruner.huger.grunerhugel.domain.repository;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

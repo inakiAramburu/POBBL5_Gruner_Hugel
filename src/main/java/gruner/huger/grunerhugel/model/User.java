@@ -7,8 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,7 +19,6 @@ public class User implements Serializable{
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
@@ -30,8 +29,9 @@ public class User implements Serializable{
     private String username;
     @Column(name = "password")
     private String password;
+
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "FK_role")
+    @JoinColumn(name = "FK_role")
     private Role role;
 
     public User() {
