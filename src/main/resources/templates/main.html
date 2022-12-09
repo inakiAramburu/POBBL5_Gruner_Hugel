@@ -1,108 +1,80 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" layout:decorate = "~{layout/main_layout}">
 <head>
-    <head>
-        <meta charset="utf-8">
-        <link rel="stylesheet" th:href="@{css/style.css}"/>
-        <link rel="icon" th:href="@{img/logo.png}" type="image/png"/>
-        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin=""/>
-        <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-        <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
-    </head>
+    <title></title>
 </head>
 <body>
-    <main class="main">
-        <aside>
-            <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
-            <div class="info">
-                <div id="simulation">
-                    <form class="form" th:action="@{/simulation}" method="post">
-                        <label class="label">Budget: 
-                            <input type="number" name="budget" th:value="*{money}"/>
+    <aside layout:fragment="aside">
+        <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
+        <div class="info">
+            <div id="simulation">
+                <form class="form" th:action="@{/simulation}" method="post">
+                    <label class="label">Budget: 
+                        <input type="number" name="budget" th:value="*{money}"/>
+                    </label>
+                    <label class="label">Tractor:
+                        <select>
+                            <!--<option th:each="tractor : ${tractors}" th:value="${tractor.id}" th:text="${tractor.name}"></option>-->
+                        </select>
+                        <input type="number" name="" >
+                    </label>
+                    <label class="label">Workers:
+                        <input type="number" name="">
+                    </label>
+                    <label class="label"> Plow:
+                        <select>
+                            <!--<option th:each="plow : ${plows}" th:value="${plow.id}" th:text="${plow.name}"></option>-->
+                        </select>
+                        <input type="number" name="">
+                    </label>
+                    <label class="label">Seed:
+                        <select>
+                            <!--<option th:each="seed : ${seeds}" th:value="${seed.id}" th:text="${seed.name}"></option>-->
+                        </select>
+                        <input type="number" name="">
+                    </label>
+                    <label class="label">Harvester:
+                        <select>
+                            <!--<option th:each="harvester : ${harvesters}" th:value="${harvester.id}" th:text="${harvester.name}"></option>-->
+                        </select>
+                        <input type="number" name="">
+                    </label>
+                    <div class="options">
+                        <button type="submit" class="action"><img th:src="@{img/play.png}" alt="play"></button>
+                        <button type="reset" class="action"><img th:src="@{img/reset.png}" alt="reset"></button>
+                        <label>Total Cost:
+                            <label>100000€</label>
                         </label>
-                        <label class="label">Tractor:
-                            <select>
-                                <!--<option th:each="tractor : ${tractors}" th:value="${tractor.id}" th:text="${tractor.name}"></option>-->
-                            </select>
-                            <input type="number" name="" >
-                        </label>
-                        <label class="label">Workers:
-                            <input type="number" name="">
-                        </label>
-                        <label class="label"> Plow:
-                            <select >
-                                <!--<option th:each="plow : ${plows}" th:value="${plow.id}" th:text="${plow.name}"></option>-->
-                            </select>
-                            <input type="number" name="">
-                        </label>
-                        <label class="label">Seed:
-                            <select>
-                                <!--<option th:each="seed : ${seeds}" th:value="${seed.id}" th:text="${seed.name}"></option>-->
-                            </select>
-                            <input type="number" name="">
-                        </label>
-                        <label class="label">Harvester:
-                            <select>
-                                <!--<option th:each="harvester : ${harvesters}" th:value="${harvester.id}" th:text="${harvester.name}"></option>-->
-                            </select>
-                            <input type="number" name="">
-                        </label>
-                        <div class="options">
-                            <button type="submit" class="action"><img th:src="@{img/play.png}" alt="play"></button>
-                            <button type="reset" class="action"><img th:src="@{img/reset.png}" alt="reset"></button>
-                            <label>Total Cost:
-                                <label>100000€</label>
-                            </label>
-                        </div>
-                    </form>
-                </div>
-                <div id="plantation">
-                    <h2 class="subtitle">NEW PLANTATION</h2>
-                    <form class="form-plant" th:action="@{/simulation}" method="post">
-                        <label>Longitude(X):
-                            <input type="number" name="">
-                        </label>
-                        <label> Size:
-                            <input type="number" name="">
-                        </label>
-                        <label>Latitude(Y):
-                            <input type="number" name="">
-                        </label>
-                        <label> Crop:
-                            <select>
-                                <!--<option th:each="crop : ${crops}" th:value="${crop.id}" th:text="${crop.name}"></option>-->
-                            </select>
-                        </label>
-                        <label>Town:
-                            <input type="text">
-                        </label>
-                        <div class="options">
-                            <button type="submit" class="action"><img th:src="@{img/tick.png}" alt="tick"></button>
-                            <button type="reset" class="action"><img th:src="@{img/x.png}" alt="x"></button>
-                        </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
-        </aside>
-        <div class="map">
-            <div id="map"></div>
-            <script th:inline="javascript">
-                var map = L.map('map').setView([42.8233000, -1.6513800], 9);
-
-                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                    maxZoom: 20,
-                    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                }).addTo(map);
-
-                var customIcon = L.icon({
-                    iconUrl: 'img/customIcon.png',
-                    iconSize: [38, 95],
-                });
-
-                var marker = L.marker([42.8233000, -1.6513800], {icon: customIcon}).addTo(map);
-
-            </script>
+            <div id="plantation">
+                <h2 class="subtitle">NEW PLANTATION</h2>
+                <form class="form-plant" th:action="@{/simulation}" method="post">
+                    <label>Longitude(X):
+                        <input type="number" name="">
+                    </label>
+                    <label> Size:
+                        <input type="number" name="">
+                    </label>
+                    <label>Latitude(Y):
+                        <input type="number" name="">
+                    </label>
+                    <label> Crop:
+                        <select>
+                            <!--<option th:each="crop : ${crops}" th:value="${crop.id}" th:text="${crop.name}"></option>-->
+                        </select>
+                    </label>
+                    <label>Town:
+                        <input type="text">
+                    </label>
+                    <div class="options">
+                        <button type="submit" class="action"><img th:src="@{img/tick.png}" alt="tick"></button>
+                        <button type="reset" class="action"><img th:src="@{img/x.png}" alt="x"></button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </main>
+    </aside>
 </body>
 </html>
