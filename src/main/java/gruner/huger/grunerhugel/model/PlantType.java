@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "plant_type")
-public class Plant_Type {
+public class PlantType {
     
     @Id
     @Column(name = "type_name")
@@ -25,7 +25,8 @@ public class Plant_Type {
     @Column(name = "snowfall")
     double snowfall;
 
-    public Plant_Type() {
+    public PlantType() {
+      //no need
     }
 
     public String getName() {

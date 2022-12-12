@@ -22,17 +22,18 @@ public class Plant {
     @Column(name = "status")
     String status;
     @Column(name = "health_point")
-    int health_point;
+    int healthPoint;
 
     @OneToOne()
     @JoinColumn(name = "FK_type")
-    private Plant_Type plant_Type;
+    private PlantType plantType;
 
     @OneToOne
     @JoinColumn(name = "FK_LandId")
     private Land land;
 
     public Plant() {
+      //no need
     }
 
     public int getId() {
@@ -59,20 +60,20 @@ public class Plant {
         this.status = status;
     }
 
-    public int getHealth_point() {
-        return health_point;
+    public int getHealthPoint() {
+        return healthPoint;
     }
 
-    public void setHealth_point(int health_point) {
-        this.health_point = health_point;
+    public void setHealth_point(int healthPoint) {
+        this.healthPoint = healthPoint;
     }
 
-    public Plant_Type getPlant_Type() {
-        return plant_Type;
+    public PlantType getPlantType() {
+        return plantType;
     }
 
-    public void setPlant_Type(Plant_Type plant_Type) {
-        this.plant_Type = plant_Type;
+    public void setPlant_Type(PlantType plantType) {
+        this.plantType = plantType;
     }
 
     public Land getLand() {
@@ -85,7 +86,7 @@ public class Plant {
 
     @Override
     public String toString() {
-        return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + health_point
-                + ", plant_Type=" + plant_Type + ", land=" + land + "]";
+        return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
+                + ", plant_Type=" + plantType + ", land=" + land + "]";
     }
 }

@@ -41,7 +41,7 @@ public class Farm {
 
 
     public Farm() {
-        // TODO document why this constructor is empty
+        //no need
     }
 
     public int getId() {

@@ -23,6 +23,7 @@ public class Town {
     double longitude;
 
     public Town() {
+      // no need
     }
 
     public int getId() {

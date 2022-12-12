@@ -30,7 +30,7 @@ public class Tools {
     private Set<Farm> farms = new HashSet<>();
 
     public Tools() {
-      // TODO document why this constructor is empty
+      // no need
     }
 
     public int getId() {

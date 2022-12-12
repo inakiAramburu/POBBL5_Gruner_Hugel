@@ -26,11 +26,13 @@ public class AdminController {
     public String update(@PathVariable int id, Model model) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("new_user", new User());
-        Optional<User>  user = userRepository.findById(id);
-        if(user.isEmpty()){
-            throw new UsernameNotFoundException("User not found");
-        }else{
-            model.addAttribute("old_user", user.get());
+        try {
+            Optional<User>  user = userRepository.findById(id); 
+            if(user.isPresent()){
+                model.addAttribute("old_user", user.get());
+            }
+        } catch (UsernameNotFoundException e) {
+            e.getMessage();
         }
         return "user/user-edit";
     }
