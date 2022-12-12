@@ -1,5 +1,8 @@
 package gruner.huger.grunerhugel.simulation;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class Simulation implements Runnable {
     static final int HOUR_DURATION = 1250; // miliseconds
     static final int HOURS_DAY = 24; // hours
@@ -8,11 +11,12 @@ public class Simulation implements Runnable {
     int balance;
     int horas = 0;
     int accelerator = 1;
-
+    Logger logger;
 
     public Simulation() {
         this.time = new Thread(this);
         this.horaConcluida = false;
+        logger = Logger.getLogger(Simulation.class.getName());
     }
 
     public void start() {
@@ -23,11 +27,10 @@ public class Simulation implements Runnable {
     public void run() {
         while (horas != HOURS_DAY) {
             try {
-                time.sleep(HOUR_DURATION / accelerator);
-                System.out.println("Hora: " + horas++);
+                Thread.sleep(HOUR_DURATION / accelerator);
+                logger.log(Level.INFO,"Hora: %d", horas++);
             } catch (InterruptedException e) {
-                e.printStackTrace();
-                Thread.interrupted();
+                Thread.currentThread().interrupt();
             }
         }
     }
