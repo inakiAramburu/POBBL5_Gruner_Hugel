@@ -28,7 +28,8 @@ public class Simulation implements Runnable {
         while (horas != HOURS_DAY) {
             try {
                 Thread.sleep(HOUR_DURATION / accelerator);
-                logger.log(Level.INFO,"Hora: %d", horas++);
+                logger.log(Level.INFO,"Hora: {0}.", horas);
+                horas++;
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
             }
