@@ -1,10 +1,14 @@
 package gruner.huger.grunerhugel.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,8 +23,14 @@ public class Tools {
     String name;
     @Column(name = "price")
     double price;
+    @Column(name = "type")
+    String type;
+
+    @ManyToMany(mappedBy = "tools")
+    private Set<Farm> farms = new HashSet<>();
 
     public Tools() {
+      // TODO document why this constructor is empty
     }
 
     public int getId() {
@@ -45,6 +55,14 @@ public class Tools {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

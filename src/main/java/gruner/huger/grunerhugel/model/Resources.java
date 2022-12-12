@@ -19,8 +19,11 @@ public class Resources {
     String name;
     @Column(name = "price")
     double price;
-
+    @Column(name = "type")
+    String type;
+    
     public Resources() {
+      // TODO document why this constructor is empty
     }
 
     public int getId() {
@@ -45,6 +48,14 @@ public class Resources {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     @Override

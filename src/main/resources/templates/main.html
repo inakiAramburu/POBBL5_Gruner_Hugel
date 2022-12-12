@@ -8,7 +8,13 @@
         <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
         <div class="info">
             <div id="simulation">
-                <form class="form" th:action="@{/simulation}" method="post">
+                <form class="form" th:action="@{/simulation}" method="post" th:object="@{farm}">
+                    <label class="label"> Start Date:
+                        <input type="date" name="startDate"/>
+                    </label>
+                    <label class="label"> End Date:
+                        <input type="date" name="endDate"/>
+                    </label>
                     <label class="label">Budget: 
                         <input type="number" name="budget" th:value="*{money}"/>
                     </label>
@@ -50,7 +56,7 @@
             </div>
             <div id="plantation">
                 <h2 class="subtitle">NEW PLANTATION</h2>
-                <form class="form-plant" th:action="@{/simulation}" method="post">
+                <form class="form-plant" th:action="@{/simulation}" method="post" th:object="@{town}">
                     <label>Longitude(X):
                         <input type="number" name="">
                     </label>

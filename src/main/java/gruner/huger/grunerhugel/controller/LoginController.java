@@ -1,12 +1,11 @@
 package gruner.huger.grunerhugel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,18 +32,17 @@ public class LoginController {
         return "login";
     }
 
-    @PostMapping("/update/{id}")
-    public String update(@ModelAttribute("new_user") User user, @PathVariable int id) {
-        User oldUser = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        user.setPassword(oldUser.getPassword());
-        user.setId(oldUser.getId());
-        userRepository.save(user);
-        return "redirect:/admin";
-    }
-
     @RequestMapping("/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
+    }
+
+    @ModelAttribute("currentUsername")
+    public String currentUsername(Authentication authentication) {
+        if(authentication == null){
+            return "";
+        }
+        return authentication.getName();
     }
 }

@@ -1,4 +1,0 @@
-window.body.onload = function() {
-   
-
-}

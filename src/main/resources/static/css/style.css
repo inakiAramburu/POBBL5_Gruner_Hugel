@@ -14,7 +14,7 @@
 
 body{
 	margin: 0;
-	padding: 0;
+	border: 0;
 	background-color: var(--pistacho);
 	text-align: center;
 	min-width: 100vh;
@@ -114,6 +114,7 @@ input{
 table, th, td{
 	border: 1px black solid;
 	background-color: var(--crema);
+	padding: 0.3rem;
 }
 
 .action{
