@@ -30,8 +30,8 @@ public class MainController {
 
     @PostMapping("/simulation")
     public String simulation(@ModelAttribute("farm") Farm farm, @ModelAttribute("land") Land land) {
-        System.out.println(farm);
-        System.out.println(land);
+        /*System.out.println(farm);
+        System.out.println(land);*/
         return "simulation";
     }
 }

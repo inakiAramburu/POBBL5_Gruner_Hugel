@@ -23,7 +23,7 @@ public class Resources {
     String type;
     
     public Resources() {
-      // TODO document why this constructor is empty
+      //no need
     }
 
     public int getId() {

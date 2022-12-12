@@ -28,7 +28,7 @@ public class Land {
     private Town town;
 
     public Land(){
-
+      //no need
     }
 
     public int getId() {

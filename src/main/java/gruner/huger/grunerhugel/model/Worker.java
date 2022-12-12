@@ -23,6 +23,7 @@ public class Worker {
     private Farm farm;
 
     public Worker() {
+      //no need
     }
 
     public int getId() {
