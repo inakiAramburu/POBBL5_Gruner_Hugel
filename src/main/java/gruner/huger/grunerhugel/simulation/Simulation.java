@@ -27,6 +27,7 @@ public class Simulation implements Runnable {
                 System.out.println("Hora: " + horas++);
             } catch (InterruptedException e) {
                 e.printStackTrace();
+                Thread.interrupted();
             }
         }
     }
