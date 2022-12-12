@@ -64,7 +64,7 @@ public class Plant {
         return healthPoint;
     }
 
-    public void setHealth_point(int healthPoint) {
+    public void setHealthPoint(int healthPoint) {
         this.healthPoint = healthPoint;
     }
 
@@ -72,7 +72,7 @@ public class Plant {
         return plantType;
     }
 
-    public void setPlant_Type(PlantType plantType) {
+    public void setPlantType(PlantType plantType) {
         this.plantType = plantType;
     }
 
