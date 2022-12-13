@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -27,7 +26,7 @@ public class Tools {
     String type;
 
     @ManyToMany(mappedBy = "tools")
-    private Set<Farm> farms = new HashSet<>();
+    private Set<Farm> farms;
 
     public Tools() {
       // no need

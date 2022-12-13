@@ -19,7 +19,7 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping("/register")
+    @PostMapping(value = "/register")
     public String register(@ModelAttribute User user, Model model) {
         String password = user.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -32,7 +32,7 @@ public class LoginController {
         return "login";
     }
 
-    @GetMapping("/login-error")
+    @GetMapping(value = "/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";

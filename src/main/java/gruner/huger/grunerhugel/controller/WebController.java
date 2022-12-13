@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,18 +14,18 @@ public class WebController {
     @Autowired
     private UserRepository userRepository;
     
-    @GetMapping(path = {"/","/login"})
+    @GetMapping(value = {"/", "login"})
     public String index() {
         return "login";
     }
 
-    @GetMapping("/create")
+    @GetMapping(value = "/create")
     public String create(Model model) {
         model.addAttribute("user", new User());
         return "user/user-form";
     }
 
-    @GetMapping("/admin")
+    @GetMapping(value = "/admin")
     public String admin(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "admin";

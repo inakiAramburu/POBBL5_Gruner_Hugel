@@ -22,7 +22,7 @@ public class AdminController {
     private UserRepository userRepository;
     private RoleRepository roleRepository;
 
-    @GetMapping("/edit/{id}")
+    @GetMapping(value = "/edit/{id}")
     public String update(@PathVariable int id, Model model) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("new_user", new User());
@@ -37,14 +37,14 @@ public class AdminController {
         return "user/user-edit";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping(value = "/delete/{id}")
     public String delete(@PathVariable int id) {
         userRepository.deleteById(id);
         return "redirect:/admin";
     }
 
     
-    @PostMapping("/update/{id}")
+    @PostMapping(value = "/update/{id}")
     public String update(@ModelAttribute("new_user") User user, @PathVariable int id) {
         User oldUser = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
         user.setPassword(oldUser.getPassword());
