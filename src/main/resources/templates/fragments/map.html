@@ -1,26 +1,28 @@
 <div class="map" th:fragment="map">
     <div id="map"></div>
-    <script th:inline="javascript">
-        var map = L.map('map', { zoomControl: false }).setView([42.7233000, -1.6513800], 9);
+    <script th:inline="javascript"> 
 
-        map.setMaxBounds(map.getBounds());
+        var markerOptions = {
+            url: "img/customIcon.png",
+            anchor: [0.5, 0]
+        };
 
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 20,
-            minZoom:9,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
-
-        var customIcon = L.icon({
-            iconUrl: 'img/customIcon.png',
-            iconSize: [38, 95],
-        });
-
-        map.on("click", function(e){
-            var mp = new L.Marker([e.latlng.lat, e.latlng.lng], {icon: customIcon}).addTo(map);
-            alert(mp.getLatLng()); 
-            document.getElementById('lat').value = marker.getLatLng().lat
-            document.getElementById('lng').value = marker.getLatLng().lng
+        var map = new SITNA.Map("map", {
+            controls: {
+                click: {
+                    active: true,
+                    callback: function (coord) {
+                        alert("Has pulsado en la posición " + coord[0] + ", " + coord[1]);
+                        map.addMarker(coord, markerOptions);
+                    }
+                }
+            },
+            crs: "EPSG:4326",
+            baseLayers: [SITNA.Consts.layer.IDENA_CADASTER],
+            initialExtent: [-2.84820,41.7891,-0.32135,43.5578],
+            maxExtent: [-2.84820,41.7891,-0.32135,43.5578],
+            zoom: 9,
+            maxZoom: 9
         });
 
     </script>
