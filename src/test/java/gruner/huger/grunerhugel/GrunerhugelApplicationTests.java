@@ -14,9 +14,7 @@ class GrunerhugelApplicationTests {
 
 	//@Before
 	void contextLoads() {
-		
 		System.out.println("Test");
-
 	}
 
 	@Test
