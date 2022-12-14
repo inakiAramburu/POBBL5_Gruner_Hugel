@@ -17,10 +17,10 @@ import gruner.huger.grunerhugel.model.Land;
 @Controller
 public class MainController {
     
-    @Autowired
+    @Autowired 
     private ToolsRepository toolsRepository;
 
-    @GetMapping("/main")
+    @GetMapping(value = "/main")
     public String main(Model model) {
         model.addAttribute("tractors", toolsRepository.getToolsByType("TRACTOR"));
         model.addAttribute("harvesters", toolsRepository.getToolsByType("HARVESTER"));
@@ -31,7 +31,7 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("/simulation")
+    @PostMapping(value = "/simulation")
     public String simulation(@ModelAttribute("farm") Farm farm, @ModelAttribute("land") Land land) {
         GrunerhugelApplication.logger.log(Level.SEVERE,"farm: {0}.",farm);
         GrunerhugelApplication.logger.log(Level.SEVERE,"land: {0}.",land);

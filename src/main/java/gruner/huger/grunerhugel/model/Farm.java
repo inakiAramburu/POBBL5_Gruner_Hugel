@@ -11,6 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -29,16 +30,23 @@ public class Farm {
     double money;
 
     @OneToOne
-    @JoinColumn(name = "FK_user_id")
+    @JoinColumn(name = "FK_user")
     private User user;
+
+    @OneToMany(mappedBy = "farm")
+    private Set<Land> lands;
 
     @ManyToMany
     @JoinTable(name = "farm_tools", 
                 joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
                 inverseJoinColumns = {@JoinColumn(name="FK_tools",referencedColumnName = "id",nullable = false,updatable = false)})
     private Set<Tools> tools = new HashSet<>();
-    
 
+    @ManyToMany
+    @JoinTable(name = "farm_resources", 
+                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
+                inverseJoinColumns = {@JoinColumn(name="FK_resources",referencedColumnName = "id",nullable = false,updatable = false)})
+    private Set<Resources> resources = new HashSet<>();
 
     public Farm() {
         //no need

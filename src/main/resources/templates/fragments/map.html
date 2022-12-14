@@ -1,10 +1,13 @@
 <div class="map" th:fragment="map">
     <div id="map"></div>
     <script th:inline="javascript">
-        var map = L.map('map').setView([42.8233000, -1.6513800], 9);
+        var map = L.map('map', { zoomControl: false }).setView([42.7233000, -1.6513800], 9);
+
+        map.setMaxBounds(map.getBounds());
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 20,
+            minZoom:9,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
         }).addTo(map);
 
@@ -13,7 +16,12 @@
             iconSize: [38, 95],
         });
 
-        var marker = L.marker([42.8233000, -1.6513800], {icon: customIcon}).addTo(map);
+        map.on("click", function(e){
+            var mp = new L.Marker([e.latlng.lat, e.latlng.lng], {icon: customIcon}).addTo(map);
+            alert(mp.getLatLng()); 
+            document.getElementById('lat').value = marker.getLatLng().lat
+            document.getElementById('lng').value = marker.getLatLng().lng
+        });
 
     </script>
 </div>

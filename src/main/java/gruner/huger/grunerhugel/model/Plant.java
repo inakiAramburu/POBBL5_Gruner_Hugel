@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -28,8 +29,8 @@ public class Plant {
     @JoinColumn(name = "FK_type")
     private PlantType plantType;
 
-    @OneToOne
-    @JoinColumn(name = "FK_LandId")
+    @ManyToOne
+    @JoinColumn(name = "FK_land")
     private Land land;
 
     public Plant() {

@@ -1,10 +1,13 @@
 package gruner.huger.grunerhugel.model;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -21,6 +24,9 @@ public class Resources {
     double price;
     @Column(name = "type")
     String type;
+
+    @ManyToMany(mappedBy = "resources")
+    private Set<Farm> farms;
     
     public Resources() {
       //no need

@@ -8,7 +8,7 @@
         <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
         <div class="info">
             <div id="simulation">
-                <form class="form" th:action="@{/simulation}" method="post" th:object="@{farm}">
+                <form class="form" th:action="@{/simulation}" method="post">
                     <label class="label"> Start Date:
                         <input type="date" name="startDate"/>
                     </label>
@@ -33,9 +33,9 @@
                         </select>
                         <input type="number" name="">
                     </label>
-                    <label class="label">Seed:
+                    <label class="label">Seeder:
                         <select>
-                            <!--<option th:each="seed : ${seeds}" th:value="${seed.id}" th:text="${seed.name}"></option>-->
+                            <!--<option th:each="seeder : ${seeders}" th:value="${seeder.id}" th:text="${seeder.name}"></option>-->
                         </select>
                         <input type="number" name="">
                     </label>
@@ -56,15 +56,15 @@
             </div>
             <div id="plantation">
                 <h2 class="subtitle">NEW PLANTATION</h2>
-                <form class="form-plant" th:action="@{/simulation}" method="post" th:object="@{town}">
+                <form class="form-plant" th:action="@{/simulation}" method="post">
                     <label>Longitude(X):
-                        <input type="number" name="">
+                        <label id="lat"></label>
                     </label>
                     <label> Size:
                         <input type="number" name="">
                     </label>
                     <label>Latitude(Y):
-                        <input type="number" name="">
+                        <label id="lng"></label>
                     </label>
                     <label> Crop:
                         <select>
