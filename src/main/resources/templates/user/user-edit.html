@@ -4,7 +4,7 @@
     <title></title>
 </head>
 <body>
-    <header th:replace="~{fragments/main_header :: header(title = 'User Edit')}"></header>
+    <header th:replace="~{fragments/header :: header(title = 'User Edit')}"></header>
     <main layout:fragment="main">
         <div class="card-body">
             <form th:action="@{/update/{id} (id=${old_user.getId()})}" method="post" th:object="${new_user}">

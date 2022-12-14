@@ -9,6 +9,7 @@
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
 </head>
 <body>
+    <header th:replace="~{fragments/header :: header(title = 'Simulation SetUp')}"></header>
     <main class="main">
         <aside layout:fragment="aside"></aside>
         <div th:replace="~{fragments/map :: map}"></div>

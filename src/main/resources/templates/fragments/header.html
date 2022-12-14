@@ -8,9 +8,9 @@
 
 <header th:fragment="header(title)">
 	<div class="header">
-        <a id="logout" href="/logout">LOG OUT</a>
+        <a id="logout" th:href="/logout">LOG OUT</a>
         <h1 th:text="${title}"></h1>
-        <div th:if="${currentUsername != ''}" class="perfil">
+        <div th:if="${currentUsername != null}" class="perfil">
             <img th:src="@{img/perfil.png}" alt="perfil">
             <h2 th:text="${currentUsername}"></h2>
         </div>

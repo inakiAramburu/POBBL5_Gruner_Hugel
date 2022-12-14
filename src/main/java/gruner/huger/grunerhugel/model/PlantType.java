@@ -6,7 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "plant_type")
+@Table(name = "optimal_conditions")
 public class PlantType {
     
     @Id

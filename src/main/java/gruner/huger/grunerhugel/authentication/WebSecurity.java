@@ -28,11 +28,6 @@ public class WebSecurity {
         return http.build();
     }
 
-    @Bean 
-    public WebSecurityCustomizer webSecurityCustomizer(){ //HAY QUE CAMBIARLO EN UN FUTURO
-        return web -> web.ignoring().requestMatchers("/resources/**", "/static/**");
-    }
-
     @Bean
     public DaoAuthenticationProvider authenticationProvider(UserDetailsService userService) {
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();

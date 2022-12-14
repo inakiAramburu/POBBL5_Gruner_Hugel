@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.model;
 
-import java.util.HashSet;
 import java.util.Set;
 
 import jakarta.persistence.Column;
@@ -37,16 +36,28 @@ public class Farm {
     private Set<Land> lands;
 
     @ManyToMany
-    @JoinTable(name = "farm_tools", 
+    @JoinTable(name = "farm_tractor", 
                 joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_tools",referencedColumnName = "id",nullable = false,updatable = false)})
-    private Set<Tools> tools = new HashSet<>();
+                inverseJoinColumns = {@JoinColumn(name="FK_tractor",referencedColumnName = "name",nullable = false,updatable = false)})
+    private Set<Tractor> tractors;
 
     @ManyToMany
-    @JoinTable(name = "farm_resources", 
+    @JoinTable(name = "farm_seeder", 
                 joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_resources",referencedColumnName = "id",nullable = false,updatable = false)})
-    private Set<Resources> resources = new HashSet<>();
+                inverseJoinColumns = {@JoinColumn(name="FK_seeder",referencedColumnName = "name",nullable = false,updatable = false)})
+    private Set<Seeder> seeders;
+
+    @ManyToMany
+    @JoinTable(name = "farm_harvester", 
+                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
+                inverseJoinColumns = {@JoinColumn(name="FK_harvester",referencedColumnName = "name",nullable = false,updatable = false)})
+    private Set<Harvester> harvesters;
+
+    @ManyToMany
+    @JoinTable(name = "farm_plow", 
+                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
+                inverseJoinColumns = {@JoinColumn(name="FK_plow",referencedColumnName = "name",nullable = false,updatable = false)})
+    private Set<Plow> plows;
 
     public Farm() {
         //no need

@@ -19,6 +19,16 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
+    @ModelAttribute("currentUsername")
+    public String currentUsername(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        if(username.isEmpty()){
+            username = null;
+        }
+        model.addAttribute("currentUsername",  username);
+        return username;
+    }
+
     @PostMapping(value = "/register")
     public String register(@ModelAttribute User user, Model model) {
         String password = user.getPassword();
@@ -36,13 +46,5 @@ public class LoginController {
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
-    }
-
-    @ModelAttribute("currentUsername")
-    public String currentUsername(Authentication authentication) {
-        if(authentication == null){
-            return "";
-        }
-        return authentication.getName();
     }
 }
