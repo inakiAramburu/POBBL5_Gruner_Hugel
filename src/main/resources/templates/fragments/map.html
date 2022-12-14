@@ -19,8 +19,8 @@
         map.on("click", function(e){
             var mp = new L.Marker([e.latlng.lat, e.latlng.lng], {icon: customIcon}).addTo(map);
             alert(mp.getLatLng()); 
-            document.getElementById('lat').value = marker.getLatLng().lat
-            document.getElementById('lng').value = marker.getLatLng().lng
+            var lat = marker.getLatLng().lat
+            var lng= marker.getLatLng().lng
         });
 
     </script>
