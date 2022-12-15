@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.User;
 
@@ -13,6 +14,7 @@ public class WebController {
 
     @Autowired
     private UserRepository userRepository;
+    private SimulationRepository simulationRepository;
     
     @GetMapping(value = {"/", "login"})
     public String index() {
@@ -29,5 +31,11 @@ public class WebController {
     public String admin(Model model) {
         model.addAttribute("users", userRepository.findAll());
         return "admin";
+    }
+
+    @GetMapping(value = "/investor")
+    public String investor(Model model) {
+        model.addAttribute("simulations", simulationRepository.findAll());
+        return "investor";
     }
 }

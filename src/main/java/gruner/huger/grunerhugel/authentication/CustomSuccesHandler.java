@@ -33,6 +33,8 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler{
             url = "/admin";
         } else if(authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))){
             url = "/main";
+        } else if(authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))){
+            url = "/investor";
         }
 
         return url;

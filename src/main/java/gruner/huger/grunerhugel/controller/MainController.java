@@ -10,22 +10,49 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
-import gruner.huger.grunerhugel.domain.repository.ToolsRepository;
+import gruner.huger.grunerhugel.domain.repository.FarmRepository;
+import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
+import gruner.huger.grunerhugel.domain.repository.LandRepository;
+import gruner.huger.grunerhugel.domain.repository.PlantRepository;
+import gruner.huger.grunerhugel.domain.repository.PlantTypeRepository;
+import gruner.huger.grunerhugel.domain.repository.PlowRepository;
+import gruner.huger.grunerhugel.domain.repository.SeederRepository;
+import gruner.huger.grunerhugel.domain.repository.TownRepository;
+import gruner.huger.grunerhugel.domain.repository.TractorRepository;
+import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.Land;
 
 @Controller
 public class MainController {
-    
-    @Autowired 
-    private ToolsRepository toolsRepository;
 
+    @Autowired
+    private FarmRepository farmRepository;
+    @Autowired
+    private HarvesterRespository harvesterRespository;
+    @Autowired
+    private LandRepository landRepository;
+    @Autowired
+    private PlantRepository plantRepository;
+    @Autowired
+    private PlantTypeRepository plantTypeRepository;
+    @Autowired
+    private PlowRepository plowRepository;
+    @Autowired
+    private SeederRepository seederRepository;
+    @Autowired
+    private TownRepository townRepository;
+    @Autowired
+    private TractorRepository tractorRepository;
+    @Autowired
+    private WorkerRepository workerRepository;
+    
     @GetMapping(value = "/main")
     public String main(Model model) {
-        model.addAttribute("tractors", toolsRepository.getToolsByType("TRACTOR"));
-        model.addAttribute("harvesters", toolsRepository.getToolsByType("HARVESTER"));
-        model.addAttribute("plows", toolsRepository.getToolsByType("PLOW"));
-        model.addAttribute("seeds", toolsRepository.getToolsByType("SEED"));
+        model.addAttribute("tractors", tractorRepository.findAll());
+        model.addAttribute("harvesters", harvesterRespository.findAll());
+        model.addAttribute("plows", plowRepository.findAll());
+        model.addAttribute("seeders", seederRepository.findAll());
         model.addAttribute("farm",new Farm());
         model.addAttribute("land", new Land());
         return "main";

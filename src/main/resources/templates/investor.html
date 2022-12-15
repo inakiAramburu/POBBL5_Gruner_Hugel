@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{fragments/login_header :: head}">
+    <title></title>
+</head>
+
+<body>
+    <header th:replace="~{fragments/admin_header :: header(title = 'Simulation Rank')}"></header>
+    <main layout:fragment="main">
+        <table>
+            <caption></caption>
+            <tr>
+                <th>Rank</th>
+                <th>Start Date</th>
+                <th>Simulation Time</th>
+                <th>Benefit/Debt</th>
+            </tr>
+            <tr th:each="simulation : ${simulations}">
+                <td th:text="${simulation.rank}"></td>
+                <td th:text="${simulation.startDate}"></td>
+                <td th:text="${simulation.time}"></td>
+                <td th:text="${simulation.benefit}"></td>
+            </tr>
+        </table>
+    </main>
+</body>
+
+</html>
