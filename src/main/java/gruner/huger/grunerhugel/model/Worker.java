@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "worker")
-public class Worker {
+public class Worker {   //extends Thread    //most probably
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
