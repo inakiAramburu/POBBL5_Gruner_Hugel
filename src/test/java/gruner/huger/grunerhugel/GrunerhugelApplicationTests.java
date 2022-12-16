@@ -22,14 +22,14 @@ class GrunerhugelApplicationTests {
 	@Test
 	@Timeout(value= 36000)
 	void test() throws InterruptedException {
-		sim = new Simulation();
+		sim = new Simulation(0);
 		sim.run();
 	}
 
 	@Test
 	@Timeout(value = 16000)
 	void test2() throws InterruptedException {
-		sim = new Simulation();
+		sim = new Simulation(0);
 		sim.setAccelerator(2);
 		sim.run();
 	}
