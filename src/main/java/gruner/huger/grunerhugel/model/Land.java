@@ -1,7 +1,7 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -38,7 +38,7 @@ public class Land implements Serializable{
     private Town town;
 
     @OneToMany(mappedBy = "land")
-    private Set<Plant> plants;
+    private List<Plant> plants;
 
     public Land(){
       //no need

@@ -1,9 +1,8 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -40,19 +39,19 @@ public class Farm implements Serializable{
     private User user;
 
     @OneToMany(mappedBy = "farm")
-    private Set<Land> lands;
-
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FarmTractor> tractors;
-
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FarmSeeder> seeders;
+    private List<Land> lands;
 
     @OneToMany(mappedBy = "farm")
-    private Set<FarmHarvester> harvesters;
+    private List<FarmTractor> tractors;
 
-    @OneToMany(mappedBy = "farm", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<FarmPlow> plows;
+    @OneToMany(mappedBy = "farm")
+    private List<FarmSeeder> seeders;
+
+    @OneToMany(mappedBy = "farm")
+    private List<FarmHarvester> harvesters;
+
+    @OneToMany(mappedBy = "farm")
+    private List<FarmPlow> plows;
 
     public Farm() {
         //no need

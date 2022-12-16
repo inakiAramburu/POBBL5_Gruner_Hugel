@@ -38,4 +38,11 @@ public class FarmHarvester implements Serializable{
     public FarmHarvester() {
         //no need
     }
+
+    public FarmHarvester(Farm farm, Harvester harvester, int quantity) {
+        this.farm = farm;
+        this.harvester = harvester;
+        this.quantity = quantity;
+        this.id = new FarmHarvesterId(farm.getId(), harvester.getName());
+    }
 }

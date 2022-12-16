@@ -1,7 +1,7 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -33,7 +33,7 @@ public class Tractor implements Serializable{
     private int fuelCapacity;
 
     @OneToMany(mappedBy = "tractor")
-    private Set<FarmTractor> farms;
+    private List<FarmTractor> farms;
 
     public Tractor() {
         //no need

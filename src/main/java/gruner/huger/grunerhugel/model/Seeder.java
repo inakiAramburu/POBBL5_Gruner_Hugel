@@ -1,7 +1,7 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -29,7 +29,7 @@ public class Seeder implements Serializable{
     private int recommendedPower;
 
     @OneToMany(mappedBy = "seeder")
-    private Set<FarmSeeder> farms;
+    private List<FarmSeeder> farms;
 
     public Seeder() {
         //no need

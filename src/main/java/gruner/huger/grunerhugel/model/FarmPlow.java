@@ -1,5 +1,7 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
+
 import gruner.huger.grunerhugel.model.compositeKeys.FarmPlowId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
@@ -16,7 +18,7 @@ import lombok.Setter;
 @Table(name = "farm_plow")
 @Getter
 @Setter
-public class FarmPlow {
+public class FarmPlow implements Serializable{
 
     @EmbeddedId
     private FarmPlowId id;
@@ -36,6 +38,13 @@ public class FarmPlow {
 
     public FarmPlow() {
         //no need
+    }
+
+    public FarmPlow(Farm farm, Plow plow, int quantity) {
+        this.farm = farm;
+        this.plow = plow;
+        this.quantity = quantity;
+        this.id = new FarmPlowId(farm.getId(), plow.getName());
     }
 
     @Override
