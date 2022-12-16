@@ -1,13 +1,22 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "harvester")
-public class Harvester {
+@Getter
+@Setter
+public class Harvester implements Serializable{
 
     @Id
     @Column(name = "name")
@@ -25,64 +34,11 @@ public class Harvester {
     @Column(name = "Cultivation capacity (L)")
     private int cultivationCapacity;
 
+    @OneToMany(mappedBy = "harvester")
+    private List<FarmHarvester> farms;
+    
     public Harvester() {
         //no need
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getMaintenance() {
-        return maintenance;
-    }
-
-    public void setMaintenance(int maintenance) {
-        this.maintenance = maintenance;
-    }
-
-    public int getPower() {
-        return power;
-    }
-
-    public void setPower(int power) {
-        this.power = power;
-    }
-
-    public int getMaxSpeed() {
-        return maxSpeed;
-    }
-
-    public void setMaxSpeed(int maxSpeed) {
-        this.maxSpeed = maxSpeed;
-    }
-
-    public int getFuelCapacity() {
-        return fuelCapacity;
-    }
-
-    public void setFuelCapacity(int fuelCapacity) {
-        this.fuelCapacity = fuelCapacity;
-    }
-
-    public int getCultivationCapacity() {
-        return cultivationCapacity;
-    }
-
-    public void setCultivationCapacity(int cultivationCapacity) {
-        this.cultivationCapacity = cultivationCapacity;
     }
 
     @Override

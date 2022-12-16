@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.model;
 
-import java.util.Set;
+import java.io.Serializable;
+import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,15 +9,18 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "farm")
-public class Farm {
+@Getter
+@Setter
+public class Farm implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,72 +31,30 @@ public class Farm {
     String name;
     @Column(name = "money")
     double money;
+    @Column(name = "fuel (L)")
+    double fuel;
 
     @OneToOne
     @JoinColumn(name = "FK_user")
     private User user;
 
     @OneToMany(mappedBy = "farm")
-    private Set<Land> lands;
+    private List<Land> lands;
 
-    @ManyToMany
-    @JoinTable(name = "farm_tractor", 
-                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_tractor",referencedColumnName = "name",nullable = false,updatable = false)})
-    private Set<Tractor> tractors;
+    @OneToMany(mappedBy = "farm")
+    private List<FarmTractor> tractors;
 
-    @ManyToMany
-    @JoinTable(name = "farm_seeder", 
-                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_seeder",referencedColumnName = "name",nullable = false,updatable = false)})
-    private Set<Seeder> seeders;
+    @OneToMany(mappedBy = "farm")
+    private List<FarmSeeder> seeders;
 
-    @ManyToMany
-    @JoinTable(name = "farm_harvester", 
-                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_harvester",referencedColumnName = "name",nullable = false,updatable = false)})
-    private Set<Harvester> harvesters;
+    @OneToMany(mappedBy = "farm")
+    private List<FarmHarvester> harvesters;
 
-    @ManyToMany
-    @JoinTable(name = "farm_plow", 
-                joinColumns = {@JoinColumn(name = "FK_farm", referencedColumnName = "id", nullable = false,updatable = false)}, 
-                inverseJoinColumns = {@JoinColumn(name="FK_plow",referencedColumnName = "name",nullable = false,updatable = false)})
-    private Set<Plow> plows;
+    @OneToMany(mappedBy = "farm")
+    private List<FarmPlow> plows;
 
     public Farm() {
         //no need
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getMoney() {
-        return money;
-    }
-
-    public void setMoney(double money) {
-        this.money = money;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override

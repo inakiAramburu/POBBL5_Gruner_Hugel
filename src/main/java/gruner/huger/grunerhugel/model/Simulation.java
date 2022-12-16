@@ -1,5 +1,6 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -9,9 +10,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "simulation")
-public class Simulation {
+@Getter
+@Setter
+public class Simulation implements Serializable{
 
     @Id
     @Column(name = "id")
@@ -24,52 +30,10 @@ public class Simulation {
     @OneToOne
     @JoinColumn(name = "FK_Farm")
     private Farm farm;
-    
 
     public Simulation() {
         //no need
     }
-
-
-    public int getId() {
-        return id;
-    }
-
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-
-    public Farm getFarm() {
-        return farm;
-    }
-
-
-    public void setFarm(Farm farm) {
-        this.farm = farm;
-    }
-
 
     @Override
     public String toString() {

@@ -2,6 +2,8 @@ package gruner.huger.grunerhugel.model;
 
 // import java.util.concurrent.BlockingQueue;
 
+import java.io.Serializable;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,10 +12,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "worker")
-public class Worker implements Runnable { // extends Thread //most probably
+@Getter
+@Setter
+public class Worker implements Serializable, Runnable { // extends Thread //most probably
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,35 +36,6 @@ public class Worker implements Runnable { // extends Thread //most probably
 
     public Worker() {
         // no need
-    }
-
-    // public Worker(BlockingQueue<String> blockingQueue){
-    // this.blockingQueue = blockingQueue;
-    // }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Farm getFarm() {
-        return farm;
-    }
-
-    public void setFarm(Farm farm) {
-        this.farm = farm;
-    }
-
-    public boolean isPagado() {
-        return pagado;
-    }
-
-    public void setPagado(boolean pagado) {
-        this.pagado = pagado;
-        Balance.moneyCost(900);
     }
 
     @Override

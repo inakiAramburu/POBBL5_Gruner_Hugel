@@ -1,5 +1,6 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,25 +11,46 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
+import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
+import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
+import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
 import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantTypeRepository;
 import gruner.huger.grunerhugel.domain.repository.PlowRepository;
 import gruner.huger.grunerhugel.domain.repository.SeederRepository;
+import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
+import gruner.huger.grunerhugel.model.FarmHarvester;
+import gruner.huger.grunerhugel.model.FarmPlow;
+import gruner.huger.grunerhugel.model.FarmSeeder;
+import gruner.huger.grunerhugel.model.FarmTractor;
+import gruner.huger.grunerhugel.model.Harvester;
 import gruner.huger.grunerhugel.model.Land;
-import gruner.huger.grunerhugel.simulation.Simulation;
+import gruner.huger.grunerhugel.model.Plow;
+import gruner.huger.grunerhugel.model.Seeder;
+import gruner.huger.grunerhugel.model.Simulation;
+import gruner.huger.grunerhugel.model.Tractor;
 
 @Controller
 public class MainController {
 
     @Autowired
     private FarmRepository farmRepository;
+    @Autowired
+    private FarmHarvesterRepository farmHarvesterRepository;
+    @Autowired
+    private FarmSeederRepository farmSeederRepository;
+    @Autowired
+    private FarmPlowRepository farmPlowRepository;
+    @Autowired
+    private FarmTractorRepository farmTractorRepository;
     @Autowired
     private HarvesterRespository harvesterRespository;
     @Autowired
@@ -47,9 +69,9 @@ public class MainController {
     private TractorRepository tractorRepository;
     @Autowired
     private WorkerRepository workerRepository;
+    @Autowired
+    private SimulationRepository simulationRepository;
     
-    Simulation sim;
-
     @GetMapping(value = "/main")
     public String main(Model model) {
         model.addAttribute("tractors", tractorRepository.findAll());
@@ -58,15 +80,21 @@ public class MainController {
         model.addAttribute("seeders", seederRepository.findAll());
         model.addAttribute("farm",new Farm());
         model.addAttribute("land", new Land());
-        sim = new Simulation(10000);
+        model.addAttribute("simulation", new Simulation());
+        model.addAttribute("newTractor", new Tractor());
+        model.addAttribute("newHarvester", new Harvester());
+        model.addAttribute("newPlow", new Plow());
+        model.addAttribute("newSeeder", new Seeder());
+        model.addAttribute("numWorkers");
         return "main";
     }
 
     @PostMapping(value = "/simulation")
-    public String simulation(@ModelAttribute("farm") Farm farm, @ModelAttribute("land") Land land) {
-        GrunerhugelApplication.logger.log(Level.SEVERE,"farm: {0}.",farm);
-        GrunerhugelApplication.logger.log(Level.SEVERE,"land: {0}.",land);
-        sim.run();
+    public String simulation(@ModelAttribute("simulation") Simulation simulation, @ModelAttribute("newTractor") Tractor tractor, @ModelAttribute("newHarvester") Harvester harvester, @ModelAttribute("newSeeder") Seeder seeder, @ModelAttribute("newPlow") Plow plow, @ModelAttribute("numWorkers") int numWorkers) {
+        GrunerhugelApplication.logger.log(Level.INFO, "Simulation started");
+        Farm farm = new Farm();
+        farm.setFuel(0);
+        farmRepository.save(farm);
         return "simulation";
     }
 }
