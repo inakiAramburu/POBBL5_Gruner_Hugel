@@ -7,7 +7,7 @@ import gruner.huger.grunerhugel.simulation.Simulation;
 import java.util.logging.Logger;
 
 @SpringBootApplication
-public class GrunerhugelApplication {
+public class GrunerhugelApplication{
 
 	public static final Logger logger = Logger.getLogger(GrunerhugelApplication.class.getName());
 	

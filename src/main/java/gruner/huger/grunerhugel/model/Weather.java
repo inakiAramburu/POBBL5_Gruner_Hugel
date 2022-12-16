@@ -1,5 +1,6 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import jakarta.persistence.Column;
@@ -8,10 +9,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "weather")
-public class Weather {
+@Getter
+@Setter
+public class Weather implements Serializable{
 
     @Id
     @Column(name = "dateTime")
@@ -45,110 +50,6 @@ public class Weather {
 
     public Weather() {
         // no need
-    }
-
-    public Date getDateTime() {
-        return dateTime;
-    }
-
-    public void setDateTime(Date dateTime) {
-        this.dateTime = dateTime;
-    }
-
-    public double getTemperature() {
-        return temperature;
-    }
-
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
-
-    public double getDirectRadiation() {
-        return directRadiation;
-    }
-
-    public void setDirectRadiation(double directRadiation) {
-        this.directRadiation = directRadiation;
-    }
-
-    public double getRain() {
-        return rain;
-    }
-
-    public void setRain(double rain) {
-        this.rain = rain;
-    }
-
-    public double getSnowfall() {
-        return snowfall;
-    }
-
-    public void setSnowfall(double snowfall) {
-        this.snowfall = snowfall;
-    }
-
-    public double getCloudcover() {
-        return cloudcover;
-    }
-
-    public void setCloudcover(double cloudcover) {
-        this.cloudcover = cloudcover;
-    }
-
-    public double getPrecipitation() {
-        return precipitation;
-    }
-
-    public void setPrecipitation(double precipitation) {
-        this.precipitation = precipitation;
-    }
-
-    public double getWindspeed() {
-        return windspeed;
-    }
-
-    public void setWindspeed(double windspeed) {
-        this.windspeed = windspeed;
-    }
-
-    public double getSoilTemperature() {
-        return soilTemperature;
-    }
-
-    public void setSoilTemperature(double soilTemperature) {
-        this.soilTemperature = soilTemperature;
-    }
-
-    public double getSoilTemperature2() {
-        return soilTemperature2;
-    }
-
-    public void setSoilTemperature2(double soilTemperature2) {
-        this.soilTemperature2 = soilTemperature2;
-    }
-
-    public double getSoilMoisture() {
-        return soilMoisture;
-    }
-
-    public void setSoilMoisture(double soilMoisture) {
-        this.soilMoisture = soilMoisture;
-    }
-
-    public double getSoilMoisture2() {
-        return soilMoisture2;
-    }
-
-    public void setSoilMoisture2(double soilMoisture2) {
-        this.soilMoisture2 = soilMoisture2;
-    }
-
-    public Town getTown() {
-        return town;
-    }
-
-    public void setTown(Town town) {
-        this.town = town;
     }
 
     @Override

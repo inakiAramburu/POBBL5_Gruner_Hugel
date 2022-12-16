@@ -1,13 +1,22 @@
 package gruner.huger.grunerhugel.model;
 
+import java.io.Serializable;
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "seeder")
-public class Seeder {
+@Getter
+@Setter
+public class Seeder implements Serializable{
 
     @Id
     @Column(name = "name")
@@ -18,6 +27,9 @@ public class Seeder {
     private int workingAmplitude;
     @Column(name = "Recommended power (hp)")
     private int recommendedPower;
+
+    @OneToMany(mappedBy = "seeder")
+    private Set<FarmSeeder> farms;
 
     public Seeder() {
         //no need
