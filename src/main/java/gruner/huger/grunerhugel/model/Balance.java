@@ -1,11 +1,19 @@
 package gruner.huger.grunerhugel.model;
 
-public class Balance {
-    private static int balance;
-    static Object mutex; // object to restraint the entrance to this class' functions
+//import java.util.concurrent.BlockingQueue;
+// import java.util.logging.Level;
 
-    public Balance(int initBalance) {
+// import gruner.huger.grunerhugel.GrunerhugelApplication;
+// import gruner.huger.grunerhugel.simulation.Simulation;
+
+public class Balance {  //implements Runnable
+    private static int balance;
+    static Object mutex = new Object(); // object to restraint the entrance to this class' functions
+    // BlockingQueue<String> blockingQueue;
+
+    public Balance(int initBalance) { //BlockingQueue<String> blockingQueue
         setBalance(initBalance);
+        // this.blockingQueue = blockingQueue;
     }
 
     public int getBalance() {
@@ -22,13 +30,40 @@ public class Balance {
 
     public static void moneyCost(int cost) {
         synchronized (mutex) {
+            System.out.println("======\nBalance: -"+cost);
             balance -= cost;
+            System.out.println("Balance: "+balance);
         }
     }
 
     public static void moneyEarned(int earn) {
         synchronized (mutex) {
+            System.out.println("======\nBalance: +"+earn);
             balance += earn;
+            System.out.println("Balance: "+balance);
         }
     }
+
+    // @Override
+    // public void run() {
+    //     while (Simulation.getHoraConcluida()) {
+    //         try {
+    //             String mensaje = blockingQueue.take();
+    //             descifrarMensaje(mensaje);
+    //         } catch (InterruptedException e) {
+    //             GrunerhugelApplication.logger.log(Level.WARNING, "Interrupted!", e);
+    //             // TODO Auto-generated catch block
+    //             Thread.currentThread().interrupt();
+    //         }
+    //     }
+    // }
+
+    // private void descifrarMensaje(String mensaje) {
+    //     String[] mensajes = mensaje.split(" ");
+    //     if(mensajes[0].equals("+")){
+    //         moneyEarned(Integer.parseInt(mensajes[1]));
+    //     } else {
+    //         moneyCost(Integer.parseInt(mensajes[1]));
+    //     }
+    // }
 }

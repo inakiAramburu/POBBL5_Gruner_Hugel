@@ -14,7 +14,7 @@ public class GrunerhugelApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(GrunerhugelApplication.class, args);
 		// probe the simulation
-		Simulation sim = new Simulation();
-		sim.run();
+		// Simulation sim = new Simulation(100000);
+		// sim.run();
 	}
 }

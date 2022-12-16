@@ -22,6 +22,7 @@ import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.simulation.Simulation;
 
 @Controller
 public class MainController {
@@ -47,6 +48,8 @@ public class MainController {
     @Autowired
     private WorkerRepository workerRepository;
     
+    Simulation sim;
+
     @GetMapping(value = "/main")
     public String main(Model model) {
         model.addAttribute("tractors", tractorRepository.findAll());
@@ -55,6 +58,7 @@ public class MainController {
         model.addAttribute("seeders", seederRepository.findAll());
         model.addAttribute("farm",new Farm());
         model.addAttribute("land", new Land());
+        sim = new Simulation(10000);
         return "main";
     }
 
@@ -62,6 +66,7 @@ public class MainController {
     public String simulation(@ModelAttribute("farm") Farm farm, @ModelAttribute("land") Land land) {
         GrunerhugelApplication.logger.log(Level.SEVERE,"farm: {0}.",farm);
         GrunerhugelApplication.logger.log(Level.SEVERE,"land: {0}.",land);
+        sim.run();
         return "simulation";
     }
 }
