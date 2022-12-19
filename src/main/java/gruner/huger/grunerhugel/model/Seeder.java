@@ -21,12 +21,22 @@ public class Seeder implements Serializable{
     @Id
     @Column(name = "name")
     private String name;
-    @Column(name = "Price (€)")
+    @Column(name = "price (€)")
     private int price;
+    @Column(name = "Maintenance (€/day)")
+    private int maintenance;
+    @Column(name = "Plant_type")
+    private String plantType;
+    @Column(name = "Capacity (L)")
+    private int capacity;
     @Column(name = "Working amplitude (m)")
     private int workingAmplitude;
-    @Column(name = "Recommended power (hp)")
+    @Column(name = "Working speed (km/h)")
     private int recommendedPower;
+    @Column(name = "Fertilized")
+    private boolean fertilized;
+    @Column(name = "Frontal subjection")
+    private String frontalSubjection;
 
     @OneToMany(mappedBy = "seeder")
     private List<FarmSeeder> farms;
@@ -35,41 +45,12 @@ public class Seeder implements Serializable{
         //no need
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
-    }
-
-    public int getWorkingAmplitude() {
-        return workingAmplitude;
-    }
-
-    public void setWorkingAmplitude(int workingAmplitude) {
-        this.workingAmplitude = workingAmplitude;
-    }
-
-    public int getRecommendedPower() {
-        return recommendedPower;
-    }
-
-    public void setRecommendedPower(int recommendedPower) {
-        this.recommendedPower = recommendedPower;
-    }
-
     @Override
     public String toString() {
-        return "Seeder [name=" + name + ", price=" + price + ", workingAmplitude=" + workingAmplitude
-                + ", recommendedPower=" + recommendedPower + "]";
+        return "Seeder [name=" + name + ", price=" + price + ", maintenance=" + maintenance + ", plantType=" + plantType
+                + ", capacity=" + capacity + ", workingAmplitude=" + workingAmplitude + ", recommendedPower="
+                + recommendedPower + ", fertilized=" + fertilized + ", frontalSubjection=" + frontalSubjection
+                + ", farms=" + farms + "]";
     }
+    
 }
