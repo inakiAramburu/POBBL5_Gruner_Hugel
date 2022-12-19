@@ -9,8 +9,13 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Table(name = "role")
+@Getter
+@Setter
 public class Role implements Serializable{
     
     @Id
@@ -35,22 +40,6 @@ public class Role implements Serializable{
             this.id = 1;
         }
         this.name = role;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     @Override

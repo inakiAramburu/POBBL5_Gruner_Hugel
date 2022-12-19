@@ -73,6 +73,14 @@
 			<scope>test</scope>
 		</dependency>
 
+		<!--Lombok-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.22</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<!--MVC-->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -109,6 +117,10 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
 	</build>

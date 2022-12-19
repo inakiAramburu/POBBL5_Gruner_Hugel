@@ -3,6 +3,7 @@ package gruner.huger.grunerhugel.controller;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,5 +52,10 @@ public class AdminController {
         user.setId(oldUser.getId());
         userRepository.save(user);
         return "redirect:/admin";
+    }
+
+    @ModelAttribute("currentUser")
+    public String getCurrentUser(Authentication authentication) {
+        return authentication.getName();
     }
 }

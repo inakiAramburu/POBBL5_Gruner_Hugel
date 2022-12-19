@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,13 +35,5 @@ public class LoginController {
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
         return "login";
-    }
-
-    @ModelAttribute("currentUsername")
-    public String currentUsername(Authentication authentication) {
-        if(authentication == null){
-            return "";
-        }
-        return authentication.getName();
     }
 }
