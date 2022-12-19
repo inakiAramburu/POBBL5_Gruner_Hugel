@@ -18,8 +18,8 @@ import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
 import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
+import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
-import gruner.huger.grunerhugel.domain.repository.PlantTypeRepository;
 import gruner.huger.grunerhugel.domain.repository.PlowRepository;
 import gruner.huger.grunerhugel.domain.repository.SeederRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
@@ -58,7 +58,7 @@ public class MainController {
     @Autowired
     private PlantRepository plantRepository;
     @Autowired
-    private PlantTypeRepository plantTypeRepository;
+    private OptimalConditionsRepository plantTypeRepository;
     @Autowired
     private PlowRepository plowRepository;
     @Autowired

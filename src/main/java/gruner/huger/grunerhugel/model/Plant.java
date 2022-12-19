@@ -34,7 +34,7 @@ public class Plant implements Serializable{
 
     @OneToOne()
     @JoinColumn(name = "FK_type")
-    private PlantType plantType;
+    private OptimalConditions optimalConditions;
 
     @ManyToOne
     @JoinColumn(name = "FK_land")
@@ -47,6 +47,6 @@ public class Plant implements Serializable{
     @Override
     public String toString() {
         return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
-                + ", plant_Type=" + plantType + ", land=" + land + "]";
+                + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
     }
 }
