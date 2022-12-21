@@ -7,7 +7,6 @@
     <main layout:fragment="main">
         <section class="card">
             <p th:if="${loginError}" class="error">Wrong user or password</p>
-            <p th:if="${registerSuccess}" class="success">You have been registered</p>
             <form class="card-body" th:action="@{/login}" th:method="post">
                 <label>
                     USERNAME: 

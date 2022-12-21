@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.server.authorization.AuthorizationContext;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +28,7 @@ import gruner.huger.grunerhugel.domain.repository.SeederRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
+import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
@@ -37,6 +41,7 @@ import gruner.huger.grunerhugel.model.Plow;
 import gruner.huger.grunerhugel.model.Seeder;
 import gruner.huger.grunerhugel.model.Simulation;
 import gruner.huger.grunerhugel.model.Tractor;
+import gruner.huger.grunerhugel.model.User;
 
 @Controller
 public class MainController {
@@ -71,30 +76,54 @@ public class MainController {
     private WorkerRepository workerRepository;
     @Autowired
     private SimulationRepository simulationRepository;
-    
+    @Autowired
+    private UserRepository userRepository;
+
     @GetMapping(value = "/main")
     public String main(Model model) {
         model.addAttribute("tractors", tractorRepository.findAll());
         model.addAttribute("harvesters", harvesterRespository.findAll());
         model.addAttribute("plows", plowRepository.findAll());
         model.addAttribute("seeders", seederRepository.findAll());
-        model.addAttribute("farm",new Farm());
+        model.addAttribute("farm", new Farm());
         model.addAttribute("land", new Land());
         model.addAttribute("simulation", new Simulation());
         model.addAttribute("newTractor", new Tractor());
         model.addAttribute("newHarvester", new Harvester());
         model.addAttribute("newPlow", new Plow());
         model.addAttribute("newSeeder", new Seeder());
-        model.addAttribute("numWorkers");
+        model.addAttribute("numWorkers", 0);
+        model.addAttribute("numTractors", 0);
+        model.addAttribute("numHarvesters", 0);
+        model.addAttribute("numSeeders", 0);
+        model.addAttribute("numPlows", 0);
+        model.addAttribute("farmTractor", new FarmTractor());
+        model.addAttribute("farmHarvester", new FarmHarvester());
+        model.addAttribute("farmPlow", new FarmPlow());
+        model.addAttribute("farmSeeder", new FarmSeeder());
         return "main";
     }
 
     @PostMapping(value = "/simulation")
-    public String simulation(@ModelAttribute("simulation") Simulation simulation, @ModelAttribute("newTractor") Tractor tractor, @ModelAttribute("newHarvester") Harvester harvester, @ModelAttribute("newSeeder") Seeder seeder, @ModelAttribute("newPlow") Plow plow, @ModelAttribute("numWorkers") int numWorkers) {
+    public String simulation(@ModelAttribute("simulation") Simulation simulation, @ModelAttribute("farm") Farm farm,
+            @ModelAttribute("newTractor") Tractor tractor, @ModelAttribute("newHarvester") Harvester harvester,
+            @ModelAttribute("newSeeder") Seeder seeder, @ModelAttribute("newPlow") Plow plow,
+            @ModelAttribute("farmTractor") FarmTractor farmT, @ModelAttribute("farmHarvester") FarmHarvester farmH,
+            @ModelAttribute("farmPlow") FarmPlow farmP, @ModelAttribute("farmSeeder") FarmSeeder farmS ) {
         GrunerhugelApplication.logger.log(Level.INFO, "Simulation started");
-        Farm farm = new Farm();
-        farm.setFuel(0);
+
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        farm.setUser(user);
         farmRepository.save(farm);
+
+        simulation.setFarm(farm);
+        simulationRepository.save(simulation);
+
+        farmT.setFarm(farm);
+        farmT.setTractor(tractor);
+        farmTractorRepository.save(farmT);
+
+
         return "simulation";
     }
 }

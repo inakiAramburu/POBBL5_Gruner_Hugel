@@ -24,6 +24,10 @@ public class FarmTractorId implements Serializable{
         this.tractorId = name;
     }
 
+    public FarmTractorId() {
+        //no need
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

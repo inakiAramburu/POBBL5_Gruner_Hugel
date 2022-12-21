@@ -26,9 +26,6 @@ public class Farm implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
-    @Column(name = "name")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    String name;
     @Column(name = "money")
     double money;
     @Column(name = "fuel (L)")
@@ -59,7 +56,7 @@ public class Farm implements Serializable{
 
     @Override
     public String toString() {
-        return "Farm [id=" + id + ", name=" + name + ", money=" + money + ", user=" + user + "]";
+        return "Farm [id=" + id + ", money=" + money + ", user=" + user + "]";
     }
     
 }
