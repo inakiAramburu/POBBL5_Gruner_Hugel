@@ -8,7 +8,7 @@
         <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
         <div class="info">
             <div id="simulation">
-                <form class="form" th:action="@{/addFarm}" method="post">
+                <form class="form" th:action="@{/simulation}" method="post">
                     <label class="label"> Start Date:
                         <input type="date" name="startDate" th:field="*{simulation.startDate}"/>
                     </label>
@@ -20,7 +20,7 @@
                     </label>
                     <label class="label">Tractor:
                         <select th:field="*{newTractor.tractorName}">
-                            <option th:each="tractor : ${tractors}" th:value="*{tractor.name}"  th:text="${tractor.name}"></option>
+                            <option th:each="tractor : ${tractors}" th:value="*{tractor.tractorName}"  th:text="${tractor.tractorName}"></option>
                         </select>
                         <input type="number" th:value="*{numTractor}" th:field="*{farmTractor.quantity}" >
                     </label>
@@ -29,19 +29,19 @@
                     </label>
                     <label class="label"> Plow:
                         <select th:field="*{newPlow.plowName}">
-                            <option th:each="plow : ${plows}" th:value="*{plow.name}"  th:text="${plow.name}"></option>
+                            <option th:each="plow : ${plows}" th:value="*{plow.plowName}"  th:text="${plow.plowName}"></option>
                         </select>
                         <input type="number" th:value="*{numPlow}" th:field="*{farmPlow.quantity}">
                     </label>
                     <label class="label">Seeder:
                         <select th:field="*{newSeeder.seederName}">
-                            <option th:each="seeder : ${seeders}" th:value="*{seeder.name}"  th:text="${seeder.name}"></option>
+                            <option th:each="seeder : ${seeders}" th:value="*{seeder.seederName}"  th:text="${seeder.seederName}"></option>
                         </select>
                         <input type="number" th:value="*{numSeeder}" th:field="*{farmSeeder.quantity}">
                     </label>
                     <label class="label">Harvester:
                         <select th:field="*{newHarvester.harvesterName}">
-                            <option th:each="harvester : ${harvesters}" th:value="*{harvester.name}"  th:text="${harvester.name}"></option>
+                            <option th:each="harvester : ${harvesters}" th:value="*{harvester.harvesterName}"  th:text="${harvester.harvesterName}"></option>
                         </select>
                         <input type="number" th:value="*{numHarvester}" th:field="*{farmHarvester.quantity}">
                     </label>

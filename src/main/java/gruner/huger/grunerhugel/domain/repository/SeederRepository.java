@@ -8,6 +8,6 @@ import gruner.huger.grunerhugel.model.Seeder;
 
 public interface SeederRepository extends CrudRepository<Seeder,String>{
     
-    @Query("SELECT u FROM Seeder u WHERE u.name =:name")
-    Seeder findbyName(@Param("name") String name);
+    @Query("SELECT u FROM Seeder u WHERE u.seederName =:seederName")
+    Seeder findbyName(@Param("seederName") String name);
 }

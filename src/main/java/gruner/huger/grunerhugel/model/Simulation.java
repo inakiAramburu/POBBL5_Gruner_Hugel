@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,9 +22,9 @@ public class Simulation implements Serializable{
     @Column(name = "id")
     private int id;
     @Column(name = "start_date")
-    private Date startDate;
+    private String startDate;
     @Column(name = "end_date")
-    private Date endDate;
+    private String endDate;
 
     @OneToOne
     @JoinColumn(name = "FK_Farm")

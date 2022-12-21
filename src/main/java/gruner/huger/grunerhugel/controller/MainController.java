@@ -1,12 +1,9 @@
 package gruner.huger.grunerhugel.controller;
 
-import java.util.ArrayList;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.server.authorization.AuthorizationContext;
-import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -114,15 +111,30 @@ public class MainController {
 
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         farm.setUser(user);
-        farmRepository.save(farm);
+        farm = farmRepository.save(farm);
 
         simulation.setFarm(farm);
         simulationRepository.save(simulation);
 
-        farmT.setFarm(farm);
-        farmT.setTractor(tractor);
-        farmTractorRepository.save(farmT);
+        harvester = harvesterRespository.findbyName(harvester.getHarvesterName());
+        System.out.println(harvester);
+        FarmHarvester farmHarvester = new FarmHarvester(farm, harvester, farmH.getQuantity());
+        farmHarvesterRepository.save(farmHarvester);
 
+        plow = plowRepository.findbyName(plow.getPlowName());
+        System.out.println(plow);
+        FarmPlow farmPlow = new FarmPlow(farm, plow, farmP.getQuantity());
+        farmPlowRepository.save(farmPlow);
+
+        seeder = seederRepository.findbyName(seeder.getSeederName());
+        System.out.println(seeder);
+        FarmSeeder farmSeeder = new FarmSeeder(farm, seeder, farmS.getQuantity());
+        farmSeederRepository.save(farmSeeder);
+
+        tractor = tractorRepository.findbyName(tractor.getTractorName());
+        System.out.println(tractor);
+        FarmTractor farmTractor = new FarmTractor(farm, tractor, farmT.getQuantity());
+        farmTractorRepository.save(farmTractor);
 
         return "simulation";
     }

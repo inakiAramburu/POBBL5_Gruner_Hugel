@@ -19,8 +19,8 @@ import lombok.Setter;
 public class Harvester implements Serializable{
 
     @Id
-    @Column(name = "name")
-    private String name;
+    @Column(name = "harvesterName")
+    private String harvesterName;
     @Column(name = "Price")
     private int price;
     @Column(name = "Maintenance (€/day)")
@@ -43,9 +43,8 @@ public class Harvester implements Serializable{
 
     @Override
     public String toString() {
-        return "Harvester [name=" + name + ", price=" + price + ", maintenance=" + maintenance + ", power=" + power
-                + ", maxSpeed=" + maxSpeed + ", fuelCapacity=" + fuelCapacity + ", cultivationCapacity="
-                + cultivationCapacity + "]";
+        return "Harvester [harvesterName=" + harvesterName + ", price=" + price + ", maintenance=" + maintenance
+                + ", power=" + power + ", maxSpeed=" + maxSpeed + ", fuelCapacity=" + fuelCapacity
+                + ", cultivationCapacity=" + cultivationCapacity + ", farms=" + farms + "]";
     }
-    
 }

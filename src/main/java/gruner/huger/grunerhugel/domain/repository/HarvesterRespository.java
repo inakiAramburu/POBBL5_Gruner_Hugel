@@ -8,6 +8,6 @@ import gruner.huger.grunerhugel.model.Harvester;
 
 public interface HarvesterRespository extends CrudRepository<Harvester,String>{
 
-    @Query("SELECT u FROM Harvester u WHERE u.name =:name")
-    Harvester findbyName(@Param("name") String name);
+    @Query("SELECT u FROM Harvester u WHERE u.harvesterName =:harvesterName")
+    Harvester findbyName(@Param("harvesterName") String name);
 }

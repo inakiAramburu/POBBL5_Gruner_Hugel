@@ -8,6 +8,6 @@ import gruner.huger.grunerhugel.model.Plow;
 
 public interface PlowRepository extends JpaRepository<Plow,String>{
     
-    @Query("SELECT u FROM Plow u WHERE u.name =:name")
-    Plow findbyName(@Param("name") String name);
+    @Query("SELECT u FROM Plow u WHERE u.plowName =:plowName")
+    Plow findbyName(@Param("plowName") String name);
 }

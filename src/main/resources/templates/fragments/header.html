@@ -10,9 +10,9 @@
 	<div class="header">
         <a id="logout" th:href="@{/logout}">LOG OUT</a>
         <h1 th:text="${title}"></h1>
-        <div th:if="${currentUser != null}" class="perfil">
+        <div sec:authorize="isAuthenticated()" class="perfil">
             <img th:src="@{img/perfil.png}" alt="perfil">
-            <h2 sec:authentication="principal.username"></h2>
+            <h2 sec:authentication="name"></h2>
         </div>
     </div>
 </header>

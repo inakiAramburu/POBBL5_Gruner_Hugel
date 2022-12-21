@@ -8,6 +8,6 @@ import gruner.huger.grunerhugel.model.Tractor;
 
 public interface TractorRepository extends CrudRepository<Tractor,String>{
     
-    @Query("SELECT u FROM Tractor u WHERE u.name =:name")
-    Tractor findbyName(@Param("name") String name);
+    @Query("SELECT u FROM Tractor u WHERE u.tractorName =:tractorName")
+    Tractor findbyName(@Param("tractorName") String name);
 }
