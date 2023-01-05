@@ -26,6 +26,8 @@ public class Farm implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
+    @Column(name = "numWorkers")
+    int numWorkers;
     @Column(name = "money")
     double money;
     @Column(name = "fuel (L)")

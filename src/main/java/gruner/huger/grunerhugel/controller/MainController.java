@@ -85,7 +85,6 @@ public class MainController {
         model.addAttribute("plows", plowRepository.findAll());
         model.addAttribute("seeders", seederRepository.findAll());
         model.addAttribute("farm", new Farm());
-        model.addAttribute("land", new Land());
         model.addAttribute("simulation", new Simulation());
         model.addAttribute("newTractor", new Tractor());
         model.addAttribute("newHarvester", new Harvester());
@@ -95,8 +94,6 @@ public class MainController {
         model.addAttribute("farmHarvester", new FarmHarvester());
         model.addAttribute("farmPlow", new FarmPlow());
         model.addAttribute("farmSeeder", new FarmSeeder());
-        model.addAttribute("numTractors", new String());
-        model.addAttribute("numHarvesters", (int) 0);
         return "main";
     }
 
@@ -104,42 +101,39 @@ public class MainController {
     public String simulation(@ModelAttribute("simulation") Simulation simulation, @ModelAttribute("farm") Farm farm,
             @ModelAttribute("newTractor") Tractor tractor, @ModelAttribute("newHarvester") Harvester harvester,
             @ModelAttribute("newSeeder") Seeder seeder, @ModelAttribute("newPlow") Plow plow,
-            @ModelAttribute(value = "numTractors") String numTractors,
-            @ModelAttribute(value = "numHarvesters") int numHarvesters) {
+            @ModelAttribute("farmTractor") FarmTractor farmTractor, @ModelAttribute("farmHarvester") FarmHarvester farmHarvester,
+            @ModelAttribute("farmPlow") FarmPlow farmPlow, @ModelAttribute("farmSeeder") FarmSeeder farmSeeder) {
         GrunerhugelApplication.logger.log(Level.INFO, "Simulation started");
 
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         farm.setUser(user);
+        farm.setFuel(0);
         farm = farmRepository.save(farm);
 
         simulation.setFarm(farm);
         simulationRepository.save(simulation); 
         
-        System.out.println(numTractors);
-        System.out.println(numHarvesters);
         tractor = tractorRepository.findbyName(tractor.getTractorName());
-        FarmTractor farmTractor = new FarmTractor(farm, tractor, Integer.parseInt(numTractors));
+        farmTractor = new FarmTractor(farm, tractor, farmTractor.getQuantity());
         farmTractorRepository.save(farmTractor);
 
         harvester = harvesterRespository.findbyName(harvester.getHarvesterName());
-        FarmHarvester farmHarvester = new FarmHarvester(farm, harvester, numHarvesters);
+        farmHarvester = new FarmHarvester(farm, harvester, farmHarvester.getQuantity());
         farmHarvesterRepository.save(farmHarvester);
 
-        /*plow = plowRepository.findbyName(plow.getPlowName());
-        FarmPlow farmPlow = new FarmPlow(farm, plow, numPlows);
+        plow = plowRepository.findbyName(plow.getPlowName());
+        farmPlow = new FarmPlow(farm, plow, farmPlow.getQuantity());
         farmPlowRepository.save(farmPlow);
 
         seeder = seederRepository.findbyName(seeder.getSeederName());
-        FarmSeeder farmSeeder = new FarmSeeder(farm, seeder, numSeeders);
+        farmSeeder = new FarmSeeder(farm, seeder, farmSeeder.getQuantity());
         farmSeederRepository.save(farmSeeder);
 
-       
-
-        for (Integer i = 0; i < numWorkers; i++) {
+        for (Integer i = 0; i < farm.getNumWorkers(); i++) {
             Worker worker = new Worker();
             worker.setFarm(farm);
             workerRepository.save(worker);
-        }*/
+        }
 
         return "simulation";
     }
