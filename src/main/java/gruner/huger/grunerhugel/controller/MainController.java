@@ -9,7 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
@@ -113,19 +112,19 @@ public class MainController {
         simulation.setFarm(farm);
         simulationRepository.save(simulation); 
         
-        tractor = tractorRepository.findbyName(tractor.getTractorName());
+        tractor = tractorRepository.findByName(tractor.getTractorName());
         farmTractor = new FarmTractor(farm, tractor, farmTractor.getQuantity());
         farmTractorRepository.save(farmTractor);
 
-        harvester = harvesterRespository.findbyName(harvester.getHarvesterName());
+        harvester = harvesterRespository.findByName(harvester.getHarvesterName());
         farmHarvester = new FarmHarvester(farm, harvester, farmHarvester.getQuantity());
         farmHarvesterRepository.save(farmHarvester);
 
-        plow = plowRepository.findbyName(plow.getPlowName());
+        plow = plowRepository.findByName(plow.getPlowName());
         farmPlow = new FarmPlow(farm, plow, farmPlow.getQuantity());
         farmPlowRepository.save(farmPlow);
 
-        seeder = seederRepository.findbyName(seeder.getSeederName());
+        seeder = seederRepository.findByName(seeder.getSeederName());
         farmSeeder = new FarmSeeder(farm, seeder, farmSeeder.getQuantity());
         farmSeederRepository.save(farmSeeder);
 
@@ -137,4 +136,14 @@ public class MainController {
 
         return "simulation";
     }
+
+    @PostMapping(value = "/addLand")
+    public String addLand(@ModelAttribute("land") Land land) {
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Farm farm = farmRepository.findByUser(user);
+        land.setFarm(farm);
+        landRepository.save(land);
+        return "main";
+    }
+
 }
