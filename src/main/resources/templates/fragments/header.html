@@ -2,7 +2,9 @@
 <!--Header with title and user info-->
 <header th:fragment="header-title-user">
 	<div class="header">
-        <a id="logout" th:href="@{/logout}">LOG OUT</a>
+        <div sec:authorize="isAuthenticated()">
+            <a id="logout" th:href="@{/logout}">LOG OUT</a>
+        </div>
         <h1 layout:fragment="title"></h1>
         <div sec:authorize="isAuthenticated()" class="perfil">
             <img th:src="@{img/perfil.png}" alt="perfil">

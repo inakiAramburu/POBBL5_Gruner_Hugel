@@ -19,11 +19,17 @@ public class WebSecurity {
         
         http.authorizeHttpRequests()
             .requestMatchers("/css/**", "/img/**","/js/**").permitAll()
-            .requestMatchers("/register", "/create", "/login", "/", "/error").permitAll()
-            .anyRequest().authenticated();
+            .requestMatchers("/register", "/create", "/login").permitAll()
+            .requestMatchers("/investor").hasAuthority("INVESTOR")
+            .requestMatchers("/main", "/simulation").hasAuthority("USER")
+            .anyRequest().hasAuthority("ADMIN")
+            .and().csrf().disable()
+            .cors().disable();
             
-        http.formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").deleteCookies("JSESSIONID").invalidateHttpSession(true).permitAll();
+        http.csrf().disable().cors().disable()
+            .formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
+            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").deleteCookies("remember-me").permitAll()
+            .and().rememberMe();
 
         return http.build();
     }

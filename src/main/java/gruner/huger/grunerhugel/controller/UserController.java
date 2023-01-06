@@ -16,7 +16,7 @@ import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.User;
 
 @Controller
-public class AdminController {
+public class UserController {
 
     @Autowired
     private UserRepository userRepository;

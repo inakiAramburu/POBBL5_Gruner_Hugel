@@ -16,7 +16,7 @@ public class WebController {
     private UserRepository userRepository;
     private SimulationRepository simulationRepository;
     
-    @GetMapping(value = {"/", "login"})
+    @GetMapping(value = {"login"})
     public String index() {
         return "login";
     }
