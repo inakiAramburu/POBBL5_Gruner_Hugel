@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" layout:decorate = "~{layout/no-footer}">
 
-<head th:replace="~{fragments/login_header :: head}">
-    <title></title>
+<head>
+    <title>Investor</title>
 </head>
 
 <body>
-    <header th:replace="~{fragments/admin_header :: header(title = 'Simulation Rank')}"></header>
+    <h1 layout:fragment="title">Simulation Rank</h1>
     <main layout:fragment="main">
         <table>
             <caption></caption>

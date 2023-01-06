@@ -8,8 +8,9 @@
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
 </head>
 <body>
-    <header th:replace="~{fragments/header :: header(title = 'User List')}"></header>
-    <main layout:fragment="admin-main"></main>
-    <footer th:replace="~{fragments/footer :: footer}"></footer>
+    <header th:replace="~{fragments/header :: header-title-user}"></header>
+    <main layout:fragment="main">
+        <!--Main content goes here-->
+    </main>
 </body>
 </html>

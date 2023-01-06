@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate = "~{layout/admin_layout}">
+<html lang="en" layout:decorate = "~{layout/no-footer}">
 <head>
-    <title></title>
+    <title>User List</title>
 </head>
 <body>
+    <h1 layout:fragment="title">User List</h1>
     <main layout:fragment="main">
         <form class="card-body" th:object="${selectedUser}">
             <table>

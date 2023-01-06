@@ -34,9 +34,11 @@ import gruner.huger.grunerhugel.model.FarmSeeder;
 import gruner.huger.grunerhugel.model.FarmTractor;
 import gruner.huger.grunerhugel.model.Harvester;
 import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Plow;
 import gruner.huger.grunerhugel.model.Seeder;
 import gruner.huger.grunerhugel.model.Simulation;
+import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Worker;
@@ -79,10 +81,14 @@ public class MainController {
 
     @GetMapping(value = "/main")
     public String main(Model model) {
+        // Set data
         model.addAttribute("tractors", tractorRepository.findAll());
         model.addAttribute("harvesters", harvesterRespository.findAll());
         model.addAttribute("plows", plowRepository.findAll());
         model.addAttribute("seeders", seederRepository.findAll());
+        model.addAttribute("total", 100000);
+
+        // Set farm
         model.addAttribute("farm", new Farm());
         model.addAttribute("simulation", new Simulation());
         model.addAttribute("newTractor", new Tractor());
@@ -93,25 +99,43 @@ public class MainController {
         model.addAttribute("farmHarvester", new FarmHarvester());
         model.addAttribute("farmPlow", new FarmPlow());
         model.addAttribute("farmSeeder", new FarmSeeder());
+
+        // Set land
+        model.addAttribute("land", new Land());
+        model.addAttribute("plant", new Plant());
+        model.addAttribute("town", new Town());
+
+
         return "main";
+    }
+
+    @GetMapping(value = "/simulation")
+    public String simulation(Model model) {
+        // Set data
+
+        return "simulation";
     }
 
     @PostMapping(value = "/simulation")
     public String simulation(@ModelAttribute("simulation") Simulation simulation, @ModelAttribute("farm") Farm farm,
             @ModelAttribute("newTractor") Tractor tractor, @ModelAttribute("newHarvester") Harvester harvester,
             @ModelAttribute("newSeeder") Seeder seeder, @ModelAttribute("newPlow") Plow plow,
-            @ModelAttribute("farmTractor") FarmTractor farmTractor, @ModelAttribute("farmHarvester") FarmHarvester farmHarvester,
+            @ModelAttribute("farmTractor") FarmTractor farmTractor,
+            @ModelAttribute("farmHarvester") FarmHarvester farmHarvester,
             @ModelAttribute("farmPlow") FarmPlow farmPlow, @ModelAttribute("farmSeeder") FarmSeeder farmSeeder) {
         GrunerhugelApplication.logger.log(Level.INFO, "Simulation started");
 
+        // Save farm (One to One : User)
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         farm.setUser(user);
         farm.setFuel(0);
         farm = farmRepository.save(farm);
 
+        // Save simulation (One to One: Farm)
         simulation.setFarm(farm);
-        simulationRepository.save(simulation); 
-        
+        simulationRepository.save(simulation);
+
+        // Save tools (Many to Many: Tool + Farm + Quantity)
         tractor = tractorRepository.findByName(tractor.getTractorName());
         farmTractor = new FarmTractor(farm, tractor, farmTractor.getQuantity());
         farmTractorRepository.save(farmTractor);
@@ -128,6 +152,7 @@ public class MainController {
         farmSeeder = new FarmSeeder(farm, seeder, farmSeeder.getQuantity());
         farmSeederRepository.save(farmSeeder);
 
+        // Save workers (One to One: Farm)
         for (Integer i = 0; i < farm.getNumWorkers(); i++) {
             Worker worker = new Worker();
             worker.setFarm(farm);
@@ -138,12 +163,22 @@ public class MainController {
     }
 
     @PostMapping(value = "/addLand")
-    public String addLand(@ModelAttribute("land") Land land) {
+    public String addLand(@ModelAttribute("land") Land land, @ModelAttribute("town") Town town,
+            @ModelAttribute("plant") Plant plant) {
+        // Save town (One to One: Land + Farm)
+        town = townRepository.findByName(town.getName());
+        land.setTown(town);
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Farm farm = farmRepository.findByUser(user);
         land.setFarm(farm);
-        landRepository.save(land);
-        return "main";
+        land = landRepository.save(land);
+
+        // Save plant (One to One: Land + PlantType)
+        plant.setLand(land);
+        plant.setOptimalConditions(plantTypeRepository.findByName(plant.getName()));
+        plantRepository.save(plant);
+
+        return "simulation";
     }
 
 }
