@@ -5,9 +5,22 @@
     <link rel="stylesheet" th:href="@{css/style.css}"/>
     <link rel="icon" th:href="@{img/logo.png}" type="image/png"/>
     <script src="//sitna.navarra.es/api/"></script>
+    <script th:src="@{js/slider.js}"></script>
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
 </head>
 <body>
+    <div id="slider">
+        <a href="#" id="slider-trigger"><img th:src="@{img/rope.png}" alt="Pulse aqui para abrir"></a>
+        <div id="slider-content">
+            <img th:src="@{img/perfil.png}" alt="perfil">
+            <h2 sec:authentication="name"></h2>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <a th:href="@{/admin}">MANAGE USERS</a>
+                <a th:href="@{/investor}">STATS</a>
+            </div>
+            <a id="logout" th:href="@{/logout}">LOG OUT</a>
+        </div>
+    </div>
     <main class="main">
         <aside layout:fragment="aside"></aside>
         <div th:replace="~{fragments/map :: map}"></div>
