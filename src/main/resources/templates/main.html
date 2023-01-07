@@ -8,7 +8,7 @@
         <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
         <div class="info">
             <div id="simulation">
-                <form class="form" th:action="@{/simulation}" method="post">
+                <form class="form" method="post" th:action="@{/simulation}" method="post">
                     <label class="label"> Start Date:
                         <input type="date" name="startDate" th:field="*{simulation.startDate}" required />
                     </label>
