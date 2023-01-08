@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
+import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.Farm;
 
 @SpringBootTest
@@ -14,14 +15,16 @@ public class FarmRepositoryTest {
 
     @Autowired
     FarmRepository farmRepository;
+    @Autowired
+    UserRepository userRepository;
 
     @Test
     public void testFindByUser() {
-        Farm farm = farmRepository.findById(31).get();
+        Farm farm = new Farm();
+        farm.setUser(userRepository.findByUsername("test"));
+        farmRepository.save(farm);
 
-        Farm result = farmRepository.findByUser(farm.getUser());
-
-        assertNotNull(result);
+        assertNotNull(farmRepository.findByUser(farm.getUser()));
     }
     
 }

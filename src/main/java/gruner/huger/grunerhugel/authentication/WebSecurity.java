@@ -15,19 +15,19 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurity {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler, MyAccessDeniedHandler accessDeniedHandler) throws Exception {
         
         http.authorizeHttpRequests()
             .requestMatchers("/css/**", "/img/**","/js/**").permitAll()
-            .requestMatchers("/register", "/create", "/login").permitAll()
+            .requestMatchers( "/create", "/login", "/accessDenied", "/error").permitAll()
             .requestMatchers("/investor").hasAuthority("INVESTOR")
             .requestMatchers("/main", "/simulation").hasAuthority("USER")
             .anyRequest().hasAuthority("ADMIN")
+            .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
             .and().csrf().disable()
             .cors().disable();
             
-        http.csrf().disable().cors().disable()
-            .formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
+        http.formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
             .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").deleteCookies("remember-me").permitAll()
             .and().rememberMe();
 

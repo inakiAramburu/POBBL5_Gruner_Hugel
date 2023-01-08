@@ -11,6 +11,7 @@
             <h2 sec:authentication="name"></h2>
         </div>
     </div>
+    <p th:if="${accessDenied}" class="error">Access Denied</p>
 </header>
 
 <!--Header with name and logo-->
