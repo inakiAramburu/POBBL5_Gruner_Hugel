@@ -28,7 +28,7 @@ public class WebSecurity {
             .cors().disable();
             
         http.formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/").deleteCookies("remember-me").permitAll()
+            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").deleteCookies("remember-me").permitAll()
             .and().rememberMe();
 
         return http.build();
