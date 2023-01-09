@@ -19,8 +19,8 @@ import lombok.Setter;
 public class Plow implements Serializable{
 
     @Id
-    @Column(name = "name")
-    private String name;
+    @Column(name = "plowName")
+    private String plowName;
     @Column(name = "Price (€)")
     private int price;
     @Column(name = "Maintenance (€/day)")
@@ -39,7 +39,7 @@ public class Plow implements Serializable{
 
     @Override
     public String toString() {
-        return "Plow [name=" + name + ", price=" + price + ", maintenance=" + maintenance + ", workingAmplitude="
+        return "Plow [name=" + plowName + ", price=" + price + ", maintenance=" + maintenance + ", workingAmplitude="
                 + workingAmplitude + ", recommendedPower=" + recommendedPower + "]";
     }
     

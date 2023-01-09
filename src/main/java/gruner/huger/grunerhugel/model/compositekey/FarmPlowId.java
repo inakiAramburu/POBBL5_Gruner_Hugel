@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.model.compositeKeys;
+package gruner.huger.grunerhugel.model.compositekey;
 
 import java.io.Serializable;
 
@@ -11,17 +11,21 @@ import lombok.Setter;
 @Embeddable
 @Getter
 @Setter
-public class FarmSeederId implements Serializable{
-    
+public class FarmPlowId implements Serializable{
+
     @Column(name = "FK_farm")
     private Integer farmId;
 
-    @Column(name = "FK_seeder")
-    private String seederId;
+    @Column(name = "FK_plow")
+    private String plowId; 
     
-    public FarmSeederId(int id, String name) {
+    public FarmPlowId(int id, String name) {
         this.farmId = id;
-        this.seederId = name;
+        this.plowId = name;
+    }
+
+    public FarmPlowId() {
+        //no need
     }
 
     @Override
@@ -29,7 +33,7 @@ public class FarmSeederId implements Serializable{
         final int prime = 31;
         int result = 1;
         result = prime * result + ((farmId == null) ? 0 : farmId.hashCode());
-        result = prime * result + ((seederId == null) ? 0 : seederId.hashCode());
+        result = prime * result + ((plowId == null) ? 0 : plowId.hashCode());
         return result;
     }
 
@@ -41,20 +45,20 @@ public class FarmSeederId implements Serializable{
             return false;
         if (getClass() != obj.getClass())
             return false;
-        FarmSeederId other = (FarmSeederId) obj;
+        FarmPlowId other = (FarmPlowId) obj;
         if (farmId == null) {
             if (other.farmId != null)
                 return false;
         } else if (!farmId.equals(other.farmId))
             return false;
-        if (seederId == null) {
-            if (other.seederId != null)
+        if (plowId == null) {
+            if (other.plowId != null)
                 return false;
-        } else if (!seederId.equals(other.seederId))
+        } else if (!plowId.equals(other.plowId))
             return false;
         return true;
     }
 
     
-
+    
 }

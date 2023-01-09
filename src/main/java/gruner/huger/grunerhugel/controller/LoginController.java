@@ -18,7 +18,7 @@ public class LoginController {
     @Autowired
     private UserRepository userRepository;
 
-    @PostMapping(value = "/register")
+    @PostMapping(value = "/create")
     public String register(@ModelAttribute User user, Model model) {
         String password = user.getPassword();
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -28,7 +28,7 @@ public class LoginController {
             user.setRole(new Role("USER"));
         }
         userRepository.save(user);
-        return "login";
+        return "redirect:/login";
     }
 
     @GetMapping(value = "/login-error")

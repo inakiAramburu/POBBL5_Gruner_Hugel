@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.0.0</version>
+		<version>3.0.1</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -50,6 +50,11 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.thymeleaf.extras</groupId>
+			<artifactId>thymeleaf-extras-springsecurity6</artifactId>
+		</dependency>
+
+		<dependency>
 			<groupId>nz.net.ultraq.thymeleaf</groupId>
 			<artifactId>thymeleaf-layout-dialect</artifactId>
 		</dependency>
@@ -58,12 +63,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.thymeleaf.extras</groupId>
-			<artifactId>thymeleaf-extras-springsecurity5</artifactId>
-			<version>3.1.0.RELEASE</version>
 		</dependency>
 
 		<!--JUnit-->
@@ -79,12 +78,6 @@
 			<artifactId>lombok</artifactId>
 			<version>1.18.22</version>
 			<scope>provided</scope>
-		</dependency>
-
-		<!--MVC-->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 
 		<!-- bootstrap and jquery
@@ -121,6 +114,7 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
 			</plugin>
 		</plugins>
 	</build>

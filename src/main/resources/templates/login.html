@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang=en layout:decorate = "~{layout/login_layout}">
 <head>
-    <title></title>
+    <title>Login</title>
 </head>
 <body>
     <main layout:fragment="main">
         <section class="card">
             <p th:if="${loginError}" class="error">Wrong user or password</p>
-            <p th:if="${registerSuccess}" class="success">You have been registered</p>
             <form class="card-body" th:action="@{/login}" th:method="post">
                 <label>
                     USERNAME: 
@@ -20,6 +19,9 @@
                     <input	th:type="password"
                         name="password"
                         required/>
+                </label>
+                <label >
+                    <input type="checkbox" name="remember-me"/>Remember Me
                 </label>
                 <button class="action" type="submit">LOG IN</button>
             </form>

@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel;
 
 
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
 import org.springframework.boot.test.context.SpringBootTest;

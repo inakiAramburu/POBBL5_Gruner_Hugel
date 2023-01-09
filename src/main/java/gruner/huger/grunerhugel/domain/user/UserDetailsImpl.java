@@ -22,7 +22,7 @@ public class UserDetailsImpl implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(user.getRole().getName())); // this is the problematic line!
+        authorities.add(new SimpleGrantedAuthority(user.getRole().getName()));
         return authorities;
     }
 

@@ -1,12 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/login_header :: head}">
-    <title></title>
+<html lang="en" layout:decorate = "~{layout/no-footer}">
+
+<head>
+    <title>Create User</title>
 </head>
+
 <body>
-    <header th:replace="~{fragments/header :: header(title = 'User Create')}"></header>
+    <h1 layout:fragment="title">Create User</h1>
     <main layout:fragment="main">
-        <form class="card-body" th:action="@{/register}" method="post" th:object="${user}">
+        <form class="card-body" th:action="@{/create}" method="post" th:object="${user}">
             <div class="grid-datos">
                 <div>USERNAME: <input name="username" th:field="*{username}"></div>
                 <div>PASSWORD: <input name="password" type="password" th:field="*{password}"></div>

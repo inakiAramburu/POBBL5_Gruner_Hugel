@@ -2,7 +2,7 @@ package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
 
-import gruner.huger.grunerhugel.model.compositeKeys.FarmTractorId;
+import gruner.huger.grunerhugel.model.compositekey.FarmTractorId;
 import jakarta.persistence.Column;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -45,7 +45,7 @@ public class FarmTractor implements Serializable{
         this.farm = farm;
         this.tractor = tractor;
         this.quantity = quantity;
-        this.id = new FarmTractorId(farm.getId(), tractor.getName());
+        this.id = new FarmTractorId(farm.getId(), tractor.getTractorName());
     }
 
     @Override

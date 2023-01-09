@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.model.compositeKeys;
+package gruner.huger.grunerhugel.model.compositekey;
 
 import java.io.Serializable;
 
@@ -21,6 +21,10 @@ public class FarmHarvesterId implements Serializable{
     public FarmHarvesterId(int id, String name) {
         this.farmId = id;
         this.harvesterId = name;
+    }
+
+    public FarmHarvesterId() {
+        //no need
     }
 
 

@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class WebController {
     private UserRepository userRepository;
     private SimulationRepository simulationRepository;
     
-    @GetMapping(value = {"/", "login"})
+    @GetMapping("/login")
     public String index() {
         return "login";
     }
@@ -37,5 +38,11 @@ public class WebController {
     public String investor(Model model) {
         model.addAttribute("simulations", simulationRepository.findAll());
         return "investor";
+    }
+
+    @GetMapping(value = "/accessDenied")
+    public String accessDenied(Model model, Authentication authentication) {
+        model.addAttribute("accessDenied", true);
+        return "login"; //we need to change this 
     }
 }
