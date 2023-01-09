@@ -31,7 +31,6 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
     private Farm farm;
 
     boolean pagado = false;
-    boolean ey = true;
     // BlockingQueue<String> blockingQueue;
 
     public Worker() {

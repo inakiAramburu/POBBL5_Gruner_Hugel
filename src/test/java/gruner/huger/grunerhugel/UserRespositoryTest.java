@@ -2,13 +2,12 @@ package gruner.huger.grunerhugel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 
 import gruner.huger.grunerhugel.domain.repository.RoleRepository;
@@ -16,15 +15,27 @@ import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Role;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-public class UserTest {
+@SpringBootTest
+public class UserRespositoryTest {
 
     @Autowired
     private UserRepository userRepository;
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Test
+    public void createUserTest() {
+        User user = new User();
+        user.setUsername("test2");
+        user.setName("test");
+        user.setSurname("test");
+        user.setPassword("test");
+        user.setEmail("test");
+        user.setRole(roleRepository.findById(1));
+        User savedUser = userRepository.save(user);
+        assertNotNull(savedUser);
+    }
 
     @Test
     @Rollback(false)
@@ -34,6 +45,9 @@ public class UserTest {
 
         role = roleRepository.findById(2);
         assertEquals("ADMIN", role.getName());
+
+        role = roleRepository.findById(3);
+        assertEquals("INVESTOR", role.getName());
     }
 
     @Test
@@ -51,36 +65,12 @@ public class UserTest {
 
     @Test
     @Rollback(false)
-    public void testCreateUser() {
-        User user = new User();
-        user.setUsername("test");
-        user.setName("test");
-        user.setSurname("test");
-        user.setPassword("test");
-        user.setEmail("test");
-        user.setRole(roleRepository.findById(1));
-        User savedUser = userRepository.save(user);
-        assertNotNull(savedUser);
-        assertThat(savedUser.getId()).isGreaterThan(0);
-    }
-
-    @Test
-    @Rollback(false)
     public void testUpdateUser() {
         User user = userRepository.findByUsername("test");
         user.setSurname("test0");
         User savedUser = userRepository.save(user);
         assertNotNull(savedUser);
         assertEquals("test0", savedUser.getSurname());
-    }
-
-    @Test
-    @Rollback(false)
-    public void testDeleteUser() {
-        User user = userRepository.findByUsername("test");
-        userRepository.delete(user);
-        User deletedUser = userRepository.findByUsername("test");
-        assertEquals(null, deletedUser);
     }
 
     @Test
@@ -99,4 +89,11 @@ public class UserTest {
         assertThat(roles).size().isGreaterThan(0);
     }
 
+
+    @Test 
+    public void deleteUserTest() {
+        User user = userRepository.findByUsername("test2");
+        userRepository.delete(user);
+        assertNull(userRepository.findByUsername("test2"));
+    }
 }
