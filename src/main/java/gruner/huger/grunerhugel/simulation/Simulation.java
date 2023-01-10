@@ -2,13 +2,12 @@ package gruner.huger.grunerhugel.simulation;
 
 // import java.util.concurrent.BlockingQueue;
 import gruner.huger.grunerhugel.model.Balance;
-import gruner.huger.grunerhugel.model.Worker;
+
 
 public class Simulation implements Runnable {
     static final int HOUR_DURATION = 1250; // miliseconds
     static final int HOURS_DAY = 24; // hours
     Thread time;
-    private static boolean horaConcluida = false;
     int horas = 0;
     int accelerator = 1;
     Balance balance;

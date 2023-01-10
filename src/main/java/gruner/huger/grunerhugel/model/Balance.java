@@ -52,7 +52,7 @@ public class Balance {  //implements Runnable
     //             descifrarMensaje(mensaje);
     //         } catch (InterruptedException e) {
     //             GrunerhugelApplication.logger.log(Level.WARNING, "Interrupted!", e);
-    //             // TODO Auto-generated catch block
+    //             
     //             Thread.currentThread().interrupt();
     //         }
     //     }
