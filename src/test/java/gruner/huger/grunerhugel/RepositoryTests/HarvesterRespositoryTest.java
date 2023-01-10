@@ -27,10 +27,7 @@ public class HarvesterRespositoryTest {
         Harvester harvester = getHarvester();	     
         harvesterRespository.save(harvester);
         Harvester result = harvesterRespository.findById(harvester.getHarvesterName()).get();
-        System.out.println("harvester: "+harvester.getHarvesterName());
-        System.out.println("result: "+result.getHarvesterName());
         assertEquals(harvester.getHarvesterName(), result.getHarvesterName());	 	       
-        System.out.println("hola");
     } 
 
     @AfterEach
