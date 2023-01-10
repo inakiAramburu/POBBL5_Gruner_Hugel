@@ -1,5 +1,9 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import gruner.huger.grunerhugel.domain.repository.SeederRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
+import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
@@ -40,6 +45,7 @@ import gruner.huger.grunerhugel.model.Seeder;
 import gruner.huger.grunerhugel.model.Simulation;
 import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Worker;
 
@@ -61,6 +67,8 @@ public class MainController {
     @Autowired
     private LandRepository landRepository;
     @Autowired
+    private OptimalConditionsRepository optimalConditionsRepository;
+    @Autowired
     private PlantRepository plantRepository;
     @Autowired
     private OptimalConditionsRepository plantTypeRepository;
@@ -76,6 +84,10 @@ public class MainController {
     private WorkerRepository workerRepository;
     @Autowired
     private SimulationRepository simulationRepository;
+    @Autowired
+    private WeatherRepository weatherRepository;
+
+    SimulationProcesses sim;
     @Autowired
     private UserRepository userRepository;
 
@@ -104,6 +116,9 @@ public class MainController {
         model.addAttribute("land", new Land());
         model.addAttribute("plant", new Plant());
         model.addAttribute("town", new Town());
+        sim = new SimulationProcesses(0, weatherRepository,optimalConditionsRepository);
+        sim.initialize(new Date(), new Date(), new Land());
+        sim.start();
 
 
         return "main";
