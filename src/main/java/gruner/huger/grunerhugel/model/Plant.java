@@ -44,6 +44,29 @@ public class Plant implements Serializable{
       //no need
     }
 
+    public void checkOptimalCondition(Weather weather){
+      boolean condition = check(weather);
+      if(condition){
+        growPlant();
+      } else {
+        loseHealth();
+      }
+    }
+
+    private boolean check(Weather weather){
+      boolean condition = false;
+      //  check of conditions
+      return condition;
+    }
+
+    private void growPlant(){
+      //  no need
+    }
+
+    private void loseHealth(){
+      //  no need
+    }
+
     @Override
     public String toString() {
         return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint

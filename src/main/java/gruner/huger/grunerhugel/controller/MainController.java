@@ -1,6 +1,10 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import gruner.huger.grunerhugel.domain.repository.SeederRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
+import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
@@ -36,7 +41,9 @@ import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Plow;
 import gruner.huger.grunerhugel.model.Seeder;
 import gruner.huger.grunerhugel.model.Simulation;
+import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 
 @Controller
 public class MainController {
@@ -56,6 +63,8 @@ public class MainController {
     @Autowired
     private LandRepository landRepository;
     @Autowired
+    private OptimalConditionsRepository optimalConditionsRepository;
+    @Autowired
     private PlantRepository plantRepository;
     @Autowired
     private OptimalConditionsRepository plantTypeRepository;
@@ -71,6 +80,10 @@ public class MainController {
     private WorkerRepository workerRepository;
     @Autowired
     private SimulationRepository simulationRepository;
+    @Autowired
+    private WeatherRepository weatherRepository;
+
+    SimulationProcesses sim;
     
     @GetMapping(value = "/main")
     public String main(Model model) {
@@ -86,6 +99,9 @@ public class MainController {
         model.addAttribute("newPlow", new Plow());
         model.addAttribute("newSeeder", new Seeder());
         model.addAttribute("numWorkers");
+        sim = new SimulationProcesses(0, weatherRepository,optimalConditionsRepository);
+        sim.initialize(new Date(), new Date(), new Land());
+        sim.start();
         return "main";
     }
 
