@@ -16,13 +16,14 @@ public class ParametersUserTest {
     @Autowired
     UserRepository userRepository;
 
-    /*@ParameterizedTest
+    @ParameterizedTest
     @ValueSource(strings = {"&&","%%","@","//","(",")","||","==","??","¿¿", "'","!"})
     void testWithParams(String string) {
         User user = userRepository.findByUsername("test");
         user.setSurname(string);
         User savedUser =userRepository.save(user);
+        System.out.println(savedUser);
         assertEquals(user, savedUser); //arreglame esto qu da error
-    }*/
+    }
 
 }
