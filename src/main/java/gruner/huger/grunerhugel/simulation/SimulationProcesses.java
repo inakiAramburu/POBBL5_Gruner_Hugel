@@ -48,7 +48,7 @@ public class SimulationProcesses extends Thread {
         this.land = lands;
         this.addPropertyChangeListener(wThread);
     }
-
+    
     private void startThreads() {
         wThread.start();
         pThread.start();

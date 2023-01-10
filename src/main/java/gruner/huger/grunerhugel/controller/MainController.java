@@ -86,10 +86,10 @@ public class MainController {
     private SimulationRepository simulationRepository;
     @Autowired
     private WeatherRepository weatherRepository;
-
-    SimulationProcesses sim;
     @Autowired
     private UserRepository userRepository;
+
+    SimulationProcesses sim;
 
     @GetMapping(value = "/main")
     public String main(Model model) {
