@@ -11,21 +11,21 @@ import lombok.Setter;
 @Embeddable
 @Getter
 @Setter
-public class FarmSeederId implements Serializable{
-    
+public class FarmSeederId implements Serializable {
+
     @Column(name = "FK_farm")
     private Integer farmId;
 
     @Column(name = "FK_seeder")
     private String seederId;
-    
+
     public FarmSeederId(int id, String name) {
         this.farmId = id;
         this.seederId = name;
     }
 
     public FarmSeederId() {
-        //no need
+        // no need
     }
 
     @Override
@@ -58,7 +58,5 @@ public class FarmSeederId implements Serializable{
             return false;
         return true;
     }
-
-    
 
 }

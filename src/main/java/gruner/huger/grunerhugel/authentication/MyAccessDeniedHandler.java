@@ -26,7 +26,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
                     + request.getRequestURI());
         }
 
-        response.sendRedirect(request.getContextPath() + "/accessDenied");
+        response.sendRedirect(request.getContextPath() + "/accessDenied/" + request.getContextPath() + "/");
 
     }
 

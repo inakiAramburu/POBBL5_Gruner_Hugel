@@ -1,23 +1,57 @@
-
 <!--Header with title and user info-->
 <header th:fragment="header-title-user">
-	<div class="header">
-        <div sec:authorize="isAuthenticated()">
-            <a id="logout" th:href="@{/logout}">LOG OUT</a>
+  <div class="d-flex align-items-center justify-content-center text-dark text-decoration-none">
+    <div sec:authorize="isAuthenticated()" class="perfil">
+      <div href="#" class="dropdown" aria-expanded="false">
+        <div class="d-flex align-self-start text-dark text-decoration-none">
+          <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+          <p sec:authentication="name"></p>
         </div>
-        <h1 layout:fragment="title"></h1>
-        <div sec:authorize="isAuthenticated()" class="perfil">
-            <img th:src="@{img/perfil.png}" alt="perfil">
-            <h2 sec:authentication="name"></h2>
+      </div>
+      <ul class="dropdown-menu text-small">
+        <div sec:authorize="hasAuthority('ADMIN')">
+          <li><a class="action" th:href="@{/admin}">Users</a></li>
+          <li><a class="action" th:href="@{/investor}">Stats</a></li>
+          <li><a class="action" th:href="@{/main}">Simulation</a></li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
         </div>
+        <li><a id="logout" th:href="@{/logout}">Log out</a></li>
+      </ul>
     </div>
-    <p th:if="${accessDenied}" class="error">Access Denied</p>
+    <h1 layout:fragment="title"></h1>
+  </div>
 </header>
 
 <!--Header with name and logo-->
 <header th:fragment="header-login">
-	<div class="title">
-        <h1>GRÜNER HÜGEL</h1>
-        <img id="logo" th:src="@{img/icono.png}" alt="Grüner Hügel Logo" />
-	</div>
+  <div class="d-flex align-items-center justify-content-center text-dark text-decoration-none">
+    <h1>GRÜNER HÜGEL</h1>
+    <img id="logo" th:src="@{img/icono.png}" alt="Grüner Hügel Logo" />
+  </div>
 </header>
+
+<!--Profile-->
+<div th:fragment="profile-dropdown" class="d-flex">
+  <div sec:authorize="isAuthenticated()" class="perfil">
+    <div href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+      <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+    </div>
+    <ul class="dropdown-menu text-small">
+      <li>
+        <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+        <p sec:authentication="name"></p>
+      </li>
+      <div sec:authorize="hasAuthority('ADMIN')">
+        <li><a th:href="@{/admin}">Users</a></li>
+        <li><a th:href="@{/investor}">Stats</a></li>
+        <li><a th:href="@{/main}">Simulation</a></li>
+        <li>
+          <hr class="dropdown-divider">
+        </li>
+      </div>
+      <li><a id="logout" th:href="@{/logout}">Log out</a></li>
+    </ul>
+  </div>
+</div>

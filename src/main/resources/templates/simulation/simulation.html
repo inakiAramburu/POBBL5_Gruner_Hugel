@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/aside-map}">
+
+<head>
+  <title>Simulation</title>
+</head>
+
+<body>
+  <!--Right-Top-Nav-->
+  <nav layout:fragment="nav" id="top-right-nav">
+    <div th:replace="~{fragments/header :: profile-dropdown}"></div>
+    <div>
+      <button form="${session.formId}" type="submit" class="action">
+        <img th:src="@{img/play.png}" alt="play" />
+      </button>
+      <button class="action"><img th:src="@{img/rewind.png}" alt="rewind"></button>
+      <label id="speed">x1</label>
+    </div>
+  </nav>
+
+  <aside layout:fragment="aside">
+    <!--Left-Aside Edit form-->
+    <div class="offcanvas offcanvas-start" id="edit-form">
+      <div class="offcanvas-body">
+        <div th:replace="~{fragments/form :: aside-form-farm-edit}"></div>
+      </div>
+    </div>
+
+    <!--Left-Aside Edit form button-->
+    <div class="container-fluid mt-3">
+      <div class="offcanvas-btn-box">
+        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#edit-form">
+          <span><img th:src="@{img/open.png}" alt="Open"></span><span><img th:src="@{img/close.png}" alt="Close"></span>
+        </button>
+      </div>
+    </div>
+
+    <!--Left-Aside Simulation Data-->
+    <img th:src="@{img/farm.png}" alt="Farm" />
+    <div class="card-body">
+      <table>
+        <caption></caption>
+        <tr>
+          <th>Concept</th>
+          <th>Operation</th>
+        </tr>
+        <tr>
+          <!--Add here the concept and operations-->
+        </tr>
+      </table>
+    </div>
+    <div class="card-body">
+      <table>
+        <caption></caption>
+        <tr>
+          <th>Land</th>
+          <th>Status</th>
+        </tr>
+        <tr>
+          <!--Add here the land and status-->
+        </tr>
+      </table>
+    </div>
+  </aside>
+</body>
+
+</html>

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import gruner.huger.grunerhugel.domain.repository.RoleRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
@@ -24,12 +25,13 @@ public class UserController {
     private RoleRepository roleRepository;
 
     @GetMapping(value = "/edit/{id}")
+    @ResponseBody
     public String update(@PathVariable int id, Model model) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("new_user", new User());
         try {
-            Optional<User>  user = userRepository.findById(id); 
-            if(user.isPresent()){
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
                 model.addAttribute("old_user", user.get());
             }
         } catch (UsernameNotFoundException e) {
@@ -44,7 +46,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    
     @PostMapping(value = "/update/{id}")
     public String update(@ModelAttribute("new_user") User user, @PathVariable int id) {
         User oldUser = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
