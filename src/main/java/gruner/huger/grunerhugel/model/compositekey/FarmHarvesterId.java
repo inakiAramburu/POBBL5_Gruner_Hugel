@@ -11,22 +11,21 @@ import lombok.Setter;
 @Embeddable
 @Getter
 @Setter
-public class FarmHarvesterId implements Serializable{
+public class FarmHarvesterId implements Serializable {
 
     @Column(name = "FK_farm")
     private Integer farmId;
     @Column(name = "FK_harvester")
-    private String harvesterId; 
-    
+    private String harvesterId;
+
     public FarmHarvesterId(int id, String name) {
         this.farmId = id;
         this.harvesterId = name;
     }
 
     public FarmHarvesterId() {
-        //no need
+        // no need
     }
-
 
     @Override
     public int hashCode() {
@@ -36,6 +35,7 @@ public class FarmHarvesterId implements Serializable{
         result = prime * result + ((harvesterId == null) ? 0 : harvesterId.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -57,6 +57,5 @@ public class FarmHarvesterId implements Serializable{
             return false;
         return true;
     }
-    
-    
+
 }

@@ -28,8 +28,8 @@ public class UserController {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("new_user", new User());
         try {
-            Optional<User>  user = userRepository.findById(id); 
-            if(user.isPresent()){
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
                 model.addAttribute("old_user", user.get());
             }
         } catch (UsernameNotFoundException e) {
@@ -44,7 +44,6 @@ public class UserController {
         return "redirect:/admin";
     }
 
-    
     @PostMapping(value = "/update/{id}")
     public String update(@ModelAttribute("new_user") User user, @PathVariable int id) {
         User oldUser = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));

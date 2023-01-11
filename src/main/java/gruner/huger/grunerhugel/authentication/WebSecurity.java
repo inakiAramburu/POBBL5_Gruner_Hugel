@@ -15,21 +15,23 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class WebSecurity {
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler, MyAccessDeniedHandler accessDeniedHandler) throws Exception {
-        
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler,
+            MyAccessDeniedHandler accessDeniedHandler) throws Exception {
+
         http.authorizeHttpRequests()
-            .requestMatchers("/css/**", "/img/**","/js/**").permitAll()
-            .requestMatchers( "/create", "/login", "/accessDenied", "/error").permitAll()
-            .requestMatchers("/investor").hasAuthority("INVESTOR")
-            .requestMatchers("/main", "/simulation").hasAuthority("USER")
-            .anyRequest().hasAuthority("ADMIN")
-            .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
-            .and().csrf().disable()
-            .cors().disable();
-            
+                .requestMatchers("/css/*", "/img/*", "/js/*").permitAll()
+                .requestMatchers("/create", "/login", "/accessDenied", "/error").permitAll()
+                .requestMatchers("/investor").hasAnyAuthority("INVESTOR", "ADMIN")
+                .requestMatchers("/main", "/simulation").hasAnyAuthority("USER", "ADMIN")
+                .anyRequest().authenticated()
+                .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler)
+                .and().csrf().disable()
+                .cors().disable();
+
         http.formLogin().loginPage("/login").successHandler(succesHandler).failureUrl("/login-error").permitAll()
-            .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").deleteCookies("remember-me").permitAll()
-            .and().rememberMe();
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+                .deleteCookies("remember-me").permitAll()
+                .and().rememberMe();
 
         return http.build();
     }

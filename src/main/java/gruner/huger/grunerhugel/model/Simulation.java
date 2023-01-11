@@ -1,6 +1,9 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
+import java.util.Date;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -16,22 +19,24 @@ import lombok.Setter;
 @Table(name = "simulation")
 @Getter
 @Setter
-public class Simulation implements Serializable{
+public class Simulation implements Serializable {
 
     @Id
     @Column(name = "id")
     private int id;
     @Column(name = "start_date")
-    private String startDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date startDate;
     @Column(name = "end_date")
-    private String endDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    private Date endDate;
 
     @OneToOne
     @JoinColumn(name = "FK_Farm")
     private Farm farm;
 
     public Simulation() {
-        //no need
+        // no need
     }
 
     @Override
