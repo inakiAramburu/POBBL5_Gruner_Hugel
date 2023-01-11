@@ -9,7 +9,6 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
-import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,7 +35,7 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
-    protected String determineTargetUrl(Authentication authentication) {
+    public String determineTargetUrl(Authentication authentication) {
         String url = "/login?error=true";
 
         if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
@@ -45,16 +44,15 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
             try {
-                Farm farm = farmRepository.findByUser(user);
-                if (farm != null) {
-                    url = "/simulation";
-                } else {
-                    url = "/main";
-                }
+                farmRepository.findByUser(user);
+                url = "/simulation";
             } catch (Exception e) {
                 System.out.println("No simulations found");
+                url = "/main";
             }
-        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))) {
+        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR")))
+
+        {
             url = "/investor";
         }
 

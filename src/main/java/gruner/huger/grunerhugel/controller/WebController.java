@@ -19,7 +19,9 @@ public class WebController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
     private SimulationRepository simulationRepository;
+    @Autowired
     private FarmRepository farmRepository;
 
     @GetMapping(value = "/login")
@@ -40,7 +42,7 @@ public class WebController {
             try {
                 farmRepository.findByUser(user);
                 url = "redirect:/simulation";
-            } catch (Exception e) {
+            } catch (NullPointerException e) {
                 System.out.println("No simulations found");
                 url = "redirect:/main";
             }
