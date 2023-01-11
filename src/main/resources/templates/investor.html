@@ -24,10 +24,10 @@
         </div>
         <div th:unless="${simulations} == null">
           <tr th:each="simulation : ${simulations}">
-            <td th:text="${simulation.rank}"></td>
+            <td th:text="1"></td>
             <td th:text="${simulation.startDate}"></td>
-            <td th:text="${simulation.time}"></td>
-            <td th:text="${simulation.benefit}"></td>
+            <td th:text="${simulation.endDate}"></td>
+            <td th:text="-1000"></td>
           </tr>
         </div>
       </table>
