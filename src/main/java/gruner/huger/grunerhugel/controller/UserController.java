@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import gruner.huger.grunerhugel.domain.repository.RoleRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
@@ -25,7 +24,6 @@ public class UserController {
     private RoleRepository roleRepository;
 
     @GetMapping(value = "/edit/{id}")
-    @ResponseBody
     public String update(@PathVariable int id, Model model) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("new_user", new User());

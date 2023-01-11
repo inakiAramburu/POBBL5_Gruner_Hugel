@@ -280,6 +280,9 @@ public class SimulationController {
         Iterable<FarmPlow> oldFarmPlows = farmPlowRepository.findByFarm(oldFarm);
         Iterable<FarmSeeder> oldFarmSeeders = farmSeederRepository.findByFarm(oldFarm);
         Iterable<FarmTractor> oldFarmTractors = farmTractorRepository.findByFarm(oldFarm);
+        Iterable<Worker> oldWorkers = workerRepository.findByFarm(oldFarm);
+
+        // Edit data
 
         return "simulation/simulation";
     }

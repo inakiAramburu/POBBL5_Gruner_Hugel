@@ -10,9 +10,9 @@
     <div th:replace="~{fragments/header :: profile-dropdown}"></div>
     <div>
       <button form="simulationCreate" type="submit" class="action">
-        <img th:src="@{img/play.png}" alt="play" />
+        <img th:src="@{/img/play.png}" alt="play" />
       </button>
-      <button class="action"><img th:src="@{img/rewind.png}" alt="rewind"></button>
+      <button class="action"><img th:src="@{/img/rewind.png}" alt="rewind"></button>
       <label id="speed">x1</label>
     </div>
   </nav>
@@ -73,7 +73,7 @@
           </label>
           <div class="options">
             <button type="reset" class="action">
-              <img th:src="@{img/reset.png}" alt="reset" />
+              <img th:src="@{/img/reset.png}" alt="reset" />
             </button>
             <label>
               Total Cost:
@@ -107,10 +107,10 @@
           </label>
           <div class="options">
             <button type="submit" class="action">
-              <img th:src="@{img/tick.png}" alt="tick" />
+              <img th:src="@{/img/tick.png}" alt="tick" />
             </button>
             <button type="reset" class="action">
-              <img th:src="@{img/x.png}" alt="x" />
+              <img th:src="@{/img/x.png}" alt="x" />
             </button>
           </div>
         </form>

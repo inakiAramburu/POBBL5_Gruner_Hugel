@@ -112,18 +112,20 @@
                 <label class="label">
                     End Date:
                     <input type="date" name="endDate" min="1959-01-01" max="2022-08-31"
-                        th:field="*{newSimulation.endDate}" th:value="${simulation.endDate}" th:required="required" />
+                        th:field="*{newSimulation.endDate}"
+                        th:value="${#dates.format(simulation.endDate, 'yyyy-MM-dd')}" th:required="required" />
                 </label>
                 <label class="label">
                     Tractor:
+                    <p th:if="${tractors}"></p>
                     <div th:each="farmTractor : ${tractors}">
                         <label th:text="${farmTractor.tractor.tractorName}"></label>
                         <input type="number" th:placeholder="${farmTractor.quantity}"
                             th:field="*{newFarmTractor.quantity}" min="0" th:required="required" />
-                        <div class="nav-buttons">
-                            <button type="button" class="action">+</button>
-                            <button type="button" class="action">-</button>
-                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addTractor">+</button>
+                        <button type="button" class="action" id="removeTractor">-</button>
                     </div>
                 </label>
                 <label class="label">
@@ -137,10 +139,6 @@
                         <label th:text="${farmPlow.plow.plowName}"></label>
                         <input type="number" th:placeholder="${farmPlow.quantity}" th:field="*{newFarmPlow.quantity}"
                             min="0" th:required="required" />
-                        <div class="nav-buttons">
-                            <button type="button" class="action">+</button>
-                            <button type="button" class="action">-</button>
-                        </div>
                     </div>
                 </label>
                 <label class="label">
@@ -149,10 +147,10 @@
                         <label th:text="${farmSeeder.seeder.seederName}"></label>
                         <input type="number" th:placeholder="${farmSeeder.quantity}"
                             th:field="*{newFarmSeeder.quantity}" min="0" th:required="required" />
-                        <div class="nav-buttons">
-                            <button type="button" class="action">+</button>
-                            <button type="button" class="action">-</button>
-                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addSeeder">+</button>
+                        <button type="button" class="action" id="removeSeeder">-</button>
                     </div>
                 </label>
                 <label class="label">
@@ -161,10 +159,10 @@
                         <label th:text="${harvester.harvesterName}"></label>
                         <input type="number" th:placeholder="${farm.numHarvesters}" th:field="*{newNumHarvesters}"
                             min="0" th:required="required" />
-                        <div class="nav-buttons">
-                            <button type="button" class="action">+</button>
-                            <button type="button" class="action">-</button>
-                        </div>
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addHarvester">+</button>
+                        <button type="button" class="action" id="removeHarvester">-</button>
                     </div>
                 </label>
                 <div class="options">
@@ -201,10 +199,10 @@
                 </label>
                 <div class="options">
                     <button type="submit" class="action">
-                        <img th:src="@{img/tick.png}" alt="tick" />
+                        <img th:src="@{/img/tick.png}" alt="tick" />
                     </button>
                     <button type="reset" class="action">
-                        <img th:src="@{img/x.png}" alt="x" />
+                        <img th:src="@{/img/x.png}" alt="x" />
                     </button>
                 </div>
             </form>

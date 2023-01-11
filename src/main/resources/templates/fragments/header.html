@@ -2,9 +2,9 @@
 <header th:fragment="header-title-user">
   <div class="d-flex align-items-center justify-content-center text-dark text-decoration-none">
     <div sec:authorize="isAuthenticated()" class="perfil">
-      <div href="#" class="dropdown" aria-expanded="false">
+      <div href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
         <div class="d-flex align-self-start text-dark text-decoration-none">
-          <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+          <img id="user" th:src="@{/img/perfil.png}" alt="perfil" />
           <p sec:authentication="name"></p>
         </div>
       </div>
@@ -28,7 +28,7 @@
 <header th:fragment="header-login">
   <div class="d-flex align-items-center justify-content-center text-dark text-decoration-none">
     <h1>GRÜNER HÜGEL</h1>
-    <img id="logo" th:src="@{img/icono.png}" alt="Grüner Hügel Logo" />
+    <img id="logo" th:src="@{/img/icono.png}" alt="Grüner Hügel Logo" />
   </div>
 </header>
 
@@ -36,11 +36,11 @@
 <div th:fragment="profile-dropdown" class="d-flex">
   <div sec:authorize="isAuthenticated()" class="perfil">
     <div href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+      <img id="user" th:src="@{/img/perfil.png}" alt="perfil" />
     </div>
     <ul class="dropdown-menu text-small">
       <li>
-        <img id="user" th:src="@{img/perfil.png}" alt="perfil" />
+        <img id="user" th:src="@{/img/perfil.png}" alt="perfil" />
         <p sec:authentication="name"></p>
       </li>
       <div sec:authorize="hasAuthority('ADMIN')">
