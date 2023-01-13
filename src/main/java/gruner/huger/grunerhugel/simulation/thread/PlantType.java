@@ -1,8 +1,8 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
 public enum PlantType {
-    WHEAT("Trigo"),
-    CORN("Maiz");
+    WHEAT("Wheat"),
+    CORN("Corn");
 
     private String plantType;
 

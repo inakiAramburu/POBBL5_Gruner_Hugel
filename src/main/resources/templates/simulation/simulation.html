@@ -10,7 +10,7 @@
   <nav layout:fragment="nav" id="top-right-nav">
     <div th:replace="~{fragments/header :: profile-dropdown}"></div>
     <div>
-      <button form="${session.formId}" type="submit" class="action">
+      <button form="@{/startSimulation}" type="submit" class="action">
         <img th:src="@{img/play.png}" alt="play" />
       </button>
       <button class="action"><img th:src="@{img/rewind.png}" alt="rewind"></button>

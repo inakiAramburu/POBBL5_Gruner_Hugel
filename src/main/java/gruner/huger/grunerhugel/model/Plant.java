@@ -2,6 +2,8 @@ package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
 
+import gruner.huger.grunerhugel.simulation.thread.PlantType;
+import gruner.huger.grunerhugel.simulation.thread.WheatStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -44,6 +46,14 @@ public class Plant implements Serializable{
       //no need
     }
 
+    public Plant(Land land, OptimalConditions optimalConditions){
+      this.optimalConditions = optimalConditions;
+      this.healthPoint = 100;
+      this.land = land;
+      this.status = WheatStatus.GERMINATION.getStatus();
+      this.name = PlantType.WHEAT.getPlantType();
+    }
+
     public void checkOptimalCondition(Weather weather){
       boolean condition = check(weather);
       if(condition){
@@ -54,9 +64,7 @@ public class Plant implements Serializable{
     }
 
     private boolean check(Weather weather){
-      boolean condition = false;
-      //  check of conditions
-      return condition;
+      return weather.equals(new Weather()); //  most probably false
     }
 
     private void growPlant(){
@@ -64,7 +72,7 @@ public class Plant implements Serializable{
     }
 
     private void loseHealth(){
-      //  no need
+      healthPoint -= 5;
     }
 
     @Override

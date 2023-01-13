@@ -8,5 +8,5 @@ import gruner.huger.grunerhugel.model.User;
 public interface FarmRepository extends CrudRepository<Farm,Integer>{
 
     Farm findByUser(User user);
-    Farm deleteByUser(User user);
+    //Farm deleteByUser(User user);
 }

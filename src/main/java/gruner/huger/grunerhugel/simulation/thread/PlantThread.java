@@ -3,6 +3,7 @@ package gruner.huger.grunerhugel.simulation.thread;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,83 +19,114 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Service;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
+import gruner.huger.grunerhugel.domain.repository.PlantRepository;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
-
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 
 public class PlantThread extends Thread implements PropertyChangeListener {
     static final String PROPERTY_NAME = "PLANT_THREAD";
     Map<Land, List<Plant>> fields;
+    Map<String, Weather> forecast;
     List<Land> lands;
-    private Weather weather;
-    private boolean weatherCheck = false;
+    List<Plant> plants;
+    private boolean check = false;
     private Lock mutex;
-    private Condition check;
+    private Condition checking;
     private PropertyChangeSupport pcs;
-    private OptimalConditionsRepository opCondRepository;
+    private LandRepository lRepository;
+    private PlantRepository pRepository;
+    private OptimalConditionsRepository oRepository;
 
-    public PlantThread(List<Land> lands, OptimalConditionsRepository oRepository) {
+    public PlantThread(LandRepository landRepository, PlantRepository plantRepository,
+            OptimalConditionsRepository opCondRepository, List<Land> lands) {
         this.lands = lands;
+        this.plants = new ArrayList<>();
         this.fields = new HashMap<>();
         this.pcs = new PropertyChangeSupport(this);
         this.mutex = new ReentrantLock();
-        this.check = this.mutex.newCondition();
-        this.opCondRepository = oRepository;
+        this.checking = this.mutex.newCondition();
+        this.lRepository = landRepository;
+        this.pRepository = plantRepository;
+        this.oRepository = opCondRepository;
     }
 
-    public void addNewPlant(Land land, PlantType plantType) { // needs to be done
-        Plant plant = new Plant();
-        Optional<OptimalConditions> op = opCondRepository.findById(plantType.getPlantType());
-        GrunerhugelApplication.logger.log(Level.SEVERE, "Optimal Condition: {0}'", op.toString());
-        if (op.isPresent()) {
-            plant.setOptimalConditions(op.get());
-            List<Plant> temp = fields.get(land);
-            if (temp != null && !temp.isEmpty()) {
-                temp.add(plant);
-                fields.put(land, temp);
-            }
-        }
+    public void addPlant(Land land, PlantType pType) {
+        OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
+        Plant plant = new Plant(land, oConditions);
+        List<Plant> pList = fields.get(land);
+        if(pList == null) pList = new ArrayList<>();
+        pList.add(plant);
+        fields.put(land, pList);
     }
 
     @Override
     public void run() {
         mutex.lock();
         try {
-            weatherCheck = false;
-            while (!Thread.currentThread().interrupted()) {
-                while (!weatherCheck) {
-                    check.await();
-                }
-                if (weatherCheck) {
-                    lands.forEach(l -> fields.get(l).forEach(f -> f.checkOptimalCondition(weather)));
-                    weatherCheck = false;
+            check = false;
+            while (!Thread.interrupted()) {
+                awaitCheck();
+                if (check) {
+                    updatePlants();
+                    check = false;
                 }
             }
-        } catch (InterruptedException e) {
-            GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-            Thread.currentThread().interrupt();
         } finally {
             mutex.unlock();
         }
     }
 
+    private void updatePlants() {
+        updateLands();
+        // take plants from each land
+        // plant has function to check conditions (Weather)
+        lands.forEach(land -> fields.get(land)
+                .forEach(plant -> plant.checkOptimalCondition(forecast.get(land.getTown().getName()))));
+        // update to database
+        lands.forEach(land -> fields.get(land).forEach(plant -> pRepository.save(plant)));
+    }
+
+    private void updateLands() {
+        lands = (List<Land>) lRepository.findByFarm(SimulationProcesses.farm);
+    }
+
+    private void awaitCheck() {
+        while (!check) {
+            try {
+                checking.await();
+            } catch (InterruptedException e) {
+                GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
-        if (WeatherThread.PROPERTY_NAME.equals(arg0.getPropertyName())) {
-            weatherCheck = (boolean) arg0.getOldValue();
-            if (weatherCheck) {
-                weather = (Weather) arg0.getNewValue();
+        String property = arg0.getPropertyName();
+        switch (property) {
+            case WeatherThread.WEATHER_CHECK:
                 mutex.lock();
-                try{
-                    check.signal();
-                    GrunerhugelApplication.logger.info("plant signal");
-                }finally{
+                try {
+                    check = true;
+                    if (check) {
+                        forecast = (Map<String, Weather>) arg0.getNewValue(); // can't delete sonarlint warning
+                        checking.signal();
+                        GrunerhugelApplication.logger.info("plant signal");
+                    }
+                } finally {
                     mutex.unlock();
                 }
-            }
+                break;
+            case TimeThread.TIME_PAUSE:
+                //updateland
+                break;
+            default:
         }
     }
 

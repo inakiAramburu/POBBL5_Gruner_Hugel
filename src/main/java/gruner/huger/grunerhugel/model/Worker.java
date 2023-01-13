@@ -30,6 +30,8 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
     @JoinColumn(name = "FK_FarmId")
     private Farm farm;
 
+    boolean pagado;
+
     public Worker() {
         // no need
     }

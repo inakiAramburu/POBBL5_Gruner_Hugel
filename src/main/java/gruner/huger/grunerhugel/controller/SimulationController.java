@@ -1,5 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@ import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
+import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
@@ -43,6 +46,7 @@ import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Worker;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -80,6 +84,8 @@ public class SimulationController {
     private SimulationRepository simulationRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WeatherRepository weatherRepository;
 
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
@@ -143,6 +149,9 @@ public class SimulationController {
         model.addAttribute("newFarmPlow", new FarmPlow());
         model.addAttribute("newFarmSeeder", new FarmSeeder());
 
+        SimulationProcesses sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, workerRepository, farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository, landRepository, townRepository);
+        sim.initialize(0, simulation.getStartDate(), simulation.getEndDate(), (List<Land>) landRepository.findAll());
+        sim.start();
         return "simulation/simulation";
     }
 
@@ -206,6 +215,7 @@ public class SimulationController {
             for (Integer i = 0; i < farm.getNumWorkers(); i++) {
                 Worker worker = new Worker();
                 worker.setFarm(farm);
+                worker.setPagado(false);
                 workerRepository.save(worker);
             }
 
@@ -242,21 +252,25 @@ public class SimulationController {
         Simulation simulation = simulationRepository.findByFarm(farm);
 
         // Delete data
-        farmTractorRepository.findByFarm(farm).forEach((FarmTractor) -> {
-            farmTractorRepository.delete(FarmTractor);
+        farmTractorRepository.findByFarm(farm).forEach(farmtractor -> {
+            farmTractorRepository.delete(farmtractor);
         });
-        farmHarvesterRepository.findByFarm(farm).forEach((FarmHarvester) -> {
-            farmHarvesterRepository.delete(FarmHarvester);
+        farmHarvesterRepository.findByFarm(farm).forEach(farmharvester -> {
+            farmHarvesterRepository.delete(farmharvester);
         });
-        farmPlowRepository.findByFarm(farm).forEach((FarmPlow) -> {
-            farmPlowRepository.delete(FarmPlow);
+        farmPlowRepository.findByFarm(farm).forEach(farmplow -> {
+            farmPlowRepository.delete(farmplow);
         });
-        farmSeederRepository.findByFarm(farm).forEach((FarmSeeder) -> {
-            farmSeederRepository.delete(FarmSeeder);
+        farmSeederRepository.findByFarm(farm).forEach(farmseeder -> {
+            farmSeederRepository.delete(farmseeder);
         });
 
-        workerRepository.findByFarm(farm).forEach((Worker) -> {
-            workerRepository.delete(Worker);
+        workerRepository.findByFarm(farm).forEach(worker -> {
+            workerRepository.delete(worker);
+        });
+
+        landRepository.findByFarm(farm).forEach(land -> {
+            landRepository.delete(land);
         });
 
         simulationRepository.delete(simulation);
@@ -284,6 +298,12 @@ public class SimulationController {
 
         // Edit data
 
+        return "simulation/simulation";
+    }
+
+    @PostMapping(value = "/startSimulation")
+    public String startSimulation(){
+        // sim.start();
         return "simulation/simulation";
     }
 }
