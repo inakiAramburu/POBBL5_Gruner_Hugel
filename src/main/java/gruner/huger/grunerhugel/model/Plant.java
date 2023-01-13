@@ -49,9 +49,7 @@ public class Plant implements Serializable {
   }
 
   private boolean check(Weather weather) {
-    boolean condition = false;
-    // check of conditions
-    return condition;
+    return weather.equals(new Weather());
   }
 
   private void growPlant() {

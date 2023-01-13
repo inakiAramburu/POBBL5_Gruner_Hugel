@@ -1,7 +1,5 @@
 package gruner.huger.grunerhugel.model;
 
-// import java.util.concurrent.BlockingQueue;
-
 import java.io.Serializable;
 
 import jakarta.persistence.Column;
@@ -15,7 +13,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "worker")
-public class Worker implements Serializable, Runnable { // extends Thread //most probably
+public class Worker implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,10 +47,5 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
     @Override
     public String toString() {
         return "Worker [id=" + id + ", farm=" + farm + "]";
-    }
-
-    @Override
-    public void run() {
-
     }
 }

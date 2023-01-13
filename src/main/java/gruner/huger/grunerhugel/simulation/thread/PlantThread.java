@@ -30,9 +30,9 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     Map<Land, List<Plant>> fields;
     List<Land> lands;
     private Weather weather;
-    private boolean weatherCheck = false;
+    private boolean check = false;
     private Lock mutex;
-    private Condition check;
+    private Condition checking;
     private PropertyChangeSupport pcs;
     private OptimalConditionsRepository opCondRepository;
 
@@ -41,7 +41,7 @@ public class PlantThread extends Thread implements PropertyChangeListener {
         this.fields = new HashMap<>();
         this.pcs = new PropertyChangeSupport(this);
         this.mutex = new ReentrantLock();
-        this.check = this.mutex.newCondition();
+        this.checking = this.mutex.newCondition();
         this.opCondRepository = oRepository;
     }
 
@@ -63,33 +63,39 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     public void run() {
         mutex.lock();
         try {
-            weatherCheck = false;
-            while (!Thread.currentThread().interrupted()) {
-                while (!weatherCheck) {
-                    check.await();
-                }
-                if (weatherCheck) {
+            check = false;
+            while (!Thread.interrupted()) {
+                awaitCheck();
+                if (check) {
                     lands.forEach(l -> fields.get(l).forEach(f -> f.checkOptimalCondition(weather)));
-                    weatherCheck = false;
+                    check = false;
                 }
             }
-        } catch (InterruptedException e) {
-            GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-            Thread.currentThread().interrupt();
         } finally {
             mutex.unlock();
+        }
+    }
+
+    private void awaitCheck() {
+        while (!check) {
+            try {
+                checking.await();
+            } catch (InterruptedException e) {
+                GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
+                Thread.currentThread().interrupt();
+            }
         }
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
         if (WeatherThread.PROPERTY_NAME.equals(arg0.getPropertyName())) {
-            weatherCheck = (boolean) arg0.getOldValue();
-            if (weatherCheck) {
+            check = true;
+            if (check) {
                 weather = (Weather) arg0.getNewValue();
                 mutex.lock();
                 try{
-                    check.signal();
+                    checking.signal();
                     GrunerhugelApplication.logger.info("plant signal");
                 }finally{
                     mutex.unlock();
