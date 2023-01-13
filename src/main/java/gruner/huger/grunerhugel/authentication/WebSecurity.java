@@ -10,11 +10,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import gruner.huger.grunerhugel.config.URI;
+
 @Configuration
 @EnableWebSecurity
 public class WebSecurity {
-
-    String loginPath = "/login";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler,
@@ -22,14 +22,16 @@ public class WebSecurity {
 
         http.authorizeHttpRequests()
                 .requestMatchers("/css/*", "/img/*", "/js/*").permitAll()
-                .requestMatchers("/create", loginPath, "/accessDenied", "/error").permitAll()
+                .requestMatchers("/create", URI.LOGIN.getPath(), "/accessDenied", "/error").permitAll()
                 .requestMatchers("/investor").hasAnyAuthority("INVESTOR", "ADMIN")
                 .requestMatchers("/main", "/simulation").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
-        http.formLogin().loginPage(loginPath).successHandler(succesHandler).failureUrl("/login-error").permitAll()
-                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login")
+        http.formLogin().loginPage(URI.LOGIN.getPath()).successHandler(succesHandler).failureUrl("/login-error")
+                .permitAll()
+                .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+                .logoutSuccessUrl(URI.LOGIN.getPath())
                 .deleteCookies("remember-me").permitAll()
                 .and().rememberMe();
 

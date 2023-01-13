@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
@@ -156,12 +157,12 @@ public class SimulationController {
             @ModelAttribute("farmPlow") FarmPlow farmPlow, @ModelAttribute("farmSeeder") FarmSeeder farmSeeder,
             Model model) {
 
-        String path = "redirect:/simulation";
+        String path = "redirect:" + URI.HOME_USER_FARM;
 
         // Check if start date is before end date
         if (!simulation.getStartDate().before(simulation.getEndDate())) {
             model.addAttribute("error", "Start date must be before end date");
-            path = "redirect:/main";
+            path = "redirect:" + URI.HOME_USER_NO_FARM;
         } else {
             // Save farm (One to One : User)
             User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
@@ -239,20 +240,20 @@ public class SimulationController {
 
         // Delete data
         farmTractorRepository.findByFarm(farm)
-                .forEach((farmTractor) -> farmTractorRepository.delete(farmTractor));
+                .forEach(farmTractor -> farmTractorRepository.delete(farmTractor));
         farmHarvesterRepository.findByFarm(farm)
-                .forEach((farmHarvester) -> farmHarvesterRepository.delete(farmHarvester));
+                .forEach(farmHarvester -> farmHarvesterRepository.delete(farmHarvester));
         farmPlowRepository.findByFarm(farm)
-                .forEach((farmPlow) -> farmPlowRepository.delete(farmPlow));
+                .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
         farmSeederRepository.findByFarm(farm)
-                .forEach((farmSeeder) -> farmSeederRepository.delete(farmSeeder));
+                .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
         workerRepository.findByFarm(farm)
-                .forEach((worker) -> workerRepository.delete(worker));
+                .forEach(worker -> workerRepository.delete(worker));
 
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
 
-        return "redirect:/main";
+        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
     }
 
     @PostMapping(value = "/updateSimulation")
