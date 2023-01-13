@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 
+import gruner.huger.grunerhugel.GrunerhugelApplication;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,7 +22,7 @@ public class MyAccessDeniedHandler implements AccessDeniedHandler {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
         if (auth != null) {
-            System.out.println("User '" + auth.getName()
+            GrunerhugelApplication.logger.info("User '" + auth.getName()
                     + "' attempted to access the protected URL: "
                     + request.getRequestURI());
         }
