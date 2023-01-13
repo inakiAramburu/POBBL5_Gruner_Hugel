@@ -13,14 +13,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "farm")
-@Getter
-@Setter
-public class Farm implements Serializable{
+public class Farm implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,12 +48,92 @@ public class Farm implements Serializable{
     private List<FarmPlow> plows;
 
     public Farm() {
-        //no need
+        // no need
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getNumWorkers() {
+        return numWorkers;
+    }
+
+    public void setNumWorkers(int numWorkers) {
+        this.numWorkers = numWorkers;
+    }
+
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+    public double getFuel() {
+        return fuel;
+    }
+
+    public void setFuel(double fuel) {
+        this.fuel = fuel;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public List<Land> getLands() {
+        return lands;
+    }
+
+    public void setLands(List<Land> lands) {
+        this.lands = lands;
+    }
+
+    public List<FarmTractor> getTractors() {
+        return tractors;
+    }
+
+    public void setTractors(List<FarmTractor> tractors) {
+        this.tractors = tractors;
+    }
+
+    public List<FarmSeeder> getSeeders() {
+        return seeders;
+    }
+
+    public void setSeeders(List<FarmSeeder> seeders) {
+        this.seeders = seeders;
+    }
+
+    public List<FarmHarvester> getHarvesters() {
+        return harvesters;
+    }
+
+    public void setHarvesters(List<FarmHarvester> harvesters) {
+        this.harvesters = harvesters;
+    }
+
+    public List<FarmPlow> getPlows() {
+        return plows;
+    }
+
+    public void setPlows(List<FarmPlow> plows) {
+        this.plows = plows;
     }
 
     @Override
     public String toString() {
         return "Farm [id=" + id + ", money=" + money + ", user=" + user + "]";
     }
-    
+
 }

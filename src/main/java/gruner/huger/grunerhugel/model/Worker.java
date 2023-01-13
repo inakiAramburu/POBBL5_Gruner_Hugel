@@ -12,13 +12,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "worker")
-@Getter
-@Setter
 public class Worker implements Serializable, Runnable { // extends Thread //most probably
 
     @Id
@@ -34,6 +30,22 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
         // no need
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
     @Override
     public String toString() {
         return "Worker [id=" + id + ", farm=" + farm + "]";
@@ -41,7 +53,6 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
 
     @Override
     public void run() {
-        
 
     }
 }

@@ -12,64 +12,107 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "plant")
-@Getter
-@Setter
-public class Plant implements Serializable{
-    
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    @Column(name = "name")
-    String name;
-    @Column(name = "status")
-    String status;
-    @Column(name = "health_point")
-    int healthPoint;
+public class Plant implements Serializable {
 
-    @OneToOne()
-    @JoinColumn(name = "FK_type")
-    private OptimalConditions optimalConditions;
+  @Id
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  int id;
+  @Column(name = "name")
+  String name;
+  @Column(name = "status")
+  String status;
+  @Column(name = "health_point")
+  int healthPoint;
 
-    @ManyToOne
-    @JoinColumn(name = "FK_land")
-    private Land land;
+  @OneToOne()
+  @JoinColumn(name = "FK_type")
+  private OptimalConditions optimalConditions;
 
-    public Plant() {
-      //no need
+  @ManyToOne
+  @JoinColumn(name = "FK_land")
+  private Land land;
+
+  public Plant() {
+    // no need
+  }
+
+  public void checkOptimalCondition(Weather weather) {
+    boolean condition = check(weather);
+    if (condition) {
+      growPlant();
+    } else {
+      loseHealth();
     }
+  }
 
-    public void checkOptimalCondition(Weather weather){
-      boolean condition = check(weather);
-      if(condition){
-        growPlant();
-      } else {
-        loseHealth();
-      }
-    }
+  private boolean check(Weather weather) {
+    boolean condition = false;
+    // check of conditions
+    return condition;
+  }
 
-    private boolean check(Weather weather){
-      boolean condition = false;
-      //  check of conditions
-      return condition;
-    }
+  private void growPlant() {
+    // no need
+  }
 
-    private void growPlant(){
-      //  no need
-    }
+  private void loseHealth() {
+    // no need
+  }
 
-    private void loseHealth(){
-      //  no need
-    }
+  public int getId() {
+    return id;
+  }
 
-    @Override
-    public String toString() {
-        return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
-                + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
-    }
+  public void setId(int id) {
+    this.id = id;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
+  }
+
+  public int getHealthPoint() {
+    return healthPoint;
+  }
+
+  public void setHealthPoint(int healthPoint) {
+    this.healthPoint = healthPoint;
+  }
+
+  public OptimalConditions getOptimalConditions() {
+    return optimalConditions;
+  }
+
+  public void setOptimalConditions(OptimalConditions optimalConditions) {
+    this.optimalConditions = optimalConditions;
+  }
+
+  public Land getLand() {
+    return land;
+  }
+
+  public void setLand(Land land) {
+    this.land = land;
+  }
+
+  @Override
+  public String toString() {
+    return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
+        + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
+  }
 }

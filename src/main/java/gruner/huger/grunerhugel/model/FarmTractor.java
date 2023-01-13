@@ -11,15 +11,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
-
 @Entity
 @Table(name = "farm_tractor")
-@Getter
-@Setter
-public class FarmTractor implements Serializable{
+public class FarmTractor implements Serializable {
 
     @EmbeddedId
     private FarmTractorId id;
@@ -38,7 +32,7 @@ public class FarmTractor implements Serializable{
     int quantity;
 
     public FarmTractor() {
-        //no need
+        // no need
     }
 
     public FarmTractor(Farm farm, Tractor tractor, int quantity) {
@@ -48,9 +42,41 @@ public class FarmTractor implements Serializable{
         this.id = new FarmTractorId(farm.getId(), tractor.getTractorName());
     }
 
+    public FarmTractorId getId() {
+        return id;
+    }
+
+    public void setId(FarmTractorId id) {
+        this.id = id;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
+    public Tractor getTractor() {
+        return tractor;
+    }
+
+    public void setTractor(Tractor tractor) {
+        this.tractor = tractor;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     @Override
     public String toString() {
         return "FarmTractor [farm=" + farm + ", tractor=" + tractor + ", quantity=" + quantity + "]";
     }
-    
+
 }

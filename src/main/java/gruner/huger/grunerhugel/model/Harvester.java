@@ -9,14 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "harvester")
-@Getter
-@Setter
-public class Harvester implements Serializable{
+public class Harvester implements Serializable {
 
     @Id
     @Column(name = "harvesterName")
@@ -36,13 +31,75 @@ public class Harvester implements Serializable{
 
     @OneToMany(mappedBy = "harvester")
     private List<FarmHarvester> farms;
-    
+
     public Harvester() {
-        //no need
+        // no need
     }
 
+    public String getHarvesterName() {
+        return harvesterName;
+    }
 
-    
+    public void setHarvesterName(String harvesterName) {
+        this.harvesterName = harvesterName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(int maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public int getFuelCapacity() {
+        return fuelCapacity;
+    }
+
+    public void setFuelCapacity(int fuelCapacity) {
+        this.fuelCapacity = fuelCapacity;
+    }
+
+    public int getCultivationCapacity() {
+        return cultivationCapacity;
+    }
+
+    public void setCultivationCapacity(int cultivationCapacity) {
+        this.cultivationCapacity = cultivationCapacity;
+    }
+
+    public List<FarmHarvester> getFarms() {
+        return farms;
+    }
+
+    public void setFarms(List<FarmHarvester> farms) {
+        this.farms = farms;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -57,8 +114,6 @@ public class Harvester implements Serializable{
         result = prime * result + ((farms == null) ? 0 : farms.hashCode());
         return result;
     }
-
-
 
     @Override
     public boolean equals(Object obj) {
@@ -93,8 +148,6 @@ public class Harvester implements Serializable{
             return false;
         return true;
     }
-
-
 
     @Override
     public String toString() {

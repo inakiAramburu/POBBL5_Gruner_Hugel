@@ -7,14 +7,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "fuel")
-@Getter
-@Setter
-public class Fuel implements Serializable{
+public class Fuel implements Serializable {
 
     @Id
     @Column(name = "year")
@@ -28,7 +24,39 @@ public class Fuel implements Serializable{
     private String currency;
 
     public Fuel() {
-        //no need
+        // no need
+    }
+
+    public Year getYear() {
+        return year;
+    }
+
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    public int getPeriodWeek() {
+        return periodWeek;
+    }
+
+    public void setPeriodWeek(int periodWeek) {
+        this.periodWeek = periodWeek;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     @Override
@@ -70,5 +98,4 @@ public class Fuel implements Serializable{
         return true;
     }
 
-    
 }

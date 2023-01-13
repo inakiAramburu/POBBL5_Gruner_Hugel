@@ -12,13 +12,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "simulation")
-@Getter
-@Setter
 public class Simulation implements Serializable {
 
     @Id
@@ -37,6 +32,38 @@ public class Simulation implements Serializable {
 
     public Simulation() {
         // no need
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
     }
 
     @Override
