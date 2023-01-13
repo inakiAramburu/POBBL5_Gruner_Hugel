@@ -174,28 +174,24 @@ public class SimulationController {
             simulationRepository.save(simulation);
 
             // Save tools (Many to Many: Tool + Farm + Quantity)
-            System.out.println("Farm Tractor num:" + farmTractor.getQuantity());
             if (farmTractor.getQuantity() != 0) {
                 tractor = tractorRepository.findByName(tractor.getTractorName());
                 farmTractor = new FarmTractor(farm, tractor, farmTractor.getQuantity());
                 farmTractorRepository.save(farmTractor);
             }
 
-            System.out.println("Farm Harvester num:" + farmHarvester.getQuantity());
             if (farmHarvester.getQuantity() != 0) {
                 harvester = harvesterRespository.findByName(harvester.getHarvesterName());
                 farmHarvester = new FarmHarvester(farm, harvester, farmHarvester.getQuantity());
                 farmHarvesterRepository.save(farmHarvester);
             }
 
-            System.out.println("Farm Plow num:" + farmPlow.getQuantity());
             if (farmPlow.getQuantity() != 0) {
                 plow = plowRepository.findByName(plow.getPlowName());
                 farmPlow = new FarmPlow(farm, plow, farmPlow.getQuantity());
                 farmPlowRepository.save(farmPlow);
             }
 
-            System.out.println("Farm Seeder num:" + farmSeeder.getQuantity());
             if (farmSeeder.getQuantity() != 0) {
                 seeder = seederRepository.findByName(seeder.getSeederName());
                 farmSeeder = new FarmSeeder(farm, seeder, farmSeeder.getQuantity());
@@ -242,22 +238,16 @@ public class SimulationController {
         Simulation simulation = simulationRepository.findByFarm(farm);
 
         // Delete data
-        farmTractorRepository.findByFarm(farm).forEach((FarmTractor) -> {
-            farmTractorRepository.delete(FarmTractor);
-        });
-        farmHarvesterRepository.findByFarm(farm).forEach((FarmHarvester) -> {
-            farmHarvesterRepository.delete(FarmHarvester);
-        });
-        farmPlowRepository.findByFarm(farm).forEach((FarmPlow) -> {
-            farmPlowRepository.delete(FarmPlow);
-        });
-        farmSeederRepository.findByFarm(farm).forEach((FarmSeeder) -> {
-            farmSeederRepository.delete(FarmSeeder);
-        });
-
-        workerRepository.findByFarm(farm).forEach((Worker) -> {
-            workerRepository.delete(Worker);
-        });
+        farmTractorRepository.findByFarm(farm)
+                .forEach((farmTractor) -> farmTractorRepository.delete(farmTractor));
+        farmHarvesterRepository.findByFarm(farm)
+                .forEach((farmHarvester) -> farmHarvesterRepository.delete(farmHarvester));
+        farmPlowRepository.findByFarm(farm)
+                .forEach((farmPlow) -> farmPlowRepository.delete(farmPlow));
+        farmSeederRepository.findByFarm(farm)
+                .forEach((farmSeeder) -> farmSeederRepository.delete(farmSeeder));
+        workerRepository.findByFarm(farm)
+                .forEach((worker) -> workerRepository.delete(worker));
 
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
