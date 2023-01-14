@@ -9,6 +9,7 @@
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
+	<packaging>war</packaging>
 	<groupId>gruner.huger</groupId>
 	<artifactId>grunerhugel</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
