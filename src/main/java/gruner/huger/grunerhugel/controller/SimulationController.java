@@ -149,7 +149,8 @@ public class SimulationController {
         model.addAttribute("newFarmPlow", new FarmPlow());
         model.addAttribute("newFarmSeeder", new FarmSeeder());
 
-        SimulationProcesses sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, workerRepository, farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository, landRepository, townRepository);
+        SimulationProcesses sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, workerRepository, landRepository, townRepository);
+        sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository);
         sim.initialize(0, simulation.getStartDate(), simulation.getEndDate(), (List<Land>) landRepository.findAll());
         sim.start();
         return "simulation/simulation";

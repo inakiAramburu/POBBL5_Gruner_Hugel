@@ -72,7 +72,7 @@ public class Plant implements Serializable{
     }
 
     private void loseHealth(){
-      healthPoint -= 5;
+      healthPoint -= 20;
     }
 
     @Override

@@ -10,6 +10,6 @@ import gruner.huger.grunerhugel.model.Weather;
 
 public interface WeatherRepository extends JpaRepository<Weather, String> {
 
-    @Query(value = "SELECT * FROM weather", nativeQuery = true)
+    @Query(value = "SELECT * FROM weather WHERE village = ?1 AND dateTime = ?2", nativeQuery = true)
     Weather findByVillageAndWeather(@Param("village") String village, @Param("dateTime") Date dateTime);
 }

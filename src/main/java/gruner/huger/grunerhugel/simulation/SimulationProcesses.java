@@ -6,7 +6,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -52,46 +51,49 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
     WeatherThread wThread;
     PlantThread pThread;
     TimeThread tThread;
-    // private Date actualDate;
     Land land;
-    // BlockingQueue<String> queue;
     private Lock mutex;
-    private Condition await;
+    private Condition cond;
 
     PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public SimulationProcesses(Farm farm, WeatherRepository weatherRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository,
-            WorkerRepository workerRepository, FarmHarvesterRepository fHarvRepository,
-            FarmPlowRepository fPlowRepository, FarmSeederRepository fSeedRepository,
-            FarmTractorRepository fTractRepository, LandRepository landRepository, TownRepository townRepository) {
+            WorkerRepository workerRepository, LandRepository landRepository, TownRepository townRepository) {
         SimulationProcesses.farm = farm;
         this.wRepository = weatherRepository;
         this.oRepository = opCondRepository;
         this.pRepository = plantRepository;
-        SimulationProcesses.fHarvRepository = fHarvRepository;
-        this.fPlowRepository = fPlowRepository;
-        this.fSeedRepository = fSeedRepository;
-        this.fTractRepository = fTractRepository;
+        this.wkRepository = workerRepository;
         this.lRepository = landRepository;
         this.tRepository = townRepository;
     }
 
-    public void initialize(int initialBalance, Date startDate, Date endDate, List<Land> lands) {
+    public void constructVehicleRepositories(FarmHarvesterRepository fHarvRepository,
+            FarmPlowRepository fPlowRepository,
+            FarmSeederRepository fSeedRepository, FarmTractorRepository fTractRepository) {
+        SimulationProcesses.fHarvRepository = fHarvRepository;
+        this.fPlowRepository = fPlowRepository;
+        this.fSeedRepository = fSeedRepository;
+        this.fTractRepository = fTractRepository;
+    }
 
+    public void initialize(int initialBalance, Date startDate, Date endDate, List<Land> lands) {
         // -------------
         this.tThread = new TimeThread(startDate, endDate);
         this.balance = new Balance(initialBalance); // queue
         this.wThread = new WeatherThread(wRepository, startDate, lands);
         this.pThread = new PlantThread(lRepository, pRepository, oRepository, lands);
-        // this.actualDate = new Date(finalDate.getTime() - startDate.getTime());
-        // this.land = lands;
         this.tThread.addPropertyChangeListener(this);
+        this.tThread.addPropertyChangeListener(wThread);
+        this.tThread.addPropertyChangeListener(pThread);
         this.addPropertyChangeListener(wThread);
+
+        this.tThread.setCondition(cond);
         // --------------
         this.terminate = false;
         this.mutex = new ReentrantLock();
-        this.await = mutex.newCondition();
+        this.cond = mutex.newCondition();
     }
 
     private void startThreads() {
@@ -117,11 +119,14 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
         // code here
         while (!Thread.interrupted() && !terminate) {
             // no need
+            mutex.lock();
             try {
-                await.await();
+                cond.await();
             } catch (InterruptedException e) {
                 GrunerhugelApplication.logger.warning("SimulationProcesses Interrupted!");
                 this.interrupt();
+            } finally{
+                mutex.unlock();
             }
         }
         joinThreads(); // in a while or in a listening
@@ -155,10 +160,10 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
         String property = arg0.getPropertyName();
         switch (property) {
             case TimeThread.TIME_PAUSE:
-                this.pcs.firePropertyChange(TimeThread.TIME_PAUSE, null, arg0.getNewValue());
-                CountDownLatch cLatch = (CountDownLatch) arg0.getNewValue();
+                this.pcs.firePropertyChange(TimeThread.TIME_PAUSE, null, null);
                 try {
-                    cLatch.await();
+                    GrunerhugelApplication.logger.info("Latch SimulationProcesses");
+                    TimeThread.cDownLatch.await();
                 } catch (InterruptedException e) {
                     GrunerhugelApplication.logger.warning("CountDown Interrupted!");
                     this.interrupt();
@@ -166,13 +171,10 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
                 break;
             // case TimeThread.TIME_RESUME:
             // break;
-            case TimeThread.HOUR_PASS:
-                this.pcs.firePropertyChange(DATA_UPDATE, null, arg0.getNewValue());
-                break;
             case TimeThread.TERMINATE:
                 terminate = true;
                 this.pcs.firePropertyChange(TimeThread.TERMINATE, null, null);
-                await.signal();
+                cond.signal();
                 break;
             default:
         }

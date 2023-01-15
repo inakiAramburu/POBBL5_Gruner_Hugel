@@ -4,6 +4,8 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.locks.Condition;
+import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 
@@ -18,12 +20,13 @@ public class TimeThread extends Thread {
     // private final int SECONDS_PER_MINUTE = 60;
     // private final int MINUTES_PER_HOUR = 60;
     // private final int HOURS_PER_DAY = 24;
-    private static CountDownLatch cLatch;
+    public static CountDownLatch cDownLatch;
     private static PropertyChangeSupport pcs;
     private int accelerator = 1;
     private static boolean pause = false;
-    private Date actualDate;
+    private static Date actualDate;
     private Date endDate;
+    private Condition cond;
 
     public TimeThread(Date startDate, Date endDate){
         //  no need
@@ -32,20 +35,28 @@ public class TimeThread extends Thread {
         this.endDate = endDate;
     }
 
+    public void setCondition(Condition condition){
+        this.cond = condition;
+    }
+
     @Override
     public void run() {
+        GrunerhugelApplication.logger.log(Level.INFO, "TimeThread Id: {0}",this.getId());
         try {
             while(!Thread.interrupted()){
                 while(!pause && checkDate()){    //  checkDate here or in simulation (can be notified to listeners)
-                    Thread.sleep(HOUR_DURATION);
+                    Thread.sleep(HOUR_DURATION / accelerator);
                     updateActualDate();
-                    notifyListeners(HOUR_PASS, actualDate);
+                    WeatherThread.callSignal();
+                    // notifyListeners(HOUR_PASS, actualDate);
+                    GrunerhugelApplication.logger.info("HOUR_PASS");
                 }
                 if(!pause){
-                    pcs.firePropertyChange(TERMINATE, null, null);
-                        //intrupt(?)
+                    GrunerhugelApplication.logger.info("TERMINATE");
+                    notifyListeners(TERMINATE, null);
                 } else {
-                    cLatch.await();
+                    GrunerhugelApplication.logger.info("PAUSE");
+                    cDownLatch.await();
                 }
             }
         } catch (InterruptedException e) {
@@ -67,13 +78,13 @@ public class TimeThread extends Thread {
     }
 
     public static void pause(){
-        cLatch = new CountDownLatch(1);
+        cDownLatch = new CountDownLatch(1);
         pause = true;
-        notifyListeners(TIME_PAUSE, cLatch);
+        notifyListeners(TIME_PAUSE, null);
     }
 
     public static void play(){
-        cLatch.countDown();
+        cDownLatch.countDown();
         pause = false;
         notifyListeners(TIME_RESUME, null);
     }
@@ -98,7 +109,7 @@ public class TimeThread extends Thread {
         return accelerator;
     }
 
-    public Date getActualDate(){
+    public static Date getActualDate(){
         return actualDate;
     }
 }

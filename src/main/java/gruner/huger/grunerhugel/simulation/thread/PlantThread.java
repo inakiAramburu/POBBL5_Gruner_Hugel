@@ -7,16 +7,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
@@ -32,11 +26,10 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     static final String PROPERTY_NAME = "PLANT_THREAD";
     Map<Land, List<Plant>> fields;
     Map<String, Weather> forecast;
-    List<Land> lands;
-    List<Plant> plants;
-    private boolean check = false;
-    private Lock mutex;
-    private Condition checking;
+    private List<Land> lands;
+    private static boolean check = false;
+    private static Lock mutex;
+    private static Condition checking;
     private PropertyChangeSupport pcs;
     private LandRepository lRepository;
     private PlantRepository pRepository;
@@ -45,33 +38,39 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     public PlantThread(LandRepository landRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository, List<Land> lands) {
         this.lands = lands;
-        this.plants = new ArrayList<>();
         this.fields = new HashMap<>();
         this.pcs = new PropertyChangeSupport(this);
-        this.mutex = new ReentrantLock();
-        this.checking = this.mutex.newCondition();
+        mutex = new ReentrantLock();
+        checking = mutex.newCondition();
         this.lRepository = landRepository;
         this.pRepository = plantRepository;
         this.oRepository = opCondRepository;
+        updateMap();
     }
 
-    public void addPlant(Land land, PlantType pType) {
-        OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
-        Plant plant = new Plant(land, oConditions);
-        List<Plant> pList = fields.get(land);
-        if(pList == null) pList = new ArrayList<>();
-        pList.add(plant);
-        fields.put(land, pList);
+    // public void addPlant(Land land, PlantType pType) {
+    // OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
+    // Plant plant = new Plant(land, oConditions);
+    // pRepository.save(plant);
+    // }
+
+    private void updateMap() {
+        updateLands();
+        for (Land land : lands) {
+            List<Plant> plants = pRepository.findByLand(land);
+            fields.put(land, plants);
+        }
     }
 
     @Override
     public void run() {
+        GrunerhugelApplication.logger.log(Level.INFO, "PlantThread Id: {0}", this.getId());
         mutex.lock();
         try {
-            check = false;
             while (!Thread.interrupted()) {
                 awaitCheck();
                 if (check) {
+                    GrunerhugelApplication.logger.info("UPDATE PLANTS");
                     updatePlants();
                     check = false;
                 }
@@ -82,11 +81,22 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     }
 
     private void updatePlants() {
-        updateLands();
+        // updateLands();
         // take plants from each land
         // plant has function to check conditions (Weather)
-        lands.forEach(land -> fields.get(land)
-                .forEach(plant -> plant.checkOptimalCondition(forecast.get(land.getTown().getName()))));
+        forecast = WeatherThread.getForecast();
+        // lands.forEach(land -> fields.get(land)
+        // .forEach(plant ->
+        // plant.checkOptimalCondition(forecast.get(land.getTown().getName()))));
+        for (Land land : lands) {
+            GrunerhugelApplication.logger.info("lands");
+            List<Plant> plants = fields.get(land);
+            if (plants != null)
+                for (Plant plant : plants) {
+                    GrunerhugelApplication.logger.info("plants");
+                    plant.checkOptimalCondition(forecast.get(land.getTown().getName()));
+                }
+        }
         // update to database
         lands.forEach(land -> fields.get(land).forEach(plant -> pRepository.save(plant)));
     }
@@ -101,30 +111,27 @@ public class PlantThread extends Thread implements PropertyChangeListener {
                 checking.await();
             } catch (InterruptedException e) {
                 GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-                Thread.currentThread().interrupt();
+                this.interrupt();
             }
         }
     }
 
+    @SuppressWarnings(value = "unchecked")
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
         String property = arg0.getPropertyName();
         switch (property) {
-            case WeatherThread.WEATHER_CHECK:
-                mutex.lock();
-                try {
-                    check = true;
-                    if (check) {
-                        forecast = (Map<String, Weather>) arg0.getNewValue(); // can't delete sonarlint warning
-                        checking.signal();
-                        GrunerhugelApplication.logger.info("plant signal");
-                    }
-                } finally {
-                    mutex.unlock();
-                }
+            case TimeThread.TIME_RESUME:
                 break;
             case TimeThread.TIME_PAUSE:
-                //updateland
+                this.pcs.firePropertyChange(TimeThread.TIME_PAUSE, null, arg0.getNewValue());
+                try {
+                    GrunerhugelApplication.logger.info("Latch PlantThread");
+                    TimeThread.cDownLatch.await();
+                } catch (InterruptedException e) {
+                    GrunerhugelApplication.logger.warning("CountDown Interrupted!");
+                    this.interrupt();
+                }
                 break;
             default:
         }
@@ -136,5 +143,15 @@ public class PlantThread extends Thread implements PropertyChangeListener {
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.removePropertyChangeListener(listener);
+    }
+
+    public static void callSignal() {
+        mutex.lock();
+        try {
+            check = true;
+            checking.signal();
+        } finally {
+            mutex.unlock();
+        }
     }
 }
