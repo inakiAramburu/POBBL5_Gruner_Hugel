@@ -48,7 +48,7 @@ jobs:
         run: ssh-keyscan -p ${{ secrets.SSH_PORT}} -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
-        run: rsync -avzn -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/zellwk.com/
+        run: rsync -avz -n -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/zellwk.com/
 
       - name: Restart Node Server
         uses: appleboy/ssh-action@master
