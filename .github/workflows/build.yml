@@ -44,7 +44,7 @@ jobs:
           key: ${{ secrets.OMG_SECRET }}
           known_hosts: unnecessary
 
-    - name: Adding Known Hosts
+      - name: Adding Known Hosts
         run: ssh-keyscan -p ${{ secrets.SSH_PORT}} -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
 
       - name: Deploy with rsync
