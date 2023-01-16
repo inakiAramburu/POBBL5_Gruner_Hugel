@@ -79,11 +79,17 @@ main {
 	gap: 10px;
 }
 
-input {
+/*input {
 	border: 2px black solid;
 	background-color: var(--crema);
 	border-radius: 20px;
-}
+}*/
+
+.bcream{background-color: var(--crema)}
+.bgreen1{background-color: var(--verde)}
+.bgreen2{background-color: var(--pistacho)}
+.bgreen3{background-color: var(--card)}
+
 
 table,
 th,

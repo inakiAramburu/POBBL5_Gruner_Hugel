@@ -1,19 +1,48 @@
 <div class="map" th:fragment="map">
   <div id="map"></div>
+  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+  <script>
+    $(document).ready(function(){
+      alert("jQuery Works")
+    });
+  </script>
   <script th:inline="javascript">
     var markerOptions = {
       url: "/img/customIcon.png",
       anchor: [0.5, 0],
     };
-
     var map = new SITNA.Map("map", {
       controls: {
         click: {
           active: true,
           callback: function (coord) {
-            alert("Has pulsado en la posición " + coord[0] + ", " + coord[1]);
+            alert("okey");
             map.se;
             map.addMarker(coord, markerOptions);
+            $.ajax({
+              url: "/maper",
+              type : "GET",
+              data : { y: coord[1], x: coord[0]},
+              cache: false,
+              timeout: 600000,
+              dataType: "json",
+              success : function(data) {
+                var html = '';
+                var len = data.length;
+                html += '<option value="0"></option>';
+                for (var i = 0; i < len; i++) {
+                  html += '<option value="' + data[i].id + '">'
+                          + data[i].name
+                          + '</option>';
+                }
+                html += '</option>';
+                $('#cityId').html(html);
+              },
+              error : function(e) {
+                alert(e);
+              }
+            });
+            alert("key");
           },
         },
       },
@@ -25,4 +54,29 @@
       maxZoom: 9,
     });
   </script>
+  let data = {
+  id: $('#n1').val()
+  };
+  alert("codigo a consultar: "+id)
+  let request=$.ajax({
+  url: "http://localhost:8080/simulation/maper",
+  type : "GET",
+  data : {
+  "id":id
+  },
+  cache: false,
+  timeout: 600000,
+  dataType: "json",
+  });
+  alert("key");
+  request.done(function(data)
+  {
+  alert("prueba en el done");
+  $("#rta").text(data);
+  });
+  request.fail(function( e,textStatus )
+  {
+  alert( "Request failed: " +textStatus );
+  $("#rta").text(textStatus);
+  });
 </div>
