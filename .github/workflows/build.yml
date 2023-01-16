@@ -34,7 +34,7 @@ jobs:
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.SSH_PRIVATE_KEY}}
+          key: ${{ secrets.OMG_SECRET}}
           port: 22
           script: whoami   
     #   - name: Build and analyze
