@@ -37,6 +37,11 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
         // no need
     }
 
+    public Worker(Farm farm) {
+        this.farm = farm;
+        this.pagado = false;
+    }
+
     @Override
     public String toString() {
         return "Worker [id=" + id + ", farm=" + farm + "]";

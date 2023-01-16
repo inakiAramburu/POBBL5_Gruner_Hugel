@@ -39,6 +39,12 @@ public class Simulation implements Serializable {
         // no need
     }
 
+    public Simulation(Date startDate, Date endDate, Farm farm) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.farm = farm;
+    }
+
     @Override
     public String toString() {
         return "Simulation [id=" + id + ", startDate=" + startDate + ", endDate=" + endDate + ", farm=" + farm + "]";

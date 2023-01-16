@@ -20,7 +20,7 @@ import lombok.Setter;
 @Table(name = "farm")
 @Getter
 @Setter
-public class Farm implements Serializable{
+public class Farm implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,12 +53,19 @@ public class Farm implements Serializable{
     private List<FarmPlow> plows;
 
     public Farm() {
-        //no need
+        // no need
+    }
+
+    public Farm(User user, int budget, int numWorkers) {
+        this.user = user;
+        this.money = budget;
+        this.numWorkers = numWorkers;
+        this.fuel = 0;
     }
 
     @Override
     public String toString() {
         return "Farm [id=" + id + ", money=" + money + ", user=" + user + "]";
     }
-    
+
 }

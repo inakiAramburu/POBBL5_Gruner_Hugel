@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.Role;
 import gruner.huger.grunerhugel.model.User;
@@ -24,16 +25,16 @@ public class LoginController {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         user.setPassword(bCryptPasswordEncoder.encode(password));
 
-        if(user.getRole() == null){
+        if (user.getRole() == null) {
             user.setRole(new Role("USER"));
         }
         userRepository.save(user);
-        return "redirect:/login";
+        return "redirect:" + URI.LOGIN.getPath();
     }
 
     @GetMapping(value = "/login-error")
     public String loginError(Model model) {
         model.addAttribute("loginError", true);
-        return "login";
+        return URI.LOGIN.getView();
     }
 }

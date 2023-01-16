@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
@@ -33,10 +34,10 @@ public class WebController {
 
     @GetMapping(value = "/")
     public String home(Model model, Authentication authentication) {
-        String url = "redirect:/login";
+        String url = URI.LOGIN.getPath();
 
         if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            url = "redirect:/admin";
+            url = URI.HOME_ADMIN.getPath();
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))) {
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
@@ -45,15 +46,15 @@ public class WebController {
                 if (farm == null) {
                     throw new NullPointerException();
                 }
-                url = "redirect:/simulation";
+                url = URI.HOME_USER_FARM.getPath();
             } catch (NullPointerException e) {
                 System.out.println("No simulations found");
-                url = "redirect:/main";
+                url = URI.HOME_USER_NO_FARM.getPath();
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))) {
-            url = "redirect:/investor";
+            url = URI.HOME_INVESTOR.getPath();
         }
-        return url;
+        return "redirect:" + url;
     }
 
     @GetMapping(value = "/create")
@@ -77,7 +78,7 @@ public class WebController {
             System.out.println("No simulations found");
         }
         model.addAttribute("simulations", list);
-        return "investor";
+        return URI.HOME_INVESTOR.getView();
     }
 
     @PostMapping(value = "/accessDenied/{responsePath}")

@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import gruner.huger.grunerhugel.GrunerhugelApplication;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -26,7 +28,7 @@ public class MapController {
                         + "&lon=" + x + "&format=json"))
                 .build();
 
-        String village = "";
+        String village = "N/A";
 
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -42,7 +44,7 @@ public class MapController {
                     try {
                         village = address.getString("town");
                     } catch (JSONException u) {
-                        village = "N/A";
+                        GrunerhugelApplication.logger.info("No village found");
                     }
                 }
             }
