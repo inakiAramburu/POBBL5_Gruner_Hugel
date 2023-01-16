@@ -39,14 +39,14 @@ jobs:
           script: whoami
 
       - name: 📂 Sync files
-      uses: burnett01/rsync-deployments@4.1
-      with:
-        switches: -avzr --delete --exclude=".git" --exclude=".github"
-        path: /
-        remote_path: ${{ secrets.DEPLOY_PATH }}
-        remote_host: ${{ secrets.SSH_HOST }}
-        remote_user: ${{ secrets.USERNAME }}
-        remote_key: ${{ secrets.OMG_SECRET }}
+        uses: burnett01/rsync-deployments@4.1
+        with:
+          switches: -avzr --delete --exclude=".git" --exclude=".github"
+          path: /
+          remote_path: ${{ secrets.DEPLOY_PATH }}
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.USERNAME }}
+          remote_key: ${{ secrets.OMG_SECRET }}
     
   
 
