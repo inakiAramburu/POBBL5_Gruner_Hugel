@@ -87,14 +87,14 @@
         <form class="form-plant" th:action="@{/addLand}" method="post">
           <label>
             Longitude(X):
-            <label th:value="*{lng}"></label>
+            <label id="lng" th:text="${lng}"></label>
           </label>
           <label>
             Size:
             <input type="number" th:field="*{land.size}" th:value="0" required />
           </label>
           <label>Latitude(Y):
-            <label th:value="*{lat}"></label>
+            <label id="lat" th:text="${lat}"></label>
           </label>
           <label>
             Crop:
@@ -103,7 +103,7 @@
             </select>
           </label>
           <label>Town:
-            <input type="text" th:field="*{town.name}" th:required="required" />
+            <label id="town" th:text="${town}"></label>
           </label>
           <div class="options">
             <button type="submit" class="action">

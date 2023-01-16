@@ -112,8 +112,7 @@
                 <label class="label">
                     End Date:
                     <input type="date" name="endDate" min="1959-01-01" max="2022-08-31"
-                        th:field="*{newSimulation.endDate}"
-                        th:value="${#dates.format(simulation.endDate, 'yyyy-MM-dd')}" th:required="required" />
+                        th:field="*{newSimulation.endDate}" th:value="${simulation.endDate}" th:required="required" />
                 </label>
                 <label class="label">
                     Tractor:
@@ -176,7 +175,8 @@
         </div>
         <div id="plantation">
             <h2 class="subtitle">PLANTATION</h2>
-            <form class="form-plant" method="post"> <!--th:action="@{/updateLand/{id} (id=${land.getId()})}"-->
+            <form id="land" class="form-plant" method="post">
+                <!--th:action="@{/updateLand/{id} (id=${land.getId()})}"-->
                 <label>
                     Longitude(X):
                     <label th:value="*{lng}"></label>

@@ -1,8 +1,9 @@
 <div class="map" th:fragment="map">
   <div id="map"></div>
-  <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script>
-    $(document).ready(function(){
+    $(document).ready(function () {
       alert("jQuery Works")
     });
   </script>
@@ -19,26 +20,19 @@
             alert("okey");
             map.se;
             map.addMarker(coord, markerOptions);
+            $("#lat").text(coord[1])
+            $("#lng").text(coord[0])
             $.ajax({
               url: "/maper",
-              type : "GET",
-              data : { y: coord[1], x: coord[0]},
+              type: "GET",
+              data: { y: coord[1], x: coord[0] },
               cache: false,
               timeout: 600000,
               dataType: "json",
-              success : function(data) {
-                var html = '';
-                var len = data.length;
-                html += '<option value="0"></option>';
-                for (var i = 0; i < len; i++) {
-                  html += '<option value="' + data[i].id + '">'
-                          + data[i].name
-                          + '</option>';
-                }
-                html += '</option>';
-                $('#cityId').html(html);
+              success: function (data) {
+                $('#town').text(data);
               },
-              error : function(e) {
+              error: function (e) {
                 alert(e);
               }
             });
@@ -54,29 +48,4 @@
       maxZoom: 9,
     });
   </script>
-  let data = {
-  id: $('#n1').val()
-  };
-  alert("codigo a consultar: "+id)
-  let request=$.ajax({
-  url: "http://localhost:8080/simulation/maper",
-  type : "GET",
-  data : {
-  "id":id
-  },
-  cache: false,
-  timeout: 600000,
-  dataType: "json",
-  });
-  alert("key");
-  request.done(function(data)
-  {
-  alert("prueba en el done");
-  $("#rta").text(data);
-  });
-  request.fail(function( e,textStatus )
-  {
-  alert( "Request failed: " +textStatus );
-  $("#rta").text(textStatus);
-  });
 </div>

@@ -111,7 +111,7 @@ public class SimulationController {
         // Set land
         model.addAttribute("land", new Land());
         model.addAttribute("plant", new Plant());
-        model.addAttribute("town", new Town());
+        // model.addAttribute("town", new Town());
 
         return "simulation/simulation-form";
     }

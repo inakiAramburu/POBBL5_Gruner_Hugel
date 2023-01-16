@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
+import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.Simulation;
 import gruner.huger.grunerhugel.model.User;
 
@@ -40,7 +41,10 @@ public class WebController {
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
             try {
-                farmRepository.findByUser(user);
+                Farm farm = farmRepository.findByUser(user);
+                if (farm == null) {
+                    throw new NullPointerException();
+                }
                 url = "redirect:/simulation";
             } catch (NullPointerException e) {
                 System.out.println("No simulations found");
