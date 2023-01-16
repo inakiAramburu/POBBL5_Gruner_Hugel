@@ -29,7 +29,7 @@ jobs:
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
 
-      - name: ssh de prueba
+      - name: Ash de prueba
         uses: appleboy/ssh-action@v0.1.7
         with:
           host: ${{ secrets.SSH_HOST }}
