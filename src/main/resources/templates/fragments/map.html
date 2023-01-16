@@ -2,11 +2,6 @@
   <div id="map"></div>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
-  <script>
-    $(document).ready(function () {
-      alert("jQuery Works")
-    });
-  </script>
   <script th:inline="javascript">
     var markerOptions = {
       url: "/img/customIcon.png",
@@ -17,26 +12,23 @@
         click: {
           active: true,
           callback: function (coord) {
-            alert("okey");
-            map.se;
-            map.addMarker(coord, markerOptions);
-            $("#lat").text(coord[1])
-            $("#lng").text(coord[0])
             $.ajax({
               url: "/maper",
               type: "GET",
               data: { y: coord[1], x: coord[0] },
               cache: false,
-              timeout: 600000,
-              dataType: "json",
+              timeout: 1000,
+              dataType: "text",
               success: function (data) {
                 $('#town').text(data);
               },
               error: function (e) {
-                alert(e);
+                alert("An error ocurred trying to get the town");
               }
             });
-            alert("key");
+            map.addMarker(coord, markerOptions);
+            $("#lat").text(coord[1]);
+            $("#lng").text(coord[0]);
           },
         },
       },

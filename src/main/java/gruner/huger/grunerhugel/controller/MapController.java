@@ -1,14 +1,10 @@
 package gruner.huger.grunerhugel.controller;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fasterxml.jackson.core.io.JsonEOFException;
-
-import gruner.huger.grunerhugel.GrunerhugelApplication;
 
 import java.io.IOException;
 import java.net.URI;
@@ -20,6 +16,7 @@ import java.net.http.HttpResponse;
 public class MapController {
 
     @GetMapping(value = "/maper")
+    @ResponseBody
     public String updateForm(String y, String x) throws IOException {
 
         System.out.println("alo");
@@ -42,7 +39,11 @@ public class MapController {
                 try {
                     village = address.getString("city");
                 } catch (JSONException r) {
-                    GrunerhugelApplication.logger.info("No village found");
+                    try {
+                        village = address.getString("town");
+                    } catch (JSONException u) {
+                        village = "N/A";
+                    }
                 }
             }
             System.out.println(village);
