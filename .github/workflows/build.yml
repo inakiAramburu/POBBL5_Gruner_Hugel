@@ -50,7 +50,21 @@ jobs:
       - name: Deploy with rsync
         run: rsync -avz -e "ssh -p ${{ secrets.SSH_PORT }}" ./dist/ ${{ secrets.USERNAME }}@${{ secrets.SSH_HOST }}:/var/www/zellwk.com/
 
-      
+      - name: Restart Node Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.OMG_SECRET }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd /var/www/zellwk.com
+            git fetch origin master
+            git reset --hard FETCH_HEAD
+            git clean -d -f --exclude secrets
+            npm install --production
+            chown $(whoami) . # PM2 doesn't recognize root user from Github Actions
+            npm run restart 
   
 
 
