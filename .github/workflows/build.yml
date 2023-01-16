@@ -38,8 +38,13 @@ jobs:
           port: 22
           script: whoami 
 
-       
+      - name: Install SSH Key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: ${{ secrets.OMG_SECRET }}
+          known_hosts: unnecessary
 
+    
 
 
 
