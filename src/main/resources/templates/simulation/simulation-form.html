@@ -9,9 +9,9 @@
   <nav layout:fragment="nav" id="top-right-nav">
     <div th:replace="~{fragments/header :: profile-dropdown}"></div>
     <div>
-      <button form="simulationCreate" type="submit" class="action">
+      <a class="action" th:href="@{/simulation}">
         <img th:src="@{/img/play.png}" alt="play" />
-      </button>
+      </a>
       <button class="action"><img th:src="@{/img/rewind.png}" alt="rewind"></button>
       <label id="speed">x1</label>
     </div>
@@ -73,6 +73,9 @@
             <input type="number" id="numHarvester" th:field="*{numHarvester}" min="0" th:required="required" />
           </label>
           <div class="options">
+            <button type="submit" class="action">
+              <img th:src="@{/img/tick.png}" alt="save" />
+            </button>
             <button type="reset" class="action">
               <img th:src="@{/img/reset.png}" alt="reset" />
             </button>
@@ -86,26 +89,29 @@
       </div>
       <div id="plantation">
         <h2 class="subtitle">NEW PLANTATION</h2>
-        <form class="form-plant" th:action="@{/addLand}" method="post">
+        <form class="form-plant" th:action="@{/addLand}" method="post" th:object="${createLand}">
           <label>
             Longitude(X):
-            <label id="lng" th:text="${lng}"></label>
+            <label id="lng"></label>
+            <input id="long" type="hidden" th:field="*{longitude}">
           </label>
           <label>
             Size:
-            <input type="number" th:field="*{land.size}" th:value="0" required />
+            <input type="number" th:field="*{size}" th:required="required" />
           </label>
           <label>Latitude(Y):
-            <label id="lat" th:text="${lat}"></label>
+            <label id="lat"></label>
+            <input id="lt" type="hidden" th:field="*{latitude}">
           </label>
           <label>
             Crop:
-            <select th:field="*{plant.name}" th:required="required">
+            <select th:field="*{plantName}" th:required="required">
               <option th:value="Wheat" th:text="Wheat"></option>
             </select>
           </label>
           <label>Town:
-            <label id="town" th:text="${town}"></label>
+            <label id="town"></label>
+            <input id="town-i" type="hidden" th:field="*{town}">
           </label>
           <div class="options">
             <button type="submit" class="action">

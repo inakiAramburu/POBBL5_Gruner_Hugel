@@ -2,7 +2,6 @@ package gruner.huger.grunerhugel.simulation;
 
 // import java.util.concurrent.BlockingQueue;
 import gruner.huger.grunerhugel.model.Balance;
-import gruner.huger.grunerhugel.model.Worker;
 
 public class Simulation implements Runnable {
     static final int HOUR_DURATION = 1250; // miliseconds

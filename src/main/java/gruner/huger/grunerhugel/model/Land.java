@@ -19,34 +19,47 @@ import lombok.Setter;
 @Table(name = "land")
 @Getter
 @Setter
-public class Land implements Serializable{
-    
-    @Id
-    @Column(name = "id")
-    int id;
-    @Column(name = "size")
-    double size;
-    @Column(name = "status")
-    String status;
+public class Land implements Serializable {
 
-    @ManyToOne
-    @JoinColumn(name = "FK_Farm")
-    private Farm farm;
-    
-    @OneToOne
-    @JoinColumn(name = "FK_Town")
-    private Town town;
+  @Id
+  @Column(name = "id")
+  int id;
+  @Column(name = "size")
+  double size;
+  @Column(name = "status")
+  String status;
+  @Column(name = "latitude")
+  float latitude;
+  @Column(name = "longitude")
+  float longitude;
 
-    @OneToMany(mappedBy = "land")
-    private List<Plant> plants;
+  @ManyToOne
+  @JoinColumn(name = "FK_Farm")
+  private Farm farm;
 
-    public Land(){
-      //no need
-    }
+  @OneToOne
+  @JoinColumn(name = "FK_Town")
+  private Town town;
 
-    @Override
-    public String toString() {
-        return "Land [id=" + id + ", size=" + size + ", status=" + status + ", farm=" + farm + ", town=" + town + "]";
-    }
+  @OneToMany(mappedBy = "land")
+  private List<Plant> plants;
+
+  public Land() {
+    // no need
+  }
+
+  public Land(Double size, Farm farm, Town town, String latitude, String longitude) {
+    this.size = size;
+    this.farm = farm;
+    this.town = town;
+    this.status = "";
+    this.latitude = Float.parseFloat(latitude);
+    this.longitude = Float.parseFloat(longitude);
+  }
+
+  @Override
+  public String toString() {
+    return "Land [id=" + id + ", size=" + size + ", status=" + status + ", farm=" + farm + ", town=" + town + "]";
+  }
 
 }

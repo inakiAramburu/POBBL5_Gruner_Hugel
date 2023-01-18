@@ -21,14 +21,17 @@
               dataType: "text",
               success: function (data) {
                 $('#town').text(data);
+                $('#town-i').val(data);
+                map.addMarker(coord, markerOptions);
+                $("#lat").text(coord[1]);
+                $("#lng").text(coord[0]);
+                $("#long").val(coord[0]);
+                $("#lt").val(coord[1]);
               },
               error: function (e) {
                 alert("An error ocurred trying to get the town");
               }
             });
-            map.addMarker(coord, markerOptions);
-            $("#lat").text(coord[1]);
-            $("#lng").text(coord[0]);
           },
         },
       },
@@ -39,5 +42,7 @@
       zoom: 9,
       maxZoom: 9,
     });
+
+    //On load cargar los puntos desde la base de datos
   </script>
 </div>

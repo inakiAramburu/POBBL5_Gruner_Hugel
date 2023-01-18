@@ -19,34 +19,41 @@ import lombok.Setter;
 @Table(name = "plant")
 @Getter
 @Setter
-public class Plant implements Serializable{
-    
-    @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
-    @Column(name = "name")
-    String name;
-    @Column(name = "status")
-    String status;
-    @Column(name = "health_point")
-    int healthPoint;
+public class Plant implements Serializable {
 
-    @OneToOne()
-    @JoinColumn(name = "FK_type")
-    private OptimalConditions optimalConditions;
+  @Id
+  @Column(name = "id")
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  int id;
+  @Column(name = "name")
+  String name;
+  @Column(name = "status")
+  String status;
+  @Column(name = "health_point")
+  int healthPoint;
 
-    @ManyToOne
-    @JoinColumn(name = "FK_land")
-    private Land land;
+  @OneToOne()
+  @JoinColumn(name = "FK_type")
+  private OptimalConditions optimalConditions;
 
-    public Plant() {
-      //no need
-    }
+  @ManyToOne
+  @JoinColumn(name = "FK_land")
+  private Land land;
 
-    @Override
-    public String toString() {
-        return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
-                + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
-    }
+  public Plant() {
+    // no need
+  }
+
+  public Plant(OptimalConditions plantType, Land land) {
+    this.optimalConditions = plantType;
+    this.land = land;
+    this.status = "";
+    this.healthPoint = 100;
+  }
+
+  @Override
+  public String toString() {
+    return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
+        + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
+  }
 }

@@ -1,5 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
+import java.text.Normalizer;
+import java.util.Optional;
 import java.util.logging.Level;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
@@ -29,7 +32,6 @@ import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
-import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.FarmPlow;
@@ -37,6 +39,7 @@ import gruner.huger.grunerhugel.model.FarmSeeder;
 import gruner.huger.grunerhugel.model.FarmTractor;
 import gruner.huger.grunerhugel.model.Harvester;
 import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Plow;
 import gruner.huger.grunerhugel.model.Seeder;
@@ -44,7 +47,7 @@ import gruner.huger.grunerhugel.model.Simulation;
 import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.User;
-import gruner.huger.grunerhugel.model.Worker;
+import gruner.huger.grunerhugel.model.formObjects.CreateLand;
 import gruner.huger.grunerhugel.model.formObjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formObjects.EditSimulation;
 import jakarta.servlet.http.HttpSession;
@@ -79,8 +82,6 @@ public class SimulationController {
     @Autowired
     private TractorRepository tractorRepository;
     @Autowired
-    private WorkerRepository workerRepository;
-    @Autowired
     private SimulationRepository simulationRepository;
     @Autowired
     private UserRepository userRepository;
@@ -102,9 +103,7 @@ public class SimulationController {
         model.addAttribute("simulationCreate", new CreateSimulation());
 
         // Set land
-        model.addAttribute("land", new Land());
-        model.addAttribute("plant", new Plant());
-        // model.addAttribute("town", new Town());
+        model.addAttribute("createLand", new CreateLand());
 
         return URI.HOME_USER_NO_FARM.getView();
     }
@@ -139,26 +138,18 @@ public class SimulationController {
     }
 
     @PostMapping(value = "/addSimulation")
-    public String addSimulation(@ModelAttribute("simulation-create") CreateSimulation newSimulation,
+    public String addSimulation(@ModelAttribute("simulationCreate") CreateSimulation newSimulation,
             Model model) {
-
-        String path = URI.HOME_USER_FARM.getPath();
 
         // Check if start date is before end date
         if (!newSimulation.getStartDate().before(newSimulation.getEndDate())) {
-            model.addAttribute("error", "Start date must be before end date");
-            path = URI.HOME_USER_NO_FARM.getPath();
+            model.addAttribute("error", true);
+            GrunerhugelApplication.logger.log(Level.WARNING, "Simulation start date cant be before end date");
         } else {
             // Save farm (One to One : User)
             User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
             Farm farm = new Farm(user, newSimulation.getBudget(), newSimulation.getNumWorkers());
             farm = farmRepository.save(farm);
-
-            // Save workers (One to One: Farm)
-            for (Integer i = 0; i < farm.getNumWorkers(); i++) {
-                Worker worker = new Worker(farm);
-                workerRepository.save(worker);
-            }
 
             // Save simulation (One to One: Farm)
             Simulation simulation = new Simulation(newSimulation.getStartDate(), newSimulation.getEndDate(), farm);
@@ -192,30 +183,11 @@ public class SimulationController {
             GrunerhugelApplication.logger.log(Level.INFO, "Farm/Simulation information saved succesfully");
         }
 
-        return "redirect:" + path;
-    }
-
-    @PostMapping(value = "/addLand")
-    public String addLand(@ModelAttribute("land") Land land, @ModelAttribute("town") Town town,
-            @ModelAttribute("plant") Plant plant) {
-        // Save town (One to One: Land + Farm)
-        town = townRepository.findByName(town.getName());
-        land.setTown(town);
-        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
-        Farm farm = farmRepository.findByUser(user);
-        land.setFarm(farm);
-        land = landRepository.save(land);
-
-        // Save plant (One to One: Land + PlantType)
-        plant.setLand(land);
-        plant.setOptimalConditions(plantTypeRepository.findByName(plant.getName()));
-        plantRepository.save(plant);
-
-        return "simulation";
+        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
     }
 
     @GetMapping(value = "/deleteSimulation")
-    public String deleteSimulation(Model model, Authentication authentication) {
+    public String deleteSimulation(Authentication authentication) {
         // Get data
         User user = userRepository.findByUsername(authentication.getName());
         Farm farm = farmRepository.findByUser(user);
@@ -230,8 +202,6 @@ public class SimulationController {
                 .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
         farmSeederRepository.findByFarm(farm)
                 .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
-        workerRepository.findByFarm(farm)
-                .forEach(worker -> workerRepository.delete(worker));
 
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
@@ -250,7 +220,6 @@ public class SimulationController {
         Iterable<FarmPlow> oldFarmPlows = farmPlowRepository.findByFarm(oldFarm);
         Iterable<FarmSeeder> oldFarmSeeders = farmSeederRepository.findByFarm(oldFarm);
         Iterable<FarmTractor> oldFarmTractors = farmTractorRepository.findByFarm(oldFarm);
-        Iterable<Worker> oldWorkers = workerRepository.findByFarm(oldFarm);
 
         // Edit data
         try {
@@ -325,30 +294,71 @@ public class SimulationController {
                 farmSeederRepository.save(oldFarmSeeder);
             }
 
-            // Worker
-            if (oldFarm.getNumWorkers() != newSimulation.getNumWorkers()) {
-
-                if (oldFarm.getNumWorkers() > newSimulation.getNumWorkers()) {
-                    int numWorkers = oldFarm.getNumWorkers() - newSimulation.getNumWorkers();
-                    for (int i = 0; i < numWorkers; i++) {
-                        workerRepository.delete(oldWorkers.iterator().next());
-                    }
-                } else {
-                    int numWorkers = newSimulation.getNumWorkers() - oldFarm.getNumWorkers();
-                    for (int i = 0; i < numWorkers; i++) {
-                        Worker worker = new Worker();
-                        worker.setFarm(oldFarm);
-                        workerRepository.save(worker);
-                    }
-                }
-                oldFarm.setNumWorkers(newSimulation.getNumWorkers());
-                farmRepository.save(oldFarm);
-            }
-
         } catch (Exception e) {
             System.out.println("Error updating the Simulation");
         }
 
         return "redirect:" + URI.HOME_USER_FARM.getPath();
     }
+
+    @PostMapping(value = "/addLand")
+    public String addLand(@ModelAttribute("createLand") CreateLand newLand) {
+        // Save land (One to One: Land + Farm)
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Farm farm = farmRepository.findByUser(user);
+
+        // Normalize town name
+
+        String townName = Normalizer.normalize(newLand.getTown(), Normalizer.Form.NFD);
+        townName = townName.replaceAll("[^\\p{ASCII}]", "");
+        if (townName.contains("/")) {
+            String[] townNames = townName.split("/");
+            townName = townNames[0];
+        }
+
+        try {
+            Town town = townRepository.findByName(townName);
+            Land land = new Land(newLand.getSize(), farm, town, newLand.getLatitude(), newLand.getLongitude());
+            land = landRepository.save(land);
+
+            // Save plant (One to One: Land + PlantType)
+            OptimalConditions plantType = plantTypeRepository.findByName(newLand.getPlantName());
+            Plant plant = new Plant(plantType, land);
+            plantRepository.save(plant);
+        } catch (Exception e) {
+            GrunerhugelApplication.logger.log(Level.INFO, "Town not found");
+        }
+
+        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
+    }
+
+    @GetMapping(value = "/deleteLand/{id}")
+    public String deleteLand(@RequestParam("id") int id) {
+        // Delete plant
+        Optional<Land> land = landRepository.findById(id);
+        if (land.isPresent()) {
+            plantRepository.findByLand(land)
+                    .forEach(p -> plantRepository.delete(p));
+            landRepository.delete(land.get());
+        }
+
+        return "simulation"; // aiqu hablar de este tema porqu si refrescamos el mapa pierde sus Marks
+    }
+
+    /*
+     * @PostMapping(value = "/updateLand/{id}")
+     * public String updateLand(@RequestParam("id") int
+     * id, @ModelAttribute("updateLand") UpdateLand updateLand) {
+     * // Update land
+     * Optional<Land> land = landRepository.findById(id);
+     * if (land.isPresent()) {
+     * land.get().setSize(updateLand.getSize());
+     * landRepository.save(land.get());
+     * }
+     * 
+     * return "simulation"; // aiqu hablar de este tema porqu si refrescamos el mapa
+     * pierde sus Marks
+     * 
+     * }
+     */
 }
