@@ -48,7 +48,19 @@ jobs:
           remote_user: ${{ secrets.USERNAME }}
           remote_key: ${{ secrets.OMG_SECRET }}
     
-  
+      - name: ssh marcha
+        uses: appleboy/ssh-action@v0.1.7
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.OMG_SECRET}}
+          port: 22
+          script: |
+            whoami
+            cd /home/omgneering-github-secret/test
+            ls -la
+            mvn -Dskiptest package
+            java -jar -Dserver.port=80  grunerhugel-0.0.1-SNAPSHOT.jar
 
 
 
