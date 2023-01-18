@@ -72,7 +72,7 @@ jobs:
 
           
             
-    #   - name: Build and analyze
+    #   - name: Build and analyze fssfs
     #    env:
     #      GITHUB_TOKEN: ${{ secrets.GIT_TOKEN }}  # Needed to get PR information, if any
     #      SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
