@@ -63,6 +63,7 @@ jobs:
             PATH="$M2_HOME/bin:$PATH"
             export PATH
             mvn -Dskiptest package
+            java -version
             sudo su
             java -jar -Dserver.port=80  /home/omgneering-github-secret/test/target/grunerhugel-0.0.1-SNAPSHOT.war &
 
