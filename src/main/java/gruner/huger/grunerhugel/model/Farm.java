@@ -51,6 +51,13 @@ public class Farm implements Serializable {
         // no need
     }
 
+    public Farm(User user, int budget, int numWorkers) {
+        this.user = user;
+        this.money = budget;
+        this.numWorkers = numWorkers;
+        this.fuel = 0;
+    }
+
     public int getId() {
         return id;
     }

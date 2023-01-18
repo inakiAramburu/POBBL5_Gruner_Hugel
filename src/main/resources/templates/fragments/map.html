@@ -1,19 +1,37 @@
 <div class="map" th:fragment="map">
   <div id="map"></div>
+  <script src="https://code.jquery.com/jquery-3.1.1.min.js"
+    integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
   <script th:inline="javascript">
     var markerOptions = {
       url: "/img/customIcon.png",
       anchor: [0.5, 0],
     };
-
     var map = new SITNA.Map("map", {
       controls: {
         click: {
           active: true,
           callback: function (coord) {
-            alert("Has pulsado en la posición " + coord[0] + ", " + coord[1]);
-            map.se;
-            map.addMarker(coord, markerOptions);
+            $.ajax({
+              url: "/maper",
+              type: "GET",
+              data: { y: coord[1], x: coord[0] },
+              cache: false,
+              timeout: 1000,
+              dataType: "text",
+              success: function (data) {
+                $('#town').text(data);
+                $('#town-i').val(data);
+                map.addMarker(coord, markerOptions);
+                $("#lat").text(coord[1]);
+                $("#lng").text(coord[0]);
+                $("#long").val(coord[0]);
+                $("#lt").val(coord[1]);
+              },
+              error: function (e) {
+                alert("An error ocurred trying to get the town");
+              }
+            });
           },
         },
       },
@@ -24,5 +42,7 @@
       zoom: 9,
       maxZoom: 9,
     });
+
+    //On load cargar los puntos desde la base de datos
   </script>
 </div>

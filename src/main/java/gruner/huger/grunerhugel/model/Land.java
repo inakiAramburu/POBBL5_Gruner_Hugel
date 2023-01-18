@@ -23,6 +23,10 @@ public class Land implements Serializable {
   double size;
   @Column(name = "status")
   String status;
+  @Column(name = "latitude")
+  float latitude;
+  @Column(name = "longitude")
+  float longitude;
 
   @ManyToOne
   @JoinColumn(name = "FK_Farm")
@@ -39,52 +43,13 @@ public class Land implements Serializable {
     // no need
   }
 
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public double getSize() {
-    return size;
-  }
-
-  public void setSize(double size) {
+  public Land(Double size, Farm farm, Town town, String latitude, String longitude) {
     this.size = size;
-  }
-
-  public String getStatus() {
-    return status;
-  }
-
-  public void setStatus(String status) {
-    this.status = status;
-  }
-
-  public Farm getFarm() {
-    return farm;
-  }
-
-  public void setFarm(Farm farm) {
     this.farm = farm;
-  }
-
-  public Town getTown() {
-    return town;
-  }
-
-  public void setTown(Town town) {
     this.town = town;
-  }
-
-  public List<Plant> getPlants() {
-    return plants;
-  }
-
-  public void setPlants(List<Plant> plants) {
-    this.plants = plants;
+    this.status = "";
+    this.latitude = Float.parseFloat(latitude);
+    this.longitude = Float.parseFloat(longitude);
   }
 
   @Override

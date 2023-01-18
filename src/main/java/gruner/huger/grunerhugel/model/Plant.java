@@ -39,6 +39,13 @@ public class Plant implements Serializable {
     // no need
   }
 
+  public Plant(OptimalConditions plantType, Land land) {
+    this.optimalConditions = plantType;
+    this.land = land;
+    this.status = "";
+    this.healthPoint = 100;
+  }
+
   public void checkOptimalCondition(Weather weather) {
     boolean condition = check(weather);
     if (condition) {

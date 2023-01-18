@@ -28,6 +28,7 @@ public class WebSecurity {
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
+
         http.formLogin().loginPage(URI.LOGIN.getPath()).successHandler(succesHandler).failureUrl("/login-error")
                 .permitAll()
                 .and().logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

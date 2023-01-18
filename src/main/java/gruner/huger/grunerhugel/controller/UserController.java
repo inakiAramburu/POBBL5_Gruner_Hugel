@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.RoleRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.User;
@@ -41,7 +42,7 @@ public class UserController {
     @GetMapping(value = "/delete/{id}")
     public String delete(@PathVariable int id) {
         userRepository.deleteById(id);
-        return "redirect:/admin";
+        return "redirect:" + URI.HOME_ADMIN.getPath();
     }
 
     @PostMapping(value = "/update/{id}")
@@ -50,6 +51,6 @@ public class UserController {
         user.setPassword(oldUser.getPassword());
         user.setId(oldUser.getId());
         userRepository.save(user);
-        return "redirect:/admin";
+        return "redirect:" + URI.HOME_ADMIN.getPath();
     }
 }

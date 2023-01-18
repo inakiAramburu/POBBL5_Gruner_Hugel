@@ -6,7 +6,7 @@
   <body>
     <h1 layout:fragment="title">User List</h1>
     <main layout:fragment="main">
-      <form class="card-body" th:object="${selectedUser}">
+      <form  th:object="${selectedUser}">
         <table>
           <caption></caption>
           <tr>
@@ -25,17 +25,17 @@
             <td th:text="${user.email}"></td>
             <td th:text="${user.role.getName()}"></td>
             <td>
-              <a class="action" th:href="@{/edit/{id}(id=${user.id})}">Edit</a>
+              <a th:href="@{/edit/{id}(id=${user.id})}">Edit</a>
             </td>
             <td>
-              <a class="action" th:href="@{/delete/{id}(id=${user.id})}"
+              <a th:href="@{/delete/{id}(id=${user.id})}"
                 >Delete</a
               >
             </td>
           </tr>
         </table>
         <nav>
-          <a class="action" href="/create">Create</a>
+          <a href="/create">Create</a>
         </nav>
       </form>
     </main>

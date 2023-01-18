@@ -10,6 +10,7 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
+import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,10 +46,13 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
             try {
-                farmRepository.findByUser(user);
+                Farm farm = farmRepository.findByUser(user);
+                if (farm == null) {
+                    throw new NullPointerException();
+                }
                 url = "/simulation";
-            } catch (Exception e) {
-                GrunerhugelApplication.logger.info("No simulations found");
+            } catch (NullPointerException e) {
+                System.out.println("No simulations found");
                 url = "/main";
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR")))

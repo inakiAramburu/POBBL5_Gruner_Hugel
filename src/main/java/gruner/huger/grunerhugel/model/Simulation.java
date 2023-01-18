@@ -34,6 +34,12 @@ public class Simulation implements Serializable {
         // no need
     }
 
+    public Simulation(Date startDate, Date endDate, Farm farm) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.farm = farm;
+    }
+
     public int getId() {
         return id;
     }
