@@ -64,7 +64,7 @@ jobs:
             export PATH
             mvn -Dskiptest package
             sudo su
-           java -jar -Dserver.port=80  /home/omgneering-github-secret/test/target/grunerhugel-0.0.1-SNAPSHOT.war &
+            java -jar -Dserver.port=80  /home/omgneering-github-secret/test/target/grunerhugel-0.0.1-SNAPSHOT.war &
 
 
 
