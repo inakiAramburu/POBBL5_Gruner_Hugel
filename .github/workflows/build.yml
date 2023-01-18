@@ -63,7 +63,7 @@ jobs:
             PATH="$M2_HOME/bin:$PATH"
             export PATH
             mvn -Dskiptest package
-            java -jar -Dserver.port=80  grunerhugel-0.0.1-SNAPSHOT.jar
+            java -jar -Dserver.port=80  target/grunerhugel-0.0.1-SNAPSHOT.war
 
 
 
