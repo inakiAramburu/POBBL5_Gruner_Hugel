@@ -52,7 +52,7 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
                 }
                 url = "/simulation";
             } catch (NullPointerException e) {
-                System.out.println("No simulations found");
+                GrunerhugelApplication.logger.info("No simulations found");
                 url = "/main";
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR")))
