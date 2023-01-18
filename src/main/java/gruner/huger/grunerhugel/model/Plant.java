@@ -2,7 +2,7 @@ package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
 
-import gruner.huger.grunerhugel.simulation.thread.PlantType;
+import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 import gruner.huger.grunerhugel.simulation.thread.WheatStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

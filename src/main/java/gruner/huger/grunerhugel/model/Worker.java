@@ -2,48 +2,33 @@ package gruner.huger.grunerhugel.model;
 
 // import java.util.concurrent.BlockingQueue;
 
-import java.io.Serializable;
+import java.util.concurrent.BlockingQueue;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import gruner.huger.grunerhugel.simulation.Message;
 
-@Entity
-@Table(name = "worker")
-@Getter
-@Setter
-public class Worker implements Serializable, Runnable { // extends Thread //most probably
+public class Worker extends Thread {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    int id;
+    private boolean pagado;
+    BlockingQueue<Message> queue;
 
-    @OneToOne
-    @JoinColumn(name = "FK_FarmId")
-    private Farm farm;
-
-    boolean pagado;
-
-    public Worker() {
-        // no need
-    }
-
-    @Override
-    public String toString() {
-        return "Worker [id=" + id + ", farm=" + farm + "]";
+    public Worker(BlockingQueue<Message> blockingQueue) {
+        this.queue = blockingQueue;
     }
 
     @Override
     public void run() {
-        
+        //  no need
+    }
 
+    public void work() {
+        // no need
+    }
+
+    public boolean isPagado(){
+        return pagado;
+    }
+
+    public void setPagado(boolean value){
+        pagado = value;
     }
 }

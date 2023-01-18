@@ -1,11 +1,10 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.time.Year;
-
+import gruner.huger.grunerhugel.model.compositekey.WheatPriceId;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,12 +15,8 @@ import lombok.Setter;
 @Setter
 public class WheatPrice implements Serializable{
 
-    @Id
-    @Column(name = "month")
-    private String month;
-    @Id
-    @Column(name = "year")
-    private Year year;
+    @EmbeddedId
+    private WheatPriceId wheatPriceId;
     @Column(name = "price (T/€)")
     private double price;
 
@@ -30,11 +25,15 @@ public class WheatPrice implements Serializable{
     }
 
     @Override
+    public String toString() {
+        return "WheatPrice [wheatPriceId=" + wheatPriceId + ", price=" + price + "]";
+    }
+
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((month == null) ? 0 : month.hashCode());
-        result = prime * result + ((year == null) ? 0 : year.hashCode());
+        result = prime * result + ((wheatPriceId == null) ? 0 : wheatPriceId.hashCode());
         long temp;
         temp = Double.doubleToLongBits(price);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -50,21 +49,14 @@ public class WheatPrice implements Serializable{
         if (getClass() != obj.getClass())
             return false;
         WheatPrice other = (WheatPrice) obj;
-        if (month == null) {
-            if (other.month != null)
+        if (wheatPriceId == null) {
+            if (other.wheatPriceId != null)
                 return false;
-        } else if (!month.equals(other.month))
-            return false;
-        if (year == null) {
-            if (other.year != null)
-                return false;
-        } else if (!year.equals(other.year))
+        } else if (!wheatPriceId.equals(other.wheatPriceId))
             return false;
         if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
             return false;
         return true;
     }
-
     
-
 }

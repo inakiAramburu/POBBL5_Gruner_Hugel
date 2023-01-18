@@ -3,32 +3,37 @@ package gruner.huger.grunerhugel.simulation;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
+import java.time.Year;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
+import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
-import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
-import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
-// import java.util.concurrent.BlockingQueue;
-import gruner.huger.grunerhugel.model.Balance;
+import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
 import gruner.huger.grunerhugel.model.Farm;
-import gruner.huger.grunerhugel.model.FarmHarvester;
+import gruner.huger.grunerhugel.model.Fuel;
 import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.model.WheatPrice;
+import gruner.huger.grunerhugel.simulation.thread.Balance;
+import gruner.huger.grunerhugel.simulation.thread.FuelThread;
 import gruner.huger.grunerhugel.simulation.thread.PlantThread;
 import gruner.huger.grunerhugel.simulation.thread.TimeThread;
 import gruner.huger.grunerhugel.simulation.thread.WeatherThread;
+import gruner.huger.grunerhugel.simulation.thread.WheatPriceThread;
 
 public class SimulationProcesses extends Thread implements PropertyChangeListener {
     public static final String DATA_UPDATE = "DATA UPDATE";
@@ -36,21 +41,23 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
     private WeatherRepository wRepository;
     private PlantRepository pRepository;
     private OptimalConditionsRepository oRepository;
-    private WorkerRepository wkRepository;
     private static FarmHarvesterRepository fHarvRepository;
     private FarmPlowRepository fPlowRepository;
     private FarmSeederRepository fSeedRepository;
     private FarmTractorRepository fTractRepository;
     private LandRepository lRepository;
-    private TownRepository tRepository;
-    public static Farm farm;
+    private FuelRepository fRepository;
+    private WheatPriceRepository wpRepository;
+    private static Farm farm;
     private boolean terminate;
     int hours = 0;
     int days = 0;
-    Balance balance;
-    WeatherThread wThread;
-    PlantThread pThread;
-    TimeThread tThread;
+    private Balance balance;
+    private WeatherThread wThread;
+    private PlantThread pThread;
+    private TimeThread tThread;
+    private FuelThread fThread;
+    private WheatPriceThread wpThread;
     Land land;
     private Lock mutex;
     private Condition cond;
@@ -58,15 +65,15 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
     PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     public SimulationProcesses(Farm farm, WeatherRepository weatherRepository, PlantRepository plantRepository,
-            OptimalConditionsRepository opCondRepository,
-            WorkerRepository workerRepository, LandRepository landRepository, TownRepository townRepository) {
+            OptimalConditionsRepository opCondRepository, LandRepository landRepository, FuelRepository fuelRepository,
+            WheatPriceRepository wPriceRepository) {
         SimulationProcesses.farm = farm;
         this.wRepository = weatherRepository;
         this.oRepository = opCondRepository;
         this.pRepository = plantRepository;
-        this.wkRepository = workerRepository;
         this.lRepository = landRepository;
-        this.tRepository = townRepository;
+        this.fRepository = fuelRepository;
+        this.wpRepository = wPriceRepository;
     }
 
     public void constructVehicleRepositories(FarmHarvesterRepository fHarvRepository,
@@ -79,17 +86,18 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
     }
 
     public void initialize(int initialBalance, Date startDate, Date endDate, List<Land> lands) {
+        BlockingQueue<Message> blockingQueue = new ArrayBlockingQueue<>(1000);
         // -------------
         this.tThread = new TimeThread(startDate, endDate);
-        this.balance = new Balance(initialBalance); // queue
+        this.balance = new Balance(initialBalance, blockingQueue); // queue
         this.wThread = new WeatherThread(wRepository, startDate, lands);
         this.pThread = new PlantThread(lRepository, pRepository, oRepository, lands);
+        this.fThread = new FuelThread(fRepository);
+        this.wpThread = new WheatPriceThread(wpRepository);
         this.tThread.addPropertyChangeListener(this);
         this.tThread.addPropertyChangeListener(wThread);
         this.tThread.addPropertyChangeListener(pThread);
         this.addPropertyChangeListener(wThread);
-
-        this.tThread.setCondition(cond);
         // --------------
         this.terminate = false;
         this.mutex = new ReentrantLock();
@@ -100,6 +108,8 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
         tThread.start();
         wThread.start();
         pThread.start();
+        fThread.start();
+        wpThread.start();
     }
 
     private void joinThreads() {
@@ -115,28 +125,23 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
 
     @Override
     public void run() {
-        startThreads();
-        // code here
-        while (!Thread.interrupted() && !terminate) {
-            // no need
-            mutex.lock();
-            try {
-                cond.await();
-            } catch (InterruptedException e) {
-                GrunerhugelApplication.logger.warning("SimulationProcesses Interrupted!");
-                this.interrupt();
-            } finally{
-                mutex.unlock();
-            }
-        }
-        joinThreads(); // in a while or in a listening
-    }
-
-    public static List<FarmHarvester> getHarvesters() {
-        List<FarmHarvester> temp = new ArrayList<>();
-        Iterable<FarmHarvester> it = fHarvRepository.findByFarm(farm);
-        it.forEach(temp::add);
-        return temp;
+        wpThread.start();
+        tThread.start();
+        
+        // startThreads();
+        // while (!Thread.interrupted() && !terminate) {
+        // mutex.lock();
+        // try {
+        // cond.await();
+        // } catch (InterruptedException e) {
+        // GrunerhugelApplication.logger.warning("SimulationProcesses Interrupted!");
+        // this.interrupt();
+        // } finally{
+        // mutex.unlock();
+        // }
+        // }
+        // joinThreads();
+        GrunerhugelApplication.logger.info("wait");
     }
 
     public int getHoras() {
@@ -153,6 +158,10 @@ public class SimulationProcesses extends Thread implements PropertyChangeListene
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.pcs.removePropertyChangeListener(listener);
+    }
+
+    public static Farm getFarm() {
+        return farm;
     }
 
     @Override

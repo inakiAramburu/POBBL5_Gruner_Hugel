@@ -19,6 +19,7 @@ import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
+import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
@@ -30,7 +31,7 @@ import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
-import gruner.huger.grunerhugel.domain.repository.WorkerRepository;
+import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.FarmPlow;
@@ -79,13 +80,15 @@ public class SimulationController {
     @Autowired
     private TractorRepository tractorRepository;
     @Autowired
-    private WorkerRepository workerRepository;
-    @Autowired
     private SimulationRepository simulationRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private WeatherRepository weatherRepository;
+    @Autowired
+    private FuelRepository fuelRepository;
+    @Autowired
+    private WheatPriceRepository wheatPriceRepository;
 
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
@@ -149,7 +152,7 @@ public class SimulationController {
         model.addAttribute("newFarmPlow", new FarmPlow());
         model.addAttribute("newFarmSeeder", new FarmSeeder());
 
-        SimulationProcesses sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, workerRepository, landRepository, townRepository);
+        SimulationProcesses sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository, fuelRepository, wheatPriceRepository);
         sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository);
         sim.initialize(0, simulation.getStartDate(), simulation.getEndDate(), (List<Land>) landRepository.findAll());
         sim.start();
@@ -213,12 +216,12 @@ public class SimulationController {
             }
 
             // Save workers (One to One: Farm)
-            for (Integer i = 0; i < farm.getNumWorkers(); i++) {
-                Worker worker = new Worker();
-                worker.setFarm(farm);
-                worker.setPagado(false);
-                workerRepository.save(worker);
-            }
+            // for (Integer i = 0; i < farm.getNumWorkers(); i++) {
+            //     Worker worker = new Worker();
+            //     worker.setFarm(farm);
+            //     worker.setPagado(false);
+            //     workerRepository.save(worker);
+            // }
 
             GrunerhugelApplication.logger.log(Level.INFO, "Farm/Simulation information saved succesfully");
         }
@@ -266,9 +269,9 @@ public class SimulationController {
             farmSeederRepository.delete(farmseeder);
         });
 
-        workerRepository.findByFarm(farm).forEach(worker -> {
-            workerRepository.delete(worker);
-        });
+        // workerRepository.findByFarm(farm).forEach(worker -> {
+        //     workerRepository.delete(worker);
+        // });
 
         landRepository.findByFarm(farm).forEach(land -> {
             landRepository.delete(land);
@@ -295,7 +298,7 @@ public class SimulationController {
         Iterable<FarmPlow> oldFarmPlows = farmPlowRepository.findByFarm(oldFarm);
         Iterable<FarmSeeder> oldFarmSeeders = farmSeederRepository.findByFarm(oldFarm);
         Iterable<FarmTractor> oldFarmTractors = farmTractorRepository.findByFarm(oldFarm);
-        Iterable<Worker> oldWorkers = workerRepository.findByFarm(oldFarm);
+        // Iterable<Worker> oldWorkers = workerRepository.findByFarm(oldFarm);
 
         // Edit data
 

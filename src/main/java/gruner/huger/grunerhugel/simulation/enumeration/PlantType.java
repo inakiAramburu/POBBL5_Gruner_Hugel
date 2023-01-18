@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.simulation.thread;
+package gruner.huger.grunerhugel.simulation.enumeration;
 
 public enum PlantType {
     WHEAT("Wheat"),

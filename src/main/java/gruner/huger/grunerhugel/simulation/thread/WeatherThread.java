@@ -17,7 +17,6 @@ import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Weather;
-import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 
 public class WeatherThread extends Thread implements PropertyChangeListener {
     static final String WEATHER_CHECK = "WEATHER CHECK";
@@ -29,6 +28,7 @@ public class WeatherThread extends Thread implements PropertyChangeListener {
     private static boolean check = false;
     private static Lock mutex;
     private static Condition checking;
+    // private static boolean pause;
 
     public WeatherThread(WeatherRepository wRepository, Date date, List<Land> lands) {
         this.wRepository = wRepository;
@@ -64,7 +64,6 @@ public class WeatherThread extends Thread implements PropertyChangeListener {
         GrunerhugelApplication.logger.log(Level.INFO, "WeatherThread Id: {0}", this.getId());
 
         while (!Thread.interrupted()) {
-            awaitCheck();
             if (check) {
                 GrunerhugelApplication.logger.info("UPDATE WEATHER");
                 updateWeather();
@@ -72,11 +71,8 @@ public class WeatherThread extends Thread implements PropertyChangeListener {
                 // notifyListeners(WEATHER_CHECK, forecast);
                 check = false;
             }
+            awaitCheck();
         }
-    }
-
-    private void notifyListeners(String codeName, Object newValue) {
-        this.pcs.firePropertyChange(codeName, null, newValue);
     }
 
     private void updateWeather() {

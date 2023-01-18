@@ -3,15 +3,12 @@ package gruner.huger.grunerhugel.simulation.thread;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
@@ -21,19 +18,19 @@ import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class PlantThread extends Thread implements PropertyChangeListener {
     static final String PROPERTY_NAME = "PLANT_THREAD";
-    Map<Land, List<Plant>> fields;
-    Map<String, Weather> forecast;
+    private Map<Land, List<Plant>> fields;
     private List<Land> lands;
     private static boolean check = false;
     private static Lock mutex;
     private static Condition checking;
     private PropertyChangeSupport pcs;
     private LandRepository lRepository;
-    private PlantRepository pRepository;
-    private OptimalConditionsRepository oRepository;
+    private static PlantRepository pRepository;
+    private static OptimalConditionsRepository oRepository;
 
     public PlantThread(LandRepository landRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository, List<Land> lands) {
@@ -43,16 +40,16 @@ public class PlantThread extends Thread implements PropertyChangeListener {
         mutex = new ReentrantLock();
         checking = mutex.newCondition();
         this.lRepository = landRepository;
-        this.pRepository = plantRepository;
-        this.oRepository = opCondRepository;
+        pRepository = plantRepository;
+        oRepository = opCondRepository;
         updateMap();
     }
 
-    // public void addPlant(Land land, PlantType pType) {
-    // OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
-    // Plant plant = new Plant(land, oConditions);
-    // pRepository.save(plant);
-    // }
+    public static void addPlant(Land land, PlantType pType) {
+        OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
+        Plant plant = new Plant(land, oConditions);
+        pRepository.save(plant);
+    }
 
     private void updateMap() {
         updateLands();
@@ -64,16 +61,11 @@ public class PlantThread extends Thread implements PropertyChangeListener {
 
     @Override
     public void run() {
-        GrunerhugelApplication.logger.log(Level.INFO, "PlantThread Id: {0}", this.getId());
         mutex.lock();
         try {
             while (!Thread.interrupted()) {
                 awaitCheck();
-                if (check) {
-                    GrunerhugelApplication.logger.info("UPDATE PLANTS");
-                    updatePlants();
-                    check = false;
-                }
+                updatePlants();
             }
         } finally {
             mutex.unlock();
@@ -81,28 +73,19 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     }
 
     private void updatePlants() {
-        // updateLands();
-        // take plants from each land
-        // plant has function to check conditions (Weather)
-        forecast = WeatherThread.getForecast();
-        // lands.forEach(land -> fields.get(land)
-        // .forEach(plant ->
-        // plant.checkOptimalCondition(forecast.get(land.getTown().getName()))));
+        Map<String, Weather> forecast = WeatherThread.getForecast();
         for (Land land : lands) {
-            GrunerhugelApplication.logger.info("lands");
             List<Plant> plants = fields.get(land);
             if (plants != null)
                 for (Plant plant : plants) {
-                    GrunerhugelApplication.logger.info("plants");
                     plant.checkOptimalCondition(forecast.get(land.getTown().getName()));
                 }
         }
-        // update to database
-        lands.forEach(land -> fields.get(land).forEach(plant -> pRepository.save(plant)));
+        check = false;
     }
 
     private void updateLands() {
-        lands = (List<Land>) lRepository.findByFarm(SimulationProcesses.farm);
+        lands = (List<Land>) lRepository.findByFarm(SimulationProcesses.getFarm());
     }
 
     private void awaitCheck() {
@@ -116,7 +99,6 @@ public class PlantThread extends Thread implements PropertyChangeListener {
         }
     }
 
-    @SuppressWarnings(value = "unchecked")
     @Override
     public void propertyChange(PropertyChangeEvent arg0) {
         String property = arg0.getPropertyName();
