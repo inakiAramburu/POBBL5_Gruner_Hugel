@@ -1,10 +1,10 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -42,16 +42,17 @@ public class FuelThread extends Thread {
 
     private void updateFuel() {
         Date date = TimeThread.getActualDate();
-        String temp = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date);
-        temp = temp.split(" ")[2];
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        Year year = Year.of(Integer.parseInt(temp));
+        Year year = Year.of(Integer.parseInt(DateFormat.getDateInstance(DateFormat.MEDIUM).format(date).split(" ")[2]));
         int week = 0;
         if (year.isAfter(Year.of(2001))) {
             week = cal.get(Calendar.WEEK_OF_YEAR);
         }
-        Iterable<Fuel> fuels = fRepository.findByYearAndPeriod(year, week);
+        Optional<Fuel> opFuel = fRepository.findByYearAndPeriod(year, week);
+        if(opFuel.isPresent()){
+            fuel = opFuel.get();
+        }
     }
 
     private void awaitCheck() {

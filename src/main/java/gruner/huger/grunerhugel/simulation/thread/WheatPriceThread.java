@@ -1,19 +1,16 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.sql.Time;
 import java.text.DateFormat;
 import java.time.Year;
-import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
-import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
-import gruner.huger.grunerhugel.model.Fuel;
 import gruner.huger.grunerhugel.model.WheatPrice;
 
 public class WheatPriceThread extends Thread {
@@ -44,15 +41,16 @@ public class WheatPriceThread extends Thread {
 
     private void updateWheatPrice() {
         Date date = TimeThread.getActualDate();
-        String[] temp = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date).split(" ");
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(date);
-        Year year = Year.of(Integer.parseInt(temp[2]));
+        String[] monthYear = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date).split(" ");
+        Year year = Year.of(Integer.parseInt(monthYear[2]));
         String month = "";
         if (year.isAfter(Year.of(1998))) {
-            month = temp[1];
+            month = monthYear[1];
         }
-        Iterable<WheatPrice> wheatPrices = wpRepository.findByYearAndMonth(year, month);
+        Optional<WheatPrice> opWheatPrices = wpRepository.findByYearAndMonth(year, month);
+        if(opWheatPrices.isPresent()){
+            wheatPrice = opWheatPrices.get();
+        }
     }
 
     private void awaitCheck() {
@@ -79,7 +77,7 @@ public class WheatPriceThread extends Thread {
         }
     }
 
-    public static double buyWheatPrice(int tones) {
+    public static double sellWheat(int tones) {
         return tones * wheatPrice.getPrice();
     }
 }

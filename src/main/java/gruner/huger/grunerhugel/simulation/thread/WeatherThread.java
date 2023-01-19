@@ -1,8 +1,5 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -18,23 +15,20 @@ import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Weather;
 
-public class WeatherThread extends Thread implements PropertyChangeListener {
+public class WeatherThread extends Thread {
     static final String WEATHER_CHECK = "WEATHER CHECK";
     private WeatherRepository wRepository;
     private static Map<String, Weather> forecast;
     Date date;
     List<String> villages;
-    private PropertyChangeSupport pcs;
     private static boolean check = false;
     private static Lock mutex;
     private static Condition checking;
-    // private static boolean pause;
 
     public WeatherThread(WeatherRepository wRepository, Date date, List<Land> lands) {
         this.wRepository = wRepository;
         forecast = new HashMap<>();
         initialize(date, lands);
-        pcs = new PropertyChangeSupport(this);
         mutex = new ReentrantLock();
         checking = mutex.newCondition();
     }
@@ -65,10 +59,8 @@ public class WeatherThread extends Thread implements PropertyChangeListener {
 
         while (!Thread.interrupted()) {
             if (check) {
-                GrunerhugelApplication.logger.info("UPDATE WEATHER");
                 updateWeather();
                 PlantThread.callSignal();
-                // notifyListeners(WEATHER_CHECK, forecast);
                 check = false;
             }
             awaitCheck();
@@ -105,44 +97,6 @@ public class WeatherThread extends Thread implements PropertyChangeListener {
 
     public Weather getWeatherFromTownNameAndDate(String townName) {
         return forecast.get(townName);
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.removePropertyChangeListener(listener);
-    }
-
-    @Override
-    public void propertyChange(PropertyChangeEvent arg0) {
-        String property = arg0.getPropertyName();
-        switch (property) {
-            case TimeThread.HOUR_PASS:
-                check = true;
-                if (check) {
-                    mutex.lock();
-                    try {
-                        this.date = (Date) arg0.getNewValue();
-                        checking.signal();
-                    } finally {
-                        mutex.unlock();
-                    }
-                }
-                break;
-            case TimeThread.TIME_PAUSE:
-                this.pcs.firePropertyChange(TimeThread.TIME_PAUSE, null, null);
-                try {
-                    GrunerhugelApplication.logger.info("Latch WeatherThread");
-                    TimeThread.cDownLatch.await();
-                } catch (InterruptedException e) {
-                    GrunerhugelApplication.logger.warning("CountDown Interrupted!");
-                    this.interrupt();
-                }
-                break;
-            default:
-        }
     }
 
     public static void callSignal() {

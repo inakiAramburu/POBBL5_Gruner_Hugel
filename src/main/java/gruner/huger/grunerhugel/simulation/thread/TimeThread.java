@@ -27,7 +27,7 @@ public class TimeThread extends Thread {
     // private final int HOURS_PER_DAY = 24;
     public static CountDownLatch cDownLatch;
     private static PropertyChangeSupport pcs;
-    private int accelerator = 4;
+    private int accelerator = 1;
     private static boolean pause = false;
     private static Date actualDate;
     private Date endDate;
@@ -47,7 +47,7 @@ public class TimeThread extends Thread {
                 while (!pause && checkDate()) {
                     Thread.sleep(HOUR_DURATION / accelerator);
                     GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}", DateFormat.getDateTimeInstance().format(actualDate));
-                    // WeatherThread.callSignal();
+                    WeatherThread.callSignal();
                     isFirstHourOfMonth();
                     isWorkingHours();
                     isDayEnding();
@@ -117,11 +117,9 @@ public class TimeThread extends Thread {
 
     public static void isWorkingHours() {
         int hours = getHours();
-        boolean workingHours = false;
         if (WORKING_HOURS_MIN <= hours && WORKING_HOURS_MAX > hours) {
-            workingHours = true;
+            WorkerThread.callSignal();
         }
-        WorkerThread.setWorkingHours(workingHours);
     }
 
     public static void isDayEnding() {
@@ -134,6 +132,7 @@ public class TimeThread extends Thread {
         if(getHours()==DAY_STARTING_HOUR && getDay()==MONTH_STARTING_DAY){
             // WorkerThread.payWorkers();
             WheatPriceThread.callSignal();
+            FuelThread.callSignal();
         }
     }
 
