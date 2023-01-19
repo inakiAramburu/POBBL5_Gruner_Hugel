@@ -37,7 +37,6 @@ public class MapController {
     @ResponseBody
     public String updateForm(String y, String x) throws IOException {
 
-        System.out.println("alo");
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://geocode.maps.co/reverse?lat=" + y
@@ -49,7 +48,6 @@ public class MapController {
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject obj = new JSONObject(response.body());
-            System.out.println(obj);
             JSONObject address = obj.getJSONObject("address");
             try {
                 village = address.getString("village");
@@ -64,9 +62,10 @@ public class MapController {
                     }
                 }
             }
-            System.out.println(village);
+            GrunerhugelApplication.logger.info("Village: " + village);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            GrunerhugelApplication.logger.info("Error while getting village");
+            Thread.currentThread().interrupt();
         }
 
         return village;

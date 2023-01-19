@@ -55,6 +55,8 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class SimulationController {
 
+    final String REDIRECT = "redirect:";
+
     @Autowired
     private FarmRepository farmRepository;
     @Autowired
@@ -183,7 +185,7 @@ public class SimulationController {
             GrunerhugelApplication.logger.log(Level.INFO, "Farm/Simulation information saved succesfully");
         }
 
-        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
+        return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
     }
 
     @GetMapping(value = "/deleteSimulation")
@@ -303,7 +305,7 @@ public class SimulationController {
             System.out.println("Error updating the Simulation");
         }
 
-        return "redirect:" + URI.HOME_USER_FARM.getPath();
+        return REDIRECT + URI.HOME_USER_FARM.getPath();
     }
 
     @PostMapping(value = "/addLand")
@@ -334,7 +336,7 @@ public class SimulationController {
             GrunerhugelApplication.logger.log(Level.INFO, "Town not found");
         }
 
-        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
+        return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
     }
 
     @GetMapping(value = "/deleteLand/{id}")
