@@ -5,8 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.User;
 
-public interface FarmRepository extends CrudRepository<Farm,Integer>{
+public interface FarmRepository extends CrudRepository<Farm, Integer> {
 
     Farm findByUser(User user);
-    Farm deleteByUser(User user);
 }

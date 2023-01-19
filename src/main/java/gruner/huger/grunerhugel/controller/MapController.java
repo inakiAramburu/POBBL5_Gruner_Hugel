@@ -1,12 +1,21 @@
 package gruner.huger.grunerhugel.controller;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.FarmRepository;
+import gruner.huger.grunerhugel.domain.repository.LandRepository;
+import gruner.huger.grunerhugel.domain.repository.UserRepository;
+import gruner.huger.grunerhugel.model.Farm;
+import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.model.User;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,6 +25,13 @@ import java.net.http.HttpResponse;
 
 @RestController
 public class MapController {
+
+    @Autowired
+    private LandRepository landRepository;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private FarmRepository farmRepository;
 
     @GetMapping(value = "/maper")
     @ResponseBody
@@ -54,6 +70,31 @@ public class MapController {
         }
 
         return village;
+    }
+
+    @GetMapping(value = "/maper/load")
+    @ResponseBody
+    public String loadLands() {
+        GrunerhugelApplication.logger.info("Loading lands");
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Farm farm = farmRepository.findByUser(user);
+        if (farm != null) {
+            Iterable<Land> lista = landRepository.findByFarm(farm);
+            return toJSON(lista);
+        }
+        return null;
+    }
+
+    String toJSON(Iterable<Land> list) {
+        // set list into Json without Gson
+        JSONArray jsonArray = new JSONArray();
+        for (Land land : list) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("y", land.getLatitude());
+            jsonObject.put("x", land.getLongitude());
+            jsonArray.put(jsonObject);
+        }
+        return jsonArray.toString();
     }
 
 }

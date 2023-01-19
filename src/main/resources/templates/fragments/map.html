@@ -29,7 +29,7 @@
                 $("#lt").val(coord[1]);
               },
               error: function (e) {
-                alert("An error ocurred trying to get the town");
+                alert("An error ocurred trying to get the town, try again");
               }
             });
           },
@@ -44,5 +44,30 @@
     });
 
     //On load cargar los puntos desde la base de datos
+    map.loaded().then(function () {
+      loadMarkers();
+    });
+
+    function loadMarkers() {
+      $.ajax({
+        url: "/maper/load",
+        type: "GET",
+        cache: false,
+        timeout: 1000,
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          if (data != null) {
+            for (var i = 0; i < data.length; i++) {
+              var coord = [data[i].x, data[i].y];
+              map.addMarker(coord, markerOptions);
+            }
+          }
+        },
+        error: function (e) {
+          alert("An error ocurred trying to load the lands");
+        }
+      });
+    }
   </script>
 </div>

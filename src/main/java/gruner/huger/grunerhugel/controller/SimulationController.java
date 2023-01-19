@@ -202,6 +202,11 @@ public class SimulationController {
                 .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
         farmSeederRepository.findByFarm(farm)
                 .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
+        landRepository.findByFarm(farm)
+                .forEach(land -> {
+                    plantRepository.searchByLand(land).forEach(plant -> plantRepository.delete(plant));
+                    landRepository.delete(land);
+                });
 
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
@@ -337,7 +342,7 @@ public class SimulationController {
         // Delete plant
         Optional<Land> land = landRepository.findById(id);
         if (land.isPresent()) {
-            plantRepository.findByLand(land)
+            plantRepository.searchByLand(land)
                     .forEach(p -> plantRepository.delete(p));
             landRepository.delete(land.get());
         }
