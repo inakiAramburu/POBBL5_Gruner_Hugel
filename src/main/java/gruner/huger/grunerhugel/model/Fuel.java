@@ -58,4 +58,40 @@ public class Fuel implements Serializable {
         return true;
     }
 
+
+
+    public FuelId getFuelId() {
+        return fuelId;
+    }
+
+
+
+    public void setFuelId(FuelId fuelId) {
+        this.fuelId = fuelId;
+    }
+
+
+
+    public double getPrice() {
+        return price;
+    }
+
+
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+
+
+    public String getCurrency() {
+        return currency;
+    }
+
+
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
 }

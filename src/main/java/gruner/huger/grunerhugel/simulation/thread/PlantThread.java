@@ -44,7 +44,7 @@ public class PlantThread extends Thread {
 
     public static void addPlant(Land land, PlantType pType) {
         OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
-        Plant plant = new Plant(land, oConditions);
+        Plant plant = new Plant(oConditions, land);
         pRepository.save(plant);
     }
 
@@ -67,17 +67,6 @@ public class PlantThread extends Thread {
             }
         } finally {
             mutex.unlock();
-        }
-    }
-
-    private void awaitCheck() {
-        while (!check) {
-            try {
-                checking.await();
-            } catch (InterruptedException e) {
-                GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-                Thread.currentThread().interrupt();
-            }
         }
     }
 
