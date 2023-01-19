@@ -66,7 +66,8 @@ public class MapController {
             }
             System.out.println(village);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            GrunerhugelApplication.logger.info("Error while getting village");
+            Thread.currentThread().interrupt();
         }
 
         return village;
