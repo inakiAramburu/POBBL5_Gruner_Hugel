@@ -1,70 +1,32 @@
 package gruner.huger.grunerhugel.model;
 
 import java.io.Serializable;
-import java.time.Year;
-
+import gruner.huger.grunerhugel.model.compositekey.FuelId;
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "fuel")
 public class Fuel implements Serializable {
 
-    @Id
-    @Column(name = "year")
-    private Year year;
-    @Id
-    @Column(name = "Period (Week)")
-    private int periodWeek;
+    @EmbeddedId
+    private FuelId fuelId;
     @Column(name = "price")
     private double price;
     @Column(name = "currency")
     private String currency;
 
     public Fuel() {
-        // no need
-    }
-
-    public Year getYear() {
-        return year;
-    }
-
-    public void setYear(Year year) {
-        this.year = year;
-    }
-
-    public int getPeriodWeek() {
-        return periodWeek;
-    }
-
-    public void setPeriodWeek(int periodWeek) {
-        this.periodWeek = periodWeek;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
+        //no need
     }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((year == null) ? 0 : year.hashCode());
-        result = prime * result + periodWeek;
+        result = prime * result + ((fuelId == null) ? 0 : fuelId.hashCode());
         long temp;
         temp = Double.doubleToLongBits(price);
         result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -81,12 +43,10 @@ public class Fuel implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         Fuel other = (Fuel) obj;
-        if (year == null) {
-            if (other.year != null)
+        if (fuelId == null) {
+            if (other.fuelId != null)
                 return false;
-        } else if (!year.equals(other.year))
-            return false;
-        if (periodWeek != other.periodWeek)
+        } else if (!fuelId.equals(other.fuelId))
             return false;
         if (Double.doubleToLongBits(price) != Double.doubleToLongBits(other.price))
             return false;

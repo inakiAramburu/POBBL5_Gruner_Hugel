@@ -121,4 +121,56 @@ public class Land implements Serializable {
     return "Land [id=" + id + ", size=" + size + ", status=" + status + ", farm=" + farm + ", town=" + town + "]";
   }
 
+    @Override
+    public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + id;
+      long temp;
+      temp = Double.doubleToLongBits(size);
+      result = prime * result + (int) (temp ^ (temp >>> 32));
+      result = prime * result + ((status == null) ? 0 : status.hashCode());
+      result = prime * result + ((farm == null) ? 0 : farm.hashCode());
+      result = prime * result + ((town == null) ? 0 : town.hashCode());
+      result = prime * result + ((plants == null) ? 0 : plants.hashCode());
+      return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+      if (this == obj)
+        return true;
+      if (obj == null)
+        return false;
+      if (getClass() != obj.getClass())
+        return false;
+      Land other = (Land) obj;
+      if (id != other.id)
+        return false;
+      if (Double.doubleToLongBits(size) != Double.doubleToLongBits(other.size))
+        return false;
+      if (status == null) {
+        if (other.status != null)
+          return false;
+      } else if (!status.equals(other.status))
+        return false;
+      if (farm == null) {
+        if (other.farm != null)
+          return false;
+      } else if (!farm.equals(other.farm))
+        return false;
+      if (town == null) {
+        if (other.town != null)
+          return false;
+      } else if (!town.equals(other.town))
+        return false;
+      if (plants == null) {
+        if (other.plants != null)
+          return false;
+      } else if (!plants.equals(other.plants))
+        return false;
+      return true;
+    }
+
+    
 }

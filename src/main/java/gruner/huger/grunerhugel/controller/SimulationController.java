@@ -22,6 +22,7 @@ import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
+import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
@@ -32,6 +33,8 @@ import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.TownRepository;
 import gruner.huger.grunerhugel.domain.repository.TractorRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
+import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
+import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.FarmPlow;
@@ -87,6 +90,12 @@ public class SimulationController {
     private SimulationRepository simulationRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private WeatherRepository weatherRepository;
+    @Autowired
+    private FuelRepository fuelRepository;
+    @Autowired
+    private WheatPriceRepository wheatPriceRepository;
 
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
@@ -213,7 +222,7 @@ public class SimulationController {
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
 
-        return "redirect:" + URI.HOME_USER_NO_FARM.getPath();
+        return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
     }
 
     @PostMapping(value = "/updateSimulation")
@@ -236,8 +245,8 @@ public class SimulationController {
                 if (oldSimulation.getEndDate().before(newSimulation.getEndDate())) {
                     oldSimulation.setEndDate(newSimulation.getEndDate());
                 } else {
-                    System.out.println("Start date must be before end date");
-                    return "redirect:/simulation"; // aiqu cambiarlo tendria no deberia de reiniciar toda la simulacion
+                    GrunerhugelApplication.logger.info("Start date must be before end date");
+                    return REDIRECT+"/simulation"; // aiqu cambiarlo tendria no deberia de reiniciar toda la simulacion
                                                    // xd
                 }
             }
@@ -302,7 +311,7 @@ public class SimulationController {
             }
 
         } catch (Exception e) {
-            System.out.println("Error updating the Simulation");
+            GrunerhugelApplication.logger.info("Error updating the Simulation");
         }
 
         return REDIRECT + URI.HOME_USER_FARM.getPath();
@@ -368,4 +377,10 @@ public class SimulationController {
      * 
      * }
      */
+
+    @PostMapping(value = "/startSimulation")
+    public String startSimulation(){
+        // sim.start();
+        return "simulation/simulation";
+    }
 }
