@@ -78,7 +78,7 @@ class UserRespositoryTest {
     void testFindAllUsers() {
         Iterable<User> users = userRepository.findAll();
         assertNotNull(users);
-        assertThat(users).size().isGreaterThan(0);
+        assertThat(users).size().isPositive();
     }
 
     @Test
@@ -86,7 +86,7 @@ class UserRespositoryTest {
     void testFindAllRoles() {
         Iterable<Role> roles = roleRepository.findAll();
         assertNotNull(roles);
-        assertThat(roles).size().isGreaterThan(0);
+        assertThat(roles).size().isPositive();
     }
 
     @Test

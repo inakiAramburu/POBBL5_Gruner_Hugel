@@ -50,11 +50,7 @@ public class MapController {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JSONObject obj = new JSONObject(response.body());
             JSONObject address = obj.getJSONObject("address");
-            try {
-                village = address.getString("village");
-            } catch (JSONException e) {
-                village = checkWithCity(address);
-            }
+            village = checkVillage(address);
             GrunerhugelApplication.logger.log(Level.INFO, "Village: {0}", village);
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.info("Error while getting village");
@@ -87,6 +83,18 @@ public class MapController {
             jsonArray.put(jsonObject);
         }
         return jsonArray.toString();
+    }
+
+    public String checkVillage(JSONObject address) {
+
+        String village = "N/A";
+        try {
+            village = address.getString("village");
+        } catch (JSONException e) {
+            village = checkWithCity(address);
+        }
+
+        return village;
     }
 
     public String checkWithCity(JSONObject address) {
