@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +16,17 @@ import gruner.huger.grunerhugel.model.Harvester;
 @SpringBootTest
 
 public class HarvesterRespositoryTest {
-   
-    
+
     @Autowired
     private HarvesterRespository harvesterRespository;
-   
-     @Test
+
+    @Test
     public void testFindByName() {
-        Harvester harvester = getHarvester();	     
+        Harvester harvester = getHarvester();
         harvesterRespository.save(harvester);
         Harvester result = harvesterRespository.findById(harvester.getHarvesterName()).get();
-        assertEquals(harvester.getHarvesterName(), result.getHarvesterName());	 	       
-    } 
+        assertEquals(harvester.getHarvesterName(), result.getHarvesterName());
+    }
 
     @AfterEach
     @Test
@@ -39,7 +37,6 @@ public class HarvesterRespositoryTest {
         harvesterRespository.findAll().forEach(e -> result.add(e));
         assertEquals(result.size(), 10);
     }
-
 
     private Harvester getHarvester() {
         Harvester harvester = new Harvester();
