@@ -1,5 +1,6 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -40,7 +41,7 @@ public class WorkerThread extends Thread {
         mutex = new ReentrantLock();
         checking = mutex.newCondition();
         assignWorkersToLands();
-        rand = new Random();
+        rand = new SecureRandom();
     }
 
     private List<Worker> setWorkers() {
@@ -111,7 +112,7 @@ public class WorkerThread extends Thread {
 
     private void hoursPass() {
         for (List<Worker> lList : assignationMap.values()) {
-            lList.forEach(w -> w.hourPass());
+            lList.forEach(Worker::hourPass);
         }
     }
 

@@ -50,15 +50,15 @@ import gruner.huger.grunerhugel.model.Simulation;
 import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.User;
-import gruner.huger.grunerhugel.model.formObjects.CreateLand;
-import gruner.huger.grunerhugel.model.formObjects.CreateSimulation;
-import gruner.huger.grunerhugel.model.formObjects.EditSimulation;
+import gruner.huger.grunerhugel.model.formobjects.CreateLand;
+import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
+import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class SimulationController {
 
-    final String REDIRECT = "redirect:";
+    static final String REDIRECT = "redirect:";
 
     @Autowired
     private FarmRepository farmRepository;
@@ -246,8 +246,9 @@ public class SimulationController {
                     oldSimulation.setEndDate(newSimulation.getEndDate());
                 } else {
                     GrunerhugelApplication.logger.info("Start date must be before end date");
-                    return REDIRECT+"/simulation"; // aiqu cambiarlo tendria no deberia de reiniciar toda la simulacion
-                                                   // xd
+                    return REDIRECT + "/simulation"; // aiqu cambiarlo tendria no deberia de reiniciar toda la
+                                                     // simulacion
+                                                     // xd
                 }
             }
 
@@ -379,7 +380,7 @@ public class SimulationController {
      */
 
     @PostMapping(value = "/startSimulation")
-    public String startSimulation(){
+    public String startSimulation() {
         // sim.start();
         return "simulation/simulation";
     }

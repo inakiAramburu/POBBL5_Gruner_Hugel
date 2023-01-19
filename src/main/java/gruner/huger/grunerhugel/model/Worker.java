@@ -11,14 +11,13 @@ import gruner.huger.grunerhugel.simulation.Message;
 public class Worker extends Thread {
 
     private boolean pagado;
-    private boolean jobFinished;
+    private static boolean jobFinished = false;
     private BlockingQueue<Message> queue;
     private static CountDownLatch cLatch;
 
     public Worker(BlockingQueue<Message> blockingQueue) {
         this.queue = blockingQueue;
         this.pagado = true;
-        this.jobFinished = false;
     }
 
     @Override
@@ -32,7 +31,7 @@ public class Worker extends Thread {
         }
     }
 
-    public void setWork(int workHours) {
+    public static void setWork(int workHours) {
         jobFinished = false;
         cLatch = new CountDownLatch(workHours);
     }
@@ -62,7 +61,7 @@ public class Worker extends Thread {
     }
 
     public void hourPass() {
-        if (cLatch != null && cLatch.getCount()!=0){
+        if (cLatch != null && cLatch.getCount() != 0) {
             GrunerhugelApplication.logger.info("Worker countedDown");
             cLatch.countDown();
         }

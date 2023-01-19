@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.model.formObjects;
+package gruner.huger.grunerhugel.model.formobjects;
 
 import java.util.Date;
 

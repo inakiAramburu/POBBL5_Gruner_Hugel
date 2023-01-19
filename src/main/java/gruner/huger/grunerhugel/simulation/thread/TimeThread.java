@@ -25,8 +25,7 @@ public class TimeThread extends Thread {
     // private final int SECONDS_PER_MINUTE = 60;
     // private final int MINUTES_PER_HOUR = 60;
     // private final int HOURS_PER_DAY = 24;
-    public static CountDownLatch cDownLatch;
-    private static PropertyChangeSupport pcs;
+    private static CountDownLatch cDownLatch;
     private int accelerator = 1;
     private static boolean pause = false;
     private static Date actualDate;
@@ -34,7 +33,6 @@ public class TimeThread extends Thread {
 
     public TimeThread(Date startDate, Date endDate) {
         // no need
-        pcs = new PropertyChangeSupport(this);
         actualDate = startDate;
         this.endDate = endDate;
     }
@@ -46,7 +44,8 @@ public class TimeThread extends Thread {
             while (!Thread.interrupted()) {
                 while (!pause && checkDate()) {
                     Thread.sleep(HOUR_DURATION / accelerator);
-                    GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}", DateFormat.getDateTimeInstance().format(actualDate));
+                    GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}",
+                            DateFormat.getDateTimeInstance().format(actualDate));
                     WeatherThread.callSignal();
                     isFirstHourOfMonth();
                     isWorkingHours();
@@ -55,7 +54,6 @@ public class TimeThread extends Thread {
                 }
                 if (!pause) {
                     GrunerhugelApplication.logger.info(TERMINATE);
-                    notifyListeners(TERMINATE, null);
                 } else {
                     GrunerhugelApplication.logger.info(TIME_PAUSE);
                     cDownLatch.await();
@@ -82,25 +80,11 @@ public class TimeThread extends Thread {
     public static void pause() {
         cDownLatch = new CountDownLatch(1);
         pause = true;
-        notifyListeners(TIME_PAUSE, cDownLatch);
     }
 
     public static void play() {
         cDownLatch.countDown();
         pause = false;
-        notifyListeners(TIME_RESUME, null);
-    }
-
-    private static void notifyListeners(String codeName, Object newValue) {
-        pcs.firePropertyChange(codeName, null, newValue);
-    }
-
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        pcs.removePropertyChangeListener(listener);
     }
 
     public void setAccelerator(int accelerator) {
@@ -129,14 +113,14 @@ public class TimeThread extends Thread {
     }
 
     private void isFirstHourOfMonth() {
-        if(getHours()==DAY_STARTING_HOUR && getDay()==MONTH_STARTING_DAY){
+        if (getHours() == DAY_STARTING_HOUR && getDay() == MONTH_STARTING_DAY) {
             // WorkerThread.payWorkers();
             WheatPriceThread.callSignal();
             FuelThread.callSignal();
         }
     }
 
-    private static int getDay(){
+    private static int getDay() {
         String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(actualDate);
         return Integer.parseInt(date.split(" ")[0]);
     }

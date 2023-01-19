@@ -14,14 +14,13 @@ import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.model.Harvester;
 
 @SpringBootTest
-
-public class HarvesterRespositoryTest {
+class HarvesterRespositoryTest {
 
     @Autowired
     private HarvesterRespository harvesterRespository;
 
     @Test
-    public void testFindByName() {
+    void testFindByName() {
         Harvester harvester = getHarvester();
         harvesterRespository.save(harvester);
         Harvester result = harvesterRespository.findById(harvester.getHarvesterName()).get();
@@ -30,12 +29,12 @@ public class HarvesterRespositoryTest {
 
     @AfterEach
     @Test
-    public void testDeleteById() {
+    void testDeleteById() {
         Harvester harvester = getHarvester();
         harvesterRespository.delete(harvester);
         List<Harvester> result = new ArrayList<>();
         harvesterRespository.findAll().forEach(e -> result.add(e));
-        assertEquals(result.size(), 10);
+        assertEquals(10, result.size());
     }
 
     private Harvester getHarvester() {

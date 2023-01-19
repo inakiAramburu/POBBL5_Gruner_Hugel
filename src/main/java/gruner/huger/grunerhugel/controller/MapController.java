@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.logging.Level;
 
 @RestController
 public class MapController {
@@ -52,17 +53,9 @@ public class MapController {
             try {
                 village = address.getString("village");
             } catch (JSONException e) {
-                try {
-                    village = address.getString("city");
-                } catch (JSONException r) {
-                    try {
-                        village = address.getString("town");
-                    } catch (JSONException u) {
-                        GrunerhugelApplication.logger.info("No village found");
-                    }
-                }
+                village = checkWithCity(address);
             }
-            GrunerhugelApplication.logger.info("Village: " + village);
+            GrunerhugelApplication.logger.log(Level.INFO, "Village: {0}", village);
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.info("Error while getting village");
             Thread.currentThread().interrupt();
@@ -94,6 +87,31 @@ public class MapController {
             jsonArray.put(jsonObject);
         }
         return jsonArray.toString();
+    }
+
+    public String checkWithCity(JSONObject address) {
+
+        String village = "N/A";
+        try {
+            village = address.getString("city");
+        } catch (JSONException r) {
+            village = checkWithTown(address);
+        }
+
+        return village;
+    }
+
+    public String checkWithTown(JSONObject address) {
+
+        String village = "N/A";
+
+        try {
+            village = address.getString("town");
+        } catch (JSONException u) {
+            GrunerhugelApplication.logger.info("No village found");
+        }
+
+        return village;
     }
 
 }
