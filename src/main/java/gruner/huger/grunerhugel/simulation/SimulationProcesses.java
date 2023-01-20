@@ -7,6 +7,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
@@ -30,7 +31,6 @@ import gruner.huger.grunerhugel.simulation.thread.WorkerThread;
 
 public class SimulationProcesses extends Thread {
     public static final String DATA_UPDATE = "DATA UPDATE";
-    // private static boolean horaConcluida = false;
     private WeatherRepository wRepository;
     private PlantRepository pRepository;
     private OptimalConditionsRepository oRepository;
@@ -55,10 +55,10 @@ public class SimulationProcesses extends Thread {
     private static Lock mutex;
     private static Condition cond;
 
-    public SimulationProcesses(Farm farm, WeatherRepository weatherRepository, PlantRepository plantRepository,
+    public SimulationProcesses(Farm apointedFarm, WeatherRepository weatherRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository, LandRepository landRepository, FuelRepository fuelRepository,
             WheatPriceRepository wPriceRepository) {
-        SimulationProcesses.farm = farm;
+        farm = apointedFarm;
         this.wRepository = weatherRepository;
         this.oRepository = opCondRepository;
         this.pRepository = plantRepository;
