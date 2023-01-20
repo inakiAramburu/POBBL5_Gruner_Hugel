@@ -91,7 +91,7 @@ class UserRespositoryTest {
 
     @Test
     void deleteUserTest() {
-        User user = userRepository.findByUsername("test2");
+        //User user = userRepository.findByUsername("test2");
         userRepository.delete(user);
         assertNull(userRepository.findByUsername("test2"));
     }
