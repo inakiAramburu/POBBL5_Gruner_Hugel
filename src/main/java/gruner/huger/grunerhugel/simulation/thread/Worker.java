@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.model;
+package gruner.huger.grunerhugel.simulation.thread;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
