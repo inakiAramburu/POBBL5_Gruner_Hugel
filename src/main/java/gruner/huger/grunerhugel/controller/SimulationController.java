@@ -7,7 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -45,8 +44,6 @@ import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Worker;
-import gruner.huger.grunerhugel.model.formObjects.CreateSimulation;
-import gruner.huger.grunerhugel.model.formObjects.EditSimulation;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -87,10 +84,6 @@ public class SimulationController {
 
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
-        // Set atributtes
-        int total = 10000;
-
-        session.setAttribute("total", total);
 
         // Set data
         model.addAttribute("tractors", tractorRepository.findAll());
@@ -104,7 +97,7 @@ public class SimulationController {
         // Set land
         model.addAttribute("land", new Land());
         model.addAttribute("plant", new Plant());
-        // model.addAttribute("town", new Town());
+        model.addAttribute("town", new Town());
 
         return URI.HOME_USER_NO_FARM.getView();
     }
@@ -230,8 +223,6 @@ public class SimulationController {
                 .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
         farmSeederRepository.findByFarm(farm)
                 .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
-        workerRepository.findByFarm(farm)
-                .forEach(worker -> workerRepository.delete(worker));
 
         simulationRepository.delete(simulation);
         farmRepository.delete(farm);
@@ -327,20 +318,6 @@ public class SimulationController {
 
             // Worker
             if (oldFarm.getNumWorkers() != newSimulation.getNumWorkers()) {
-
-                if (oldFarm.getNumWorkers() > newSimulation.getNumWorkers()) {
-                    int numWorkers = oldFarm.getNumWorkers() - newSimulation.getNumWorkers();
-                    for (int i = 0; i < numWorkers; i++) {
-                        workerRepository.delete(oldWorkers.iterator().next());
-                    }
-                } else {
-                    int numWorkers = newSimulation.getNumWorkers() - oldFarm.getNumWorkers();
-                    for (int i = 0; i < numWorkers; i++) {
-                        Worker worker = new Worker();
-                        worker.setFarm(oldFarm);
-                        workerRepository.save(worker);
-                    }
-                }
                 oldFarm.setNumWorkers(newSimulation.getNumWorkers());
                 farmRepository.save(oldFarm);
             }

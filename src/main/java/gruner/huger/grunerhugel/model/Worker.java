@@ -17,9 +17,7 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "worker")
-@Getter
-@Setter
-public class Worker implements Serializable, Runnable { // extends Thread //most probably
+public class Worker implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,26 +28,28 @@ public class Worker implements Serializable, Runnable { // extends Thread //most
     @JoinColumn(name = "FK_FarmId")
     private Farm farm;
 
-    boolean pagado = false;
-    // BlockingQueue<String> blockingQueue;
-
     public Worker() {
         // no need
     }
 
-    public Worker(Farm farm) {
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
         this.farm = farm;
-        this.pagado = false;
     }
 
     @Override
     public String toString() {
         return "Worker [id=" + id + ", farm=" + farm + "]";
-    }
-
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-
     }
 }

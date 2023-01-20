@@ -7,14 +7,10 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "wheat_price")
-@Getter
-@Setter
-public class WheatPrice implements Serializable{
+public class WheatPrice implements Serializable {
 
     @Id
     @Column(name = "month")
@@ -26,7 +22,31 @@ public class WheatPrice implements Serializable{
     private double price;
 
     public WheatPrice() {
-        //no need
+        // no need
+    }
+
+    public String getMonth() {
+        return month;
+    }
+
+    public void setMonth(String month) {
+        this.month = month;
+    }
+
+    public Year getYear() {
+        return year;
+    }
+
+    public void setYear(Year year) {
+        this.year = year;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 
     @Override
@@ -64,7 +84,5 @@ public class WheatPrice implements Serializable{
             return false;
         return true;
     }
-
-    
 
 }

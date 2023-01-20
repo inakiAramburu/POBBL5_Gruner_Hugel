@@ -1,69 +1,42 @@
 package gruner.huger.grunerhugel.model;
 
-//import java.util.concurrent.BlockingQueue;
-// import java.util.logging.Level;
+import java.util.logging.Level;
 
-// import gruner.huger.grunerhugel.GrunerhugelApplication;
-// import gruner.huger.grunerhugel.simulation.Simulation;
+import gruner.huger.grunerhugel.GrunerhugelApplication;
 
 public class Balance {  //implements Runnable
-    private static int balance;
-    static Object mutex = new Object(); // object to restraint the entrance to this class' functions
-    // BlockingQueue<String> blockingQueue;
+    private static int totalMoney;
+    static Object mutex = new Object();
 
-    public Balance(int initBalance) { //BlockingQueue<String> blockingQueue
+    public Balance(int initBalance) {
         setBalance(initBalance);
-        // this.blockingQueue = blockingQueue;
     }
 
     public int getBalance() {
         synchronized (mutex) {
-            return balance;
+            return totalMoney;
         }
     }
 
-    private static void setBalance(int moneyAdded) { // to avoid a code smell
+    private static void setBalance(int moneyAdded) {
         synchronized (mutex) {
-            balance = moneyAdded;
+            totalMoney = moneyAdded;
         }
     }
 
     public static void moneyCost(int cost) {
         synchronized (mutex) {
-            System.out.println("======\nBalance: -"+cost);
-            balance -= cost;
-            System.out.println("Balance: "+balance);
+            GrunerhugelApplication.logger.log(Level.INFO, "======\nBalance: -{0}.", cost);
+            totalMoney -= cost;
+            GrunerhugelApplication.logger.log(Level.INFO, "Balance: {0}.", totalMoney);
         }
     }
 
     public static void moneyEarned(int earn) {
         synchronized (mutex) {
-            System.out.println("======\nBalance: +"+earn);
-            balance += earn;
-            System.out.println("Balance: "+balance);
+            GrunerhugelApplication.logger.log(Level.INFO, "======\nBalance: +{0}.", earn);
+            totalMoney += earn;
+            GrunerhugelApplication.logger.log(Level.INFO, "Balance: {0}.", totalMoney);
         }
     }
-
-    // @Override
-    // public void run() {
-    //     while (Simulation.getHoraConcluida()) {
-    //         try {
-    //             String mensaje = blockingQueue.take();
-    //             descifrarMensaje(mensaje);
-    //         } catch (InterruptedException e) {
-    //             GrunerhugelApplication.logger.log(Level.WARNING, "Interrupted!", e);
-    //             // TODO Auto-generated catch block
-    //             Thread.currentThread().interrupt();
-    //         }
-    //     }
-    // }
-
-    // private void descifrarMensaje(String mensaje) {
-    //     String[] mensajes = mensaje.split(" ");
-    //     if(mensajes[0].equals("+")){
-    //         moneyEarned(Integer.parseInt(mensajes[1]));
-    //     } else {
-    //         moneyCost(Integer.parseInt(mensajes[1]));
-    //     }
-    // }
 }

@@ -9,14 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "seeder")
-@Getter
-@Setter
-public class Seeder implements Serializable{
+public class Seeder implements Serializable {
 
     @Id
     @Column(name = "seederName")
@@ -42,15 +37,96 @@ public class Seeder implements Serializable{
     private List<FarmSeeder> farms;
 
     public Seeder() {
-        //no need
+        // no need
+    }
+
+    public String getSeederName() {
+        return seederName;
+    }
+
+    public void setSeederName(String seederName) {
+        this.seederName = seederName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(int maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public String getPlantType() {
+        return plantType;
+    }
+
+    public void setPlantType(String plantType) {
+        this.plantType = plantType;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
+    public int getWorkingAmplitude() {
+        return workingAmplitude;
+    }
+
+    public void setWorkingAmplitude(int workingAmplitude) {
+        this.workingAmplitude = workingAmplitude;
+    }
+
+    public int getRecommendedPower() {
+        return recommendedPower;
+    }
+
+    public void setRecommendedPower(int recommendedPower) {
+        this.recommendedPower = recommendedPower;
+    }
+
+    public boolean isFertilized() {
+        return fertilized;
+    }
+
+    public void setFertilized(boolean fertilized) {
+        this.fertilized = fertilized;
+    }
+
+    public String getFrontalSubjection() {
+        return frontalSubjection;
+    }
+
+    public void setFrontalSubjection(String frontalSubjection) {
+        this.frontalSubjection = frontalSubjection;
+    }
+
+    public List<FarmSeeder> getFarms() {
+        return farms;
+    }
+
+    public void setFarms(List<FarmSeeder> farms) {
+        this.farms = farms;
     }
 
     @Override
     public String toString() {
-        return "Seeder [name=" + seederName + ", price=" + price + ", maintenance=" + maintenance + ", plantType=" + plantType
+        return "Seeder [name=" + seederName + ", price=" + price + ", maintenance=" + maintenance + ", plantType="
+                + plantType
                 + ", capacity=" + capacity + ", workingAmplitude=" + workingAmplitude + ", recommendedPower="
                 + recommendedPower + ", fertilized=" + fertilized + ", frontalSubjection=" + frontalSubjection
                 + ", farms=" + farms + "]";
     }
-    
+
 }

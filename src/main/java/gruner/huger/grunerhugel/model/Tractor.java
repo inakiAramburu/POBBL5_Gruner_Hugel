@@ -9,15 +9,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "tractor")
-@Getter
-@Setter
-public class Tractor implements Serializable{
-    
+public class Tractor implements Serializable {
+
     @Id
     @Column(name = "tractorName")
     private String tractorName;
@@ -36,7 +31,63 @@ public class Tractor implements Serializable{
     private List<FarmTractor> farms;
 
     public Tractor() {
-        //no need
+        // no need
+    }
+
+    public String getTractorName() {
+        return tractorName;
+    }
+
+    public void setTractorName(String tractorName) {
+        this.tractorName = tractorName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getMaintenance() {
+        return maintenance;
+    }
+
+    public void setMaintenance(int maintenance) {
+        this.maintenance = maintenance;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
+    }
+
+    public int getMaxSpeed() {
+        return maxSpeed;
+    }
+
+    public void setMaxSpeed(int maxSpeed) {
+        this.maxSpeed = maxSpeed;
+    }
+
+    public int getFuelCapacity() {
+        return fuelCapacity;
+    }
+
+    public void setFuelCapacity(int fuelCapacity) {
+        this.fuelCapacity = fuelCapacity;
+    }
+
+    public List<FarmTractor> getFarms() {
+        return farms;
+    }
+
+    public void setFarms(List<FarmTractor> farms) {
+        this.farms = farms;
     }
 
     @Override

@@ -10,14 +10,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "farm_harvester")
-@Getter
-@Setter
-public class FarmHarvester implements Serializable{
+public class FarmHarvester implements Serializable {
 
     @EmbeddedId
     private FarmHarvesterId id;
@@ -36,7 +32,39 @@ public class FarmHarvester implements Serializable{
     int quantity;
 
     public FarmHarvester() {
-        //no need
+        // no need
+    }
+
+    public FarmHarvesterId getId() {
+        return id;
+    }
+
+    public void setId(FarmHarvesterId id) {
+        this.id = id;
+    }
+
+    public Farm getFarm() {
+        return farm;
+    }
+
+    public void setFarm(Farm farm) {
+        this.farm = farm;
+    }
+
+    public Harvester getHarvester() {
+        return harvester;
+    }
+
+    public void setHarvester(Harvester harvester) {
+        this.harvester = harvester;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public FarmHarvester(Farm farm, Harvester harvester, int quantity) {

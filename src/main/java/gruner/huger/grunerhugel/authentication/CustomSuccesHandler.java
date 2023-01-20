@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
+import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
-import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.User;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,8 +50,8 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
                     throw new NullPointerException();
                 }
                 url = "/simulation";
-            } catch (NullPointerException e) {
-                System.out.println("No simulations found");
+            } catch (NullPointerException e){
+                GrunerhugelApplication.logger.info("No simulations found");
                 url = "/main";
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR")))
