@@ -8,19 +8,29 @@
 <body>
     <h1 layout:fragment="title">Create User</h1>
     <main layout:fragment="main">
-        <form class="card-body" th:action="@{/create}" method="post" th:object="${user}">
-            <div class="grid-datos">
-                <div>USERNAME: <input name="username" th:field="*{username}"></div>
-                <div>PASSWORD: <input name="password" type="password" th:field="*{password}"></div>
-                <div>NAME: <input th:field="*{name}"></div>
-                <div>SURNAME: <input name="surname" th:field="*{surname}"></div>
-                <div>EMAIL: <input name="email" th:field="*{email}"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 p-4 bgreen3 rounded-3 border border-dark mt-5">
+                    <form th:action="@{/create}" method="post" th:object="${user}">
+                        <div class="row mb-3">
+                            <div class="col-6">USERNAME: <input class="bcream rounded-pill border border-dark" name="username" th:field="*{username}"></div>
+                            <div class="col-6">PASSWORD: <input class="bcream rounded-pill border border-dark" name="password" type="password" th:field="*{password}"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">NAME: <input  class="bcream rounded-pill border border-dark" th:field="*{name}"></div>
+                            <div class="col">SURNAME: <input  class="bcream rounded-pill border border-dark" name="surname" th:field="*{surname}"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">EMAIL: <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}"></div>
+                        </div>
+                        <div class="row">
+                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/">CANCEL</a>
+                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit">SUBMIT</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-            <div class="botones">
-                <a class="action" href="/">CANCEL</a>
-                <button class="action" type="Submit">SUBMIT</button>
-            </div>
-        </form>
+        </div>
     </main>
 </body>
 </html>

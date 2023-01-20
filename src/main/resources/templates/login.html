@@ -15,11 +15,11 @@
             <input th:type="text" name="username" placeholder="myname" class="col-6 bcream rounded-pill border border-dark" />
             <label for="password" class="form-label col-3 mt-4">PASSWORD:</label>
             <input th:type="password" name="password" placeholder="mypassword" class="col-6 bcream rounded-pill border border-dark mb-3" />
-            <button type="submit" class="shadow-sm btn bcream bgreen1 col-3 border border-dark mb-3">LOG IN</button>
+            <button type="submit" class="shadow-sm btn bgreen1 col-3 border border-dark mb-3">LOG IN</button>
           </form>
         </div>
         <div class="row justify-content-center">
-          <p class="col mt-2" >Don't have an account yet ?, <a href="">Create one</a></p>
+          <p class="col mt-2" >Don't have an account yet ?, <a th:href="@{/create}">Create one</a></p>
         </div>
       </div>
     </div>

@@ -105,15 +105,16 @@
 </aside>
 
 <!--Aside form edit-->
-<aside th:fragment="aside-form-farm-edit">
-    <h2 id="setup" class="subtitle">SIMULATION EDIT</h2>
+<aside class="z-3 position-absolute" th:fragment="aside-form-farm-edit">
+    <div class="z-3 position-absolute vh-100 bcream collapse collapse-horizontal" id="collapseWidthExample">
+    <h2 class="subtitle">SIMULATION EDIT</h2>
     <div class="info">
-        <div id="simulation">
+        <div>
             <form class="form" method="post" th:action="@{/updateSimulation}" th:object="${simulationEdit}">
                 <label class="label">
                     End Date:
                     <input type="date" min="1959-01-01" max="2022-08-31" th:field="*{endDate}"
-                        th:value="${simulation.endDate}" th:required="required" />
+                         th:required="required" />
                 </label>
                 <label class="label">
                     Tractor:
@@ -173,7 +174,7 @@
                 </div>
             </form>
         </div>
-        <div id="plantation">
+        <div>
             <h2 class="subtitle">PLANTATION</h2>
             <form class="form-plant" method="post"> <!--th:action="@{/updateLand/{id} (id=${land.getId()})}"-->
                 <label>
@@ -206,5 +207,6 @@
                 </div>
             </form>
         </div>
+    </div>
     </div>
 </aside>

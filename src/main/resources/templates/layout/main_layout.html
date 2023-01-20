@@ -18,8 +18,25 @@
 <body>
     <p th:if="${accessDenied}" class="error">Access Denied</p>
     <main class="main">
-        <aside layout:fragment="aside"></aside>
-        <div th:replace="~{fragments/map :: map}"></div>
+        <div class="container">
+            <div class="row justify-content-center">
+                    <div class="col" >
+                        <aside layout:fragment="aside"></aside>
+                    </div>
+
+                    <div class="col">
+                     <nav layout:fragment="nav" id="top-right-nav">
+                        <div th:replace="~{fragments/header :: profile-dropdown}"></div>
+                        <button form="simulationCreate" type="submit" class="action">
+                            <img th:src="@{/img/play.png}" alt="play" />
+                        </button>
+                        <button class="action"><img th:src="@{/img/rewind.png}" alt="rewind"></button>
+                        <label id="speed">x1</label>
+                     </nav>
+                        <div class="col-5" th:replace="~{fragments/map :: map}"></div>
+                    </div>
+            </div>
+        </div>
     </main>
 </body>
 

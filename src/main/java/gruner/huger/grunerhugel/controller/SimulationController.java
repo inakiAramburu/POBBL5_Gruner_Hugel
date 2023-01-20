@@ -351,4 +351,13 @@ public class SimulationController {
 
         return "redirect:" + URI.HOME_USER_FARM.getPath();
     }
+
+    @GetMapping(value = "/tutorial")
+    public String tutorial(Model model, Authentication authentication) {
+        // Get data
+        User user = userRepository.findByUsername(authentication.getName());
+        Farm farm = farmRepository.findByUser(user);
+
+        return URI.HOME_TUTORIAL.getView();
+    }
 }

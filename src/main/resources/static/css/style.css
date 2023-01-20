@@ -1,3 +1,8 @@
+
+$enable-negative-margins: true;
+
+@import "bootstrap";
+
 :root {
 	--verde: #76BA99;
 	--pistacho: #CED89E;
@@ -50,7 +55,7 @@ main {
 	justify-content: center;
 	align-items: center;
 	background-color: var(--pistacho);
-	padding: 1rem;
+	padding: 0rem;
 	height: calc(100vmin - 34vh);
 }
 
@@ -90,6 +95,14 @@ main {
 .bgreen2{background-color: var(--pistacho)}
 .bgreen3{background-color: var(--card)}
 
+.ccream{color: var(--crema)}
+.cgreen1{color: var(--verde)}
+.cgreen2{color: var(--pistacho)}
+.cgreen3{color: var(--card)}
+
+.negative{margin-bottom: -50px;}
+.negativel{margin-left: -25px;}
+.negativexl{margin-left: -50px;}
 
 table,
 th,
@@ -99,22 +112,6 @@ td {
 	padding: 0.3rem;
 }
 
-.action {
-	border: 1px solid black;
-	border-radius: 20px;
-	background-color: var(--verde);
-	color: black;
-	padding: 0.5rem;
-	text-decoration: none;
-}
-
-aside {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-}
-
 #setup {
 	background-color: var(--verde);
 	border-radius: 70px 70px 0 0;
@@ -122,17 +119,6 @@ aside {
 	width: 70%;
 }
 
-.info {
-	background-color: var(--verde);
-	border-radius: 10px;
-	padding: 0.5rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: start;
-	align-items: center;
-	gap: 10px;
-	width: 100%;
-}
 
 .label {
 	display: flex;
@@ -159,27 +145,9 @@ aside {
 	text-decoration: underline;
 }
 
-#plantation,
-#simulation {
-	background-color: var(--card);
-	border-radius: 10px;
-	padding: 0.5rem;
-	width: inherit;
-}
-
-.form-plant {
-	display: grid;
-	grid-template-columns: 0.5fr 0.5fr;
-}
-
 .map {
 	width: 100%;
-	height: 100%;
-}
-
-#map {
-	width: inherit;
-	height: inherit;
+	height: 75%;
 }
 
 #slider {

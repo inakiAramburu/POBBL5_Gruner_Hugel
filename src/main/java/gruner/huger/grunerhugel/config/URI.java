@@ -6,7 +6,9 @@ public enum URI {
     HOME_USER_NO_FARM("/main", "simulation/simulation-form"),
     HOME_USER_FARM("/simulation", "simulation/simulation"),
     HOME_ADMIN("/admin", "user/user-list"),
-    HOME_INVESTOR("/investor", "investor");
+    HOME_INVESTOR("/investor", "investor"),
+
+    HOME_TUTORIAL("/tutorial", "Tutorial/tutorial");
 
     private String path;
     private String view;
