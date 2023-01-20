@@ -52,8 +52,8 @@ public class SimulationProcesses extends Thread {
     private FuelThread fThread;
     private WheatPriceThread wpThread;
     private WorkerThread wkThread;
-    private static Lock mutex;
-    private static Condition cond;
+    private static Lock mutex = new ReentrantLock();
+    private static Condition cond = mutex.newCondition();;
 
     public SimulationProcesses(Farm apointedFarm, WeatherRepository weatherRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository, LandRepository landRepository, FuelRepository fuelRepository,
@@ -86,9 +86,6 @@ public class SimulationProcesses extends Thread {
         this.fThread = new FuelThread(fRepository);
         this.wpThread = new WheatPriceThread(wpRepository);
         this.wkThread = new WorkerThread(blockingQueue);
-        // --------------
-        mutex = new ReentrantLock();
-        cond = mutex.newCondition();
     }
 
     private void startThreads() {
