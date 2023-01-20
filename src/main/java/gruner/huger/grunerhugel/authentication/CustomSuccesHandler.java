@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.Farm;
@@ -41,7 +42,7 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
         String url = "/login?error=true";
 
         if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            url = "/admin";
+            url = URI.HOME_ADMIN.getPath();
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("USER"))) {
             String username = authentication.getName();
             User user = userRepository.findByUsername(username);
@@ -50,15 +51,13 @@ public class CustomSuccesHandler extends SimpleUrlAuthenticationSuccessHandler {
                 if (farm == null) {
                     throw new NullPointerException();
                 }
-                url = "/simulation";
-            } catch (NullPointerException e){
+                url = URI.HOME_USER_FARM.getPath();
+            } catch (NullPointerException e) {
                 GrunerhugelApplication.logger.info("No simulations found");
-                url = "/main";
+                url = URI.HOME_TUTORIAL.getPath();
             }
-        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR")))
-
-        {
-            url = "/investor";
+        } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))) {
+            url = URI.HOME_INVESTOR.getPath();
         }
 
         return url;

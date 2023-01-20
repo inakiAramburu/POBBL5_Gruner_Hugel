@@ -118,7 +118,8 @@
             <div class="row">
               <label class="mb-3 col d-flex justify-content-right">
                 Longitude(X):
-                <input class="bcream rounded-pill border border-dark" id="lng" th:field="*{longitude}" readonly>
+                <input class="bcream rounded-pill border border-dark" id="lng" th:field="*{longitude}" readonly
+                  th:required="required">
               </label>
               <label class="mb-3 col d-flex justify-content-right">
                 Size:
@@ -134,7 +135,8 @@
               <label class="mb-3 col d-flex justify-content-right">
                 Crop:
                 <select class="bcream rounded-pill border border-dark" th:field="*{plantName}" th:required="required">
-                  <option class="bcream rounded-pill border border-dark" th:value="Wheat" th:text="Wheat"></option>
+                  <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
+                    th:value="${crop.name}" th:text="${crop.name}"></option>
                 </select>
               </label>
             </div>

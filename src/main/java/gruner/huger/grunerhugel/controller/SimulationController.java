@@ -105,6 +105,7 @@ public class SimulationController {
         model.addAttribute("harvesters", harvesterRespository.findAll());
         model.addAttribute("plows", plowRepository.findAll());
         model.addAttribute("seeders", seederRepository.findAll());
+        model.addAttribute("crops", plantTypeRepository.findAll());
 
         // Set farm
         model.addAttribute("simulationCreate", new CreateSimulation());
@@ -379,14 +380,5 @@ public class SimulationController {
     public String startSimulation() {
         // sim.start();
         return "simulation/simulation";
-    }
-
-    @GetMapping(value = "/tutorial")
-    public String tutorial(Model model, Authentication authentication) {
-        // Get data
-        User user = userRepository.findByUsername(authentication.getName());
-        Farm farm = farmRepository.findByUser(user);
-
-        return URI.HOME_TUTORIAL.getView();
     }
 }
