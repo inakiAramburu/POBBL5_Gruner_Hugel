@@ -16,7 +16,7 @@ import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.Role;
 
 @SpringBootTest
-public class UserRespositoryTest {
+class UserRespositoryTest {
 
     @Autowired
     private UserRepository userRepository;
@@ -25,7 +25,7 @@ public class UserRespositoryTest {
     private RoleRepository roleRepository;
 
     @Test
-    public void createUserTest() {
+    void createUserTest() {
         User user = new User();
         user.setUsername("test2");
         user.setName("test");
@@ -39,7 +39,7 @@ public class UserRespositoryTest {
 
     @Test
     @Rollback(false)
-    public void testFindRoles() {
+    void testFindRoles() {
         Role role = roleRepository.findById(1);
         assertEquals("USER", role.getName());
 
@@ -52,20 +52,20 @@ public class UserRespositoryTest {
 
     @Test
     @Rollback(false)
-    public void testFindUser() {
+    void testFindUser() {
         User user = userRepository.findByUsername("agarzo");
         assertNotNull(user);
         assertEquals("agarzo", user.getUsername());
         assertEquals("aritz", user.getName());
         assertEquals("garzo", user.getSurname());
         assertEquals("$2a$10$yM03BcAR0A5R.8UtwcITm./ODBQn1BpMiL.4n5HRxcvtKELV46xZ6", user.getPassword());
-        assertEquals("agarzo@gmail.com",user.getEmail());
+        assertEquals("agarzo@gmail.com", user.getEmail());
         assertEquals("USER", user.getRole().getName());
     }
 
     @Test
     @Rollback(false)
-    public void testUpdateUser() {
+    void testUpdateUser() {
         User user = userRepository.findByUsername("test");
         user.setSurname("test0");
         User savedUser = userRepository.save(user);
@@ -75,24 +75,23 @@ public class UserRespositoryTest {
 
     @Test
     @Rollback(false)
-    public void testFindAllUsers() {
+    void testFindAllUsers() {
         Iterable<User> users = userRepository.findAll();
         assertNotNull(users);
-        assertThat(users).size().isGreaterThan(0);
+        assertThat(users).size().isPositive();
     }
 
     @Test
     @Rollback(false)
-    public void testFindAllRoles() {
+    void testFindAllRoles() {
         Iterable<Role> roles = roleRepository.findAll();
         assertNotNull(roles);
-        assertThat(roles).size().isGreaterThan(0);
+        assertThat(roles).size().isPositive();
     }
 
-
-    @Test 
-    public void deleteUserTest() {
-        User user = userRepository.findByUsername("test2");
+    @Test
+    void deleteUserTest() {
+        //User user = userRepository.findByUsername("test2");
         userRepository.delete(user);
         assertNull(userRepository.findByUsername("test2"));
     }

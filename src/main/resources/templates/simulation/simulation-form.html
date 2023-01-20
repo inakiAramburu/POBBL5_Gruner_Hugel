@@ -12,7 +12,7 @@
     <div class="bgreen1 rounded-5 border border-dark p-4">
     <div>
       <div class="bgreen3 rounded-4 p-3">
-        <form id="simulationCreate" class="container" method="post" th:action="@{/addSimulation}" th:object="${simulationCreate}">
+        <form class="container" method="post" th:action="@{/addSimulation}" th:object="${simulationCreate}">
           <div class="row">
             <label class="col mb-3 d-flex justify-content-right">
               Start Date:
@@ -42,7 +42,7 @@
           <div class="row">
             <label class="mb-3 col-3 d-flex justify-content-right">
               Workers:
-              <input class="bcream col-3 rounded-pill border border-dark"  type="number" th:field="*{numWorkers}" min="0" th:required="required" />
+              <input class="bcream col-3 rounded-pill border border-dark"  type="number" th:field="*{numWorkers}" min="0" max="100" th:required="required" />
             </label>
           </div>
           <div class="row">
@@ -70,6 +70,61 @@
                 th:text="${harvester.harvesterName}"></option>
               </select>
               <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark"  type="number" id="numHarvester" th:field="*{numHarvester}" min="0" th:required="required" />
+    <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
+    <div class="info">
+      <div id="simulation">
+        <form id="simulationCreate" class="form" method="post" th:action="@{/addSimulation}"
+          th:object="${simulationCreate}">
+          <label class="label">
+            Start Date:
+            <input type="date" name="startDate" min="1959-01-01" max="2022-08-31" th:field="*{startDate}"
+              th:required="required" />
+          </label>
+          <label class="label">
+            End Date:
+            <input type="date" name="endDate" min="1959-01-01" max="2022-08-31" th:field="*{endDate}"
+              th:required="required" />
+          </label>
+          <label class="label">
+            Budget:
+            <input type="number" name="budget" th:field="*{budget}" th:required="required" min="0" />
+          </label>
+          <label class="label">
+            Tractor:
+            <select th:field="*{tractorName}" id="tractor" th:required="required">
+              <option th:each="tractor : ${tractors}" th:value="${tractor.tractorName}" th:text="${tractor.tractorName}"
+                th:attr="price=${tractor.price}"></option>
+            </select>
+            <input type="number" id="numTractor" th:field="*{numTractor}" min="0" th:required="required" />
+          </label>
+          <label class="label">
+            Workers:
+            <input type="number" th:field="*{numWorkers}" min="0" max="100" th:required="required" />
+          </label>
+          <label class="label">
+            Plow:
+            <select th:field="*{plowName}" id="plow" th:required="required">
+              <option th:each="plow : ${plows}" th:value="${plow.plowName}" th:text="${plow.plowName}"
+                th:attr="price=${plow.price}"></option>
+            </select>
+            <input type="number" id="numPlow" th:field="*{numPlow}" min="0" th:required="required" />
+          </label>
+          <label class="label">
+            Seeder:
+            <select th:field="*{seederName}" th:required="required" id="seeder">
+              <option th:each="seeder : ${seeders}" th:value="${seeder.seederName}" th:text="${seeder.seederName}"
+                th:attr="price=${seeder.price}">
+              </option>
+            </select>
+            <input type="number" id="numSeeder" th:field="*{numSeeder}" min="0" th:required="required" />
+          </label>
+          <label class="label">
+            Harvester:
+            <select th:field="*{harvesterName}" th:required="required" id="harvester">
+              <option th:each="harvester : ${harvesters}" th:value="${harvester.harvesterName}"
+                th:text="${harvester.harvesterName}" th:attr="price=${harvester.price}"></option>
+            </select>
+            <input type="number" id="numHarvester" th:field="*{numHarvester}" min="0" th:required="required" />
           </label>
           <div class="row align-items-center">
             <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
@@ -77,11 +132,10 @@
             </div>
             <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
               <img th:src="@{/img/reset.png}" alt="reset" />
-            </div>
-            <label class="col">
+            </button>
+            <label>
               Total Cost:
-              <label id="totalCost" th:text="${total}"></label>€
-              <button id="calculateTotal">Calculate</button>
+              <label id="totalCost">0</label>€
             </label>
           </div>
         </form>
@@ -121,6 +175,37 @@
               <img  th:src="@{/img/tick.png}" alt="tick" />
             </div>
             <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
+      <div id="plantation">
+        <h2 class="subtitle">NEW PLANTATION</h2>
+        <form class="form-plant" th:action="@{/addLand}" method="post" th:object="${createLand}">
+          <label>
+            Longitude(X):
+            <label id="lng"></label>
+            <input id="long" type="hidden" th:field="*{longitude}">
+          </label>
+          <label>
+            Size:
+            <input type="number" th:field="*{size}" th:required="required" />
+          </label>
+          <label>Latitude(Y):
+            <label id="lat"></label>
+            <input id="lt" type="hidden" th:field="*{latitude}">
+          </label>
+          <label>
+            Crop:
+            <select th:field="*{plantName}" th:required="required">
+              <option th:value="Wheat" th:text="Wheat"></option>
+            </select>
+          </label>
+          <label>Town:
+            <label id="town"></label>
+            <input id="town-i" type="hidden" th:field="*{town}">
+          </label>
+          <div class="options">
+            <button type="submit" class="action">
+              <img th:src="@{/img/tick.png}" alt="tick" />
+            </button>
+            <button type="reset" class="action">
               <img th:src="@{/img/x.png}" alt="x" />
             </div>
           </div>

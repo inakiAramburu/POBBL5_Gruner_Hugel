@@ -12,7 +12,7 @@ import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.Farm;
 
 @SpringBootTest
-public class FarmRepositoryTest {
+class FarmRepositoryTest {
 
     @Autowired
     FarmRepository farmRepository;
@@ -22,14 +22,17 @@ public class FarmRepositoryTest {
     RoleRepository roleRepository;
 
     Farm farm;
+
     @Test
-    public void testFindByUser() {
+    void testFindByUser() {
         assertNotNull(farmRepository.findByUser(userRepository.findByUsername("test")));
     }
 
-    /*@Test 
-    public void testDeleteFarm() throws IllegalArgumentException{
-        farmRepository.deleteById(farm.getId());//aiqu cambiarlo
-    }*/
+    /*
+     * @Test
+     * public void testDeleteFarm() throws IllegalArgumentException{
+     * farmRepository.deleteById(farm.getId());//aiqu cambiarlo
+     * }
+     */
 
 }

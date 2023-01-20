@@ -13,9 +13,6 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 @Entity
 @Table(name = "farm")
 public class Farm implements Serializable {
@@ -51,7 +48,7 @@ public class Farm implements Serializable {
     private List<FarmPlow> plows;
 
     public Farm() {
-        //no need
+        // no need
     }
 
     public Farm(User user, int budget, int numWorkers) {
@@ -145,5 +142,5 @@ public class Farm implements Serializable {
     public String toString() {
         return "Farm [id=" + id + ", money=" + money + ", user=" + user + "]";
     }
-    
+
 }

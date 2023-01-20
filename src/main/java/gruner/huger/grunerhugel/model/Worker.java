@@ -1,55 +1,67 @@
 package gruner.huger.grunerhugel.model;
 
-// import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CountDownLatch;
 
-import java.io.Serializable;
+import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.simulation.Message;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+public class Worker extends Thread {
 
-@Entity
-@Table(name = "worker")
-public class Worker implements Serializable {
+    private boolean pagado;
+    private static boolean jobFinished = false;
+    private BlockingQueue<Message> queue;
+    private static CountDownLatch cLatch;
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    int id;
-
-    @OneToOne
-    @JoinColumn(name = "FK_FarmId")
-    private Farm farm;
-
-    public Worker() {
-        // no need
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Farm getFarm() {
-        return farm;
-    }
-
-    public void setFarm(Farm farm) {
-        this.farm = farm;
+    public Worker(BlockingQueue<Message> blockingQueue) {
+        this.queue = blockingQueue;
+        this.pagado = true;
     }
 
     @Override
-    public String toString() {
-        return "Worker [id=" + id + ", farm=" + farm + "]";
+    public void run() {
+        try {
+            cLatch.await();
+            jobFinished = true;
+        } catch (InterruptedException e) {
+            GrunerhugelApplication.logger.warning("Worker " + getId() + " Interrupted!");
+            this.interrupt();
+        }
+    }
+
+    public static void setWork(int workHours) {
+        jobFinished = false;
+        cLatch = new CountDownLatch(workHours);
+    }
+
+    public void sell(int quantity) {
+        // no need
+    }
+
+    public boolean isPagado() {
+        return pagado;
+    }
+
+    public void setPagado(boolean value) {
+        pagado = value;
+    }
+
+    public long getCount() {
+        long result;
+        if (cLatch == null) {
+            result = -1;
+        } else if (jobFinished) {
+            result = 0;
+        } else {
+            result = cLatch.getCount();
+        }
+        return result;
+    }
+
+    public void hourPass() {
+        if (cLatch != null && cLatch.getCount() != 0) {
+            GrunerhugelApplication.logger.info("Worker countedDown");
+            cLatch.countDown();
+        }
     }
 }

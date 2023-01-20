@@ -11,19 +11,19 @@ import gruner.huger.grunerhugel.domain.repository.UserRepository;
 import gruner.huger.grunerhugel.model.User;
 
 @SpringBootTest
-public class ParametersUserTest {
+class ParametersUserTest {
 
     @Autowired
     UserRepository userRepository;
 
     @ParameterizedTest
-    @ValueSource(strings = {"&&","%%","@","//","(",")","||","==","??","¿¿", "'","!"})
+    @ValueSource(strings = { "&&", "%%", "@", "//", "(", ")", "||", "==", "??", "¿¿", "'", "!" })
     void testWithParams(String string) {
         User user = userRepository.findByUsername("test");
         user.setSurname(string);
-        User savedUser =userRepository.save(user);
+        User savedUser = userRepository.save(user);
         System.out.println(savedUser);
-        assertEquals(user, savedUser); //arreglame esto qu da error
+        assertEquals(user, savedUser); // arreglame esto qu da error
     }
 
 }

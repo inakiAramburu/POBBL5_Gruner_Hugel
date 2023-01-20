@@ -1,61 +1,58 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Level;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
-
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
+import gruner.huger.grunerhugel.domain.repository.PlantRepository;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
-
-public class PlantThread extends Thread implements PropertyChangeListener {
+public class PlantThread extends Thread {
     static final String PROPERTY_NAME = "PLANT_THREAD";
-    Map<Land, List<Plant>> fields;
-    List<Land> lands;
-    private Weather weather;
-    private boolean check = false;
-    private Lock mutex;
-    private Condition checking;
-    private PropertyChangeSupport pcs;
-    private OptimalConditionsRepository opCondRepository;
+    private static Map<Land, List<Plant>> fields;
+    private List<Land> lands;
+    private static boolean check = false;
+    private static Lock mutex;
+    private static Condition checking;
+    private LandRepository lRepository;
+    private static PlantRepository pRepository;
+    private static OptimalConditionsRepository oRepository;
 
-    public PlantThread(List<Land> lands, OptimalConditionsRepository oRepository) {
+    public PlantThread(LandRepository landRepository, PlantRepository plantRepository,
+            OptimalConditionsRepository opCondRepository, List<Land> lands) {
         this.lands = lands;
-        this.fields = new HashMap<>();
-        this.pcs = new PropertyChangeSupport(this);
-        this.mutex = new ReentrantLock();
-        this.checking = this.mutex.newCondition();
-        this.opCondRepository = oRepository;
+        fields = new HashMap<>();
+        mutex = new ReentrantLock();
+        checking = mutex.newCondition();
+        this.lRepository = landRepository;
+        pRepository = plantRepository;
+        oRepository = opCondRepository;
+        updateMap();
     }
 
-    public void addNewPlant(Land land, PlantType plantType) { // needs to be done
-        Plant plant = new Plant();
-        Optional<OptimalConditions> op = opCondRepository.findById(plantType.getPlantType());
-        GrunerhugelApplication.logger.log(Level.SEVERE, "Optimal Condition: {0}'", op.toString());
-        if (op.isPresent()) {
-            plant.setOptimalConditions(op.get());
-            List<Plant> temp = fields.get(land);
-            if (temp != null && !temp.isEmpty()) {
-                temp.add(plant);
-                fields.put(land, temp);
-            }
+    public static void addPlant(Land land, PlantType pType) {
+        OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
+        Plant plant = new Plant(oConditions, land);
+        pRepository.save(plant);
+    }
+
+    private void updateMap() {
+        updateLands();
+        for (Land land : lands) {
+            List<Plant> plants = pRepository.findByLand(land);
+            fields.put(land, plants);
         }
     }
 
@@ -63,17 +60,31 @@ public class PlantThread extends Thread implements PropertyChangeListener {
     public void run() {
         mutex.lock();
         try {
-            check = false;
             while (!Thread.interrupted()) {
                 awaitCheck();
-                if (check) {
-                    lands.forEach(l -> fields.get(l).forEach(f -> f.checkOptimalCondition(weather)));
-                    check = false;
-                }
+                updatePlants();
+                WorkerThread.callSignal();
             }
         } finally {
             mutex.unlock();
         }
+    }
+
+    private void updatePlants() {
+        Map<String, Weather> forecast = WeatherThread.getForecast();
+        for (Land land : lands) {
+            List<Plant> plants = fields.get(land);
+            if (plants != null)
+                for (Plant plant : plants) {
+                    plant.checkOptimalCondition(forecast.get(land.getTown().getName()));
+                    GrunerhugelApplication.logger.log(Level.INFO, "Plant health: {0}", plant.getHealthPoint());
+                }
+        }
+        check = false;
+    }
+
+    private void updateLands() {
+        lands = (List<Land>) lRepository.findByFarm(SimulationProcesses.getFarm());
     }
 
     private void awaitCheck() {
@@ -82,33 +93,22 @@ public class PlantThread extends Thread implements PropertyChangeListener {
                 checking.await();
             } catch (InterruptedException e) {
                 GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-                Thread.currentThread().interrupt();
+                this.interrupt();
             }
         }
     }
 
-    @Override
-    public void propertyChange(PropertyChangeEvent arg0) {
-        if (WeatherThread.PROPERTY_NAME.equals(arg0.getPropertyName())) {
+    public static void callSignal() {
+        mutex.lock();
+        try {
             check = true;
-            if (check) {
-                weather = (Weather) arg0.getNewValue();
-                mutex.lock();
-                try{
-                    checking.signal();
-                    GrunerhugelApplication.logger.info("plant signal");
-                }finally{
-                    mutex.unlock();
-                }
-            }
+            checking.signal();
+        } finally {
+            mutex.unlock();
         }
     }
 
-    public void addPropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.addPropertyChangeListener(listener);
-    }
-
-    public void removePropertyChangeListener(PropertyChangeListener listener) {
-        this.pcs.removePropertyChangeListener(listener);
+    public static Map<Land,List<Plant>> getLandAndPlantList(){
+        return fields;
     }
 }

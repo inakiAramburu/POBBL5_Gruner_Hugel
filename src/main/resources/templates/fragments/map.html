@@ -22,15 +22,17 @@
               dataType: "text",
               success: function (data) {
                 $('#town').text(data);
+                $('#town-i').val(data);
+                map.addMarker(coord, markerOptions);
+                $("#lat").text(coord[1]);
+                $("#lng").text(coord[0]);
+                $("#long").val(coord[0]);
+                $("#lt").val(coord[1]);
               },
               error: function (e) {
-                alert("An error ocurred trying to get the town");
+                alert("An error ocurred trying to get the town, try again");
               }
             });
-            alert("An error ocurred trying to get the town");
-            map.addMarker(coord, markerOptions);
-            $("#lat").text(coord[1]);
-            $("#lng").text(coord[0]);
           },
         },
       },
@@ -40,7 +42,33 @@
       maxExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
       zoom: 9,
       maxZoom: 9,
-
     });
+
+    //On load cargar los puntos desde la base de datos
+    map.loaded().then(function () {
+      loadMarkers();
+    });
+
+    function loadMarkers() {
+      $.ajax({
+        url: "/maper/load",
+        type: "GET",
+        cache: false,
+        timeout: 1000,
+        dataType: "json",
+        success: function (data) {
+          console.log(data);
+          if (data != null) {
+            for (var i = 0; i < data.length; i++) {
+              var coord = [data[i].x, data[i].y];
+              map.addMarker(coord, markerOptions);
+            }
+          }
+        },
+        error: function (e) {
+          alert("An error ocurred trying to load the lands");
+        }
+      });
+    }
   </script>
 </div>

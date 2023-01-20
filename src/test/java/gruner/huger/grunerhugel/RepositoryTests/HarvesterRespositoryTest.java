@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,31 +14,28 @@ import gruner.huger.grunerhugel.domain.repository.HarvesterRespository;
 import gruner.huger.grunerhugel.model.Harvester;
 
 @SpringBootTest
+class HarvesterRespositoryTest {
 
-public class HarvesterRespositoryTest {
-   
-    
     @Autowired
     private HarvesterRespository harvesterRespository;
-   
-     @Test
-    public void testFindByName() {
-        Harvester harvester = getHarvester();	     
+
+    @Test
+    void testFindByName() {
+        Harvester harvester = getHarvester();
         harvesterRespository.save(harvester);
         Harvester result = harvesterRespository.findById(harvester.getHarvesterName()).get();
-        assertEquals(harvester.getHarvesterName(), result.getHarvesterName());	 	       
-    } 
+        assertEquals(harvester.getHarvesterName(), result.getHarvesterName());
+    }
 
     @AfterEach
     @Test
-    public void testDeleteById() {
+    void testDeleteById() {
         Harvester harvester = getHarvester();
         harvesterRespository.delete(harvester);
         List<Harvester> result = new ArrayList<>();
         harvesterRespository.findAll().forEach(e -> result.add(e));
-        assertEquals(result.size(), 10);
+        assertEquals(10, result.size());
     }
-
 
     private Harvester getHarvester() {
         Harvester harvester = new Harvester();

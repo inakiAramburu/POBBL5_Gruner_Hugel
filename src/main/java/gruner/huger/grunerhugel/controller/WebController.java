@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
@@ -48,7 +49,7 @@ public class WebController {
                 }
                 url = URI.HOME_USER_FARM.getPath();
             } catch (NullPointerException e) {
-                System.out.println("No simulations found");
+                GrunerhugelApplication.logger.info("No farm found for user " + username);
                 url = URI.HOME_USER_NO_FARM.getPath();
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))) {
@@ -75,7 +76,7 @@ public class WebController {
         try {
             list = simulationRepository.findAll();
         } catch (NullPointerException e) {
-            System.out.println("No simulations found");
+            GrunerhugelApplication.logger.info("No simulations found");
         }
         model.addAttribute("simulations", list);
         return URI.HOME_INVESTOR.getView();
