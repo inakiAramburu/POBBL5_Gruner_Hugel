@@ -5,9 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.experimental.theories.suppliers.TestedOn;
 import org.junit.jupiter.api.Test;
 
-
+import groovyjarjarantlr4.v4.parse.ANTLRParser.notSet_return;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.FarmPlow;
@@ -18,6 +19,12 @@ import gruner.huger.grunerhugel.model.User;
 
 
 class FarmTest {
+
+	@Test
+	void testConstructor() {
+		User user = new User();
+		Farm farm = new Farm(user,5,10);
+	}
     @Test
 	void testGetSet() {
 		Farm farm = new Farm();
