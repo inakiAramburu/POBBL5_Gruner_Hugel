@@ -21,16 +21,15 @@
               timeout: 1000,
               dataType: "text",
               success: function (data) {
-                $('#town').text(data);
-                $('#town-i').val(data);
-                map.addMarker(coord, markerOptions);
-                $("#lat").text(coord[1]);
-                $("#lng").text(coord[0]);
-                $("#long").val(coord[0]);
-                $("#lt").val(coord[1]);
+                $('#town').val(data);
+                $("#lat").val(coord[1]);
+                $("#lng").val(coord[0]);
               },
               error: function (e) {
                 alert("An error ocurred trying to get the town, try again");
+              },
+              complete: function () {
+                map.addMarker(coord, markerOptions);
               }
             });
           },
@@ -40,8 +39,8 @@
       baseLayers: [SITNA.Consts.layer.IDENA_CADASTER],
       initialExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
       maxExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
-      zoom: 9,
-      maxZoom: 9,
+      zoom: 10,
+      maxZoom: 10,
     });
 
     //On load cargar los puntos desde la base de datos
