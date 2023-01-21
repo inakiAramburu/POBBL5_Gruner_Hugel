@@ -63,7 +63,7 @@ public class PlantThread extends Thread {
             while (!Thread.interrupted()) {
                 awaitCheck();
                 updatePlants();
-                WorkerThread.callSignal();
+                LandThread.callSignal();
             }
         } finally {
             mutex.unlock();

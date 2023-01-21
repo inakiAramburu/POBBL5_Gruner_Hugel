@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel.model;
+package gruner.huger.grunerhugel.simulation.thread;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -9,7 +9,7 @@ import gruner.huger.grunerhugel.simulation.Message;
 public class Worker extends Thread {
 
     private boolean pagado;
-    private static boolean jobFinished = false;
+    private boolean jobFinished = false;
     private BlockingQueue<Message> queue;
     private static CountDownLatch cLatch;
 
@@ -29,13 +29,9 @@ public class Worker extends Thread {
         }
     }
 
-    public static void setWork(int workHours) {
+    public void setWork(int workHours) {
         jobFinished = false;
         cLatch = new CountDownLatch(workHours);
-    }
-
-    public void sell(int quantity) {
-        // no need
     }
 
     public boolean isPagado() {

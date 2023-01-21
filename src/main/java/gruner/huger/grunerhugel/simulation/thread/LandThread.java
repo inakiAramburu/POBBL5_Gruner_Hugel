@@ -16,30 +16,26 @@ import java.util.concurrent.locks.ReentrantLock;
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Plant;
-import gruner.huger.grunerhugel.model.Worker;
 import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import gruner.huger.grunerhugel.simulation.enumeration.LandStatus;
 
-public class WorkerThread extends Thread {
+public class LandThread extends Thread {
     private static final int PORCENTAJE = 15;
     private Map<Land, List<Worker>> assignationMap;
     private List<Land> lands;
     private List<Worker> workers;
     private static boolean check;
-    // private static boolean workingHours;
-    private static Lock mutex;
-    private static Condition checking;
+    private static Lock mutex = new ReentrantLock();
+    private static Condition checking = mutex.newCondition();
     private static BlockingQueue<Message> queue;
     private Random rand;
 
-    public WorkerThread(BlockingQueue<Message> blockingQueue) {
+    public LandThread(BlockingQueue<Message> blockingQueue) {
         queue = blockingQueue;
         this.assignationMap = new HashMap<>();
         this.workers = setWorkers();
         this.lands = new ArrayList<>();
-        mutex = new ReentrantLock();
-        checking = mutex.newCondition();
         assignWorkersToLands();
         rand = new SecureRandom();
     }
@@ -56,8 +52,8 @@ public class WorkerThread extends Thread {
     public void run() {
         while (!Thread.interrupted()) {
             awaitCheck();
-            updateLandStatus(); // cada hora bien
-            work(); // cada hora
+            updateLandStatus();
+            work();
             check = false;
         }
     }
@@ -68,11 +64,15 @@ public class WorkerThread extends Thread {
                 int workHours = calculateWorkHours(lEntry.getKey().getSize(),
                         getLandStatus(lEntry.getKey().getStatus()),
                         lEntry.getValue().size()); // faltan los vehiculos
-                for (Worker w : lEntry.getValue()) {
-                    w.setWork(workHours);
-                    w.start();
-                }
+                initializeWorkers(lEntry.getValue(), workHours);
             }
+        }
+    }
+
+    private void initializeWorkers(List<Worker> value, int workHours) {
+        for (Worker w : value) {
+            w.setWork(workHours);
+            w.start();
         }
     }
 

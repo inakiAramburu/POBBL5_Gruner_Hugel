@@ -2,8 +2,8 @@ package gruner.huger.grunerhugel.simulation;
 
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -27,7 +27,8 @@ import gruner.huger.grunerhugel.simulation.thread.PlantThread;
 import gruner.huger.grunerhugel.simulation.thread.TimeThread;
 import gruner.huger.grunerhugel.simulation.thread.WeatherThread;
 import gruner.huger.grunerhugel.simulation.thread.WheatPriceThread;
-import gruner.huger.grunerhugel.simulation.thread.WorkerThread;
+import gruner.huger.grunerhugel.simulation.thread.Worker;
+import gruner.huger.grunerhugel.simulation.thread.LandThread;
 
 public class SimulationProcesses extends Thread {
     public static final String DATA_UPDATE = "DATA UPDATE";
@@ -51,7 +52,7 @@ public class SimulationProcesses extends Thread {
     private TimeThread tThread;
     private FuelThread fThread;
     private WheatPriceThread wpThread;
-    private WorkerThread wkThread;
+    private LandThread wkThread;
     private static Lock mutex = new ReentrantLock();
     private static Condition cond = mutex.newCondition();;
 
@@ -76,16 +77,16 @@ public class SimulationProcesses extends Thread {
         this.fTractRepository = fTractRepository;
     }
 
-    public void initialize(int initialBalance, Date startDate, Date endDate, List<Land> lands) {
-        BlockingQueue<Message> blockingQueue = new ArrayBlockingQueue<>(1000);
+    public void initialize(double initBalance, Date startDate, Date endDate, List<Land> lands) {
+        BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         // -------------
         this.tThread = new TimeThread(startDate, endDate);
-        this.balance = new Balance(initialBalance, blockingQueue); // queue
+        this.balance = new Balance(initBalance, blockingQueue); // queue
         this.wThread = new WeatherThread(wRepository, startDate, lands);
         this.pThread = new PlantThread(lRepository, pRepository, oRepository, lands);
         this.fThread = new FuelThread(fRepository);
         this.wpThread = new WheatPriceThread(wpRepository);
-        this.wkThread = new WorkerThread(blockingQueue);
+        this.wkThread = new LandThread(blockingQueue);
     }
 
     private void startThreads() {
@@ -113,19 +114,23 @@ public class SimulationProcesses extends Thread {
 
     @Override
     public void run() {
-        startThreads();
-        while (!Thread.interrupted() && !terminate) {
-            mutex.lock();
-            try {
-                cond.await();
-            } catch (InterruptedException e) {
-                GrunerhugelApplication.logger.warning("SimulationProcesses Interrupted!");
-                this.interrupt();
-            } finally {
-                mutex.unlock();
-            }
-        }
-        joinThreads();
+        Worker w = new Worker(null);
+        w.setWork(4);
+        w.start();
+        w.hourPass();
+        // startThreads();
+        // while (!Thread.interrupted() && !terminate) {
+        //     mutex.lock();
+        //     try {
+        //         cond.await();
+        //     } catch (InterruptedException e) {
+        //         GrunerhugelApplication.logger.warning("SimulationProcesses Interrupted!");
+        //         this.interrupt();
+        //     } finally {
+        //         mutex.unlock();
+        //     }
+        // }
+        // joinThreads();
     }
 
     public int getHoras() {

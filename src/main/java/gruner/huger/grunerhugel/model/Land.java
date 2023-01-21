@@ -3,6 +3,7 @@ package gruner.huger.grunerhugel.model;
 import java.io.Serializable;
 import java.util.List;
 
+import gruner.huger.grunerhugel.simulation.enumeration.LandStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -47,7 +48,7 @@ public class Land implements Serializable {
     this.size = size;
     this.farm = farm;
     this.town = town;
-    this.status = "";
+    this.status = LandStatus.EMPTY.getStatus();
     this.latitude = Float.parseFloat(latitude);
     this.longitude = Float.parseFloat(longitude);
   }
