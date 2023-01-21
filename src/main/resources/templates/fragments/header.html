@@ -6,24 +6,8 @@
     <div class="">
       <h1 layout:fragment="title" class="mt-1 display-1 mb-1"></h1>
     </div>
-
-    <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="bgreen3 mb-3 w-50 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
-    </div>
-
-    <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
-      <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
-        <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center"><img class="w-25" th:src="@{/img/perfil.png}" alt="perfil" /><h2>Admin</h2></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
-        <li class="mb-3">
-          <hr class="dropdown-divider">
-        </li>
-      </div>
-      <li class="bgreen2 d-flex align-items-center justify-content-center"><a class="m-0 p-0" id="out" th:href="@{/logout}">Log out</a></li>
-    </ul>
-
+    <div class="d-flex align-items-center justify-content-center">
+      <div th:insert="fragments/header :: profile-dropdown"></div>
     </div>
   </div>
 </header>
@@ -37,22 +21,35 @@
 </header>
 
 <!--Profile-->
-<div class="col-1" th:fragment="profile-dropdown">
-    <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <img class="bgreen3 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
-    </div>
-
-    <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
-      <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
-        <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center"><img class="w-25" th:src="@{/img/perfil.png}" alt="perfil" /><h2>Admin</h2></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
-        <li class="mb-3">
-          <hr class="dropdown-divider">
-        </li>
-      </div>
-      <li class="bgreen2 d-flex align-items-center justify-content-center"><a class="m-0 p-0" id="out" th:href="@{/logout}">Log out</a></li>
-    </ul>
+<div th:fragment="profile-dropdown">
+  <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+    <img class="bgreen3 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
   </div>
+
+  <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
+    <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center"><img class="w-25"
+        th:src="@{/img/perfil.png}" alt="perfil" />
+      <h2 th:text="${#authentication.getPrincipal().getUsername()}"></h2>
+    </li>
+    <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
+      <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
+      <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
+      <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
+      <li class="mb-3">
+        <hr class="dropdown-divider">
+      </li>
+
+    </div>
+    <span th:text="#{lang.change}"></span>:
+    <div>
+      <a th:href="@{?lang=eu}" th:text="#{lang.eu}"></a>
+      <a th:href="@{?lang=en}" th:text="#{lang.en}"></a>
+      <a th:href="@{?lang=es}" th:text="#{lang.es}"></a>
+    </div>
+    <li class="mb-3">
+      <hr class="dropdown-divider">
+    </li>
+    <li class="bgreen2 d-flex align-items-center justify-content-center"><a class="m-0 p-0" id="out"
+        th:href="@{/logout}">Log out</a></li>
+  </ul>
 </div>

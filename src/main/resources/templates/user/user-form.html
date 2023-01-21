@@ -1,31 +1,49 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate = "~{layout/no-footer}">
+<html lang="en" layout:decorate="~{layout/no-footer}">
 
 <head>
-    <title>Create User</title>
+    <title th:text="#{title.user-create}"></title>
 </head>
 
 <body>
-    <h1 layout:fragment="title">Create User</h1>
+    <h1 layout:fragment="title" th:text="#{title.user-create}"></h1>
     <main layout:fragment="main">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8 p-4 bgreen3 rounded-3 border border-dark mt-5">
                     <form th:action="@{/create}" method="post" th:object="${user}">
                         <div class="row mb-3">
-                            <div class="col-6">USERNAME: <input class="bcream rounded-pill border border-dark" name="username" th:field="*{username}"></div>
-                            <div class="col-6">PASSWORD: <input class="bcream rounded-pill border border-dark" name="password" type="password" th:field="*{password}"></div>
+                            <div class="col-6">
+                                <label th:text="#{user.username}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="username"
+                                    th:field="*{username}">
+                            </div>
+                            <div class="col-6"><label th:text="#{user.password}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="password" type="password"
+                                    th:field="*{password}">
+                            </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col">NAME: <input  class="bcream rounded-pill border border-dark" th:field="*{name}"></div>
-                            <div class="col">SURNAME: <input  class="bcream rounded-pill border border-dark" name="surname" th:field="*{surname}"></div>
+                            <div class="col">
+                                <label th:text="#{user.name}"></label>:
+                                <input class="bcream rounded-pill border border-dark" th:field="*{name}">
+                            </div>
+                            <div class="col">
+                                <label th:text="#{user.surname}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="surname"
+                                    th:field="*{surname}">
+                            </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col">EMAIL: <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}"></div>
+                            <div class="col"><label th:text="#{user.email}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}">
+                            </div>
                         </div>
                         <div class="row">
-                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/">CANCEL</a>
-                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit">SUBMIT</button>
+                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
+                                th:text="#{button.cancel}"></a>
+                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
+                                th:text="#{button.submit}"></button>
                         </div>
                     </form>
                 </div>
@@ -33,4 +51,5 @@
         </div>
     </main>
 </body>
+
 </html>
