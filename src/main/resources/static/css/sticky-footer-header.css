@@ -1,4 +1,4 @@
-:root {
+/*:root {
     --verde: #76BA99;
     --pistacho: #CED89E;
     --card: #ADCF9F;
@@ -6,7 +6,7 @@
 }
 
 /* Sticky footer styles
--------------------------------------------------- */
+--------------------------------------------------
 body {
     height: 100%;
     width: 100%;
@@ -21,7 +21,7 @@ header {
 }
 
 main {
-    /* Margin bottom by footer height */
+    /* Margin bottom by footer height
     margin-bottom: 60px;
 }
 
@@ -30,18 +30,18 @@ footer {
     bottom: 0;
     margin: auto;
     width: 100%;
-    /* Set the fixed height of the footer here */
+    /* Set the fixed height of the footer here
     height: fit-content;
     line-height: 60px;
-    /* Vertically center the text there */
+    /* Vertically center the text there
     background-color: var(--verde);
     border: 1px solid black;
     border-radius: 30px 30px 0 0;
 }
 
 /* Custom page CSS
-  -------------------------------------------------- */
-/* Not required for template or sticky footer method. */
+  --------------------------------------------------
+/* Not required for template or sticky footer method.
 
 body>main {
     padding: 60px 15px 0;
@@ -71,4 +71,4 @@ code {
 #copyleft {
     display: inline-block;
     transform: rotate(180deg);
-}
+}*/

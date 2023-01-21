@@ -1,25 +1,12 @@
-
-$enable-negative-margins: true;
-
-@import "bootstrap";
-
 :root {
 	--verde: #76BA99;
 	--pistacho: #CED89E;
 	--card: #ADCF9F;
 	--crema: #FFDCAE;
 
-	font-size: 20px;
 	font-family: "Lucida Console";
 }
-
-*,
-*::before,
-*::after {
-	box-sizing: border-box;
-}
-
-body {
+/*body {
 	margin: 0;
 	border: 0;
 	background-color: var(--pistacho);
@@ -83,7 +70,7 @@ main {
 	align-items: center;
 	gap: 10px;
 }
-
+*/
 /*input {
 	border: 2px black solid;
 	background-color: var(--crema);
@@ -102,9 +89,10 @@ main {
 
 .negative{margin-bottom: -50px;}
 .negativel{margin-left: -25px;}
+.negativer{margin-right: -25px;}
 .negativexl{margin-left: -50px;}
 
-table,
+/*table,
 th,
 td {
 	border: 1px black solid;
@@ -176,7 +164,8 @@ td {
 	transition: .2s all ease-in-out;
 	opacity: 1;
 	left: 0;
-}
+}*/
+
 
 
 @supports (grid-template-columns: subgrid) {}

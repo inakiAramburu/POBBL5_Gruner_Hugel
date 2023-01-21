@@ -1,4 +1,4 @@
-:root {
+/*:root {
     --verde: #76BA99;
     --pistacho: #CED89E;
     --card: #ADCF9F;
@@ -7,7 +7,7 @@
 
 /* Sticky footer styles
 -------------------------------------------------- */
-body {
+/*body {
     height: 100%;
     width: 100%;
     background-color: var(--pistacho);
@@ -15,21 +15,21 @@ body {
 
 #profile {
     width: fit-content;
-    /* Set the fixed height of the header here */
+    /* Set the fixed height of the header here
     height: 50px;
     line-height: 5px;
-    /* Vertically center the text there */
+    /* Vertically center the text there
     background-color: var(--verde);
     border: 1px solid black;
     border-radius: 0 0 30px 30px;
-}
+}*/
 
 
 /* Custom page CSS
-  -------------------------------------------------- */
+  --------------------------------------------------
 
 .dropdown-toggle img {
     width: 50%;
     aspect-ratio: 3/2;
     object-fit: contain;
-}
+}*/

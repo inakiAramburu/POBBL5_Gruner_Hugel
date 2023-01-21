@@ -37,9 +37,9 @@
 </header>
 
 <!--Profile-->
-<div class="col-1" th:fragment="profile-dropdown">
+<div class="col-3" th:fragment="profile-dropdown">
     <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-      <img class="bgreen3 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
+      <img class="bgreen3 w-100 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
     </div>
 
     <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">

@@ -3,8 +3,8 @@
     <p th:if="${error}" class="error">End Date can't be before start</p>
     <h2 id="setup" class="subtitle">SIMULATION SETUP</h2>
     <div class="info">
-        <div id="simulation">
-            <form id="simulationCreate" class="form" method="post" th:action="@{/addSimulation}"
+        <div>
+            <form id="simulationCreate" method="post" th:action="@{/addSimulation}"
                 th:object="${simulation-create">
                 <label class="label">
                     Start Date:
