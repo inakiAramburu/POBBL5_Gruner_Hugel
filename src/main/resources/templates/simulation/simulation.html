@@ -6,45 +6,47 @@
 </head>
 
 <body>
-  <!--Right-Top-Nav-->
-  <aside class="z-0 position-absolute start-0 negativel border-dark bgreen1 h-75 rounded-4 p-4 pl-2 d-flex" layout:fragment="aside">
+  <div class="col negativel d-flex align-items-center" layout:fragment="aside">
     <!--Left-Aside Edit form-->
-
-
-    <!--Left-Aside Simulation Data-->
-    <div class="bgreen2 rounded-4 pt-3">
-    <img class="mb-5" th:src="@{/img/farm.png}" alt="Farm" />
-    <div class="bcream mb-4 rounded-4">
-      <table>
-        <caption></caption>
-        <tr>
-          <th>Concept</th>
-          <th>Operation</th>
-        </tr>
-        <tr>
-          <!--Add here the concept and operations-->
-        </tr>
-      </table>
-    </div>
-      <div class="container">
-        <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" class="pl-2 col-2 d-flex justify-content-center negativel bgreen1 rounded-5">
-            <img class="p2"  th:src="@{/img/open.png}" alt="Open">
-        </button>
+    <div th:replace="~{fragments/form :: aside-form-farm-edit}"></div>
+    <!--Left-Aside Simulation Info-->
+    <div class="z-0 position-absolute start-0 negativel border-dark bgreen1 h-75 rounded-4 p-4 pl-2 d-flex">
+      <div class="bgreen2 rounded-4 pt-3" th:fragment="aside-simulation-info">
+        <img class="mb-5" th:src="@{/img/farm.png}" alt="Farm" />
+        <div class="bcream mb-4 rounded-4">
+          <table>
+            <caption></caption>
+            <tr>
+              <th>Concept</th>
+              <th>Operation</th>
+            </tr>
+            <tr>
+              <!--Add here the concept and operations-->
+            </tr>
+          </table>
+        </div>
+        <div class="container">
+          <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false"
+            aria-controls="collapseWidthExample"
+            class="pl-2 col-2 d-flex justify-content-center negativel bgreen1 rounded-5">
+            <img class="p2" th:src="@{/img/open.png}" alt="Open">
+          </button>
+        </div>
+        <div class="bcream rounded-4">
+          <table>
+            <caption></caption>
+            <tr>
+              <th>Land</th>
+              <th>Status</th>
+            </tr>
+            <tr>
+              <!--Add here the land and status-->
+            </tr>
+          </table>
+        </div>
       </div>
-    <div class="bcream rounded-4">
-      <table>
-        <caption></caption>
-        <tr>
-          <th>Land</th>
-          <th>Status</th>
-        </tr>
-        <tr>
-          <!--Add here the land and status-->
-        </tr>
-      </table>
-      </div>
     </div>
-  </aside>
+  </div>
 </body>
 
 </html>

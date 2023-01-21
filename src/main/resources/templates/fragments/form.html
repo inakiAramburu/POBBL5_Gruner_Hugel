@@ -1,116 +1,136 @@
-<!--Aside form create-->
-
 <!--Aside form edit-->
-<aside class="z-2 w-50 h-75 start-0 position-absolute collapse in collapse-horizontal" id="collapseWidthExample" th:fragment="aside-form-farm-edit">
+<aside class="z-2 w-50 h-75 start-0 position-absolute collapse in collapse-horizontal" id="collapseWidthExample"
+    th:fragment="aside-form-farm-edit">
     <div class="h-100 w-75 bgreen1 rounded-3">
-        <h2 class="mx-auto negativet w-75 mb-5 rounded-pill justify-content-center bgreen1 border-top border-dark pb-5 text-decoration-underline">SIMULATION EDIT</h2>
-            <div class="bgreen3 z-3 negativet rounded-4 p-3">
-                <form class="form" method="post" th:action="@{/updateSimulation}" th:object="${simulationEdit}">
-                    <div class="row">
-                        <label class="col" >End Date:</label>
-                        <input type="date" min="1959-01-01" max="2022-08-31" th:field="*{endDate}" th:required="required"/>
-                    </div>
-                    <div class="row">
-                        <label class="col" >Tractor:</label>
-                        <div th:each="farmTractor : ${tractors}">
-                            <label class="col" th:text="${farmTractor.tractor.tractorName}"></label>
-                            <input class="col bcream rounded-pill border border-dark" type="number" th:placeholder="${farmTractor.quantity}" th:field="*{numTractor}"
-                               min="0" th:required="required" />
-                        </div>
-                        <div class="nav-buttons">
-                            <button type="button" class="action" id="addTractor">+</button>
-                            <button type="button" class="action" id="removeTractor">-</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label>Workers:</label>
-                        <input class="col bcream rounded-pill border border-dark" type="number" th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0"
-                           th:required="required" />
-                    </div>
-                    <div class="row">
-                        <label>Plow:</label>
-                        <div th:each="farmPlow : ${plows}">
-                            <label th:text="${farmPlow.plow.plowName}"></label>
-                            <input class="col bcream rounded-pill border border-dark" type="number" th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0"
-                               th:required="required" />
-                        </div>
-                        <div class="nav-buttons">
-                            <button type="button" class="action" id="addPlow">+</button>
-                            <button type="button" class="action" id="removePlow">-</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label>Seeder:</label>
-                        <div th:each="farmSeeder : ${seeders}">
-                            <label th:text="${farmSeeder.seeder.seederName}"></label>
-                            <input class="col bcream rounded-pill border border-dark" type="number" th:placeholder="${farmSeeder.quantity}" th:field="*{numSeeder}" min="0"
-                               th:required="required" />
-                        </div>
-                        <div class="nav-buttons">
-                            <button type="button" class="action" id="addSeeder">+</button>
-                            <button type="button" class="action" id="removeSeeder">-</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <label>Harvester:</label>
-                        <div th:each="farmHarvester : ${harversters}">
-                            <label th:text="${farmHarvester.harvester.harvesterName}"></label>
-                            <input class="col bcream rounded-pill border border-dark" type="number" th:placeholder="${farmHarvester.quantity}" th:field="*{numHarvester}"
-                                min="0" th:required="required" />
-                        </div>
-                        <div class="nav-buttons">
-                            <button type="button" class="action" id="addHarvester">+</button>
-                            <button type="button" class="action" id="removeHarvester">-</button>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div>
-                            <label>Balance:</label>
-                            <label th:text="${total}"></label>€
-                        </div>
-                     <div>
-                         <button type="submit" class="action">UPDATE</button>
-                        </div>
-                    </div>
-                </form>
-                <div class="position-relative z-n1 start-100 top-50">
-                    <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample" class="d-flex negativel z-n1 position-absolute px-5 bgreen1 border border-dark rounded-5">
-                        <img class="w-100"  th:src="@{/img/close.png}" alt="Open">
-                    </button>
+        <h2
+            class="mx-auto negativet w-75 mb-5 rounded-pill justify-content-center bgreen1 border-top border-dark pb-5 text-decoration-underline">
+            SIMULATION EDIT</h2>
+        <div class="bgreen3 z-3 negativet rounded-4 p-3">
+            <form class="form" method="post" th:action="@{/updateSimulation}" th:object="${simulationEdit}">
+                <div class="row">
+                    <label class="col">End Date:</label>
+                    <input type="date" min="1959-01-01" max="2022-08-31" th:field="*{endDate}" th:required="required" />
                 </div>
+                <div class="row">
+                    <label class="col">Tractor:</label>
+                    <div th:each="farmTractor : ${tractors}">
+                        <label class="col" th:text="${farmTractor.tractor.tractorName}"></label>
+                        <input class="col bcream rounded-pill border border-dark" type="number"
+                            th:placeholder="${farmTractor.quantity}" th:field="*{numTractor}" min="0"
+                            th:required="required" />
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addTractor">+</button>
+                        <button type="button" class="action" id="removeTractor">-</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>Workers:</label>
+                    <input class="col bcream rounded-pill border border-dark" type="number"
+                        th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0" th:required="required" />
+                </div>
+                <div class="row">
+                    <label>Plow:</label>
+                    <div th:each="farmPlow : ${plows}">
+                        <label th:text="${farmPlow.plow.plowName}"></label>
+                        <input class="col bcream rounded-pill border border-dark" type="number"
+                            th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0"
+                            th:required="required" />
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addPlow">+</button>
+                        <button type="button" class="action" id="removePlow">-</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>Seeder:</label>
+                    <div th:each="farmSeeder : ${seeders}">
+                        <label th:text="${farmSeeder.seeder.seederName}"></label>
+                        <input class="col bcream rounded-pill border border-dark" type="number"
+                            th:placeholder="${farmSeeder.quantity}" th:field="*{numSeeder}" min="0"
+                            th:required="required" />
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addSeeder">+</button>
+                        <button type="button" class="action" id="removeSeeder">-</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <label>Harvester:</label>
+                    <div th:each="farmHarvester : ${harversters}">
+                        <label th:text="${farmHarvester.harvester.harvesterName}"></label>
+                        <input class="col bcream rounded-pill border border-dark" type="number"
+                            th:placeholder="${farmHarvester.quantity}" th:field="*{numHarvester}" min="0"
+                            th:required="required" />
+                    </div>
+                    <div class="nav-buttons">
+                        <button type="button" class="action" id="addHarvester">+</button>
+                        <button type="button" class="action" id="removeHarvester">-</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div>
+                        <label>Balance:</label>
+                        <label th:text="${total}"></label>€
+                    </div>
+                    <div>
+                        <button type="submit" class="action">UPDATE</button>
+                    </div>
+                </div>
+            </form>
+            <div class="position-relative z-n1 start-100 top-50">
+                <button type="button" data-bs-toggle="collapse" data-bs-target="#collapseWidthExample"
+                    aria-expanded="false" aria-controls="collapseWidthExample"
+                    class="d-flex negativel z-n1 position-absolute px-5 bgreen1 border border-dark rounded-5">
+                    <img class="w-100" th:src="@{/img/close.png}" alt="Open">
+                </button>
             </div>
-            <div class="container bgreen3 mt-4 rounded-4 p-3">
-                <h2 class="subtitle">PLANTATION</h2>
-                <form class="form-plant" method="post"> <!--th:action="@{/updateLand/{id} (id=${land.getId()})}"-->
-                    <label>
-                        Longitude(X):
-                        <label th:value="*{lng}"></label>
-                    </label>
-                    <label>
-                        Size:
-                        <input type="number" th:value="0" required /> <!--th:field="*{land.size}"-->
-                    </label>
-                    <label>Latitude(Y):
-                        <label th:value="*{lat}"></label>
-                    </label>
-                    <label>
-                        Crop:
-                        <!--<select th:field="*{plant.name}" th:required="required">
-                        <option th:value="Wheat" th:text="Wheat"></option>
-                    </select>-->
-                    </label>
-                    <label>Town:
-                        <input type="text" th:required="required" /> <!--th:field="*{town.name}"-->
-                    </label>
-                    <div class="options">
-                        <button type="submit" class="action">
-                            <img th:src="@{/img/tick.png}" alt="tick" />
+        </div>
+        <div>
+            <div class="bgreen3 rounded-4 p-3 mt-4">
+                <h2 class="mb-4 text-decoration-underline">NEW PLANTATION</h2>
+                <form class="container form-plant" th:action="@{/addLand}" method="post" th:object="${createLand}">
+                    <div class="row">
+                        <label class="mb-3 fs-5 col-6 d-flex justify-content-right">
+                            Longitude(X):
+                            <input class="bcream w-50 rounded-pill border border-dark" id="lng" th:field="*{longitude}"
+                                readonly th:required="required">
+                        </label>
+                        <label class="mb-3 fs-5 col-6 d-flex justify-content-right">
+                            Size:
+                            <input class="bcream rounded-pill border border-dark" type="number" th:field="*{size}"
+                                th:required="required" />
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label class="mb-3 col fs-5 d-flex justify-content-right">Latitude(Y):
+                            <input class="bcream rounded-pill border border-dark" id="lat" th:field="*{latitude}"
+                                readonly th:required="required">
+                        </label>
+                        <label class="mb-3 col fs-5 d-flex justify-content-right">
+                            Crop:
+                            <select class="bcream rounded-pill border border-dark" th:field="*{plantName}"
+                                th:required="required">
+                                <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
+                                    th:value="${crop.name}" th:text="${crop.name}"></option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="row">
+                        <label class="mb-3 mb-5 fs-5 col d-flex justify-content-right">
+                            Town:
+                            <input class="bcream rounded-pill border border-dark" id="town" th:field="*{town}" readonly
+                                th:required="required">
+                        </label>
+                        <button type="submit" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
+                            <img class="w-50" th:src="@{/img/tick.png}" alt="tick" />
                         </button>
-                        <button type="reset" class="action">
-                            <img th:src="@{/img/x.png}" alt="x" />
+                        <button type="reset" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
+                            <img class="w-50" th:src="@{/img/x.png}" alt="x" />
                         </button>
                     </div>
                 </form>
             </div>
+        </div>
     </div>
 </aside>

@@ -134,6 +134,9 @@ public class SimulationController {
         // Get data
         model.addAttribute("simulationEdit", new EditSimulation());
 
+        // Set land
+        model.addAttribute("createLand", new CreateLand());
+
         return URI.HOME_USER_FARM.getView();
     }
 
