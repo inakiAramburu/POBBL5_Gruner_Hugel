@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
@@ -137,8 +138,10 @@ public class SimulationController {
         // Get data
         model.addAttribute("simulationEdit", new EditSimulation());
 
-        sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository, fuelRepository, wheatPriceRepository);
-        // sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository);
+        sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
+                fuelRepository, wheatPriceRepository);
+        // sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository,
+        // farmSeederRepository, farmTractorRepository);
         sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farm.getLands());
         return URI.HOME_USER_FARM.getView();
     }
@@ -383,8 +386,9 @@ public class SimulationController {
      */
 
     @GetMapping(value = "/startSimulation")
+    @ResponseBody
     public String startSimulation() {
         sim.start();
-        return "simulation/simulation";
+        return "hi";
     }
 }
