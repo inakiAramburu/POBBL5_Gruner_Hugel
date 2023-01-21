@@ -33,12 +33,6 @@ public class Balance extends Thread {
         }
     }
 
-    private static void setBalance(int moneyAdded) { // to avoid a code smell
-        synchronized (mutex) {
-            balance = moneyAdded;
-        }
-    }
-
     private static void moneyCost(int cost) {
         synchronized (mutex) {
             balance -= cost;

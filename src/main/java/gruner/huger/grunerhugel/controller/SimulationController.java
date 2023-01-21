@@ -53,6 +53,7 @@ import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.formobjects.CreateLand;
 import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -97,6 +98,8 @@ public class SimulationController {
     @Autowired
     private WheatPriceRepository wheatPriceRepository;
 
+    SimulationProcesses sim;
+
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
 
@@ -134,6 +137,9 @@ public class SimulationController {
         // Get data
         model.addAttribute("simulationEdit", new EditSimulation());
 
+        sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository, fuelRepository, wheatPriceRepository);
+        // sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository, farmTractorRepository);
+        sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farm.getLands());
         return URI.HOME_USER_FARM.getView();
     }
 
@@ -376,9 +382,9 @@ public class SimulationController {
      * }
      */
 
-    @PostMapping(value = "/startSimulation")
+    @GetMapping(value = "/startSimulation")
     public String startSimulation() {
-        // sim.start();
+        sim.start();
         return "simulation/simulation";
     }
 }

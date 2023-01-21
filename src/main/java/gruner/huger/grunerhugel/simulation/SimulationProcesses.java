@@ -115,7 +115,7 @@ public class SimulationProcesses extends Thread {
     @Override
     public void run() {
         Worker w = new Worker(null);
-        w.setWork(4);
+        w.setWork(1);
         w.start();
         w.hourPass();
         // startThreads();
