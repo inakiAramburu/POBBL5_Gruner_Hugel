@@ -25,7 +25,9 @@
 
             <div class="col">
                 <div class="row justify-content-end align-items-center mb-5 ml-5 p-3 bgreen1 rounded">
-                    <div class="col-1" th:replace="~{fragments/header :: profile-dropdown}"></div>
+                    <div class="col-1">
+                        <div th:replace="~{fragments/header :: profile-dropdown}"></div>
+                    </div>
                     <a th:href="@{/simulation}" class="col-1" type="submit"><img th:src="@{/img/play.png}"
                             alt="play" /></a>
                     <button class="col-1"><img th:src="@{/img/rewind.png}" alt="rewind"></button>

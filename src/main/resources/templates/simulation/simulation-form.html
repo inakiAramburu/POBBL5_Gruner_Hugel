@@ -14,139 +14,142 @@
     <div class="bgreen1 rounded-5 border border-dark p-4">
       <div>
         <div class="bgreen3 rounded-4 p-3">
-          <form class="container" method="post" th:action="@{/addSimulation}" th:object="${simulationCreate}">
+          <form class="container-fluid" method="post" th:action="@{/addSimulation}" th:object="${simulationCreate}">
             <div class="row">
-              <label class="col mb-3 d-flex justify-content-right" th:text="#{simulation.startDate}">
+              <div class="col fs-5 mb-3 d-flex justify-content-right">
+                <label th:text="#{simulation.startDate}"></label>:
                 <input class="bcream rounded-pill border border-dark" type="date" name="startDate" min="1959-01-01"
                   max="2022-08-31" th:field="*{startDate}" th:required="required" />
-              </label>
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{simulation.endDate}">
+              </div>
+              <div class="mb-3 fs-5 col d-flex justify-content-right">
+                <label th:text="#{simulation.endDate}"></label>:
                 <input class="bcream rounded-pill border border-dark" type="date" name="endDate" min="1959-01-01"
                   max="2022-08-31" th:field="*{endDate}" th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{simulation.budget}">
+              <div class="mb-3 fs-5 col d-flex justify-content-right">
+                <label th:text="#{simulation.budget}"></label>:
                 <input class="bcream rounded-pill border border-dark" type="number" name="budget" th:field="*{budget}"
-                  th:required="required" min="0" />
-              </label>
+                  th:required="required" min="0" />€
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col-8 d-flex justify-content-right" th:text="#{simulation.tractor}">
-                <select class="col-6 bcream rounded-pill border border-dark" th:field="*{tractorName}" id="tractor"
+              <div class="mb-3 fs-5 col-9 d-flex justify-content-right">
+                <label th:text="#{simulation.tractor}"></label>:
+                <select class="col-7 bcream rounded-pill border border-dark" th:field="*{tractorName}" id="tractor"
                   th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="tractor : ${tractors}"
                     th:value="${tractor.tractorName}" th:text="${tractor.tractorName}" th:attr="price=${tractor.price}">
                   </option>
                 </select>
-                <input class="d-flex justify-content-end col-1 bcream rounded-pill border border-dark" type="number"
+                <input class="d-flex justify-content-end col-2 bcream rounded-pill border border-dark" type="number"
                   id="numTractor" th:field="*{numTractor}" min="0" th:required="required" />
                 <button class="btn col-2 bgreen1" type="button" id="AddTractor">+</button>
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col-3 d-flex justify-content-right" th:text="#{simulation.workers}">
+              <div class="mb-3 fs-5 col-3 d-flex justify-content-right">
+                <label th:text="#{simulation.workers}"></label>:
                 <input class="bcream col-3 rounded-pill border border-dark" type="number" th:field="*{numWorkers}"
                   min="0" max="100" th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col-8 d-flex justify-content-right" th:text="#{simulation.plow}">
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{plowName}" id="plow"
+              <div class="mb-3 fs-5 col-9 d-flex justify-content-right">
+                <label th:text="#{simulation.plow}"></label>:
+                <select class="bcream col-7 rounded-pill border border-dark" th:field="*{plowName}" id="plow"
                   th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="plow : ${plows}"
                     th:value="${plow.plowName}" th:text="${plow.plowName}" th:attr="price= ${plow.price}"></option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-2 rounded-pill border border-dark" type="number"
                   id="numPlow" th:field="*{numPlow}" min="0" th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col-8 d-flex justify-content-right" th:text="#{simulation.seeder}">
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{seederName}"
+              <div class="mb-3 fs-5 col-9 d-flex justify-content-right">
+                <label th:text="#{simulation.seeder}"></label>:
+                <select class="bcream col-7 rounded-pill border border-dark" th:field="*{seederName}"
                   th:required="required" id="seeder">
                   <option class="bcream rounded-pill border border-dark" th:each="seeder : ${seeders}"
                     th:value="${seeder.seederName}" th:text="${seeder.seederName}" th:attr="price = ${seeder.price}">
                   </option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-2 rounded-pill border border-dark" type="number"
                   id="numSeeder" th:field="*{numSeeder}" min="0" th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col-8 d-flex justify-content-right" th:text="#{simulation.harvester}">
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{harvesterName}"
+              <div class="mb-3 fs-5 col-9 d-flex justify-content-right">
+                <label th:text="#{simulation.harvester}"></label>:
+                <select class="bcream col-7 rounded-pill border border-dark" th:field="*{harvesterName}"
                   th:required="required" id="harvester">
                   <option class="bcream rounded-pill border border-dark" th:each="harvester : ${harvesters}"
                     th:value="${harvester.harvesterName}" th:text="${harvester.harvesterName}"
                     th:attr="price=${harvester.price}"></option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-2 rounded-pill border border-dark" type="number"
                   id="numHarvester" th:field="*{numHarvester}" min="0" th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row align-items-center">
-              <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
-                <button type="submit" class="action">
-                  <img th:src="@{/img/tick.png}" alt="x" />
-                </button>
-              </div>
-              <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
-                <button type="reset" class="action">
-                  <img th:src="@{/img/reset.png}" alt="reset" />
-                </button>
-              </div>
-              <label th:text="#{simulation.total}">
+              <button type="submit" class="btn bgreen1 m-3 p-1 rounded-4 col-2 border border-dark">
+                <img th:src="@{/img/tick.png}" alt="x" />
+              </button>
+              <button type="reset" class="btn bgreen1 m-3 p-1 rounded-4 col-2 border border-dark">
+                <img th:src="@{/img/reset.png}" alt="reset" />
+              </button>
+              <div class="col fs-4">
+                <label th:text="#{simulation.total}"></label>:
                 <label id="totalCost">0</label>€
-              </label>
+              </div>
+            </div>
           </form>
         </div>
       </div>
-      <div class="mt-4 pl-4 pb-4 pr-4 pt-1 bgreen3 rounded-4">
-        <div>
+      <div>
+        <div class="bgreen3 rounded-4 p-3 mt-4">
           <h2 class="mb-4 text-decoration-underline" th:text="#{plantation.title}"></h2>
           <form class="container form-plant" th:action="@{/addLand}" method="post" th:object="${createLand}">
             <div class="row">
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{plantation.longitude}">
-                (X):
+              <div class="mb-3 fs-5 col-6 d-flex justify-content-right">
+                <label th:text="#{plantation.longitude}"></label>:
                 <input class="bcream rounded-pill border border-dark" id="lng" th:field="*{longitude}" readonly
                   th:required="required">
-              </label>
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{plantation.size}">
-                Size:
+              </div>
+              <div class="mb-3 fs-5 col-6 d-flex justify-content-right">
+                <label th:text="#{plantation.size}"></label>:
                 <input class="bcream rounded-pill border border-dark" type="number" th:field="*{size}"
                   th:required="required" />
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{plantation.latitude}">Latitude(Y):
+              <div class="mb-3 col fs-5 d-flex justify-content-right">
+                <label th:text="#{plantation.latitude}"></label>:
                 <input class="bcream rounded-pill border border-dark" id="lat" th:field="*{latitude}" readonly
                   th:required="required">
-              </label>
-              <label class="mb-3 col d-flex justify-content-right" th:text="#{plantation.crop}">
-                Crop:
+              </div>
+              <div class="mb-3 col fs-5 d-flex justify-content-right">
+                <label th:text="#{plantation.crop}"></label>:
                 <select class="bcream rounded-pill border border-dark" th:field="*{plantName}" th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
                     th:value="${crop.name}" th:text="${crop.name}"></option>
                 </select>
-              </label>
+              </div>
             </div>
             <div class="row">
-              <label class="mb-3 mb-5 col-4 d-flex justify-content-right" th:text="#{plantation.town">
-                Town:
-                <input class="bcream rounded-pill border border-dark" id="town" th:field="*{town}" readonly
+              <div class="mb-3 mb-5 fs-5 col d-flex justify-content-right">
+                <label th:text="#{plantation.town}"></label>:
+                <input class="bcream rounded-pill border border-dark w-50" id="town" th:field="*{town}" readonly
                   th:required="required">
-              </label>
-              <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
-                <button type="submit" class="action">
-                  <img th:src="@{/img/tick.png}" alt="tick" />
-                </button>
               </div>
-              <div class="bgreen1 m-1 p-1 rounded-4 col-1 border border-dark">
-                <button type="reset" class="action">
-                  <img th:src="@{/img/x.png}" alt="x" />
-                </button>
-              </div>
+              <button type="submit" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
+                <img class="w-50" th:src="@{/img/tick.png}" alt="tick" />
+              </button>
+              <button type="reset" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
+                <img class="w-50" th:src="@{/img/x.png}" alt="x" />
+              </button>
             </div>
           </form>
         </div>
