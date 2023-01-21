@@ -9,5 +9,6 @@ window.onload = function() {
         }else{  
             slider.classList.add("active"); 
         }
+        alert("alo");
     });
 }

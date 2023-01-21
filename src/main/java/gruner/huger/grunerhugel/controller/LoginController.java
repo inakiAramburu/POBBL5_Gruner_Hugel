@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +30,11 @@ public class LoginController {
             user.setRole(new Role("USER"));
         }
         userRepository.save(user);
+
+        if (SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
+                .anyMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            return "redirect:" + URI.HOME_ADMIN.getPath();
+        }
         return "redirect:" + URI.LOGIN.getPath();
     }
 

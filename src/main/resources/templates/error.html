@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <title>Error!</title>
-  </head>
-  <body>
-    <h2>Error</h2>
-    <p>Something went wrong. Please try again later.</p>
-  </body>
+
+<head>
+  <title>Error!</title>
+</head>
+
+<body>
+  <h2 th:text="#{error}"></h2>
+  <p th:text="#{message.error}"></p>
+</body>
+
 </html>

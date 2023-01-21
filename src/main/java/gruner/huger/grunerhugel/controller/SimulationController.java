@@ -99,16 +99,13 @@ public class SimulationController {
 
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
-        // Set atributtes
-        int total = 10000;
-
-        session.setAttribute("total", total);
 
         // Set data
         model.addAttribute("tractors", tractorRepository.findAll());
         model.addAttribute("harvesters", harvesterRespository.findAll());
         model.addAttribute("plows", plowRepository.findAll());
         model.addAttribute("seeders", seederRepository.findAll());
+        model.addAttribute("crops", plantTypeRepository.findAll());
 
         // Set farm
         model.addAttribute("simulationCreate", new CreateSimulation());
@@ -198,7 +195,7 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/deleteSimulation")
-    public String deleteSimulation(Authentication authentication) {
+    public String deleteSimulation(Model model, Authentication authentication) {
         // Get data
         User user = userRepository.findByUsername(authentication.getName());
         Farm farm = farmRepository.findByUser(user);
@@ -372,10 +369,10 @@ public class SimulationController {
      * land.get().setSize(updateLand.getSize());
      * landRepository.save(land.get());
      * }
-     * 
+     *
      * return "simulation"; // aiqu hablar de este tema porqu si refrescamos el mapa
      * pierde sus Marks
-     * 
+     *
      * }
      */
 

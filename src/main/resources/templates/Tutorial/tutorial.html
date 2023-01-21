@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <title>Bootstrap Example</title>
+    <link th:href="@{/css/simulation.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body class="border-0 bd-example">
+
+<!-- Example Code -->
+
+<div id="carouselExampleIndicators" class="h-100 carousel slide ">
+    <div class="carousel-indicators ">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="" aria-label="Slide 1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2" class="active" aria-current="true"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+    </div>
+    <div class="carousel-inner d-flex h-100">
+        <div class="carousel-item active bgreen3 border mb-3 h-100">
+                <div class="w-100 container bcream">
+                    <div class="d-flex justify-items-center row">
+                        <h2 class="mt-3">SETUP</h2>
+                    </div>
+                    <div class="d-flex justify-items-center row">
+                        <h3 class="col mb-3">SIMULATION FORM</h3> <h3 class="col mb-3">CROP FORM</h3>
+                    </div>
+                    <div class="d-flex justify-items-center row">
+                        <img class="col" th:src="@{/img/instruction.png}" alt="">
+                        <img class="col" th:src="@{/img/instruction.png}" alt="">
+                    </div>
+                    <div class="d-flex justify-items-center row">
+                        <p class="col m-3 text-start fs-4" >This form specifies the resources available once the simulation begins. It is mandatory to fill this form before beginning the simulation.
+
+                            On the drop down fields (1.), you must first select the option you want to use/buy and then the field on the right (2.) needs to be used to specify the number of vehicles, workers etc.
+
+                            The button on the bottom (3.) resets all the fields on the first form in case it is needed</p>
+                        <p class="col m-3 text-start fs-4" >This form is used to create and delete crops on the map in the right, to begin the simulation, at least one crop field must be created.
+
+                            The first step to create a new crop is clicking the desired area on the map (1.), then the position fields (3.) will be automatically filed ad you will have to specify the size of the crop in the field (2.).
+
+                            Finally, the accept (4.) or cancel (5.) buttons should be pressed to create, cancel or delete the crop in case you have selected an already created crop.</p>
+                    </div>
+                </div>
+        </div>
+        <div class="carousel-item bgreen3 border mb-3 h-100">
+            <div class="w-100 container bcream">
+                <div class="d-flex justify-items-center row">
+                    <h2 class="mt-3">SETUP</h2>
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <h3 class="col mb-3">SIMULATION FORM</h3> <h3 class="col mb-3">CROP FORM</h3>
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <img class="col" th:src="@{/img/instruction.png}" alt="">
+                    <img class="col" th:src="@{/img/instruction.png}" alt="">
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <p class="col m-3 text-start fs-4" >This form specifies the resources available once the simulation begins. It is mandatory to fill this form before beginning the simulation.
+
+                        On the drop down fields (1.), you must first select the option you want to use/buy and then the field on the right (2.) needs to be used to specify the number of vehicles, workers etc.
+
+                        The button on the bottom (3.) resets all the fields on the first form in case it is needed</p>
+                    <p class="col m-3 text-start fs-4" >This form is used to create and delete crops on the map in the right, to begin the simulation, at least one crop field must be created.
+
+                        The first step to create a new crop is clicking the desired area on the map (1.), then the position fields (3.) will be automatically filed ad you will have to specify the size of the crop in the field (2.).
+
+                        Finally, the accept (4.) or cancel (5.) buttons should be pressed to create, cancel or delete the crop in case you have selected an already created crop.</p>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item bgreen3 border mb-3 h-100">
+            <div class="w-100 container bcream">
+                <div class="d-flex justify-items-center row">
+                    <h2 class="mt-3">SETUP</h2>
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <h3 class="col mb-3">SIMULATION FORM</h3> <h3 class="col mb-3">CROP FORM</h3>
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <img class="col" th:src="@{/img/instruction.png}" alt="">
+                    <img class="col" th:src="@{/img/instruction.png}" alt="">
+                </div>
+                <div class="d-flex justify-items-center row">
+                    <p class="col m-3 text-start fs-4" >This form specifies the resources available once the simulation begins. It is mandatory to fill this form before beginning the simulation.
+
+                        On the drop down fields (1.), you must first select the option you want to use/buy and then the field on the right (2.) needs to be used to specify the number of vehicles, workers etc.
+
+                        The button on the bottom (3.) resets all the fields on the first form in case it is needed</p>
+                    <p class="col m-3 text-start fs-4" >This form is used to create and delete crops on the map in the right, to begin the simulation, at least one crop field must be created.
+
+                        The first step to create a new crop is clicking the desired area on the map (1.), then the position fields (3.) will be automatically filed ad you will have to specify the size of the crop in the field (2.).
+
+                        Finally, the accept (4.) or cancel (5.) buttons should be pressed to create, cancel or delete the crop in case you have selected an already created crop.</p>
+                </div>
+            </div>
+            <a th:href="@{/main}" class="col mx-5 shadow-sm btn bgreen1 border border-dark m-3">CONTINUE</a>
+        </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
+
+<!-- End Example Code -->
+</body>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+
+</html>

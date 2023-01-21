@@ -54,7 +54,8 @@ public class FarmHarvester implements Serializable {
     public Harvester getHarvester() {
         return harvester;
     }
-
+ 
+   
     public void setHarvester(Harvester harvester) {
         this.harvester = harvester;
     }
