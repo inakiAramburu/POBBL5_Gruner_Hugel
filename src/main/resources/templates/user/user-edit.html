@@ -1,30 +1,38 @@
 <!DOCTYPE html>
-<html lang="en" layout:decorate = "~{layout/no-footer}">
+<html lang="en" layout:decorate="~{layout/no-footer}">
 
 <head>
-    <title>User edit</title>
+    <title th:text="#{title.user-edit}"></title>
 </head>
 
 <body>
-    <h1 layout:fragment="title">User edit</h1>
+    <h1 layout:fragment="title" th:text="#{title.user-edit}"></h1>
     <main layout:fragment="main">
-        <form method="post" class="card-body" th:action="@{/update/{id} (id=${old_user.getId()})}"  th:object="${new_user}">
+        <form method="post" class="card-body" th:action="@{/update/{id} (id=${old_user.getId()})}"
+            th:object="${new_user}">
             <div class="grid-datos">
-                <div>USERNAME: <input name="username" th:field="*{username}" th:placeholder="${old_user.getUsername()}">
+                <div> <label th:text="#{user.username}"></label>:
+                    <input name="username" th:field="*{username}" th:placeholder="${old_user.getUsername()}">
                 </div>
-                <select th:field="*{role}"> ROLE:
+                <select th:field="*{role}" th:text="#{user.role}"> :
                     <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
                 </select>
-                <div>NAME: <input th:field="*{name}" th:placeholder="${old_user.getName()}"></div>
-                <div>SURNAME: <input name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
+                <div><label th:text="#{name}"></label>:
+                    <input th:field="*{name}" th:placeholder="${old_user.getName()}">
                 </div>
-                <div>EMAIL: <input name="email" th:field="*{email}" th:placeholder="${old_user.getEmail()}"></div>
+                <div><label th:text="#{user.surname}"></label>:
+                    <input name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
+                </div>
+                <div> <label th:text="#{user.email}"></label>:
+                    <input name="email" th:field="*{email}" th:placeholder="${old_user.getEmail()}">
+                </div>
             </div>
             <div class="botones">
-                <a class="action" href="/">CANCEL</a>
-                <button class="action" type="Submit">SUBMIT</button>
+                <a class="action" href="/" th:text="#{cancel}"></a>
+                <button class="action" type="Submit" th:text="#{submit}"></button>
             </div>
         </form>
     </main>
 </body>
+
 </html>

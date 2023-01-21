@@ -14,14 +14,14 @@
           <table table table-striped table-sm table-hover>
             <caption></caption>
             <tr>
-              <th>Rank</th>
-              <th>Start Date</th>
-              <th>Simulation Time</th>
-              <th>Benefit/Debt</th>
+              <th th:text="#{simulation.rank}"></th>
+              <th th:text="#{simulation.startDate}"></th>
+              <th th:text="#{simulation.time}"></th>
+              <th th:text="#{simulation.benefit}"></th>
             </tr>
             <div th:if="${simulations} == null">
               <tr>
-                <td colspan=100%>No simulations yet</td>
+                <td colspan=100% th:text="#{message.no-simulation}"></td>
               </tr>
             </div>
             <div th:unless="${simulations} == null">
@@ -36,10 +36,10 @@
         </div>
         <div class="d-flex align-items-center justify-content-center">
           <select class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">
-            <option selected>Filter</option>
-            <option value="1">Start Date</option>
-            <option value="2">Simulated Time</option>
-            <option value="3">Benefit/Debt</option>
+            <option selected th:text="#{filter}"></option>
+            <option value="1" th:text="#{simulation.startDate}"></option>
+            <option value="2" th:text="#{simulation.time}"></option>
+            <option value="3" th:text="#{simulation.benefit}"></option>
           </select>
         </div>
       </form>
