@@ -24,4 +24,7 @@ public class WheatPriceTest {
         WheatPrice wheatPrice =new WheatPrice();
         assertEquals(961,wheatPrice.hashCode());
     }
+
+    
+
 }
