@@ -25,12 +25,19 @@
                     <div class="col-5">
                         <div class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 py-1 mb-5">
                             <div class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
-                            <a th:href="@{/simulation}" class="col"><img class="w-100" th:src="@{/img/play.png}"
-                                    alt="play" /></a>
-                            <a class="col"><img class="w-100" th:src="@{/img/pause.png}" alt="pause" /></a>
-                            <a class="col"><img class="w-100" th:src="@{/img/rewind.png}" alt="rewind"></a>
-                            <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2"
-                                id="speed">x1</label>
+                            <a class="col" id="play">
+                                <img class="w-100" th:src="@{/img/play.png}" alt="play" />
+                            </a>
+                            <a class="col" id="pause">
+                                <img class="w-100" th:src="@{/img/pause.png}" alt="pause" />
+                            </a>
+                            <a class="col" id="rewind">
+                                <img class="w-100" th:src="@{/img/rewind.png}" alt="rewind">
+                            </a>
+                            <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2">
+                                x
+                                <label id="speed" th:text="1"></label>
+                            </label>
                         </div>
                     </div>
                 </div>

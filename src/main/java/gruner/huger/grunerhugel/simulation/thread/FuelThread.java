@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.text.DateFormat;
 import java.time.Year;
 import java.util.Calendar;
 import java.util.Date;
@@ -45,13 +44,13 @@ public class FuelThread extends Thread {
         Date date = TimeThread.getActualDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        Year year = Year.of(Integer.parseInt(DateFormat.getDateInstance(DateFormat.MEDIUM).format(date).split(" ")[2]));
+        Year year = Year.of(Integer.parseInt(date.toString().split(" ")[0].split("-")[0]));
         int week = 0;
         if (year.isAfter(Year.of(2001))) {
             week = cal.get(Calendar.WEEK_OF_YEAR);
         }
         Optional<Fuel> opFuel = fRepository.findByYearAndPeriod(year, week);
-        if(opFuel.isPresent()){
+        if (opFuel.isPresent()) {
             fuel = opFuel.get();
         }
     }

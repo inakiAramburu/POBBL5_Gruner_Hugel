@@ -21,6 +21,7 @@ public class Balance extends Thread {
     private static Lock lock;
     private static Condition checking;
     private static boolean pause = false;
+    public static List<Message> lMessages;
 
     public Balance(double initialBalance, BlockingQueue<Message> blockingQueue) {
         mutex = new Object();
@@ -28,9 +29,10 @@ public class Balance extends Thread {
         balance = (int) initialBalance;
         lock = new ReentrantLock();
         checking = lock.newCondition();
+        lMessages = new ArrayList<>();
     }
 
-    public int getBalance() {
+    public static int getBalance() {
         synchronized (mutex) {
             return balance;
         }
@@ -75,6 +77,7 @@ public class Balance extends Thread {
         List<Message> list = new ArrayList<>();
         blockingQueue.drainTo(list);
         list.forEach(this::doAction);
+        lMessages.addAll(list);
     }
 
     private void doAction(Message msg) {
@@ -112,7 +115,7 @@ public class Balance extends Thread {
         }
     }
 
-    public static void pause(){
+    public static void pause() {
         pause = true;
     }
 
