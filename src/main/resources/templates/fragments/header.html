@@ -19,12 +19,12 @@
 
 <!--Profile-->
 <div th:fragment="profile-dropdown">
-    <div sec:authorize="isAuthenticated()" href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
-      <img class="bgreen3 w-100 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
-    </div>
+  <div sec:authorize="isAuthenticated()" href="#" class="dropdown-toogle" data-bs-toggle="dropdown">
+    <img class="bgreen3 w-100 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
+  </div>
   <ul class="dropdown-menu dropdown-menu-end mt-4 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
     <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center">
-      <img class="w-25" th:src="@{/img/perfil.png}" alt="perfil"/>
+      <img class="w-25" th:src="@{/img/perfil.png}" alt="perfil" />
       <h2 sec:authorize="isAuthenticated()" th:text="${#authentication.getPrincipal().getUsername()}"></h2>
     </li>
     <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">

@@ -22,14 +22,15 @@
             <aside class="col negativel" layout:fragment="aside"></aside>
             <div class="col">
                 <div class="row d-flex justify-content-end">
-                    <div class="col-4">
+                    <div class="col-5">
                         <div
                             class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 border border-white py-1 mb-5">
-                            <div class="col-3" th:insert="~{fragments/header :: profile-dropdown}"></div>
-                            <a th:href="@{/simulation}" class="col-3"><img class="w-100" th:src="@{/img/play.png}"
+                            <div class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
+                            <a th:href="@{/simulation}" class="col"><img class="w-100" th:src="@{/img/play.png}"
                                     alt="play" /></a>
-                            <a class="col-3"><img class="w-100" th:src="@{/img/rewind.png}" alt="rewind"></a>
-                            <label class="fs-4 d-flex justify-content-start col-3 rounded-4 bcream rounded p-2"
+                            <a class="col"><img class="w-100" th:src="@{/img/pause.png}" alt="pause" /></a>
+                            <a class="col"><img class="w-100" th:src="@{/img/rewind.png}" alt="rewind"></a>
+                            <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2"
                                 id="speed">x1</label>
                         </div>
                     </div>
