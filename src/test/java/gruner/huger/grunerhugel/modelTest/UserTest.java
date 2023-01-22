@@ -28,6 +28,7 @@ class UserTest {
 
         User user = new User();
         Role role = new Role("ROLE_USER");
+        user.setId(1);
         user.setName("nametest");
         user.setSurname("surnametest");
         user.setEmail("sad@gmail.com");
@@ -35,6 +36,7 @@ class UserTest {
         user.setPassword("pass");
         user.setRole(role);
 
+        assertEquals(1, user.getId());
         assertEquals("nametest", user.getName());
         assertEquals("surnametest", user.getSurname());
         assertEquals("sad@gmail.com",user.getEmail());
@@ -42,6 +44,10 @@ class UserTest {
         assertEquals("pass",user.getPassword());
         assertEquals(role,user.getRole());
 	}
-
+    @Test
+    void testHashCode(){
+        User user=new User();
+        assertEquals(1742810335,user.hashCode());
+    }
 
 }

@@ -60,7 +60,7 @@ public void checkOptimalCondition(Weather weather) {
     }
   }
 
-  private boolean check(Weather weather) {
+  public boolean check(Weather weather) {
     return weather.equals(new Weather());
   }
 
@@ -137,7 +137,7 @@ public void checkOptimalCondition(Weather weather) {
     this.land = land;
   }
 
-  private void loseHealth() {
+  public void loseHealth() {
     healthPoint -= 5;
   }
 

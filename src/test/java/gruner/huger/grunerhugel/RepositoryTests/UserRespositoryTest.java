@@ -27,7 +27,7 @@ class UserRespositoryTest {
     @Test
     void createUserTest() {
         User user = new User();
-        user.setUsername("test2");
+        user.setUsername("test0");
         user.setName("test");
         user.setSurname("test");
         user.setPassword("test");
@@ -89,12 +89,10 @@ class UserRespositoryTest {
         assertThat(roles).size().isPositive();
     }
 
-    /*
-     * @Test
-     * void deleteUserTest() {
-     * //User user = userRepository.findByUsername("test2");
-     * userRepository.delete(user);
-     * assertNull(userRepository.findByUsername("test2"));
-     * }
-     */
+    @Test
+    void deleteUserTest() {
+        User user = userRepository.findByUsername("test0");
+        userRepository.delete(user);
+        assertNull(userRepository.findByUsername("test0"));
+    }
 }

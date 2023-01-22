@@ -55,15 +55,6 @@ public class Farm implements Serializable {
         this.user = user;
         this.money = budget;
         this.numWorkers = numWorkers;
-        this.fuel = 0;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public int getNumWorkers() {
@@ -141,6 +132,14 @@ public class Farm implements Serializable {
     @Override
     public String toString() {
         return "Farm [id=" + id + ", money=" + money + ", user=" + user + "]";
+    }
+
+    public void setId(int i) {
+        this.id = i;
+    }
+
+    public Integer getId() {
+        return this.id;
     }
 
 }

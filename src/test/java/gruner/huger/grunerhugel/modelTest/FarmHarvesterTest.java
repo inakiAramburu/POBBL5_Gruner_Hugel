@@ -1,5 +1,6 @@
 package gruner.huger.grunerhugel.modelTest;
 
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
@@ -7,32 +8,43 @@ import org.junit.jupiter.api.Test;
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.Harvester;
+import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.compositekey.FarmHarvesterId;
 
 public class FarmHarvesterTest {
 
     @Test
-    public void givenValidData_WhenConstructorCalled_ThenObjectCreated() {
-        FarmHarvester farmHarvester = new FarmHarvester(new Farm(), new Harvester(), 10);
-        //assertEquals(1, farmHarvester.getFarm().getId());
-        //assertEquals("Harvester1", farmHarvester.getHarvester().getHarvesterName());
-        //assertEquals(10, farmHarvester.getQuantity());
+    public void testCostructor() {
+        FarmHarvester farmHarvester = new FarmHarvester(new Farm(new User(), 1, 0), new Harvester(), 10);
     }
 
-/*
+
+/**
+ * 
+ */
 @Test
     public void testGetsSets() {
-// setHarvester setFarm setId getQuantity
         FarmHarvester farmHarvester = new FarmHarvester();
-        farmHarvester.setHarvester(new Harvester());
-        farmHarvester.setFarm(new Farm());
-        farmHarvester.setId(new FarmHarvesterId());
-        farmHarvester.setQuantity(10);
+        Farm farm = new Farm(new User(), 1, 0);
+        Harvester harvester = new Harvester();
+        
+        //ID
+        farmHarvester.setId(null);
+        assertEquals(null, farmHarvester.getId());
 
-        assertEquals(1, farmHarvester.getFarm().getId());
-        assertEquals("Harvester1", farmHarvester.getHarvester().getHarvesterName());
-        assertEquals(1, farmHarvester.getId().getFarmId());
-        assertEquals("Harvester1", farmHarvester.getId().getFarmId());
+        //farm
+        farmHarvester.setFarm(farm);
+        assertEquals(farm, farmHarvester.getFarm());
+
+        //harvester
+        farmHarvester.setHarvester(harvester);
+        assertEquals(harvester, farmHarvester.getHarvester());
+
+        //quantity
+        farmHarvester.setQuantity(10);
         assertEquals(10, farmHarvester.getQuantity());
-    }*/
+
+
+    }
+    
 }
