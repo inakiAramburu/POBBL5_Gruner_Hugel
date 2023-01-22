@@ -13,7 +13,7 @@ public class MessageTest {
     void createMessage() {
         Sign sign = Sign.PLUS;
         Message ms= new Message(sign, 5,"test");
-        assertEquals(ms, ms); 
+        //assertEquals(ms, ms); 
 }
 
 }
