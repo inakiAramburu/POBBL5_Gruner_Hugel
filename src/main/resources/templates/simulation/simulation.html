@@ -34,7 +34,7 @@
             </button>
         </div>
 
-        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4">
+        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4 border border-dark">
           <table class="table bcream table-striped table-sm table-hover">
             <caption></caption>
             <tr>
@@ -42,8 +42,17 @@
               <th>Status</th>
             </tr>
             <tr th:each="land : ${lands}">
-              <td th:text="${land.town.name}"></td>
-              <td th:text="${land.status}"></td>
+              <form action="">
+                <td class="py-2" th:text="${land.town.name}"></td>
+                <td class="w-50">
+                  <table class="w-25">
+                    <tr class="w-25">
+                      <td th:text="${land.status}">Aloooooooooo</td>
+                      <td class="p-0 m-0"><img class="btn w-75 bgreen2" th:src="@{/img/bin.png}" alt=""></td>
+                    </tr>
+                  </table>
+                </td>
+              </form>
             </tr>
           </table>
         </div>

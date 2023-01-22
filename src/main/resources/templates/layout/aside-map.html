@@ -16,22 +16,19 @@
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
 </head>
 
-<body class="vh-100 vw-100 p-0 m-0 text-center border border-warning bgreen2">
-    <main class="w-100 h-100 p-0 m-0 container-fluid border border-primary">
-        <div class="row w-100 h-100 p-0 m-0 border border-danger">
+<body class="vh-100 vw-100 p-0 m-0 text-center bgreen2">
+    <main class="w-100 h-100 p-0 m-0 container-fluid">
+        <div class="row w-100 h-100 p-0 m-0">
             <aside class="col negativel" layout:fragment="aside"></aside>
             <div class="col">
                 <div class="row d-flex justify-content-end">
                     <div class="col-5">
-                        <div
-                            class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 border border-white py-1 mb-5">
-                            <div class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
-                            <a th:href="@{/simulation}" class="col"><img class="w-100" th:src="@{/img/play.png}"
-                                    alt="play" /></a>
-                            <a class="col"><img class="w-100" th:src="@{/img/pause.png}" alt="pause" /></a>
-                            <a class="col"><img class="w-100" th:src="@{/img/rewind.png}" alt="rewind"></a>
-                            <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2"
-                                id="speed">x1</label>
+                        <div class="row border border-success bgreen1 rounded-3 py-1 mb-5">
+                            <div class="col border border-primary" th:insert="~{fragments/header :: profile-dropdown}"></div>
+                            <a th:href="@{/simulation}" class="col border border-warning"><img class="w-100" th:src="@{/img/play.png}" alt="play" /></a>
+                            <a class="col border border-danger"><img class="w-100" th:src="@{/img/pause.png}" alt="pause" /></a>
+                            <a class="col border border-success"><img class="w-100" th:src="@{/img/rewind.png}" alt="rewind"></a>
+                            <label class="col fs-4 d-flex justify-content-start rounded-4 bcream rounded p-2" id="speed">x1</label>
                         </div>
                     </div>
                 </div>
