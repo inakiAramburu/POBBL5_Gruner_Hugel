@@ -6,18 +6,21 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import gruner.huger.grunerhugel.simulation.Message;
-import gruner.huger.grunerhugel.simulation.enumeration.Sign;
+
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.simulation.Message;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 
 public class Balance extends Thread {
     public static final int WORKER_PAYMENT = 800;
     private static int balance;
     static Object mutex;
-    BlockingQueue<Message> blockingQueue;
+    private BlockingQueue<Message> blockingQueue;
     private static boolean check;
     private static Lock lock;
     private static Condition checking;
+    private static boolean pause = false;
 
     public Balance(double initialBalance, BlockingQueue<Message> blockingQueue) {
         mutex = new Object();
@@ -33,13 +36,13 @@ public class Balance extends Thread {
         }
     }
 
-    private static void moneyCost(int cost) {
+    private static void moneyCost(double cost) {
         synchronized (mutex) {
             balance -= cost;
         }
     }
 
-    private static void moneyEarned(int earn) {
+    private static void moneyEarned(double earn) {
         synchronized (mutex) {
             balance += earn;
         }
@@ -47,10 +50,11 @@ public class Balance extends Thread {
 
     @Override
     public void run() {
-        while (!Thread.interrupted()) {
+        while (!pause) {
             awaitCheck();
             readMessages();
         }
+        saveBalance();
     }
 
     private void awaitCheck() {
@@ -73,11 +77,28 @@ public class Balance extends Thread {
         list.forEach(this::doAction);
     }
 
-    private void doAction(Message msg){
-        if(Sign.PLUS.equals(msg.getSign())){
+    private void doAction(Message msg) {
+        if (Sign.PLUS.equals(msg.getSign())) {
             moneyEarned(msg.getQuantity());
         } else {
             moneyCost(msg.getQuantity());
+        }
+    }
+
+    public static int payWorkers(int numWorkers) {
+        synchronized (mutex) {
+            int count = 0;
+            int result;
+            while (balance > 0 && numWorkers > count) {
+                balance -= WORKER_PAYMENT;
+                count++;
+            }
+            if (balance <= 0) {
+                result = -1;
+            } else {
+                result = count;
+            }
+            return result;
         }
     }
 
@@ -88,6 +109,16 @@ public class Balance extends Thread {
             checking.signal();
         } finally {
             lock.unlock();
+        }
+    }
+
+    public static void pause(){
+        pause = true;
+    }
+
+    public void saveBalance() {
+        synchronized (mutex) {
+            SimulationProcesses.setMoney(balance);
         }
     }
 }

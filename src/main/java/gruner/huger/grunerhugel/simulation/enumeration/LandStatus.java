@@ -2,8 +2,8 @@ package gruner.huger.grunerhugel.simulation.enumeration;
 
 public enum LandStatus {
     EMPTY("Empty", 0),
-    PLANTING("Planting", 0),
-    GROWING("Growing", 0),
+    PLANTING("Planting", 0.75),
+    GROWING("Growing", 1.5),
     RIPE("Ripe", 0),
     HARVESTING("Harvesting", 0.65);
 

@@ -6,97 +6,151 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.Map.Entry;
+import java.util.Random;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Semaphore;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
+import gruner.huger.grunerhugel.domain.repository.LandRepository;
+import gruner.huger.grunerhugel.model.FarmTractor;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Plant;
+import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import gruner.huger.grunerhugel.simulation.enumeration.LandStatus;
+import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class LandThread extends Thread {
-    private static final int PORCENTAJE = 15;
+    private static final int PORCENTAJE = 65;
+    private static final String SPLITTER = "\\*";
     private Map<Land, List<Worker>> assignationMap;
     private List<Land> lands;
-    private List<Worker> workers;
-    private static boolean check;
+    private LandRepository lRepository;
+    private static List<Worker> workers;
+    private static boolean check = false;
+    private static boolean pause = false;
+    private static boolean workingHours = false;
     private static Lock mutex = new ReentrantLock();
     private static Condition checking = mutex.newCondition();
     private static BlockingQueue<Message> queue;
     private Random rand;
+    private List<Tractor> tList;
+    private Map<Land, Tractor> tMap;
+    private static Semaphore payment;
 
-    public LandThread(BlockingQueue<Message> blockingQueue) {
+    public LandThread(LandRepository landRepository, BlockingQueue<Message> blockingQueue,
+            FarmTractorRepository fTractRepository) {
         queue = blockingQueue;
+        workers = setWorkers();
+        this.lRepository = landRepository;
         this.assignationMap = new HashMap<>();
-        this.workers = setWorkers();
         this.lands = new ArrayList<>();
-        assignWorkersToLands();
-        rand = new SecureRandom();
+        this.rand = new SecureRandom();
+        getListTractor(fTractRepository);
+        this.tMap = new HashMap<>();
+        payment = new Semaphore(0);
     }
 
     private List<Worker> setWorkers() {
         List<Worker> temp = new ArrayList<>();
         for (int i = 0; i < SimulationProcesses.getFarm().getNumWorkers(); i++) {
-            temp.add(new Worker(queue));
+            Worker worker = new Worker(queue);
+            temp.add(worker);
+            worker.start();
         }
         return temp;
     }
 
+    private void getListTractor(FarmTractorRepository fTractRepository) {
+        List<FarmTractor> fTractor = fTractRepository.findByFarm(SimulationProcesses.getFarm());
+        tList = new ArrayList<>();
+        fTractor.forEach(t -> tList.add(t.getTractor()));
+    }
+
     @Override
     public void run() {
-        while (!Thread.interrupted()) {
+        assignWorkersToLands();
+        while (!pause) {
+            awaitPayment();
             awaitCheck();
             updateLandStatus();
             work();
             check = false;
         }
+        saveLand();
     }
 
-    private void work() {
-        for (Entry<Land, List<Worker>> lEntry : assignationMap.entrySet()) {
-            if (lEntry.getValue().get(0).getCount() != -1) {
-                int workHours = calculateWorkHours(lEntry.getKey().getSize(),
-                        getLandStatus(lEntry.getKey().getStatus()),
-                        lEntry.getValue().size()); // faltan los vehiculos
-                initializeWorkers(lEntry.getValue(), workHours);
+    private void awaitPayment() {
+        if (getPaidWorkers().isEmpty()) {
+            try {
+                payment.acquire();
+                assignWorkersToLands();
+            } catch (InterruptedException e) {
+                GrunerhugelApplication.logger.warning("Payment wait Interrupted!");
+                this.interrupt();
             }
         }
     }
 
-    private void initializeWorkers(List<Worker> value, int workHours) {
-        for (Worker w : value) {
-            w.setWork(workHours);
-            w.start();
+    private void assignWorkersToLands() {
+        initializeMap();
+        List<Worker> lWorkers = getPaidWorkers();
+        if (!lWorkers.isEmpty()) {
+            Collections.shuffle(lWorkers); // for the same workers not to work in the same land
+            int[] wpl = calculateMaximumWorkersPerLand(lands);
+            int kont = 0;
+            for (int i = 0; i < wpl[1]; i++) {
+                List<Worker> temp = assignationMap.get(lands.get(i));
+                for (int j = kont; j < (kont + wpl[0]); j++) {
+                    temp.add(lWorkers.get(j));
+                }
+                kont += wpl[0];
+                assignationMap.put(lands.get(i), temp);
+            }
+            for (int i = wpl[1]; i < lands.size() - wpl[1]; i++) {
+                List<Worker> temp = assignationMap.get(lands.get(i));
+                for (int j = kont; j < (kont + wpl[0] - 1); j++) {
+                    temp.add(lWorkers.get(j));
+                }
+                kont += (wpl[0] - 1);
+                assignationMap.put(lands.get(i), temp);
+            }
         }
     }
 
-    private int calculateWorkHours(double size, LandStatus status, int numWorkers) {
-        double totalCost = size * status.getCost();
-        if (numWorkers > 1) {
-            totalCost -= numWorkers * 1.5;
+    private void initializeMap() {
+        Map<Land, List<Plant>> landPlantList = PlantThread.getLandAndPlantList();
+        lands = new ArrayList<>(landPlantList.keySet());
+        assignationMap = new HashMap<>();
+        for (Land land : lands) {
+            assignationMap.put(land, new ArrayList<>());
         }
-        // vehicles
-        return (int) Math.ceil(totalCost);
     }
 
-    private LandStatus getLandStatus(String status) {
-        if (status.equals(LandStatus.PLANTING.getStatus())) {
-            return LandStatus.PLANTING;
-        } else if (status.equals(LandStatus.HARVESTING.getStatus())) {
-            return LandStatus.HARVESTING;
-        } else {
-            return LandStatus.GROWING;
+    private List<Worker> getPaidWorkers() {
+        List<Worker> list = new ArrayList<>();
+        for (Worker w : workers) {
+            if (w.isPaid()) {
+                list.add(w);
+            }
         }
+        return list;
+    }
+
+    private int[] calculateMaximumWorkersPerLand(List<Land> lands) {
+        int maxWpl = (int) Math.ceil((float) SimulationProcesses.getFarm().getNumWorkers() / lands.size());
+        int numLandsWpl = lands.size() * (SimulationProcesses.getFarm().getNumWorkers() % lands.size());
+        return new int[] { maxWpl, (numLandsWpl == 0) ? lands.size() : numLandsWpl };
     }
 
     private void awaitCheck() {
-        while (!check) {
+        while (!workingHours || !check) {
             mutex.lock();
             try {
                 checking.await();
@@ -118,12 +172,23 @@ public class LandThread extends Thread {
 
     private void updateLandStatus() {
         Map<Land, List<Plant>> landPlantList = PlantThread.getLandAndPlantList();
-        lands = new ArrayList<>(landPlantList.keySet());
-        for (Land land : lands) {
-            List<Plant> plants = getPercentPlants(landPlantList.get(land));
+        for (Entry<Land, List<Plant>> entry : landPlantList.entrySet()) {
+            List<Plant> plants = getPercentPlants(entry.getValue());
             String status = getPlantsStatus(plants);
-            land.setStatus(status);
+            entry.getKey().setStatus(status);
         }
+    }
+
+    private List<Plant> getPercentPlants(List<Plant> list) {
+        if (list == null) {
+            return Collections.emptyList();
+        }
+        List<Plant> temp = new ArrayList<>();
+        double size = Math.ceil(list.size() * ((float) PORCENTAJE / 100));
+        for (int i = 0; i < size; i++) {
+            temp.add(list.get(rand.nextInt(list.size())));
+        }
+        return temp;
     }
 
     private String getPlantsStatus(List<Plant> plants) {
@@ -143,21 +208,10 @@ public class LandThread extends Thread {
         return getMayorStatus(sMap);
     }
 
-    private String getMayorStatus(Map<LandStatus, Integer> map) {
-        List<LandStatus> list = new ArrayList<>(map.keySet());
-        LandStatus mayor = list.get(0);
-        for (LandStatus status : list) {
-            if (map.get(status) > map.get(mayor)) {
-                mayor = status;
-            }
-        }
-        return mayor.getStatus();
-    }
-
     private LandStatus getLandStatusFromPlant(String status) {
         LandStatus lStatus;
         switch (status) {
-            case "Growing":
+            case "GERMINATION":
             case "VEGETATIVE":
             case "TILLERING":
             case "ANTHESIS":
@@ -175,66 +229,106 @@ public class LandThread extends Thread {
         return lStatus;
     }
 
-    private List<Plant> getPercentPlants(List<Plant> list) {
-        if (list == null) {
-            return Collections.emptyList();
-        }
-        List<Plant> temp = new ArrayList<>();
-        double size = Math.ceil(list.size() * ((float) PORCENTAJE / 100));
-        for (int i = 0; i < size; i++) {
-            temp.add(list.get(rand.nextInt(list.size())));
-        }
-        return temp;
-    }
-
-    private void assignWorkersToLands() {
-        initializeMap();
-        List<Worker> lWorkers = getPaidWorkers();
-        Collections.shuffle(lWorkers); // for the same workers not to assignationMap in the same land
-        int[] wpl = calculateMaximumWorkersPerLand(lands);
-        int kont = 0;
-        for (int i = 0; i < wpl[1]; i++) {
-            List<Worker> temp = assignationMap.get(lands.get(i));
-            for (int j = kont; j < (kont + wpl[0]); j++) {
-                temp.add(lWorkers.get(j));
-            }
-            kont += wpl[0];
-            assignationMap.put(lands.get(i), temp);
-        }
-        for (int i = wpl[1]; i < lands.size() - wpl[1]; i++) {
-            List<Worker> temp = assignationMap.get(lands.get(i));
-            for (int j = kont; j < (kont + wpl[0] - 1); j++) {
-                temp.add(lWorkers.get(j));
-            }
-            kont += (wpl[0] - 1);
-            assignationMap.put(lands.get(i), temp);
-        }
-    }
-
-    private void initializeMap() {
-        Map<Land, List<Plant>> landPlantList = PlantThread.getLandAndPlantList();
-        lands = new ArrayList<>(landPlantList.keySet());
-        assignationMap = new HashMap<>();
-        for (Land land : lands) {
-            assignationMap.put(land, new ArrayList<>());
-        }
-    }
-
-    private int[] calculateMaximumWorkersPerLand(List<Land> lands) {
-        int maxWpl = (int) Math.ceil((float) SimulationProcesses.getFarm().getNumWorkers() / lands.size());
-        int numLandsWpl = lands.size() * (SimulationProcesses.getFarm().getNumWorkers() % lands.size());
-        return new int[] { maxWpl, (numLandsWpl == 0) ? lands.size() : numLandsWpl };
-    }
-
-    private List<Worker> getPaidWorkers() {
-        List<Worker> list = new ArrayList<>();
-        for (Worker w : workers) {
-            if (w.isPagado()) {
-                list.add(w);
+    private String getMayorStatus(Map<LandStatus, Integer> map) {
+        List<LandStatus> list = new ArrayList<>(map.keySet());
+        LandStatus mayor = list.get(0);
+        for (LandStatus status : list) {
+            if (map.get(status) > map.get(mayor)) {
+                mayor = status;
             }
         }
-        return list;
+        return mayor.getStatus();
     }
+
+    private void work() {
+        for (Entry<Land, List<Worker>> lEntry : assignationMap.entrySet()) {
+            if (!lEntry.getValue().isEmpty() && lEntry.getValue().get(0).getCount() == -1) {
+                deassignTractorFromLand(lEntry.getKey());
+                assignTractorToLand(lEntry.getKey());
+                int workHours = calculateWorkHours(lEntry.getKey().getSize(),
+                        getLandStatus(lEntry.getKey().getStatus()), lEntry.getValue().size(),
+                        calculateTractorEfficiency(lEntry.getKey()));
+                initializeWorkers(lEntry.getValue(), workHours, lEntry.getKey());
+            }
+        }
+    }
+
+    private void assignTractorToLand(Land land) {
+        if (!tList.isEmpty()) {
+            Tractor tractor = tList.get(0);
+            tList.remove(tractor);
+            tMap.put(land, tractor);
+        }
+    }
+
+    private void deassignTractorFromLand(Land land) {
+        Tractor tractor = tMap.get(land);
+        if (tractor != null) {
+            tList.add(tractor);
+            tMap.remove(land);
+            tMap.put(land, null);
+        }
+    }
+
+    private int calculateWorkHours(double size, LandStatus status, int numWorkers, double tractorEfficiency) {
+        double totalCost = size * status.getCost();
+        if (numWorkers > 1) {
+            totalCost -= numWorkers * 0.45;
+        }
+        totalCost *= (tractorEfficiency / 100);
+        return (int) Math.ceil(totalCost);
+    }
+
+    private LandStatus getLandStatus(String status) {
+        if (status.equals(LandStatus.EMPTY.getStatus()) || status.equals(LandStatus.PLANTING.getStatus())) {
+            return LandStatus.PLANTING;
+        } else if (status.equals(LandStatus.RIPE.getStatus()) || status.equals(LandStatus.HARVESTING.getStatus())) {
+            return LandStatus.HARVESTING;
+        } else {
+            return LandStatus.GROWING;
+        }
+    }
+
+    private double calculateTractorEfficiency(Land land) {
+        Tractor tractor = tMap.get(land);
+        double efficiency = 1;
+        if (tractor != null) {
+            efficiency = (double) tractor.getFuelCapacity() / tractor.getMaxSpeed();
+            efficiency = tractor.getPower() / efficiency;
+            efficiency /= 100;
+        }
+        return efficiency;
+    }
+
+    private void initializeWorkers(List<Worker> value, int workHours, Land land) {
+        for (Worker w : value) {
+            String[] command = getCommandAndVariable(land.getStatus(), land).split(SPLITTER);
+            w.setWork(workHours, command[0], Integer.valueOf(command[1]));
+        }
+    }
+
+    private String getCommandAndVariable(String status, Land land) {
+        String command;
+        switch (status) {
+            case "Ripe":
+                command = Worker.COMMAND_HARVEST.concat(SPLITTER)
+                        .concat(String.valueOf(land.getSize() * PlantType.WHEAT.getTPerHa()));
+                break;
+            case "Empty":
+                command = Worker.COMMAND_SEEDS.concat(SPLITTER).concat(String.valueOf(land.getSize()));
+                break;
+            case "Growing":
+            default:
+                command = Worker.COMMAND_MANTAIN.concat(SPLITTER).concat(String.valueOf(0));
+        }
+        return command;
+    }
+
+    public void saveLand() {
+        lRepository.saveAll(assignationMap.keySet());
+    }
+
+    // -----------------------------------
 
     public static void callSignal() {
         mutex.lock();
@@ -246,7 +340,22 @@ public class LandThread extends Thread {
         }
     }
 
-    // public static void payWorkers() {
+    public static void payWorkers() {
+        int paidWorkers = Balance.payWorkers(workers.size());
+        for (int i = 0; i < paidWorkers; i++) {
+            workers.get(i).pay();
+        }
+        for(int i=paidWorkers;i<workers.size();i++){
+            workers.get(i).unpay();
+        }
+        payment.release();
+    }
 
-    // }
+    public static void pause() {
+        pause = true;
+    }
+
+    public static void workingHours(boolean value){
+        workingHours = value;
+    }
 }

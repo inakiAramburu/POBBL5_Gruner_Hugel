@@ -140,9 +140,10 @@ public class SimulationController {
 
         sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
                 fuelRepository, wheatPriceRepository);
-        // sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository,
-        // farmSeederRepository, farmTractorRepository);
-        sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farm.getLands());
+        sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository,
+                farmTractorRepository);
+        sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farmRepository,
+                simulationRepository);
         return URI.HOME_USER_FARM.getView();
     }
 

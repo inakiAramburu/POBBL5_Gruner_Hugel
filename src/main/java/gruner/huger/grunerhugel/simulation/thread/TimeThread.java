@@ -5,10 +5,13 @@ import java.util.Date;
 import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
+import gruner.huger.grunerhugel.model.Simulation;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 
 public class TimeThread extends Thread {
     private static final int HOUR_DURATION = 1250; // miliseconds
-    // private static final int HOURS_DAY = 24; // hours
+    private SimulationRepository simRepository;
     public static final String TIME_PAUSE = "PAUSE";
     public static final String TIME_RESUME = "RESUME";
     public static final String HOUR_PASS = "HOUR PASS";
@@ -27,8 +30,9 @@ public class TimeThread extends Thread {
     private static Date actualDate;
     private Date endDate;
 
-    public TimeThread(Date startDate, Date endDate) {
+    public TimeThread(Date startDate, Date endDate, SimulationRepository simulationRepository) {
         // no need
+        this.simRepository = simulationRepository;
         actualDate = startDate;
         this.endDate = endDate;
     }
@@ -39,7 +43,7 @@ public class TimeThread extends Thread {
         try {
             while (!pause && checkDate()) {
                 GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}",
-                DateFormat.getDateTimeInstance().format(actualDate));
+                        DateFormat.getDateTimeInstance().format(actualDate));
                 WeatherThread.callSignal();
                 isFirstHourOfMonth();
                 isWorkingHours();
@@ -47,7 +51,7 @@ public class TimeThread extends Thread {
                 Thread.sleep(HOUR_DURATION / accelerator);
                 updateActualDate();
             }
-            GrunerhugelApplication.logger.info(TERMINATE);
+            saveActualDate();
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.warning("TimeThread was interrupted!");
             this.interrupt();
@@ -68,6 +72,13 @@ public class TimeThread extends Thread {
 
     public static void pause() {
         pause = true;
+        Balance.pause();
+        FuelThread.pause();
+        WheatPriceThread.pause();
+        SimulationProcesses.pause();
+        LandThread.pause();
+        PlantThread.pause();
+        WeatherThread.pause();
     }
 
     public void setAccelerator(int accelerator) {
@@ -84,9 +95,7 @@ public class TimeThread extends Thread {
 
     public static void isWorkingHours() {
         int hours = getHours();
-        if (WORKING_HOURS_MIN <= hours && WORKING_HOURS_MAX > hours) {
-            LandThread.callSignal();
-        }
+        LandThread.workingHours(WORKING_HOURS_MIN <= hours && WORKING_HOURS_MAX > hours);
     }
 
     public static void isDayEnding() {
@@ -97,9 +106,9 @@ public class TimeThread extends Thread {
 
     private void isFirstHourOfMonth() {
         if (getHours() == DAY_STARTING_HOUR && getDay() == MONTH_STARTING_DAY) {
-            // WorkerThread.payWorkers();
             WheatPriceThread.callSignal();
             FuelThread.callSignal();
+            LandThread.payWorkers();
         }
     }
 
@@ -111,5 +120,11 @@ public class TimeThread extends Thread {
     private static int getHours() {
         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(actualDate);
         return Integer.parseInt(time.split(":")[0]);
+    }
+
+    private void saveActualDate() {
+        Simulation sim = simRepository.findByFarm(SimulationProcesses.getFarm());
+        sim.setStartDate(actualDate);
+        simRepository.save(sim);
     }
 }
