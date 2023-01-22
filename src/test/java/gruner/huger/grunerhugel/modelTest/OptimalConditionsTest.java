@@ -1,64 +1,94 @@
 package gruner.huger.grunerhugel.modelTest;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 import gruner.huger.grunerhugel.model.OptimalConditions;
+
 public class OptimalConditionsTest {
-    
+
     @Test
-    public void testGetSet(){
+    public void testGetSet() {
         OptimalConditions optimalConditions = new OptimalConditions();
         optimalConditions.setName("name");
-        optimalConditions.setMinTemp(5);
-        optimalConditions.setMinOptimalTemp(5);
-        optimalConditions.setMaxOptimalTemp(5);
-        optimalConditions.setGrowthTemp(5);
-        optimalConditions.setMinMaturityTemp(5);
-        optimalConditions.setMaxMaturityTemp(5);
-        optimalConditions.setMinMinAntesisTemp(5);
-        optimalConditions.setMinMaxAntesisTemp(5);
-        optimalConditions.setMaxMinAntesisTemp(5);
-        optimalConditions.setMaxMaxAntesisTemp(5);
-        optimalConditions.setMinMinLechosoTemp(5);
-        optimalConditions.setMinMaxLechosoTemp(5);
-        optimalConditions.setMaxMinLechosoTemp(5);
-        optimalConditions.setMaxMaxLechosoTemp(5);
-        optimalConditions.setMinMinPastosoTemp(5);
-        optimalConditions.setMinMaxPastosoTemp(5);
-        optimalConditions.setMaxMinPastosoTemp(5);
-        optimalConditions.setMaxMaxPastosoTemp(5);
+        optimalConditions.setMinGerminationTemp(0);
+        optimalConditions.setMinOpGerminationTemp(0);
+        optimalConditions.setMaxOpGerminationTemp(0);
+        optimalConditions.setVegetativeTemp(0);
+        optimalConditions.setMinTilleringTemp(0);
+        optimalConditions.setMaxTilleringTemp(0);
+        optimalConditions.setMinMinAnthesisTemp(0);
+        optimalConditions.setMinMaxAnthesisTemp(0);
+        optimalConditions.setMaxMinAnthesisTemp(0);
+        optimalConditions.setMaxMaxAnthesisTemp(0);
         optimalConditions.setMinMinMaturityTemp(5);
         optimalConditions.setMinMaxMaturityTemp(5);
         optimalConditions.setMaxMinMaturityTemp(5);
         optimalConditions.setMaxMaxMaturityTemp(5);
-        
+        optimalConditions.setMaxMaxMilkyTemp(0);
+        optimalConditions.setMinMinMilkyTemp(0);
+        optimalConditions.setMinMaxMilkyTemp(0);
+        optimalConditions.setMaxMinMilkyTemp(0);
+        optimalConditions.setMaxMaxPastyTemp(0);
+        optimalConditions.setMinMinPastyTemp(0);
+        optimalConditions.setMinMaxPastyTemp(0);
+        optimalConditions.setMaxMinPastyTemp(0);
+
         assertEquals("name", optimalConditions.getName());
-        assertEquals(5, optimalConditions.getMinTemp());
-        assertEquals(5, optimalConditions.getMinOptimalTemp());
-        assertEquals(5, optimalConditions.getMaxOptimalTemp());
-        assertEquals(5, optimalConditions.getGrowthTemp());
-        assertEquals(5, optimalConditions.getMinMaturityTemp());
-        assertEquals(5, optimalConditions.getMaxMaturityTemp());
-        assertEquals(5, optimalConditions.getMinMinAntesisTemp());
-        assertEquals(5, optimalConditions.getMinMaxAntesisTemp());
-        assertEquals(5, optimalConditions.getMaxMinAntesisTemp());
-        assertEquals(5, optimalConditions.getMaxMaxAntesisTemp());
-        assertEquals(5, optimalConditions.getMinMinLechosoTemp());
-        assertEquals(5, optimalConditions.getMinMaxLechosoTemp());
-        assertEquals(5, optimalConditions.getMaxMinLechosoTemp());
-        assertEquals(5, optimalConditions.getMaxMaxLechosoTemp());
-        assertEquals(5, optimalConditions.getMinMinPastosoTemp());
-        assertEquals(5, optimalConditions.getMinMaxPastosoTemp());
-        assertEquals(5, optimalConditions.getMaxMinPastosoTemp());
-        assertEquals(5, optimalConditions.getMaxMaxPastosoTemp());
+        assertEquals(0, optimalConditions.getMinGerminationTemp());
+        assertEquals(0, optimalConditions.getMinOpGerminationTemp());
+        assertEquals(0, optimalConditions.getMaxOpGerminationTemp());
+        assertEquals(0, optimalConditions.getVegetativeTemp());
+        assertEquals(0, optimalConditions.getMinTilleringTemp());
+        assertEquals(0, optimalConditions.getMaxTilleringTemp());
+        assertEquals(0, optimalConditions.getMinMinAnthesisTemp());
+        assertEquals(0, optimalConditions.getMinMaxAnthesisTemp());
+        assertEquals(0, optimalConditions.getMaxMinAnthesisTemp());
+        assertEquals(0, optimalConditions.getMaxMaxAnthesisTemp());
         assertEquals(5, optimalConditions.getMinMinMaturityTemp());
         assertEquals(5, optimalConditions.getMinMaxMaturityTemp());
         assertEquals(5, optimalConditions.getMaxMinMaturityTemp());
         assertEquals(5, optimalConditions.getMaxMaxMaturityTemp());
+        assertEquals(0, optimalConditions.getMaxMaxMilkyTemp());
+        assertEquals(0, optimalConditions.getMinMinMilkyTemp());
+        assertEquals(0, optimalConditions.getMinMaxMilkyTemp());
+        assertEquals(0, optimalConditions.getMaxMinMilkyTemp());
+        assertEquals(0, optimalConditions.getMaxMaxPastyTemp());
+        assertEquals(0, optimalConditions.getMinMinPastyTemp());
+        assertEquals(0, optimalConditions.getMinMaxPastyTemp());
+        assertEquals(0, optimalConditions.getMaxMinPastyTemp());
     }
 
+    @Test
+    public void testToString() {
+        OptimalConditions optimalConditions = new OptimalConditions();
+        optimalConditions.setName("name");
+        optimalConditions.setMinGerminationTemp(0);
+        optimalConditions.setMinOpGerminationTemp(0);
+        optimalConditions.setMaxOpGerminationTemp(0);
+        optimalConditions.setVegetativeTemp(0);
+        optimalConditions.setMinTilleringTemp(0);
+        optimalConditions.setMaxTilleringTemp(0);
+        optimalConditions.setMinMinAnthesisTemp(0);
+        optimalConditions.setMinMaxAnthesisTemp(0);
+        optimalConditions.setMaxMinAnthesisTemp(0);
+        optimalConditions.setMaxMaxAnthesisTemp(0);
+        optimalConditions.setMinMinMaturityTemp(5);
+        optimalConditions.setMinMaxMaturityTemp(5);
+        optimalConditions.setMaxMinMaturityTemp(5);
+        optimalConditions.setMaxMaxMaturityTemp(5);
+        optimalConditions.setMaxMaxMilkyTemp(0);
+        optimalConditions.setMinMinMilkyTemp(0);
+        optimalConditions.setMinMaxMilkyTemp(0);
+        optimalConditions.setMaxMinMilkyTemp(0);
+        optimalConditions.setMaxMaxPastyTemp(0);
+        optimalConditions.setMinMinPastyTemp(0);
+        optimalConditions.setMinMaxPastyTemp(0);
+        optimalConditions.setMaxMinPastyTemp(0);
 
+        assertEquals(
+                "OptimalConditions [name=name, minGerminationTemp=0, minOpGerminationTemp=0, maxOpGerminationTemp=0, vegetativeTemp=0, minTilleringTemp=0, maxTilleringTemp=0, minMinAnthesisTemp=0, minMaxAnthesisTemp=0, maxMinAnthesisTemp=0, maxMaxAnthesisTemp=0, minMinMilkyTemp=0, minMaxMilkyTemp=0, maxMinMilkyTemp=0, maxMaxMilkyTemp=0, minMinPastyTemp=0, minMaxPastyTemp=0, maxMinPastyTemp=0, maxMaxPastyTemp=0, minMinMaturityTemp=5, minMaxMaturityTemp=5, maxMinMaturityTemp=5, maxMaxMaturityTemp=5]",
+                optimalConditions.toString());
+    }
 
-
-        
 }

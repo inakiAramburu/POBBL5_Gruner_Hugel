@@ -61,7 +61,7 @@ public class Plant implements Serializable {
     }
   }
 
-  private boolean check(Weather weather) {
+  public boolean check(Weather weather) {
     boolean result;
     switch (status) {
       case GERMINATION:
@@ -130,7 +130,7 @@ public class Plant implements Serializable {
     return (temp > minTemp);
   }
 
-  private void growPlant() {
+  public void growPlant() {
     growthRate += 1;
     if (growthRate >= 100) {
       switch (status) {
@@ -159,7 +159,7 @@ public class Plant implements Serializable {
     }
   }
 
-  private void loseHealth() {
+  public void loseHealth() {
     healthPoint -= 5;
     if (healthPoint <= 0) {
       status = DEAD;
