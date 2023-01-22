@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
@@ -53,6 +54,7 @@ import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.formobjects.CreateLand;
 import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -97,6 +99,8 @@ public class SimulationController {
     @Autowired
     private WheatPriceRepository wheatPriceRepository;
 
+    SimulationProcesses sim;
+
     @GetMapping(value = "/main")
     public String main(Model model, HttpSession session) {
 
@@ -139,6 +143,15 @@ public class SimulationController {
         // Set land
         model.addAttribute("createLand", new CreateLand());
 
+        // Set land
+        model.addAttribute("createLand", new CreateLand());
+
+        sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
+                fuelRepository, wheatPriceRepository);
+        sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository,
+                farmTractorRepository);
+        sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farmRepository,
+                simulationRepository);
         return URI.HOME_USER_FARM.getView();
     }
 
@@ -381,9 +394,10 @@ public class SimulationController {
      * }
      */
 
-    @PostMapping(value = "/startSimulation")
+    @GetMapping(value = "/startSimulation")
+    @ResponseBody
     public String startSimulation() {
-        // sim.start();
-        return "simulation/simulation";
+        sim.start();
+        return "hi";
     }
 }

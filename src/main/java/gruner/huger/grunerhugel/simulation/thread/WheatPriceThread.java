@@ -7,8 +7,6 @@ import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
 import gruner.huger.grunerhugel.model.WheatPrice;
@@ -17,6 +15,7 @@ public class WheatPriceThread extends Thread {
     private static WheatPrice wheatPrice;
     private WheatPriceRepository wpRepository;
     private static boolean check = false;
+    private static boolean pause = false;
     private static Lock mutex;
     private static Condition checking;
 
@@ -28,8 +27,7 @@ public class WheatPriceThread extends Thread {
 
     @Override
     public void run() {
-        GrunerhugelApplication.logger.log(Level.INFO, "WheatPriceThread Id: {0}", this.getId());
-        while (!Thread.interrupted()) {
+        while (!pause) {
             if (check) {
                 GrunerhugelApplication.logger.info("UPDATE WHEATPRICE");
                 updateWheatPrice();
@@ -79,5 +77,9 @@ public class WheatPriceThread extends Thread {
 
     public static double sellWheat(int tones) {
         return tones * wheatPrice.getPrice();
+    }
+
+    public static void pause() {
+        pause = true;
     }
 }

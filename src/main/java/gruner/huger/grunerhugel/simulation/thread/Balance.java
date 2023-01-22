@@ -1,34 +1,31 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
-import gruner.huger.grunerhugel.simulation.Message;
-import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.simulation.Message;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 
-//import java.util.concurrent.BlockingQueue;
-// import java.util.logging.Level;
-
-// import gruner.huger.grunerhugel.GrunerhugelApplication;
-// import gruner.huger.grunerhugel.simulation.Simulation;
-
-public class Balance extends Thread { // implements Runnable
+public class Balance extends Thread {
     public static final int WORKER_PAYMENT = 800;
     private static int balance;
     static Object mutex;
-    BlockingQueue<Message> blockingQueue;
+    private BlockingQueue<Message> blockingQueue;
     private static boolean check;
     private static Lock lock;
     private static Condition checking;
+    private static boolean pause = false;
 
-    public Balance(int initBalance, BlockingQueue<Message> blockingQueue) {
+    public Balance(double initialBalance, BlockingQueue<Message> blockingQueue) {
         mutex = new Object();
         this.blockingQueue = blockingQueue;
-        setBalance(initBalance);
+        balance = (int) initialBalance;
         lock = new ReentrantLock();
         checking = lock.newCondition();
     }
@@ -39,34 +36,25 @@ public class Balance extends Thread { // implements Runnable
         }
     }
 
-    private static void setBalance(int moneyAdded) { // to avoid a code smell
+    private static void moneyCost(double cost) {
         synchronized (mutex) {
-            balance = moneyAdded;
-        }
-    }
-
-    private static void moneyCost(int cost) {
-        synchronized (mutex) {
-            GrunerhugelApplication.logger.log(Level.INFO, "======\nBalance: -{0}", cost);
             balance -= cost;
-            GrunerhugelApplication.logger.log(Level.INFO, "Balance: {0}", balance);
         }
     }
 
-    private static void moneyEarned(int earn) {
+    private static void moneyEarned(double earn) {
         synchronized (mutex) {
-            GrunerhugelApplication.logger.log(Level.INFO, "======\nBalance: -{0}", earn);
             balance += earn;
-            GrunerhugelApplication.logger.log(Level.INFO, "Balance: {0}", balance);
         }
     }
 
     @Override
     public void run() {
-        while (!Thread.interrupted()) {
+        while (!pause) {
             awaitCheck();
             readMessages();
         }
+        saveBalance();
     }
 
     private void awaitCheck() {
@@ -84,14 +72,33 @@ public class Balance extends Thread { // implements Runnable
     }
 
     private void readMessages() {
-        blockingQueue.forEach(this::doAction);
+        List<Message> list = new ArrayList<>();
+        blockingQueue.drainTo(list);
+        list.forEach(this::doAction);
     }
 
-    private void doAction(Message msg){
-        if(Sign.PLUS.equals(msg.getSign())){
+    private void doAction(Message msg) {
+        if (Sign.PLUS.equals(msg.getSign())) {
             moneyEarned(msg.getQuantity());
         } else {
             moneyCost(msg.getQuantity());
+        }
+    }
+
+    public static int payWorkers(int numWorkers) {
+        synchronized (mutex) {
+            int count = 0;
+            int result;
+            while (balance > 0 && numWorkers > count) {
+                balance -= WORKER_PAYMENT;
+                count++;
+            }
+            if (balance <= 0) {
+                result = -1;
+            } else {
+                result = count;
+            }
+            return result;
         }
     }
 
@@ -102,6 +109,16 @@ public class Balance extends Thread { // implements Runnable
             checking.signal();
         } finally {
             lock.unlock();
+        }
+    }
+
+    public static void pause(){
+        pause = true;
+    }
+
+    public void saveBalance() {
+        synchronized (mutex) {
+            SimulationProcesses.setMoney(balance);
         }
     }
 }

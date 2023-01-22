@@ -1,22 +1,19 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
-
 import gruner.huger.grunerhugel.GrunerhugelApplication;
-import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
-import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class PlantThread extends Thread {
@@ -24,19 +21,18 @@ public class PlantThread extends Thread {
     private static Map<Land, List<Plant>> fields;
     private List<Land> lands;
     private static boolean check = false;
+    private static boolean pause = false;
     private static Lock mutex;
     private static Condition checking;
-    private LandRepository lRepository;
     private static PlantRepository pRepository;
     private static OptimalConditionsRepository oRepository;
 
-    public PlantThread(LandRepository landRepository, PlantRepository plantRepository,
-            OptimalConditionsRepository opCondRepository, List<Land> lands) {
+    public PlantThread(PlantRepository plantRepository, OptimalConditionsRepository opCondRepository,
+            List<Land> lands) {
         this.lands = lands;
         fields = new HashMap<>();
         mutex = new ReentrantLock();
         checking = mutex.newCondition();
-        this.lRepository = landRepository;
         pRepository = plantRepository;
         oRepository = opCondRepository;
         updateMap();
@@ -45,11 +41,13 @@ public class PlantThread extends Thread {
     public static void addPlant(Land land, PlantType pType) {
         OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
         Plant plant = new Plant(oConditions, land);
-        pRepository.save(plant);
+        List<Plant> list = fields.get(land);
+        if(list == null) list = new ArrayList<>();
+        list.add(plant);
+        fields.put(land, list);
     }
 
     private void updateMap() {
-        updateLands();
         for (Land land : lands) {
             List<Plant> plants = pRepository.findByLand(land);
             fields.put(land, plants);
@@ -60,11 +58,12 @@ public class PlantThread extends Thread {
     public void run() {
         mutex.lock();
         try {
-            while (!Thread.interrupted()) {
+            while (!pause) {
                 awaitCheck();
                 updatePlants();
-                WorkerThread.callSignal();
+                LandThread.callSignal();
             }
+            savePlants();
         } finally {
             mutex.unlock();
         }
@@ -72,29 +71,40 @@ public class PlantThread extends Thread {
 
     private void updatePlants() {
         Map<String, Weather> forecast = WeatherThread.getForecast();
-        for (Land land : lands) {
-            List<Plant> plants = fields.get(land);
-            if (plants != null)
-                for (Plant plant : plants) {
-                    plant.checkOptimalCondition(forecast.get(land.getTown().getName()));
-                    GrunerhugelApplication.logger.log(Level.INFO, "Plant health: {0}", plant.getHealthPoint());
-                }
+        List<Integer> deadList = new ArrayList<>();
+        for (List<Plant> list : fields.values()) {
+            deadList.addAll(checkPlants(list, forecast));
+        }
+        if (!deadList.isEmpty()) {
+            eliminateDeadPlants(deadList);
+            deadList.clear();
         }
         check = false;
     }
 
-    private void updateLands() {
-        lands = (List<Land>) lRepository.findByFarm(SimulationProcesses.getFarm());
+    private List<Integer> checkPlants(List<Plant> list, Map<String, Weather> forecast) {
+        List<Integer> deadList = new ArrayList<>();
+        for (Plant p : list) {
+            p.checkOptimalCondition(forecast.get(p.getLand().getTown().getName()));
+            if (p.getHealthPoint() <= 0) {
+                deadList.add(p.getId());
+            }
+        }
+        return deadList;
+    }
+
+    private void eliminateDeadPlants(List<Integer> deadList) {
+        pRepository.deleteAllById(deadList);
     }
 
     private void awaitCheck() {
-        while (!check) {
-            try {
+        try {
+            while (!check) {
                 checking.await();
-            } catch (InterruptedException e) {
-                GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
-                this.interrupt();
             }
+        } catch (InterruptedException e) {
+            GrunerhugelApplication.logger.warning("PlantThread Interrupted!");
+            this.interrupt();
         }
     }
 
@@ -108,7 +118,17 @@ public class PlantThread extends Thread {
         }
     }
 
-    public static Map<Land,List<Plant>> getLandAndPlantList(){
+    public void savePlants(){
+        List<Plant> all = new ArrayList<>();
+        fields.values().forEach(all::addAll);
+        pRepository.saveAll(all);
+    }
+
+    public static Map<Land, List<Plant>> getLandAndPlantList() {
         return fields;
+    }
+
+    public static void pause() {
+        pause = true;
     }
 }

@@ -22,6 +22,7 @@ public class WeatherThread extends Thread {
     Date date;
     List<String> villages;
     private static boolean check = false;
+    private static boolean pause = false;
     private static Lock mutex;
     private static Condition checking;
 
@@ -57,7 +58,7 @@ public class WeatherThread extends Thread {
     public void run() {
         GrunerhugelApplication.logger.log(Level.INFO, "WeatherThread Id: {0}", this.getId());
 
-        while (!Thread.interrupted()) {
+        while (!pause) {
             if (check) {
                 updateWeather();
                 PlantThread.callSignal();
@@ -111,5 +112,9 @@ public class WeatherThread extends Thread {
 
     public static Map<String, Weather> getForecast() {
         return forecast;
+    }
+
+    public static void pause() {
+        pause = true;
     }
 }
