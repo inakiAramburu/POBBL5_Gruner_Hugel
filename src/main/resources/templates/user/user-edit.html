@@ -8,30 +8,42 @@
 <body>
     <h1 layout:fragment="title" th:text="#{title.user-edit}"></h1>
     <main layout:fragment="main">
-        <form method="post" class="card-body" th:action="@{/update/{id} (id=${old_user.getId()})}"
-            th:object="${new_user}">
-            <div class="grid-datos">
-                <div> <label th:text="#{user.username}"></label>:
-                    <input name="username" th:field="*{username}" th:placeholder="${old_user.getUsername()}">
-                </div>
-                <select th:field="*{role}" th:text="#{user.role}"> :
-                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
-                </select>
-                <div><label th:text="#{name}"></label>:
-                    <input th:field="*{name}" th:placeholder="${old_user.getName()}">
-                </div>
-                <div><label th:text="#{user.surname}"></label>:
-                    <input name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
-                </div>
-                <div> <label th:text="#{user.email}"></label>:
-                    <input name="email" th:field="*{email}" th:placeholder="${old_user.getEmail()}">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 p-4 bgreen3 rounded-3 border border-dark mt-5">
+                    <form method="post" th:action="@{/update/{id} (id=${old_user.getId()})}" th:object="${new_user}">
+                        <div class="row mb-3">
+                            <div class="col-6"> <label th:text="#{user.username}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="username"
+                                    th:field="*{username}" th:placeholder="${old_user.getUsername()}">
+                            </div>
+                            <select class="col-6 bcream rounded-pill border border-dark" th:field="*{role}"
+                                th:text="#{user.role}"> :
+                                <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}"
+                                    th:value="${role.id}" th:text="${role.name}"></option>
+                            </select>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">NAME: <input class="bcream rounded-pill border border-dark"
+                                    th:field="*{name}" th:placeholder="${old_user.getName()}"></div>
+                            <div class="col-6">SURNAME: <input class="bcream rounded-pill border border-dark"
+                                    name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">EMAIL: <input class="bcream rounded-pill border border-dark" name="email"
+                                    th:field="*{email}" th:placeholder="${old_user.getEmail()}"></div>
+                        </div>
+                        <div class="row mb-3">
+                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
+                                th:text="#{cancel}"></a>
+                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
+                                th:text="#{submit}"></button>
+                        </div>
+                    </form>
                 </div>
             </div>
-            <div class="botones">
-                <a class="action" href="/" th:text="#{cancel}"></a>
-                <button class="action" type="Submit" th:text="#{submit}"></button>
-            </div>
-        </form>
+        </div>
     </main>
 </body>
 

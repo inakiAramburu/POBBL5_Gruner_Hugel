@@ -1,4 +1,4 @@
-<div class="map" th:fragment="map">
+<div class="map w-100 h-75" th:fragment="map">
   <div id="map"></div>
   <script src="https://code.jquery.com/jquery-3.1.1.min.js"
     integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=" crossorigin="anonymous"></script>
@@ -39,8 +39,8 @@
       baseLayers: [SITNA.Consts.layer.IDENA_CADASTER],
       initialExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
       maxExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
-      zoom: 10,
-      maxZoom: 10,
+      zoom: 12,
+      maxZoom: 12,
     });
 
     //On load cargar los puntos desde la base de datos
