@@ -14,8 +14,8 @@ import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 
 public class Balance extends Thread {
     public static final int WORKER_PAYMENT = 800;
-    private static int balance;
-    static Object mutex;
+    public static int balance;
+    public static Object mutex;
     private BlockingQueue<Message> blockingQueue;
     private static boolean check;
     private static Lock lock;
@@ -36,13 +36,13 @@ public class Balance extends Thread {
         }
     }
 
-    private static void moneyCost(double cost) {
+    public static void moneyCost(double cost) {
         synchronized (mutex) {
             balance -= cost;
         }
     }
 
-    private static void moneyEarned(double earn) {
+    public static void moneyEarned(double earn) {
         synchronized (mutex) {
             balance += earn;
         }
@@ -57,7 +57,7 @@ public class Balance extends Thread {
         saveBalance();
     }
 
-    private void awaitCheck() {
+    public void awaitCheck() {
         while (!check) {
             lock.lock();
             try {
@@ -71,13 +71,13 @@ public class Balance extends Thread {
         }
     }
 
-    private void readMessages() {
+    public void readMessages() {
         List<Message> list = new ArrayList<>();
         blockingQueue.drainTo(list);
         list.forEach(this::doAction);
     }
 
-    private void doAction(Message msg) {
+    public void doAction(Message msg) {
         if (Sign.PLUS.equals(msg.getSign())) {
             moneyEarned(msg.getQuantity());
         } else {

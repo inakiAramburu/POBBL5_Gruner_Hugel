@@ -21,11 +21,34 @@ public class PlantTest {
 
     @Test
     public void testcheck() {
+        
+
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
         Weather weather = new Weather();
-        assertEquals(false, plant.check(weather));
+        
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "GERMINATION");
+        plant.setStatus("VEGETATIVE");
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "VEGETATIVE");
+        plant.setStatus("TILLERING");
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "TILLERING");
+        plant.setStatus("ANTHESIS");
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "ANTHESIS");
+        plant.setStatus("MILKY");
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "MILKY");
+        plant.setStatus("PASTY");
+        plant.check(weather);
+        assertEquals(plant.getStatus(), "PASTY");
+
+        
+
+
     }
 
     @Test
@@ -38,7 +61,9 @@ public class PlantTest {
         plant.setStatus("GERMINATION");
         plant.setHealthPoint(100);
         plant.setOptimalConditions(optimalConditions);
+        plant.setGrowthRate(200);
         plant.setLand(land);
+        assertEquals(200, plant.getGrowthRate());
         assertEquals(plant.getId(), 0);
         assertEquals(plant.getName(), "name");
         assertEquals(plant.getStatus(), "GERMINATION");
@@ -48,38 +73,40 @@ public class PlantTest {
 
         plant.loseHealth();
         assertEquals(plant.getHealthPoint(), 95);
+        plant.setHealthPoint(0);
+        plant.loseHealth();
+        assertEquals( "DEAD",plant.getStatus());
     }
-
-    /*
-     * @Test
-     * public void testGrowPlant() {
-     * Plant plant = new Plant();
-     * plant.setStatus("GERMINATION");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "VEGETATIVE");
-     * plant.setStatus("VEGETATIVE");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "TILLERING");
-     * plant.setStatus("TILLERING");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "ANTHESIS");
-     * plant.setStatus("ANTHESIS");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "MILKY");
-     * plant.setStatus("MILKY");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "PASTY");
-     * plant.setStatus("PASTY");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "MATURATION");
-     * plant.setStatus("MATURATION");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "DEAD");
-     * plant.setStatus("DEAD");
-     * plant.growPlant();
-     * assertEquals(plant.getStatus(), "DEAD");
-     * }
-     */
+       
+   @Test
+    public void testGrowPlant() {
+        OptimalConditions optimalConditions = new OptimalConditions();
+        Land land = new Land();
+        Plant plant = new Plant(optimalConditions, land);
+        plant.setGrowthRate(100);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "VEGETATIVE");
+        plant.setGrowthRate(200);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "TILLERING");
+        plant.setGrowthRate(300);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "ANTHESIS");
+        plant.setGrowthRate(400);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "MILKY");
+        plant.setGrowthRate(500);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "PASTY");
+        plant.setGrowthRate(600);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "MATURATION");
+        plant.setGrowthRate(700);
+        plant.growPlant();
+        assertEquals(plant.getStatus(), "GERMINATION");
+        plant.setGrowthRate(800);
+        plant.growPlant();
+     }
 
     /*
      * @Test
@@ -100,6 +127,8 @@ public class PlantTest {
      * System.out.println(plant.getHealthPoint());
      * }
      */
+
+     
 
     @Test
     public void testString() {
