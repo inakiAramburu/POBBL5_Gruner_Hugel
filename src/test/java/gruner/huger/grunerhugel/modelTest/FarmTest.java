@@ -1,4 +1,4 @@
-package gruner.huger.grunerhugel;
+package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -14,6 +14,7 @@ import gruner.huger.grunerhugel.model.FarmPlow;
 import gruner.huger.grunerhugel.model.FarmSeeder;
 import gruner.huger.grunerhugel.model.FarmTractor;
 import gruner.huger.grunerhugel.model.Land;
+import gruner.huger.grunerhugel.model.Role;
 import gruner.huger.grunerhugel.model.User;
 
 
@@ -30,6 +31,14 @@ class FarmTest {
 		
 		//Users
 		User user = new User();
+        Role role = new Role("ROLE_USER");
+        user.setName("nametest");
+        user.setSurname("surnametest");
+        user.setEmail("sad@gmail.com");
+        user.setUsername("user");
+        user.setPassword("pass");
+        user.setRole(role);
+		
 		farm.setUser(user);
 		assertEquals(user, farm.getUser());
 		
@@ -38,8 +47,8 @@ class FarmTest {
 		assertEquals(10, farm.getFuel());
 		
 		//ID
-		farm.setId(5);
-		assertEquals(5, farm.getId());
+		farm.setId(15);
+		assertEquals(15, farm.getId());
 
 		//Harvesters
 		List<FarmHarvester> harvesters=new ArrayList<>();
@@ -70,6 +79,10 @@ class FarmTest {
 		farm.setTractors(tractors);
 		assertEquals(tractors, farm.getTractors());
 		
-	}
+		System.out.println(farm.toString());
+		//toString
+			}
+
+	
 
 }
