@@ -1,9 +1,8 @@
 package gruner.huger.grunerhugel.simulation;
 
 import java.util.Date;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -11,49 +10,49 @@ import java.util.concurrent.locks.ReentrantLock;
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
+import gruner.huger.grunerhugel.domain.repository.FarmRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
 import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
+import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
 import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
 import gruner.huger.grunerhugel.domain.repository.WheatPriceRepository;
 import gruner.huger.grunerhugel.model.Farm;
-import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.simulation.thread.Balance;
 import gruner.huger.grunerhugel.simulation.thread.FuelThread;
+import gruner.huger.grunerhugel.simulation.thread.LandThread;
 import gruner.huger.grunerhugel.simulation.thread.PlantThread;
 import gruner.huger.grunerhugel.simulation.thread.TimeThread;
 import gruner.huger.grunerhugel.simulation.thread.WeatherThread;
 import gruner.huger.grunerhugel.simulation.thread.WheatPriceThread;
-import gruner.huger.grunerhugel.simulation.thread.WorkerThread;
 
 public class SimulationProcesses extends Thread {
     public static final String DATA_UPDATE = "DATA UPDATE";
     private WeatherRepository wRepository;
     private PlantRepository pRepository;
     private OptimalConditionsRepository oRepository;
-    private static FarmHarvesterRepository fHarvRepository;
+    private FarmHarvesterRepository fHarvRepository;
     private FarmPlowRepository fPlowRepository;
     private FarmSeederRepository fSeedRepository;
     private FarmTractorRepository fTractRepository;
     private LandRepository lRepository;
     private FuelRepository fRepository;
     private WheatPriceRepository wpRepository;
+    private static FarmRepository faRepository;
     private static Farm farm;
-    private static boolean terminate = false;
-    int hours = 0;
-    int days = 0;
+    private static boolean pause = false;
     private Balance balance;
     private WeatherThread wThread;
     private PlantThread pThread;
     private TimeThread tThread;
     private FuelThread fThread;
     private WheatPriceThread wpThread;
-    private WorkerThread wkThread;
+    private LandThread lThread;
     private static Lock mutex = new ReentrantLock();
-    private static Condition cond = mutex.newCondition();;
+    private static Condition cond = mutex.newCondition();
 
     public SimulationProcesses(Farm apointedFarm, WeatherRepository weatherRepository, PlantRepository plantRepository,
             OptimalConditionsRepository opCondRepository, LandRepository landRepository, FuelRepository fuelRepository,
@@ -67,25 +66,26 @@ public class SimulationProcesses extends Thread {
         this.wpRepository = wPriceRepository;
     }
 
-    public void constructVehicleRepositories(FarmHarvesterRepository fHarvRepository,
-            FarmPlowRepository fPlowRepository,
-            FarmSeederRepository fSeedRepository, FarmTractorRepository fTractRepository) {
-        SimulationProcesses.fHarvRepository = fHarvRepository;
-        this.fPlowRepository = fPlowRepository;
-        this.fSeedRepository = fSeedRepository;
-        this.fTractRepository = fTractRepository;
+    public void constructVehicleRepositories(FarmHarvesterRepository farmHarvRepository,
+            FarmPlowRepository farmPlowRepository, FarmSeederRepository farmSeedRepository,
+            FarmTractorRepository farmTractRepository) {
+        this.fHarvRepository = farmHarvRepository;
+        this.fPlowRepository = farmPlowRepository;
+        this.fSeedRepository = farmSeedRepository;
+        this.fTractRepository = farmTractRepository;
     }
 
-    public void initialize(int initialBalance, Date startDate, Date endDate, List<Land> lands) {
-        BlockingQueue<Message> blockingQueue = new ArrayBlockingQueue<>(1000);
+    public void initialize(double initBalance, Date startDate, Date endDate, FarmRepository farmRepository, SimulationRepository simulationRepository) {
+        BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
+        faRepository = farmRepository;
         // -------------
-        this.tThread = new TimeThread(startDate, endDate);
-        this.balance = new Balance(initialBalance, blockingQueue); // queue
-        this.wThread = new WeatherThread(wRepository, startDate, lands);
-        this.pThread = new PlantThread(lRepository, pRepository, oRepository, lands);
+        this.tThread = new TimeThread(startDate, endDate, simulationRepository);
+        this.balance = new Balance(initBalance, blockingQueue); // queue
+        this.wThread = new WeatherThread(wRepository, startDate, farm.getLands());
+        this.pThread = new PlantThread(pRepository, oRepository, farm.getLands());
         this.fThread = new FuelThread(fRepository);
         this.wpThread = new WheatPriceThread(wpRepository);
-        this.wkThread = new WorkerThread(blockingQueue);
+        this.lThread = new LandThread(lRepository, blockingQueue, fTractRepository);
     }
 
     private void startThreads() {
@@ -93,7 +93,7 @@ public class SimulationProcesses extends Thread {
         pThread.start();
         fThread.start();
         wpThread.start();
-        wkThread.start();
+        lThread.start();
         balance.start();
         tThread.start();
     }
@@ -105,6 +105,8 @@ public class SimulationProcesses extends Thread {
             pThread.join();
             fThread.join();
             wpThread.join();
+            lThread.join();
+            balance.join();
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.warning("All Threads Interrupted!");
             this.interrupt();
@@ -114,7 +116,7 @@ public class SimulationProcesses extends Thread {
     @Override
     public void run() {
         startThreads();
-        while (!Thread.interrupted() && !terminate) {
+        while (!pause) {
             mutex.lock();
             try {
                 cond.await();
@@ -128,22 +130,19 @@ public class SimulationProcesses extends Thread {
         joinThreads();
     }
 
-    public int getHoras() {
-        return hours;
-    }
-
-    public void setRepositories(WeatherRepository wRepository) {
-        this.wRepository = wRepository;
-    }
-
     public static Farm getFarm() {
         return farm;
     }
 
-    public static void callSignal() {
+    public static void setMoney(double money){
+        farm.setMoney(money);
+        faRepository.save(farm);
+    }
+
+    public static void pause() {
         mutex.lock();
         try {
-            terminate = true;
+            pause = true;
             cond.signal();
         } finally {
             mutex.unlock();

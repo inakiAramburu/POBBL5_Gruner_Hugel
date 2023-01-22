@@ -30,6 +30,8 @@ public class Plant implements Serializable {
   String name;
   @Column(name = "status")
   String status;
+  @Column(name = "growth_rate")
+  int growthRate;
   @Column(name = "health_point")
   int healthPoint;
   @OneToOne()
@@ -51,9 +53,8 @@ public class Plant implements Serializable {
     this.name = PlantType.WHEAT.getPlantType();
   }
 
-public void checkOptimalCondition(Weather weather) {
-    boolean condition = check(weather);
-    if (condition) {
+  public void checkOptimalCondition(Weather weather) {
+    if (check(weather)) {
       growPlant();
     } else {
       loseHealth();
@@ -61,7 +62,114 @@ public void checkOptimalCondition(Weather weather) {
   }
 
   private boolean check(Weather weather) {
-    return weather.equals(new Weather());
+    boolean result;
+    switch (status) {
+      case GERMINATION:
+        result = checkGermination(weather);
+        break;
+      case VEGETATIVE:
+        result = checkVegetative(weather);
+        break;
+      case TILLERING:
+        result = checkTilleting(weather);
+        break;
+      case ANTHESIS:
+        result = checkAnthesis(weather);
+        break;
+      case MILKY:
+        result = checkMilky(weather);
+        break;
+      case PASTY:
+        result = checkPasty(weather);
+        break;
+      default:
+        result = checkMaturation(weather);
+    }
+    return result;
+  }
+
+  private boolean checkGermination(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinOpGerminationTemp(),
+        optimalConditions.getMaxOpGerminationTemp());
+  }
+
+  private boolean checkVegetative(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getVegetativeTemp());
+  }
+
+  private boolean checkTilleting(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinTilleringTemp(),
+        optimalConditions.getMaxTilleringTemp());
+  }
+
+  private boolean checkAnthesis(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinMaxAnthesisTemp(),
+        optimalConditions.getMaxMinAnthesisTemp());
+  }
+
+  private boolean checkMilky(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinMaxMilkyTemp(),
+        optimalConditions.getMaxMinMilkyTemp());
+  }
+
+  private boolean checkPasty(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinMaxPastyTemp(),
+        optimalConditions.getMaxMinPastyTemp());
+  }
+
+  private boolean checkMaturation(Weather weather) {
+    return isTemperatureOkay(weather.getTemperature(), optimalConditions.getMinMaxMaturityTemp(),
+        optimalConditions.getMaxMinMaturityTemp());
+  }
+
+  private boolean isTemperatureOkay(double temp, int minTemp, int maxTemp) {
+    return (temp > minTemp && maxTemp > temp);
+  }
+
+  private boolean isTemperatureOkay(double temp, int minTemp) {
+    return (temp > minTemp);
+  }
+
+  private void growPlant() {
+    growthRate += 1;
+    if (growthRate >= 100) {
+      switch (status) {
+        case GERMINATION:
+          status = VEGETATIVE;
+          break;
+        case VEGETATIVE:
+          status = TILLERING;
+          break;
+        case TILLERING:
+          status = ANTHESIS;
+          break;
+        case ANTHESIS:
+          status = MILKY;
+          break;
+        case MILKY:
+          status = PASTY;
+          break;
+        case PASTY:
+          status = MATURATION;
+          break;
+        default:
+          status = GERMINATION;
+      }
+      growthRate = 0;
+    }
+  }
+
+  private void loseHealth() {
+    healthPoint -= 5;
+    if (healthPoint <= 0) {
+      status = DEAD;
+    }
+  }
+
+  @Override
+  public String toString() {
+    return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
+        + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
   }
 
   public int getId() {
@@ -88,6 +196,14 @@ public void checkOptimalCondition(Weather weather) {
     this.status = status;
   }
 
+  public int getGrowthRate() {
+    return growthRate;
+  }
+
+  public void setGrowthRate(int growth_rate) {
+    this.growthRate = growth_rate;
+  }
+
   public int getHealthPoint() {
     return healthPoint;
   }
@@ -104,46 +220,11 @@ public void checkOptimalCondition(Weather weather) {
     this.optimalConditions = optimalConditions;
   }
 
-  public void growPlant() {
-    switch (status) {
-      case GERMINATION:
-        status = VEGETATIVE;
-        break;
-      case VEGETATIVE:
-        status = TILLERING;
-        break;
-      case TILLERING:
-        status = ANTHESIS;
-        break;
-      case ANTHESIS:
-        status = MILKY;
-        break;
-      case MILKY:
-        status = PASTY;
-        break;
-      case PASTY:
-        status = MATURATION;
-        break;
-      default:
-        status = DEAD;
-    }
-  }
-
   public Land getLand() {
     return land;
   }
 
   public void setLand(Land land) {
     this.land = land;
-  }
-
-  private void loseHealth() {
-    healthPoint -= 5;
-  }
-
-  @Override
-  public String toString() {
-    return "Plant [id=" + id + ", name=" + name + ", status=" + status + ", health_point=" + healthPoint
-        + ", plant_Type=" + optimalConditions + ", land=" + land + "]";
   }
 }

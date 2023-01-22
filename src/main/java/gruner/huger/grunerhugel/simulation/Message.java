@@ -5,12 +5,12 @@ import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 public class Message {
     public static final String SPLITTER = "|";
     private String concept;
-    private int quantity;
+    private double quantity;
     private Sign sign;
 
-    public Message(Sign sign, int quantity, String concept) {
+    public Message(Sign sign, double cost, String concept) {
         this.sign = sign;
-        this.quantity = quantity;
+        this.quantity = cost;
         this.concept = concept;
     }
 
@@ -26,7 +26,7 @@ public class Message {
         return sign;
     }
 
-    public int getQuantity(){
+    public double getQuantity(){
         return quantity;
     }
 }

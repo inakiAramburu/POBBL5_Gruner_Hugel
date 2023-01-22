@@ -30,6 +30,7 @@ public class WebConfig implements WebMvcConfigurer {
         return lci;
     }
 
+    @Override
     @Bean
     public LocalValidatorFactoryBean getValidator() {
         LocalValidatorFactoryBean bean = new LocalValidatorFactoryBean();

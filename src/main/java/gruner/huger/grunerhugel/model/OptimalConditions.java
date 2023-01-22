@@ -15,41 +15,41 @@ public class OptimalConditions implements Serializable {
   @Column(name = "type_name")
   String name;
   @Column(name = "Germinacion min (ºC)")
-  int minTemp;
+  int minGerminationTemp;
   @Column(name = "Germinacion optima min (ºC)")
-  int minOptimalTemp;
+  int minOpGerminationTemp;
   @Column(name = "Germinacion optima max (ºC)")
-  int maxOptimalTemp;
+  int maxOpGerminationTemp;
   @Column(name = "crecimiento vegetativo  t<(ºC)")
-  int growthTemp;
+  int vegetativeTemp;
   @Column(name = "macollamiento min(ºC)")
-  int minMaturityTemp;
+  int minTilleringTemp;
   @Column(name = "macollamiento max(ºC)")
-  int maxMaturityTemp;
+  int maxTilleringTemp;
   @Column(name = "antesis min min (ºC)")
-  int minMinAntesisTemp;
+  int minMinAnthesisTemp;
   @Column(name = "antesis min max (ºC)")
-  int minMaxAntesisTemp;
+  int minMaxAnthesisTemp;
   @Column(name = "antesis max min (ºC)")
-  int maxMinAntesisTemp;
+  int maxMinAnthesisTemp;
   @Column(name = "antesis max max (ºC)")
-  int maxMaxAntesisTemp;
+  int maxMaxAnthesisTemp;
   @Column(name = "lechoso min min (ºC)")
-  int minMinLechosoTemp;
+  int minMinMilkyTemp;
   @Column(name = "lechoso min max (ºC)")
-  int minMaxLechosoTemp;
+  int minMaxMilkyTemp;
   @Column(name = "lechoso max min (ºC)")
-  int maxMinLechosoTemp;
+  int maxMinMilkyTemp;
   @Column(name = "lechoso max max (ºC)")
-  int maxMaxLechosoTemp;
+  int maxMaxMilkyTemp;
   @Column(name = "pastoso min min (ºC)")
-  int minMinPastosoTemp;
+  int minMinPastyTemp;
   @Column(name = "pastoso min max (ºC)")
-  int minMaxPastosoTemp;
+  int minMaxPastyTemp;
   @Column(name = "pastoso max min (ºC)")
-  int maxMinPastosoTemp;
+  int maxMinPastyTemp;
   @Column(name = "pastoso max max (ºC)")
-  int maxMaxPastosoTemp;
+  int maxMaxPastyTemp;
   @Column(name = "maduracion min min (ºC)")
   int minMinMaturityTemp;
   @Column(name = "maduracion min max (ºC)")
@@ -59,6 +59,10 @@ public class OptimalConditions implements Serializable {
   @Column(name = "maduracion max max (ºC)")
   int maxMaxMaturityTemp;
 
+  public OptimalConditions() {
+    // no need
+  }
+
   public String getName() {
     return name;
   }
@@ -67,148 +71,148 @@ public class OptimalConditions implements Serializable {
     this.name = name;
   }
 
-  public int getMinTemp() {
-    return minTemp;
+  public int getMinGerminationTemp() {
+    return minGerminationTemp;
   }
 
-  public void setMinTemp(int minTemp) {
-    this.minTemp = minTemp;
+  public void setMinGerminationTemp(int minGerminationTemp) {
+    this.minGerminationTemp = minGerminationTemp;
   }
 
-  public int getMinOptimalTemp() {
-    return minOptimalTemp;
+  public int getMinOpGerminationTemp() {
+    return minOpGerminationTemp;
   }
 
-  public void setMinOptimalTemp(int minOptimalTemp) {
-    this.minOptimalTemp = minOptimalTemp;
+  public void setMinOpGerminationTemp(int minOpGerminationTemp) {
+    this.minOpGerminationTemp = minOpGerminationTemp;
   }
 
-  public int getMaxOptimalTemp() {
-    return maxOptimalTemp;
+  public int getMaxOpGerminationTemp() {
+    return maxOpGerminationTemp;
   }
 
-  public void setMaxOptimalTemp(int maxOptimalTemp) {
-    this.maxOptimalTemp = maxOptimalTemp;
+  public void setMaxOpGerminationTemp(int maxOpGerminationTemp) {
+    this.maxOpGerminationTemp = maxOpGerminationTemp;
   }
 
-  public int getGrowthTemp() {
-    return growthTemp;
+  public int getVegetativeTemp() {
+    return vegetativeTemp;
   }
 
-  public void setGrowthTemp(int growthTemp) {
-    this.growthTemp = growthTemp;
+  public void setVegetativeTemp(int vegetativeTemp) {
+    this.vegetativeTemp = vegetativeTemp;
   }
 
-  public int getMinMaturityTemp() {
-    return minMaturityTemp;
+  public int getMinTilleringTemp() {
+    return minTilleringTemp;
   }
 
-  public void setMinMaturityTemp(int minMaturityTemp) {
-    this.minMaturityTemp = minMaturityTemp;
+  public void setMinTilleringTemp(int minTilleringTemp) {
+    this.minTilleringTemp = minTilleringTemp;
   }
 
-  public int getMaxMaturityTemp() {
-    return maxMaturityTemp;
+  public int getMaxTilleringTemp() {
+    return maxTilleringTemp;
   }
 
-  public void setMaxMaturityTemp(int maxMaturityTemp) {
-    this.maxMaturityTemp = maxMaturityTemp;
+  public void setMaxTilleringTemp(int maxTilleringTemp) {
+    this.maxTilleringTemp = maxTilleringTemp;
   }
 
-  public int getMinMinAntesisTemp() {
-    return minMinAntesisTemp;
+  public int getMinMinAnthesisTemp() {
+    return minMinAnthesisTemp;
   }
 
-  public void setMinMinAntesisTemp(int minMinAntesisTemp) {
-    this.minMinAntesisTemp = minMinAntesisTemp;
+  public void setMinMinAnthesisTemp(int minMinAnthesisTemp) {
+    this.minMinAnthesisTemp = minMinAnthesisTemp;
   }
 
-  public int getMinMaxAntesisTemp() {
-    return minMaxAntesisTemp;
+  public int getMinMaxAnthesisTemp() {
+    return minMaxAnthesisTemp;
   }
 
-  public void setMinMaxAntesisTemp(int minMaxAntesisTemp) {
-    this.minMaxAntesisTemp = minMaxAntesisTemp;
+  public void setMinMaxAnthesisTemp(int minMaxAnthesisTemp) {
+    this.minMaxAnthesisTemp = minMaxAnthesisTemp;
   }
 
-  public int getMaxMinAntesisTemp() {
-    return maxMinAntesisTemp;
+  public int getMaxMinAnthesisTemp() {
+    return maxMinAnthesisTemp;
   }
 
-  public void setMaxMinAntesisTemp(int maxMinAntesisTemp) {
-    this.maxMinAntesisTemp = maxMinAntesisTemp;
+  public void setMaxMinAnthesisTemp(int maxMinAnthesisTemp) {
+    this.maxMinAnthesisTemp = maxMinAnthesisTemp;
   }
 
-  public int getMaxMaxAntesisTemp() {
-    return maxMaxAntesisTemp;
+  public int getMaxMaxAnthesisTemp() {
+    return maxMaxAnthesisTemp;
   }
 
-  public void setMaxMaxAntesisTemp(int maxMaxAntesisTemp) {
-    this.maxMaxAntesisTemp = maxMaxAntesisTemp;
+  public void setMaxMaxAnthesisTemp(int maxMaxAnthesisTemp) {
+    this.maxMaxAnthesisTemp = maxMaxAnthesisTemp;
   }
 
-  public int getMinMinLechosoTemp() {
-    return minMinLechosoTemp;
+  public int getMinMinMilkyTemp() {
+    return minMinMilkyTemp;
   }
 
-  public void setMinMinLechosoTemp(int minMinLechosoTemp) {
-    this.minMinLechosoTemp = minMinLechosoTemp;
+  public void setMinMinMilkyTemp(int minMinMilkyTemp) {
+    this.minMinMilkyTemp = minMinMilkyTemp;
   }
 
-  public int getMinMaxLechosoTemp() {
-    return minMaxLechosoTemp;
+  public int getMinMaxMilkyTemp() {
+    return minMaxMilkyTemp;
   }
 
-  public void setMinMaxLechosoTemp(int minMaxLechosoTemp) {
-    this.minMaxLechosoTemp = minMaxLechosoTemp;
+  public void setMinMaxMilkyTemp(int minMaxMilkyTemp) {
+    this.minMaxMilkyTemp = minMaxMilkyTemp;
   }
 
-  public int getMaxMinLechosoTemp() {
-    return maxMinLechosoTemp;
+  public int getMaxMinMilkyTemp() {
+    return maxMinMilkyTemp;
   }
 
-  public void setMaxMinLechosoTemp(int maxMinLechosoTemp) {
-    this.maxMinLechosoTemp = maxMinLechosoTemp;
+  public void setMaxMinMilkyTemp(int maxMinMilkyTemp) {
+    this.maxMinMilkyTemp = maxMinMilkyTemp;
   }
 
-  public int getMaxMaxLechosoTemp() {
-    return maxMaxLechosoTemp;
+  public int getMaxMaxMilkyTemp() {
+    return maxMaxMilkyTemp;
   }
 
-  public void setMaxMaxLechosoTemp(int maxMaxLechosoTemp) {
-    this.maxMaxLechosoTemp = maxMaxLechosoTemp;
+  public void setMaxMaxMilkyTemp(int maxMaxMilkyTemp) {
+    this.maxMaxMilkyTemp = maxMaxMilkyTemp;
   }
 
-  public int getMinMinPastosoTemp() {
-    return minMinPastosoTemp;
+  public int getMinMinPastyTemp() {
+    return minMinPastyTemp;
   }
 
-  public void setMinMinPastosoTemp(int minMinPastosoTemp) {
-    this.minMinPastosoTemp = minMinPastosoTemp;
+  public void setMinMinPastyTemp(int minMinPastyTemp) {
+    this.minMinPastyTemp = minMinPastyTemp;
   }
 
-  public int getMinMaxPastosoTemp() {
-    return minMaxPastosoTemp;
+  public int getMinMaxPastyTemp() {
+    return minMaxPastyTemp;
   }
 
-  public void setMinMaxPastosoTemp(int minMaxPastosoTemp) {
-    this.minMaxPastosoTemp = minMaxPastosoTemp;
+  public void setMinMaxPastyTemp(int minMaxPastyTemp) {
+    this.minMaxPastyTemp = minMaxPastyTemp;
   }
 
-  public int getMaxMinPastosoTemp() {
-    return maxMinPastosoTemp;
+  public int getMaxMinPastyTemp() {
+    return maxMinPastyTemp;
   }
 
-  public void setMaxMinPastosoTemp(int maxMinPastosoTemp) {
-    this.maxMinPastosoTemp = maxMinPastosoTemp;
+  public void setMaxMinPastyTemp(int maxMinPastyTemp) {
+    this.maxMinPastyTemp = maxMinPastyTemp;
   }
 
-  public int getMaxMaxPastosoTemp() {
-    return maxMaxPastosoTemp;
+  public int getMaxMaxPastyTemp() {
+    return maxMaxPastyTemp;
   }
 
-  public void setMaxMaxPastosoTemp(int maxMaxPastosoTemp) {
-    this.maxMaxPastosoTemp = maxMaxPastosoTemp;
+  public void setMaxMaxPastyTemp(int maxMaxPastyTemp) {
+    this.maxMaxPastyTemp = maxMaxPastyTemp;
   }
 
   public int getMinMinMaturityTemp() {
@@ -243,8 +247,18 @@ public class OptimalConditions implements Serializable {
     this.maxMaxMaturityTemp = maxMaxMaturityTemp;
   }
 
-  public OptimalConditions() {
-    // no need
+  @Override
+  public String toString() {
+    return "OptimalConditions [name=" + name + ", minGerminationTemp=" + minGerminationTemp + ", minOpGerminationTemp="
+        + minOpGerminationTemp + ", maxOpGerminationTemp=" + maxOpGerminationTemp + ", vegetativeTemp=" + vegetativeTemp
+        + ", minTilleringTemp=" + minTilleringTemp + ", maxTilleringTemp=" + maxTilleringTemp + ", minMinAnthesisTemp="
+        + minMinAnthesisTemp + ", minMaxAnthesisTemp=" + minMaxAnthesisTemp + ", maxMinAnthesisTemp="
+        + maxMinAnthesisTemp + ", maxMaxAnthesisTemp=" + maxMaxAnthesisTemp + ", minMinMilkyTemp=" + minMinMilkyTemp
+        + ", minMaxMilkyTemp=" + minMaxMilkyTemp + ", maxMinMilkyTemp=" + maxMinMilkyTemp + ", maxMaxMilkyTemp="
+        + maxMaxMilkyTemp + ", minMinPastyTemp=" + minMinPastyTemp + ", minMaxPastyTemp=" + minMaxPastyTemp
+        + ", maxMinPastyTemp=" + maxMinPastyTemp + ", maxMaxPastyTemp=" + maxMaxPastyTemp + ", minMinMaturityTemp="
+        + minMinMaturityTemp + ", minMaxMaturityTemp=" + minMaxMaturityTemp + ", maxMinMaturityTemp="
+        + maxMinMaturityTemp + ", maxMaxMaturityTemp=" + maxMaxMaturityTemp + "]";
   }
 
 }

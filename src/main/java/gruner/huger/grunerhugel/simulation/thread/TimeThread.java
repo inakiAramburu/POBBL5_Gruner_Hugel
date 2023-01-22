@@ -1,17 +1,17 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
+import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
+import gruner.huger.grunerhugel.model.Simulation;
+import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 
 public class TimeThread extends Thread {
     private static final int HOUR_DURATION = 1250; // miliseconds
-    // private static final int HOURS_DAY = 24; // hours
+    private SimulationRepository simRepository;
     public static final String TIME_PAUSE = "PAUSE";
     public static final String TIME_RESUME = "RESUME";
     public static final String HOUR_PASS = "HOUR PASS";
@@ -21,18 +21,18 @@ public class TimeThread extends Thread {
     private static final int MONTH_STARTING_DAY = 1;
     private static final int DAY_STARTING_HOUR = 0;
     private static final int DAY_ENDING_HOUR = 23;
-    // private final int MILISECONDS_PER_SECOND = 1000;
-    // private final int SECONDS_PER_MINUTE = 60;
-    // private final int MINUTES_PER_HOUR = 60;
-    // private final int HOURS_PER_DAY = 24;
-    private static CountDownLatch cDownLatch;
+    private static final int MILISECONDS_PER_SECOND = 1000;
+    private static final int SECONDS_PER_MINUTE = 60;
+    private static final int MINUTES_PER_HOUR = 60;
+    private static final int HOURS_TO_UPDATE = 1;
     private int accelerator = 1;
     private static boolean pause = false;
     private static Date actualDate;
     private Date endDate;
 
-    public TimeThread(Date startDate, Date endDate) {
+    public TimeThread(Date startDate, Date endDate, SimulationRepository simulationRepository) {
         // no need
+        this.simRepository = simulationRepository;
         actualDate = startDate;
         this.endDate = endDate;
     }
@@ -41,24 +41,17 @@ public class TimeThread extends Thread {
     public void run() {
         GrunerhugelApplication.logger.log(Level.INFO, "TimeThread Id: {0}", this.getId());
         try {
-            while (!Thread.interrupted()) {
-                while (!pause && checkDate()) {
-                    Thread.sleep(HOUR_DURATION / accelerator);
-                    GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}",
-                            DateFormat.getDateTimeInstance().format(actualDate));
-                    WeatherThread.callSignal();
-                    isFirstHourOfMonth();
-                    isWorkingHours();
-                    isDayEnding();
-                    updateActualDate();
-                }
-                if (!pause) {
-                    GrunerhugelApplication.logger.info(TERMINATE);
-                } else {
-                    GrunerhugelApplication.logger.info(TIME_PAUSE);
-                    cDownLatch.await();
-                }
+            while (!pause && checkDate()) {
+                GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}",
+                        DateFormat.getDateTimeInstance().format(actualDate));
+                WeatherThread.callSignal();
+                isFirstHourOfMonth();
+                isWorkingHours();
+                isDayEnding();
+                Thread.sleep(HOUR_DURATION / accelerator);
+                updateActualDate();
             }
+            saveActualDate();
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.warning("TimeThread was interrupted!");
             this.interrupt();
@@ -70,21 +63,22 @@ public class TimeThread extends Thread {
     }
 
     private void updateActualDate() { // adds an hour to the actual date
-        actualDate.setTime(actualDate.getTime() + getHoursInMs(1));
+        actualDate.setTime(actualDate.getTime() + getHoursInMs(HOURS_TO_UPDATE));
     }
 
     private int getHoursInMs(int hours) {
-        return hours * 60 * 60 * 1000; // minutes seconds miliseconds
+        return hours * MINUTES_PER_HOUR * SECONDS_PER_MINUTE * MILISECONDS_PER_SECOND;
     }
 
     public static void pause() {
-        cDownLatch = new CountDownLatch(1);
         pause = true;
-    }
-
-    public static void play() {
-        cDownLatch.countDown();
-        pause = false;
+        Balance.pause();
+        FuelThread.pause();
+        WheatPriceThread.pause();
+        SimulationProcesses.pause();
+        LandThread.pause();
+        PlantThread.pause();
+        WeatherThread.pause();
     }
 
     public void setAccelerator(int accelerator) {
@@ -101,9 +95,7 @@ public class TimeThread extends Thread {
 
     public static void isWorkingHours() {
         int hours = getHours();
-        if (WORKING_HOURS_MIN <= hours && WORKING_HOURS_MAX > hours) {
-            WorkerThread.callSignal();
-        }
+        LandThread.workingHours(WORKING_HOURS_MIN <= hours && WORKING_HOURS_MAX > hours);
     }
 
     public static void isDayEnding() {
@@ -114,9 +106,9 @@ public class TimeThread extends Thread {
 
     private void isFirstHourOfMonth() {
         if (getHours() == DAY_STARTING_HOUR && getDay() == MONTH_STARTING_DAY) {
-            // WorkerThread.payWorkers();
             WheatPriceThread.callSignal();
             FuelThread.callSignal();
+            LandThread.payWorkers();
         }
     }
 
@@ -128,5 +120,11 @@ public class TimeThread extends Thread {
     private static int getHours() {
         String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(actualDate);
         return Integer.parseInt(time.split(":")[0]);
+    }
+
+    private void saveActualDate() {
+        Simulation sim = simRepository.findByFarm(SimulationProcesses.getFarm());
+        sim.setStartDate(actualDate);
+        simRepository.save(sim);
     }
 }

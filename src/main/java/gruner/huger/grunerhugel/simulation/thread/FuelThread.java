@@ -18,6 +18,7 @@ public class FuelThread extends Thread {
     private static Fuel fuel;
     private FuelRepository fRepository;
     private static boolean check = false;
+    private static boolean pause = false;
     private static Lock mutex;
     private static Condition checking;
 
@@ -30,7 +31,7 @@ public class FuelThread extends Thread {
     @Override
     public void run() {
         GrunerhugelApplication.logger.log(Level.INFO, "TimeThread Id: {0}", this.getId());
-        while (!Thread.interrupted()) {
+        while (!pause) {
             if (check) {
                 GrunerhugelApplication.logger.info("UPDATE FUEL");
                 updateFuel();
@@ -81,5 +82,9 @@ public class FuelThread extends Thread {
 
     public static double buyFuel(int litres) {
         return litres * fuel.getPrice();
+    }
+
+    public static void pause() {
+        pause = true;
     }
 }
