@@ -24,15 +24,23 @@
                             </select>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-6">NAME: <input class="bcream rounded-pill border border-dark"
-                                    th:field="*{name}" th:placeholder="${old_user.getName()}"></div>
-                            <div class="col-6">SURNAME: <input class="bcream rounded-pill border border-dark"
-                                    name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
+                            <div class="col-6">
+                                <label th:text="#{user.name}"></label>:
+                                <input class="bcream rounded-pill border border-dark" th:field="*{name}"
+                                    th:placeholder="${old_user.getName()}">
+                            </div>
+                            <div class="col-6">
+                                <label th:text="#{user.surname}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="surname"
+                                    th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col">EMAIL: <input class="bcream rounded-pill border border-dark" name="email"
-                                    th:field="*{email}" th:placeholder="${old_user.getEmail()}"></div>
+                            <div class="col">
+                                <label th:text="#{user.email}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}"
+                                    th:placeholder="${old_user.getEmail()}">
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"

@@ -28,9 +28,15 @@
       <h2 sec:authorize="isAuthenticated()" th:text="${#authentication.getPrincipal().getUsername()}"></h2>
     </li>
     <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
-      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
-      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
-      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
+      <li class="mb-3 d-flex justify-content-center">
+        <a class="btn w-75 bgreen2" th:href="@{/admin}" th:text="#{menu.users}"></a>
+      </li>
+      <li class="mb-3 d-flex justify-content-center">
+        <a class="btn w-75 bgreen2" th:href="@{/investor}" th:text="#{menu.stats}"></a>
+      </li>
+      <li class="mb-3 d-flex justify-content-center">
+        <a class="btn w-75 bgreen2" th:href="@{/main}" th:text="#{menu.simulation}"></a>
+      </li>
       <li class="mb-3">
         <hr class="dropdown-divider">
       </li>
@@ -46,7 +52,7 @@
       <hr class="dropdown-divider">
     </li>
     <li class="d-flex align-items-center justify-content-center">
-      <a class="btn w-75 bgreen2" id="out" th:href="@{/logout}">Log out</a>
+      <a class="btn w-75 bgreen2" id="out" th:href="@{/logout}" th:text="#{logout}"></a>
     </li>
   </ul>
 </div>
