@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.junit.jupiter.api.Test;
 
 
@@ -19,6 +20,12 @@ import gruner.huger.grunerhugel.model.User;
 
 
 class FarmTest {
+
+	@Test
+	void testConstructor() {
+		User user = new User();
+		Farm farm = new Farm(user,5,10);
+	}
     @Test
 	void testGetSet() {
 		Farm farm = new Farm();

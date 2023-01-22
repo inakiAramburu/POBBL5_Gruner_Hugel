@@ -16,7 +16,6 @@ import java.util.concurrent.locks.ReentrantLock;
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Plant;
-import gruner.huger.grunerhugel.model.Worker;
 import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
 import gruner.huger.grunerhugel.simulation.enumeration.LandStatus;

@@ -50,7 +50,7 @@ public class WebController {
                 url = URI.HOME_USER_FARM.getPath();
             } catch (NullPointerException e) {
                 GrunerhugelApplication.logger.info("No farm found for user " + username);
-                url = URI.HOME_USER_NO_FARM.getPath();
+                url = URI.HOME_TUTORIAL.getPath();
             }
         } else if (authentication.getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("INVESTOR"))) {
             url = URI.HOME_INVESTOR.getPath();
@@ -86,5 +86,10 @@ public class WebController {
     public String accessDenied(@PathVariable String path, Model model) {
         model.addAttribute("accessDenied", true);
         return "redirect:" + path;
+    }
+
+    @GetMapping(value = "/tutorial")
+    public String tutorial() {
+        return URI.HOME_TUTORIAL.getView();
     }
 }

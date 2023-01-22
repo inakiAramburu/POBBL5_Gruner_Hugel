@@ -34,6 +34,7 @@ $("#numHarvester").change(function () {
 function calculeTotal() {
     var tractorPrice = $("#tractor").find(":selected").attr("price");
     var tractorNum = $("#numTractor").val();
+    console.log(tractorNum);
     var plowPrice = $("#plow").find(":selected").attr("price");
     var plowNum = $("#numPlow").val();
     var seederPrice = $("#seeder").find(":selected").attr("price");

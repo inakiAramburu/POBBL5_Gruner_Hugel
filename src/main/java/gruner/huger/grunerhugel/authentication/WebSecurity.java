@@ -22,7 +22,8 @@ public class WebSecurity {
 
         http.authorizeHttpRequests()
                 .requestMatchers("/css/*", "/img/*", "/js/*").permitAll()
-                .requestMatchers("/create", URI.LOGIN.getPath(), "/accessDenied", "/error").permitAll()
+                .requestMatchers("/create", URI.LOGIN.getPath(), "/accessDenied", "/error", URI.HOME_TUTORIAL.getPath())
+                .permitAll()
                 .requestMatchers("/investor").hasAnyAuthority("INVESTOR", "ADMIN")
                 .requestMatchers("/main", "/simulation").hasAnyAuthority("USER", "ADMIN")
                 .anyRequest().authenticated() // aiqu cambiar esto por .hasAuthority("ADMIN");
