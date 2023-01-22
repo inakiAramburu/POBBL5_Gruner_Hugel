@@ -31,7 +31,6 @@ public class FarmHarvesterId implements Serializable {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((farmId == null) ? 0 : farmId.hashCode());
         result = prime * result + ((harvesterId == null) ? 0 : harvesterId.hashCode());
         return result;
     }
@@ -45,15 +44,9 @@ public class FarmHarvesterId implements Serializable {
         if (getClass() != obj.getClass())
             return false;
         FarmHarvesterId other = (FarmHarvesterId) obj;
-        if (farmId == null) {
-            if (other.farmId != null)
-                return false;
-        } else if (!farmId.equals(other.farmId))
+        if (!farmId.equals(other.farmId))
             return false;
-        if (harvesterId == null) {
-            if (other.harvesterId != null)
-                return false;
-        } else if (!harvesterId.equals(other.harvesterId))
+        else if (!harvesterId.equals(other.harvesterId))
             return false;
         return true;
     }
