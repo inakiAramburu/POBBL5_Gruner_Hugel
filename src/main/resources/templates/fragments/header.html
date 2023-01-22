@@ -1,58 +1,52 @@
 <!--Header with title and user info-->
 <header th:fragment="header-title-user">
-  <div class="d-flex bgreen1 rounded-1 rounded-bottom align-items-center justify-content-between text-dark ">
-    <div class="">
+  <div class="d-flex bgreen1 align-items-center justify-content-between text-dark ">
+    <div>
+      <!--is necessary to have the title in the middle always-->
     </div>
-    <div class="">
-      <h1 layout:fragment="title" class="mt-1 display-1 mb-1"></h1>
-    </div>
-
-    <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-        <img class="bgreen3 mb-3 w-50 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
-    </div>
-
-    <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
-      <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
-        <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center"><img class="w-25" th:src="@{/img/perfil.png}" alt="perfil" /><h2>Admin</h2></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
-        <li class="mb-3">
-          <hr class="dropdown-divider">
-        </li>
-      </div>
-      <li class="bgreen2 d-flex align-items-center justify-content-center"><a class="m-0 p-0" id="out" th:href="@{/logout}">Log out</a></li>
-    </ul>
-
-    </div>
+    <h1 layout:fragment="title" class="mt-1 display-1 mb-1"></h1>
+    <div class="col-1 p-5" th:insert="fragments/header :: profile-dropdown"></div>
   </div>
 </header>
 
 <!--Header with name and logo-->
-<header class="bgreen1 py-2 rounded-bottom" th:fragment="header-login">
-  <div class="d-flex align-items-center justify-content-center text-dark text-decoration-none">
+<header th:fragment="header-login">
+  <div class="d-flex bgreen1 align-items-center justify-content-center text-dark text-decoration-none">
     <h1>GRÜNER HÜGEL</h1>
     <img id="logo" th:src="@{/img/icono.png}" alt="Grüner Hügel Logo" />
   </div>
 </header>
 
 <!--Profile-->
-<div class="col-3" th:fragment="profile-dropdown">
-    <div sec:authorize="isAuthenticated()" href="#" class="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+<div th:fragment="profile-dropdown">
+    <div sec:authorize="isAuthenticated()" href="#" class="dropdown-toggle" data-bs-toggle="dropdown">
       <img class="bgreen3 w-100 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />
     </div>
+  <ul class="dropdown-menu dropdown-menu-end mt-4 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
+    <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center">
+      <img class="w-25" th:src="@{/img/perfil.png}" alt="perfil"/>
+      <h2 sec:authorize="isAuthenticated()" th:text="${#authentication.getPrincipal().getUsername()}"></h2>
+    </li>
+    <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
+      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
+      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
+      <li class="mb-3 d-flex justify-content-center"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
+      <li class="mb-3">
+        <hr class="dropdown-divider">
+      </li>
 
-    <ul class="dropdown-menu mt-3 pt-0 bgreen1" aria-labelledby="dropdownMenuButton1">
-      <div class="mt-n5 pt-0" sec:authorize="hasAuthority('ADMIN')">
-        <li class="mb-3 bgreen3 mt-n5 d-flex align-items-center justify-content-center"><img class="w-25" th:src="@{/img/perfil.png}" alt="perfil" /><h2>Admin</h2></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/admin}">Users</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/investor}">Stats</a></li>
-        <li class="mb-3 d-flex justify-content-end"><a class="btn w-75 bgreen2" th:href="@{/main}">Simulation</a></li>
-        <li class="mb-3">
-          <hr class="dropdown-divider">
-        </li>
-      </div>
-      <li class="bgreen2 d-flex align-items-center justify-content-center"><a class="m-0 p-0" id="out" th:href="@{/logout}">Log out</a></li>
-    </ul>
-  </div>
+    </div>
+    <span class="mb-3 d-flex justify-content-center" th:text="#{lang.change}"></span>
+    <div class="d-flex justify-content-around">
+      <a class="btn bgreen2 mx-2" th:href="@{?lang=eu}" th:text="#{lang.eu}"></a>
+      <a class="btn bgreen2 mx-2" th:href="@{?lang=en}" th:text="#{lang.en}"></a>
+      <a class="btn bgreen2 mx-2" th:href="@{?lang=es}" th:text="#{lang.es}"></a>
+    </div>
+    <li class="mb-3">
+      <hr class="dropdown-divider">
+    </li>
+    <li class="d-flex align-items-center justify-content-center">
+      <a class="btn w-75 bgreen2" id="out" th:href="@{/logout}">Log out</a>
+    </li>
+  </ul>
 </div>

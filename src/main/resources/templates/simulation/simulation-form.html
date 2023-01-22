@@ -7,7 +7,9 @@
 
 <body>
   <aside layout:fragment="aside">
+    <div class="negativel w-75 h-100 border border-primary d-flex align-items-center">
     <p th:if="${error}" class="error">End Date can't be before start</p>
+      <div>
     <h2
       class="mx-auto w-75 negative rounded-pill justify-content-center bgreen1 border border-dark pb-5 text-decoration-underline">
       SIMULATION SETUP</h2>
@@ -152,6 +154,8 @@
             </div>
           </form>
         </div>
+      </div>
+    </div>
       </div>
     </div>
   </aside>

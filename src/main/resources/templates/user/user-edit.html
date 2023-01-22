@@ -8,23 +8,32 @@
 <body>
     <h1 layout:fragment="title">User edit</h1>
     <main layout:fragment="main">
-        <form method="post" class="card-body" th:action="@{/update/{id} (id=${old_user.getId()})}"  th:object="${new_user}">
-            <div class="grid-datos">
-                <div>USERNAME: <input name="username" th:field="*{username}" th:placeholder="${old_user.getUsername()}">
-                </div>
-                <select th:field="*{role}"> ROLE:
-                    <option th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 p-4 bgreen3 rounded-3 border border-dark mt-5">
+        <form method="post" th:action="@{/update/{id} (id=${old_user.getId()})}"  th:object="${new_user}">
+            <div class="row mb-3">
+                <div class="col-6">USERNAME: <input class="bcream rounded-pill border border-dark" name="username" th:field="*{username}" th:placeholder="${old_user.getUsername()}">
+                </div >
+                <select class="col-6 bcream rounded-pill border border-dark" th:field="*{role}"> ROLE:
+                    <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}" th:value="${role.id}" th:text="${role.name}"></option>
                 </select>
-                <div>NAME: <input th:field="*{name}" th:placeholder="${old_user.getName()}"></div>
-                <div>SURNAME: <input name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
-                </div>
-                <div>EMAIL: <input name="email" th:field="*{email}" th:placeholder="${old_user.getEmail()}"></div>
             </div>
-            <div class="botones">
-                <a class="action" href="/">CANCEL</a>
-                <button class="action" type="Submit">SUBMIT</button>
+            <div class="row mb-3">
+                <div class="col-6">NAME: <input class="bcream rounded-pill border border-dark" th:field="*{name}" th:placeholder="${old_user.getName()}"></div>
+                <div class="col-6">SURNAME: <input class="bcream rounded-pill border border-dark" name="surname" th:field="*{surname}" th:placeholder="${old_user.getSurname()}"></div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">EMAIL: <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}" th:placeholder="${old_user.getEmail()}"></div>
+            </div>
+            <div class="row mb-3">
+                <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/">CANCEL</a>
+                <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit">SUBMIT</button>
             </div>
         </form>
+            </div>
+        </div>
+        </div>
     </main>
 </body>
 </html>

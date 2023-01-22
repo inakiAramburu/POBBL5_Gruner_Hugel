@@ -16,7 +16,7 @@
 <body class="vh-100 vw-100  p-0 m-0 text-center bgreen2">
     <header th:replace="~{fragments/header :: header-title-user}"></header>
     <p th:if="${accessDenied}" class="error">Access Denied</p>
-    <main class="d-flex align-items-center" layout:fragment="main">
+    <main class="h-75 d-flex align-items-center border border-warning" layout:fragment="main">
         <!--Main content goes here-->
     </main>
     <!-- Bootstrap core JavaScript

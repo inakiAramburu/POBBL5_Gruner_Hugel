@@ -124,13 +124,15 @@ public class SimulationController {
         Simulation simulation = simulationRepository.findByFarm(farm);
 
         // Set data
+
         model.addAttribute("simulation", simulation);
         model.addAttribute("farm", farm);
+        model.addAttribute("lands", landRepository.findByFarm(farm));
         model.addAttribute("tractors", farmTractorRepository.findByFarm(farm));
         model.addAttribute("harvesters", farmHarvesterRepository.findByFarm(farm));
         model.addAttribute("plows", farmPlowRepository.findByFarm(farm));
         model.addAttribute("seeders", farmSeederRepository.findByFarm(farm));
-
+        model.addAttribute("crops", plantTypeRepository.findAll());
         // Get data
         model.addAttribute("simulationEdit", new EditSimulation());
 
