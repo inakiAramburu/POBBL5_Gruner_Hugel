@@ -12,24 +12,24 @@ import gruner.huger.grunerhugel.model.compositekey.FarmSeederId;
 import jakarta.persistence.EmbeddedId;
 
 @SpringBootTest
-public class FarmSeederTest {
+class FarmSeederTest {
 
     @EmbeddedId
     private FarmSeederId id;
 
     @Test
-    public void costructorTest() {
+    void costructorTest() {
         Farm farm = new Farm();
         Seeder seeder = new Seeder();
 
         FarmSeeder farmSeeder = new FarmSeeder(farm, seeder, 10);
         assertEquals(farmSeeder.getFarm(), farm);
         assertEquals(farmSeeder.getSeeder(), seeder);
-        assertEquals(farmSeeder.getQuantity(), 10);
+        assertEquals(10, farmSeeder.getQuantity());
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         FarmSeeder farmSeeder = new FarmSeeder();
         Farm farm = new Farm();
         Seeder seeder = new Seeder();

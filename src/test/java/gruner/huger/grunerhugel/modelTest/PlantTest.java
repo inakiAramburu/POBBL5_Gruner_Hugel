@@ -11,9 +11,9 @@ import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
 
 @SpringBootTest
-public class PlantTest {
+class PlantTest {
     @Test
-    public void costructorTest() {
+    void costructorTest() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
@@ -22,7 +22,7 @@ public class PlantTest {
     }
 
     @Test
-    public void testcheck() {
+    void testcheck() {
 
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
@@ -50,7 +50,7 @@ public class PlantTest {
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant();
@@ -77,7 +77,7 @@ public class PlantTest {
     }
 
     @Test
-    public void testGrowPlant() {
+    void testGrowPlant() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
@@ -108,7 +108,7 @@ public class PlantTest {
 
     /*
      * @Test
-     * public void testcheckOptimalCondition() {
+     * void testcheckOptimalCondition() {
      * Plant plant = new Plant();
      * Weather weather = new Weather();
      * 
@@ -127,7 +127,7 @@ public class PlantTest {
      */
 
     @Test
-    public void testString() {
+    void testString() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);

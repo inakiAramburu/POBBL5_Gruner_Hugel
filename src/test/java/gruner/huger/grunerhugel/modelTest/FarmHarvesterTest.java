@@ -12,10 +12,10 @@ import gruner.huger.grunerhugel.model.Harvester;
 import gruner.huger.grunerhugel.model.User;
 
 @SpringBootTest
-public class FarmHarvesterTest {
+class FarmHarvesterTest {
 
     @Test
-    public void testCostructor() {
+    void testCostructor() {
         FarmHarvester farmHarvester = new FarmHarvester(new Farm(new User(), 1, 0), new Harvester(), 10);
         assertNotNull(farmHarvester);
     }
@@ -24,7 +24,7 @@ public class FarmHarvesterTest {
      * 
      */
     @Test
-    public void testGetsSets() {
+    void testGetsSets() {
         FarmHarvester farmHarvester = new FarmHarvester();
         Farm farm = new Farm(new User(), 1, 0);
         Harvester harvester = new Harvester();

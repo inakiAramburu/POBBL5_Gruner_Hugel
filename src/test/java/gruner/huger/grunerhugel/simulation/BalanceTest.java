@@ -11,10 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.simulation.thread.Balance;
 
 @SpringBootTest
-public class BalanceTest {
+class BalanceTest {
 
     @Test
-    public void testcontructor() {
+    void testcontructor() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -22,7 +22,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testrun() {
+    void testrun() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -31,7 +31,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testgetBalance() {
+    void testgetBalance() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -39,7 +39,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testsetTotalMoney() {
+    void testsetTotalMoney() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -48,7 +48,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testGetLMessage() {
+    void testGetLMessage() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -56,7 +56,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testMonetCost() {
+    void testMonetCost() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
@@ -67,7 +67,7 @@ public class BalanceTest {
     }
 
     @Test
-    public void testcoverage() {
+    void testcoverage() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         Balance balance = new Balance(initialBalance, blockingQueue);

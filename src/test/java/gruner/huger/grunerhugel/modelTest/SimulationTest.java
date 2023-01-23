@@ -11,9 +11,9 @@ import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.Simulation;
 
 @SpringBootTest
-public class SimulationTest {
+class SimulationTest {
     @Test
-    public void constructorTest() {
+    void constructorTest() {
         Date startDate = new Date();
         Date endDate = new Date();
         Farm farm = new Farm();
@@ -24,7 +24,7 @@ public class SimulationTest {
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Simulation simulation = new Simulation();
 
         Date startDate = new Date();
@@ -41,7 +41,7 @@ public class SimulationTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Simulation simulation = new Simulation();
 
         Date startDate = new Date();

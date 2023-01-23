@@ -1,8 +1,7 @@
 package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,10 +9,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.Fuel;
 
 @SpringBootTest
-public class FuelTest {
+class FuelTest {
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Fuel fuel = new Fuel();
 
         // ID
@@ -31,22 +30,22 @@ public class FuelTest {
     }
 
     @Test
-    public void equalsTest() {
+    void equalsTest() {
         Fuel fuel = new Fuel();
         Fuel fuel2 = new Fuel();
         Fuel fuel3 = new Fuel();
         fuel3.setPrice(15);
         // true
-        assertTrue(fuel.equals(fuel2));
-        assertTrue(fuel.equals(fuel));
+        assertEquals(fuel, fuel2);
+        assertEquals(fuel, fuel);
 
         // false
-        assertFalse(fuel.equals(fuel3));
-        assertFalse(fuel.equals(null));
+        assertNotEquals(fuel, fuel3);
+        assertNotEquals(fuel, null);
     }
 
     @Test
-    public void hashCodeTest() {
+    void hashCodeTest() {
         Fuel fuel = new Fuel();
         Fuel fuel2 = new Fuel();
 

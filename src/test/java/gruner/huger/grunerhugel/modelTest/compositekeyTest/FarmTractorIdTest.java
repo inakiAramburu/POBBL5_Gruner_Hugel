@@ -11,10 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.compositekey.FarmTractorId;
 
 @SpringBootTest
-public class FarmTractorIdTest {
+class FarmTractorIdTest {
     // Prueba del constructor
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         FarmTractorId id = new FarmTractorId(1, "tractor1");
         assertEquals(1, id.getFarmId().intValue());
         assertEquals("tractor1", id.getTractorId());
@@ -22,14 +22,14 @@ public class FarmTractorIdTest {
 
     // Prueba de los getters y setters
     @Test
-    public void testGetFarmId() {
+    void testGetFarmId() {
         FarmTractorId id = new FarmTractorId();
         id.setFarmId(2);
         assertEquals(2, id.getFarmId().intValue());
     }
 
     @Test
-    public void testGetTractorId() {
+    void testGetTractorId() {
         FarmTractorId id = new FarmTractorId();
         id.setTractorId("tractor2");
         assertEquals("tractor2", id.getTractorId());
@@ -37,7 +37,7 @@ public class FarmTractorIdTest {
 
     // Prueba del método hashCode
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(1, "tractor1");
         assertEquals(id1.hashCode(), id2.hashCode());
@@ -45,7 +45,7 @@ public class FarmTractorIdTest {
 
     // Prueba del método equals
     @Test
-    public void testEquals() {
+    void testEquals() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(1, "tractor1");
         assertTrue(id1.equals(id2));
@@ -53,7 +53,7 @@ public class FarmTractorIdTest {
 
     // Prueba del método equals con objetos de diferentes clases
     @Test
-    public void testEqualsWithDifferentObjectClass() {
+    void testEqualsWithDifferentObjectClass() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         String id2 = "not an FarmTractorId object";
         assertNotEquals(id1, id2);
@@ -61,7 +61,7 @@ public class FarmTractorIdTest {
 
     // Prueba del método equals cuando el farmId es diferente
     @Test
-    public void testEquals_whenFarmIdNotEqual() {
+    void testEquals_whenFarmIdNotEqual() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(2, "tractor1");
         assertFalse(id1.equals(id2));
@@ -69,7 +69,7 @@ public class FarmTractorIdTest {
 
     // Prueba del método equals cuando el tractorId es diferente
     @Test
-    public void testEquals_whenTractorIdNotEqual() {
+    void testEquals_whenTractorIdNotEqual() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(1, "tractor2");
         assertFalse(id1.equals(id2));
@@ -77,14 +77,14 @@ public class FarmTractorIdTest {
 
     // Prueba del método equals cuando el objeto actual es igual al objeto comparado
     @Test
-    public void testEquals_whenThisObjectIsEqualToOtherObject() {
+    void testEquals_whenThisObjectIsEqualToOtherObject() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         assertTrue(id1.equals(id1));
     }
 
     // Prueba del método equals cuando el objeto comparado es null
     @Test
-    public void testEquals_whenOtherObjectIsNull() {
+    void testEquals_whenOtherObjectIsNull() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = null;
         assertFalse(id1.equals(id2));

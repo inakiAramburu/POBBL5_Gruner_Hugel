@@ -19,7 +19,7 @@ public class FuelThread extends Thread {
     private static boolean check = false;
     private static boolean pause = false;
     private static Lock mutex = new ReentrantLock();
-    private static Condition checking = mutex.newCondition();;
+    private static Condition checking = mutex.newCondition();
 
     public FuelThread(FuelRepository fuelRepository) {
         this.fRepository = fuelRepository;

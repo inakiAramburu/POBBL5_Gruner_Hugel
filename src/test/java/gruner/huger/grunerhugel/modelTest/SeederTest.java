@@ -11,9 +11,9 @@ import gruner.huger.grunerhugel.model.FarmSeeder;
 import gruner.huger.grunerhugel.model.Seeder;
 
 @SpringBootTest
-public class SeederTest {
+class SeederTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Seeder seeder = new Seeder();
         seeder.setSeederName("name");
         seeder.setPrice(5);
@@ -39,7 +39,7 @@ public class SeederTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Seeder seeder = new Seeder();
         seeder.setSeederName("name");
         seeder.setPrice(5);

@@ -8,9 +8,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.formobjects.CreateLand;
 
 @SpringBootTest
-public class CreateLandTest {
+class CreateLandTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         CreateLand createLand = new CreateLand();
         createLand.setPlantName("nama");
         createLand.setTown("100");

@@ -11,9 +11,9 @@ import gruner.huger.grunerhugel.model.FarmPlow;
 import gruner.huger.grunerhugel.model.Plow;
 
 @SpringBootTest
-public class PlowTest {
+class PlowTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Plow plow = new Plow();
 
         plow.setPlowName("name");
@@ -32,7 +32,7 @@ public class PlowTest {
     }
 
     @Test
-    public void testString() {
+    void testString() {
         Plow plow = new Plow();
         plow.setPlowName("name");
         plow.setPrice(10);

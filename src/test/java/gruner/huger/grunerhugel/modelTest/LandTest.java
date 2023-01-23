@@ -14,10 +14,10 @@ import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Town;
 
 @SpringBootTest
-public class LandTest {
+class LandTest {
 
     @Test
-    public void costructorTest() {
+    void costructorTest() {
         Farm farm = new Farm();
         Town town = new Town();
         Land land = new Land(10.00, farm, town, "100", "100");
@@ -30,7 +30,7 @@ public class LandTest {
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Farm farm = new Farm();
         Town town = new Town();
         Land land = new Land();
@@ -55,7 +55,7 @@ public class LandTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Farm farm = new Farm();
         Town town = new Town();
         Land land = new Land(10.00, farm, town, "100", "100");
@@ -66,7 +66,7 @@ public class LandTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Farm farm = new Farm();
         Town town = new Town();
         Land land = new Land(10.00, farm, town, "100", "100");
@@ -75,7 +75,7 @@ public class LandTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         Farm farm = new Farm();
         Town town = new Town();
         Land land = new Land(10.00, farm, town, "100", "100");

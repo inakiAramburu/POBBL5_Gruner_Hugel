@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.OptimalConditions;
 
 @SpringBootTest
-public class OptimalConditionsTest {
+class OptimalConditionsTest {
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         OptimalConditions optimalConditions = new OptimalConditions();
         optimalConditions.setName("name");
         optimalConditions.setMinGerminationTemp(0);
@@ -62,7 +62,7 @@ public class OptimalConditionsTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         OptimalConditions optimalConditions = new OptimalConditions();
         optimalConditions.setName("name");
         optimalConditions.setMinGerminationTemp(0);

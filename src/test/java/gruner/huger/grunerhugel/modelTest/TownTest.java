@@ -12,9 +12,9 @@ import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Weather;
 
 @SpringBootTest
-public class TownTest {
+class TownTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Town town = new Town();
         town.setId(5);
         town.setName("name");
@@ -30,7 +30,7 @@ public class TownTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Town town = new Town();
         town.setId(5);
         town.setName("name");

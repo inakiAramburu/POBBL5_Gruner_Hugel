@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-public class UserDetailsImplTest {
+class UserDetailsImplTest {
 
     @Test
-    public void coverage() {
+    void coverage() {
         User user = new User();
         Role role = new Role("ADMIN");
         user.setRole(role);

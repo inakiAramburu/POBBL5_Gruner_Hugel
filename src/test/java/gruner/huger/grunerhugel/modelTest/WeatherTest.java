@@ -11,9 +11,9 @@ import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Weather;
 
 @SpringBootTest
-public class WeatherTest {
+class WeatherTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
 
         Weather weather = new Weather();
         Date date = new Date();
@@ -47,7 +47,7 @@ public class WeatherTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Weather weather = new Weather();
         Date date = new Date();
         Town town = new Town();

@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootTest
-public class TractorTest {
+class TractorTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Tractor tractor = new Tractor();
         tractor.setTractorName("name");
         tractor.setPrice(2);
@@ -34,7 +34,7 @@ public class TractorTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Tractor tractor = new Tractor();
         tractor.setTractorName("name");
         tractor.setPrice(2);

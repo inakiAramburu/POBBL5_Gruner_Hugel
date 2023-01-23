@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.compositekey.FarmHarvesterId;
 
 @SpringBootTest
-public class FarmHarvesterIdTest {
+class FarmHarvesterIdTest {
     /*
      * @Test
      * public void coverage(){
@@ -31,7 +31,7 @@ public class FarmHarvesterIdTest {
      * }
      */
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id3 = new FarmHarvesterId(2, "def");
@@ -41,13 +41,13 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
-        assertTrue(id1.equals(id1));
+        assertEquals(id1, id1);
     }
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         FarmHarvesterId id = new FarmHarvesterId();
         id.setFarmId(1);
         id.setHarvesterId("abc");
@@ -59,7 +59,7 @@ public class FarmHarvesterIdTest {
     ////////////////////////////////////////////
 
     @Test
-    public void testEqualsWithEqualObjects() {
+    void testEqualsWithEqualObjects() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
 
@@ -67,7 +67,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testEqualsWithDifferentFarmId() {
+    void testEqualsWithDifferentFarmId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(2, "abc");
 
@@ -75,7 +75,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testEqualsWithDifferentHarvesterId() {
+    void testEqualsWithDifferentHarvesterId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "def");
 
@@ -83,7 +83,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testEqualsWithDifferentObjects() {
+    void testEqualsWithDifferentObjects() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         String str = "not an FarmHarvesterId object";
 
@@ -91,14 +91,14 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testEqualsWithNullObject() {
+    void testEqualsWithNullObject() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
 
         Assert.assertFalse(id1.equals(null));
     }
 
     @Test
-    public void testHashCodeWithEqualObjects() {
+    void testHashCodeWithEqualObjects() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
 
@@ -106,7 +106,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testHashCodeWithDifferentFarmId() {
+    void testHashCodeWithDifferentFarmId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(2, "abc");
 
@@ -116,7 +116,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testHashCodeWithDifferentHarvesterId() {
+    void testHashCodeWithDifferentHarvesterId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "def");
 
@@ -124,7 +124,7 @@ public class FarmHarvesterIdTest {
     }
 
     @Test
-    public void testHashCodeWithNullHarvesterId() {
+    void testHashCodeWithNullHarvesterId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, null);
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
 

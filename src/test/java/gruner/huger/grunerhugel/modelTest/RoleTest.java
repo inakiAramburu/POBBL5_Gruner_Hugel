@@ -7,11 +7,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.Role;
 
 @SpringBootTest
-public class RoleTest {
+class RoleTest {
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         Role role = new Role(5);
-        assertEquals(role.getId(), 5);
+        assertEquals(5, role.getId());
 
         Role roleAdmin = new Role("ADMIN");
         assertEquals(2, roleAdmin.getId());
@@ -21,7 +21,7 @@ public class RoleTest {
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Role role = new Role();
         role.setId(5);
         role.setName("name");
@@ -30,7 +30,7 @@ public class RoleTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         Role role = new Role();
         role.setId(5);
         role.setName("name");
@@ -38,7 +38,7 @@ public class RoleTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         Role role = new Role();
         role.setId(5);
         role.setName("name");
@@ -49,7 +49,7 @@ public class RoleTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         Role role = new Role();
         role.setId(5);
         role.setName("name");

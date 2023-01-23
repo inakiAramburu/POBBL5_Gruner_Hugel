@@ -8,7 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
 
 @SpringBootTest
-public class EditSimulationTest {
+class EditSimulationTest {
 
     // Creamos una variable de la clase EditSimulation
     EditSimulation editSimulation;
@@ -20,7 +20,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setTractorName
     @Test
-    public void testSetTractorName() {
+    void testSetTractorName() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setTractorName("TractorMaster");
@@ -29,7 +29,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setNumTractor
     @Test
-    public void testSetNumTractor() {
+    void testSetNumTractor() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setNumTractor(5);
@@ -38,7 +38,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setNumWorkers
     @Test
-    public void testSetNumWorkers() {
+    void testSetNumWorkers() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setNumWorkers(10);
@@ -47,7 +47,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setPlowName
     @Test
-    public void testSetPlowName() {
+    void testSetPlowName() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setPlowName("PlowMaster");
@@ -56,7 +56,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setNumPlow
     @Test
-    public void testSetNumPlow() {
+    void testSetNumPlow() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setNumPlow(2);
@@ -65,7 +65,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setSeederName
     @Test
-    public void testSetSeederName() {
+    void testSetSeederName() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setSeederName("SeederMaster");
@@ -74,7 +74,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setNumSeeder
     @Test
-    public void testSetNumSeeder() {
+    void testSetNumSeeder() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setNumSeeder(3);
@@ -83,7 +83,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setHarvesterName
     @Test
-    public void testSetHarvesterName() {
+    void testSetHarvesterName() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setHarvesterName("HarvesterMaster");
@@ -92,7 +92,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setNumHarvester
     @Test
-    public void testSetNumHarvester() {
+    void testSetNumHarvester() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setNumHarvester(1);
@@ -101,7 +101,7 @@ public class EditSimulationTest {
 
     // Prueba para el método setEndDate
     @Test
-    public void testSetEndDate() {
+    void testSetEndDate() {
         EditSimulation editSimulation = new EditSimulation();
         date = new Date();
         editSimulation.setEndDate(date);

@@ -1,8 +1,7 @@
 package gruner.huger.grunerhugel.modelTest;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +13,9 @@ import gruner.huger.grunerhugel.model.FarmHarvester;
 import gruner.huger.grunerhugel.model.Harvester;
 
 @SpringBootTest
-public class HarvesterTest {
+class HarvesterTest {
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Harvester harvester = new Harvester();
 
         harvester.setPrice(5);
@@ -37,7 +36,7 @@ public class HarvesterTest {
     }
 
     @Test
-    public void hashCodeTest() {
+    void hashCodeTest() {
         Harvester harvester = new Harvester();
         Harvester harvester2 = new Harvester();
 
@@ -47,22 +46,22 @@ public class HarvesterTest {
     }
 
     @Test
-    public void equalsTest() {
+    void equalsTest() {
         Harvester harvester = new Harvester();
         Harvester harvester2 = new Harvester();
         Harvester harvester3 = new Harvester();
         harvester3.setPrice(5);
         // true
-        assertTrue(harvester.equals(harvester2));
-        assertTrue(harvester.equals(harvester));
+        assertEquals(harvester, harvester2);
+        assertEquals(harvester, harvester);
 
         // false
-        assertFalse(harvester.equals(harvester3));
-        assertFalse(harvester.equals(null));
+        assertNotEquals(harvester, harvester3);
+        assertNotEquals(harvester, null);
     }
 
     @Test
-    public void toStringTest() {
+    void toStringTest() {
         Harvester harvester = new Harvester();
         harvester.setPrice(5);
         harvester.setMaintenance(3);

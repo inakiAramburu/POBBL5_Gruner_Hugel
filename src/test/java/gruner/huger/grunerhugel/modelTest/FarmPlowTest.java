@@ -12,13 +12,13 @@ import gruner.huger.grunerhugel.model.compositekey.FarmPlowId;
 import jakarta.persistence.EmbeddedId;
 
 @SpringBootTest
-public class FarmPlowTest {
+class FarmPlowTest {
 
     @EmbeddedId
     private FarmPlowId id;
 
     @Test
-    public void costructorTest() {
+    void costructorTest() {
         Farm farm = new Farm();
         Plow plow = new Plow();
         FarmPlow farmPlow = new FarmPlow(farm, plow, 0);
@@ -28,7 +28,7 @@ public class FarmPlowTest {
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         Farm farm = new Farm();
         Plow plow = new Plow();
         FarmPlow farmPlow = new FarmPlow();

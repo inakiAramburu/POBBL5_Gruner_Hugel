@@ -8,11 +8,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import gruner.huger.grunerhugel.model.compositekey.FarmPlowId;
 
 @SpringBootTest
-public class FarmPlowIdTest {
+class FarmPlowIdTest {
     // Prueba del constructor
     // Pruebas para el constructor
     @Test
-    public void testConstructor() {
+    void testConstructor() {
         FarmPlowId id = new FarmPlowId(1, "plow1");
         assertEquals(1, id.getFarmId().intValue());
         assertEquals("plow1", id.getPlowId());
@@ -20,28 +20,28 @@ public class FarmPlowIdTest {
 
     // Pruebas para los getters y setters
     @Test
-    public void testGetFarmId() {
+    void testGetFarmId() {
         FarmPlowId id = new FarmPlowId();
         id.setFarmId(2);
         assertEquals(2, id.getFarmId().intValue());
     }
 
     @Test
-    public void testGetPlowId() {
+    void testGetPlowId() {
         FarmPlowId id = new FarmPlowId();
         id.setPlowId("plow2");
         assertEquals("plow2", id.getPlowId());
     }
 
     @Test
-    public void testSetFarmId() {
+    void testSetFarmId() {
         FarmPlowId id = new FarmPlowId();
         id.setFarmId(2);
         assertEquals(2, id.getFarmId().intValue());
     }
 
     @Test
-    public void testSetPlowId() {
+    void testSetPlowId() {
         FarmPlowId id = new FarmPlowId();
         id.setPlowId("plow2");
         assertEquals("plow2", id.getPlowId());
@@ -49,7 +49,7 @@ public class FarmPlowIdTest {
 
     // Pruebas para hashCode
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(1, "plow1");
         assertEquals(id1.hashCode(), id2.hashCode());
@@ -57,41 +57,41 @@ public class FarmPlowIdTest {
 
     // Pruebas para equals
     @Test
-    public void testEquals() {
+    void testEquals() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(1, "plow1");
         assertTrue(id1.equals(id2));
     }
 
     @Test
-    public void testEquals_whenFarmIdNotEqual() {
+    void testEquals_whenFarmIdNotEqual() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(2, "plow1");
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEquals_whenPlowIdNotEqual() {
+    void testEquals_whenPlowIdNotEqual() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(1, "plow2");
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEquals_whenThisObjectIsEqualToOtherObject() {
+    void testEquals_whenThisObjectIsEqualToOtherObject() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         assertTrue(id1.equals(id1));
     }
 
     @Test
-    public void testEquals_whenOtherObjectIsNull() {
+    void testEquals_whenOtherObjectIsNull() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = null;
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithDifferentObjectClass() {
+    void testEqualsWithDifferentObjectClass() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         String id2 = "not an FarmPlowId object";
         assertNotEquals(id1, id2);
