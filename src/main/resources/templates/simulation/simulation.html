@@ -68,22 +68,19 @@
                 <tr>
                   <th th:text="#{simulation.land}"></th>
                   <th th:text="#{simulation.status}"></th>
+                  <th th:text="#{delete}"></th>
                 </tr>
               </thead>
               <tbody>
                 <!--Add here the concept and operations-->
                 <tr th:each="land : ${lands}">
-                  <form action="">
-                    <td class="py-2" th:text="${land.town.name}"></td>
-                    <td class="w-50">
-                      <table class="w-25">
-                        <tr class="w-25">
-                          <td th:text="${land.status}">Aloooooooooo</td>
-                          <td class="p-0 m-0"><img class="btn w-75 bgreen2" th:src="@{/img/bin.png}" alt=""></td>
-                        </tr>
-                      </table>
-                    </td>
-                  </form>
+                  <td class="py-2" th:text="${land.town.name}"></td>
+                  <td th:text="${land.status}"></td>
+                  <td>
+                    <a class="btn bgreen3" th:href="@{/deleteLand/{id}(id=${land.id})}">
+                      <img class="w-25" th:src="@{/img/bin.png}" alt="delete">
+                    </a>
+                  </td>
                 </tr>
               </tbody>
             </table>

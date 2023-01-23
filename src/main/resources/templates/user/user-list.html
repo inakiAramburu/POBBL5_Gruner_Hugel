@@ -2,7 +2,7 @@
 <html lang="en" layout:decorate="~{layout/no-footer}">
 
 <head>
-  <title>User List</title>
+  <title th:text="#{title.user-list}"></title>
   <!-- Matomo -->
   <script>
     var _paq = window._paq = window._paq || [];
@@ -19,44 +19,41 @@
   </script>
   <!-- End Matomo Code -->
 
-</head <h1 layout:fragment="title" th:text="#{title.user-list}">
-</h1>
-<main class="h-75 d-flex align-items-center justify-content-center" layout:fragment="main">
-  <div class="bgreen3 h-75 w-75 lg-p-5  sm-p-2 rounded-2">
-    <div class="bgreen3 h-100 mx-5 pb-5">
-      <form class="h-100 w-100" th:object="${selectedUser}">
-        <div class="table-responsive h-100 w-100 xxl-overflow-x-hidden lg-overflow-auto">
-          <table class="table bcream border border-dark table-striped table-sm table-hover">
-            <caption></caption>
-            <tr>
-              <th th:text="#{user.name}"></th>
-              <th th:text="#{user.surname}"></th>
-              <th th:text="#{user.username}"></th>
-              <th th:text="#{user.email}"></th>
-              <th th:text="#{user.role}"></th>
-              <th th:text="#{edit}"></th>
-              <th th:text="#{delete}"></th>
-            </tr>
-            <tr th:each="user : ${users}">
-              <td th:text="${user.name}"></td>
-              <td th:text="${user.surname}"></td>
-              <td th:text="${user.username}"></td>
-              <td th:text="${user.email}"></td>
-              <td th:text="${user.role.getName()}"></td>
-              <td>
-                <a class="btn bgreen3" th:href="@{/edit/{id}(id=${user.id})}" th:text="#{edit}"></a>
-              </td>
-              <td>
-                <a class="btn bgreen3" th:href="@{/delete/{id}(id=${user.id})}" th:text="#{delete}"></a>
-              </td>
-            </tr>
-          </table>
-        </div>
-        <div>
-          <a class="btn bgreen1" href="/create" th:text="#{button.create}"></a>
-        </div>
-      </form>
+</head>
+<h1 layout:fragment="title" th:text="#{title.user-list}"></h1>
+<main class="h-75 w-75" layout:fragment="main">
+  <div class="bgreen3 mh-50 w-75 position-absolute top-50 translate-middle start-50 rounded p-5 border border-dark">
+    <div class="table-responsive xxl-overflow-x-hidden lg-overflow-auto">
+      <table class="table bcream table-striped table-sm table-hover">
+        <caption></caption>
+        <tr>
+          <th th:text="#{user.name}"></th>
+          <th th:text="#{user.surname}"></th>
+          <th th:text="#{user.username}"></th>
+          <th th:text="#{user.email}"></th>
+          <th th:text="#{user.role}"></th>
+          <th th:text="#{edit}"></th>
+          <th th:text="#{delete}"></th>
+        </tr>
+        <tr th:each="user : ${users}">
+          <td th:text="${user.name}"></td>
+          <td th:text="${user.surname}"></td>
+          <td th:text="${user.username}"></td>
+          <td th:text="${user.email}"></td>
+          <td th:text="${user.role.getName()}"></td>
+          <td>
+            <a class="btn bgreen3" th:href="@{/edit/{id}(id=${user.id})}" th:text="#{edit}"></a>
+          </td>
+          <td>
+            <a class="btn bgreen3" th:href="@{/delete/{id}(id=${user.id})}" th:text="#{delete}"></a>
+          </td>
+        </tr>
+      </table>
     </div>
+    <div>
+      <a class="btn bgreen1" href="/create" th:text="#{button.create}"></a>
+    </div>
+  </div>
   </div>
 </main>
 

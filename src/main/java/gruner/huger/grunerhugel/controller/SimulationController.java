@@ -13,8 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -155,7 +155,6 @@ public class SimulationController {
                 farmTractorRepository);
         sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farmRepository,
                 simulationRepository);
-        sim.start();
         return URI.HOME_USER_FARM.getView();
     }
 
@@ -369,7 +368,7 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/deleteLand/{id}")
-    public String deleteLand(@RequestParam("id") int id) {
+    public String deleteLand(@PathVariable int id) {
         // Delete plant
         Optional<Land> land = landRepository.findById(id);
         if (land.isPresent()) {
@@ -378,25 +377,8 @@ public class SimulationController {
             landRepository.delete(land.get());
         }
 
-        return "simulation"; // aiqu hablar de este tema porqu si refrescamos el mapa pierde sus Marks
+        return REDIRECT + URI.HOME_USER_FARM.getPath();
     }
-
-    /*
-     * @PostMapping(value = "/updateLand/{id}")
-     * public String updateLand(@RequestParam("id") int
-     * id, @ModelAttribute("updateLand") UpdateLand updateLand) {
-     * // Update land
-     * Optional<Land> land = landRepository.findById(id);
-     * if (land.isPresent()) {
-     * land.get().setSize(updateLand.getSize());
-     * landRepository.save(land.get());
-     * }
-     *
-     * return "simulation"; // aiqu hablar de este tema porqu si refrescamos el mapa
-     * pierde sus Marks
-     *
-     * }
-     */
 
     @GetMapping(value = "/startSimulation")
     @ResponseBody
