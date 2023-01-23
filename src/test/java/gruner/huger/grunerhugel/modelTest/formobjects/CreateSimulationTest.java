@@ -44,7 +44,7 @@ class CreateSimulationTest {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setBudget(1000);
-        assertEquals(1000, createSimulation.getBudget());
+        assertEquals(1000, createSimulation.getBudget(), 0);
     }
 
     // Prueba para el método setTractorName
