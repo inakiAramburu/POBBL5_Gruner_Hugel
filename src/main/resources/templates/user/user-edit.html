@@ -17,11 +17,13 @@
                                 <input class="bcream rounded-pill border border-dark" name="username"
                                     th:field="*{username}" th:placeholder="${old_user.getUsername()}">
                             </div>
-                            <select class="col-6 bcream rounded-pill border border-dark" th:field="*{role}"
-                                th:text="#{user.role}"> :
-                                <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}"
-                                    th:value="${role.id}" th:text="${role.name}"></option>
-                            </select>
+                            <div class="col-6">
+                                <label th:text="#{user.role}"></label>:
+                                <select class="bcream rounded-pill border border-dark" th:field="*{role}">
+                                    <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}"
+                                        th:value="${role.id}" th:text="${role.name}"></option>
+                                </select>
+                            </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
@@ -44,9 +46,9 @@
                         </div>
                         <div class="row mb-3">
                             <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
-                                th:text="#{cancel}"></a>
+                                th:text="#{button.cancel}"></a>
                             <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
-                                th:text="#{submit}"></button>
+                                th:text="#{button.submit}"></button>
                         </div>
                     </form>
                 </div>

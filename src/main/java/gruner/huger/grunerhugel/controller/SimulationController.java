@@ -128,7 +128,6 @@ public class SimulationController {
         Simulation simulation = simulationRepository.findByFarm(farm);
 
         // Set data
-
         model.addAttribute("simulation", simulation);
         model.addAttribute("farm", farm);
         model.addAttribute("lands", landRepository.findByFarm(farm));
@@ -137,11 +136,9 @@ public class SimulationController {
         model.addAttribute("plows", farmPlowRepository.findByFarm(farm));
         model.addAttribute("seeders", farmSeederRepository.findByFarm(farm));
         model.addAttribute("crops", plantTypeRepository.findAll());
+
         // Get data
         model.addAttribute("simulationEdit", new EditSimulation());
-
-        // Set land
-        model.addAttribute("createLand", new CreateLand());
 
         // Set land
         model.addAttribute("createLand", new CreateLand());

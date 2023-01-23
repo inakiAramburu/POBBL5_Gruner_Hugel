@@ -9,40 +9,38 @@
   <h1 layout:fragment="title" th:text="#{title.simulation-rank}"></h1>
   <main class="h-75 w-75" layout:fragment="main">
     <div class="bgreen3 mh-50 w-75 position-absolute top-50 translate-middle start-50 rounded p-5 border border-dark">
-      <form action="">
-        <div class="table-responsive">
-          <table class="table bcream table-striped table-sm table-hover">
-            <caption></caption>
+      <div class="table-responsive">
+        <table class="table bcream table-striped table-sm table-hover">
+          <caption></caption>
+          <tr>
+            <th th:text="#{simulation.rank}"></th>
+            <th th:text="#{simulation.startDate}"></th>
+            <th th:text="#{simulation.time}"></th>
+            <th th:text="#{simulation.benefit}"></th>
+          </tr>
+          <div th:if="${simulations} == null">
             <tr>
-              <th th:text="#{simulation.rank}"></th>
-              <th th:text="#{simulation.startDate}"></th>
-              <th th:text="#{simulation.time}"></th>
-              <th th:text="#{simulation.benefit}"></th>
+              <td colspan=100% th:text="#{message.no-simulation}"></td>
             </tr>
-            <div th:if="${simulations} == null">
-              <tr>
-                <td colspan=100% th:text="#{message.no-simulation}"></td>
-              </tr>
-            </div>
-            <div th:unless="${simulations} == null">
-              <tr th:each="simulation : ${simulations}">
-                <td></td> <!--make++-->
-                <td th:text="${simulation.startDate}"></td>
-                <td></td> <!--simulation endDate - startDate -->
-                <td></td> <!--simulation budget - balance -->
-              </tr>
-            </div>
-          </table>
-        </div>
-        <div class="d-flex align-items-center justify-content-center">
-          <select class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">
-            <option selected th:text="#{filter}"></option>
-            <option value="1" th:text="#{simulation.startDate}"></option>
-            <option value="2" th:text="#{simulation.time}"></option>
-            <option value="3" th:text="#{simulation.benefit}"></option>
-          </select>
-        </div>
-      </form>
+          </div>
+          <div th:unless="${simulations} == null">
+            <tr th:each="simulation : ${simulations}">
+              <td></td> <!--make++-->
+              <td th:text="${simulation.startDate}"></td>
+              <td></td> <!--simulation endDate - startDate -->
+              <td></td> <!--simulation budget - balance -->
+            </tr>
+          </div>
+        </table>
+      </div>
+      <div class="d-flex align-items-center justify-content-center">
+        <select class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">
+          <option selected th:text="#{filter}"></option>
+          <option value="1" th:text="#{simulation.startDate}"></option>
+          <option value="2" th:text="#{simulation.time}"></option>
+          <option value="3" th:text="#{simulation.benefit}"></option>
+        </select>
+      </div>
     </div>
   </main>
 </body>
