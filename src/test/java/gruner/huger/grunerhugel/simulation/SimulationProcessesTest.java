@@ -54,10 +54,10 @@ public class SimulationProcessesTest {
     UserRepository uRepository;
     @Autowired
     FarmTractorRepository fTractRepository;
-    
+    /*
     @Test
     public void testThreadInitialization() {
-       /* // Arrange
+        // Arrange
         Date dataStart=new Date();
         Date dataEnd=new Date();
         

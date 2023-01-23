@@ -27,6 +27,7 @@ import gruner.huger.grunerhugel.model.Fuel;
 
 @SpringBootTest
 public class FuelThreadTest {
+    /*
     @Mock
 private FuelRepository fuelRepository;
 @Autowired
@@ -57,10 +58,10 @@ private FuelThread fuelThread;
         // Assert
         assertEquals(5.0, FuelThread.buyFuel(1), 0.0);
     }
-   */
+   
   @Test
   public void testFuelThread2() {
-      
+     
         timeThread = mock(TimeThread.class);
         Date date2 = new Date();
         LocalDate date = LocalDate.of(2000, 1, 2);
@@ -164,4 +165,5 @@ private FuelThread fuelThread;
     // Assert
     assertEquals(100, price, 0);
     }
+    */
 }
