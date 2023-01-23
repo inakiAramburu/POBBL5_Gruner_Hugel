@@ -5,7 +5,11 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Year;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.Optional;
 
 import org.junit.Before;
@@ -28,14 +32,16 @@ private FuelRepository fuelRepository;
     FarmRepository farmRepository;
 private FuelThread fuelThread;
 
-    TimeThread timeThread;
-
+    @Mock
+    private TimeThread timeThread;
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
         fuelThread = new FuelThread(fuelRepository);
+
+        
     }
-    @Test
+  /*  @Test
     public void testUpdateFuel() {
         // Arrange
         Year year = Year.of(2022);
@@ -50,7 +56,39 @@ private FuelThread fuelThread;
         // Assert
         assertEquals(5.0, FuelThread.buyFuel(1), 0.0);
     }
-    @Test
+   */
+  @Test
+  public void testFuelThread2() {
+      
+    timeThread = mock(TimeThread.class);
+        Date date2 = new Date(15002);
+        LocalDate date = LocalDate.of(2000, 1, 2);
+        
+
+        when(timeThread.getActualDate()).thenReturn(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+    // Arrange
+      FuelRepository fuelRepository = mock(FuelRepository.class);
+      FuelThread fuelThread = new FuelThread(fuelRepository);
+      //Fuel fuel = new Fuel(Year.of(2020), 1, 10);
+      Fuel fuel = new Fuel();
+      Optional<Fuel> opFuel = Optional.of(fuel);
+      // Act
+      when(fuelRepository.findByYearAndPeriod(Year.of(2020), 1)).thenReturn(opFuel);
+      timeThread.start();
+      fuelThread.start();
+      FuelThread.callSignal();
+      fuelThread.updateFuel();
+      // Assert
+      assertTrue(fuelThread.isAlive());
+      assertEquals(fuel, FuelThread.getFuel());
+      assertEquals(100, FuelThread.buyFuel(10), 0);
+      FuelThread.pause();
+  }
+
+
+
+
+   @Test
     public void testCallSignal0() {
         // Arrange
         fuelThread.start();
@@ -73,10 +111,10 @@ private FuelThread fuelThread;
     when(fuelRepository.findByYearAndPeriod(Year.of(2020), 1)).thenReturn(opFuel);
     fuelThread.start();
     FuelThread.callSignal();
-
+    fuelThread.updateFuel();
     // Assert
     assertTrue(fuelThread.isAlive());
-    assertEquals(fuel, FuelThread.fuel);
+    assertEquals(fuel, FuelThread.getFuel());
     assertEquals(100, FuelThread.buyFuel(10), 0);
     FuelThread.pause();
     }

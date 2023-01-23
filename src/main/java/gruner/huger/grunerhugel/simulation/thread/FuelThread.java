@@ -87,4 +87,8 @@ public class FuelThread extends Thread {
     public static void pause() {
         pause = true;
     }
+
+    public static Fuel getFuel() {
+        return fuel;
+    }
 }
