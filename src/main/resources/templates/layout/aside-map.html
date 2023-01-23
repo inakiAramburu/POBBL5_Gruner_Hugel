@@ -35,7 +35,7 @@
 <body class="vh-100 vw-100 p-0 m-0 text-center bgreen2">
     <main class="w-100 h-100 p-0 m-0 container-fluid">
         <div class="row w-100 h-100 p-0 m-0">
-            <aside class="col-sm-12 col-md-12 col-lg col-xl negativel border border-danger" layout:fragment="aside">
+            <aside class="col-sm-12 col-md-12 col-lg col-xl negativel" layout:fragment="aside">
             </aside>
             <div class="col-sm-12 col-md-12 col-lg col-xl">
                 <div class="row d-flex justify-content-end">
@@ -58,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row border border-success" style="height:700px" th:include="~{fragments/map :: map}"></div>
+                <div class="row" style="height:700px" th:include="~{fragments/map :: map}"></div>
             </div>
         </div>
     </main>
@@ -73,8 +73,8 @@
         crossorigin="anonymous"></script>
 
     <script th:src="@{/js/adder.js}"></script>
-    <script th:src="@{/js/slider.js}"></script>
     <script th:src="@{/js/calculateTotal.js}"></script>
+    <script th:src="@{/js/simulation.js}"></script>
 </body>
 
 </html>

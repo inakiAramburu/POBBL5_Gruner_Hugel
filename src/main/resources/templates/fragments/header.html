@@ -18,7 +18,7 @@
 </header>
 
 <!--Profile-->
-<div class="dropdown border border-danger" th:fragment="profile-dropdown">
+<div class="dropdown" th:fragment="profile-dropdown">
   <div sec:authorize="isAuthenticated()" href="#" class="dropdown-toggle" data-bs-toggle="dropdown"
     aria-expanded="false">
     <img class="bgreen3 w-100 rounded-circle" th:src="@{/img/perfil.png}" alt="perfil" />

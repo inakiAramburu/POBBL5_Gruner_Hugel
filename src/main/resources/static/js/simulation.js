@@ -25,7 +25,7 @@ function pauseSimulation() {
             console.log("Simulation paused");
         },
         error: function (e) {
-            alert("An error ocurred trying to start Simulation");
+            alert("An error ocurred trying to pause Simulation");
         }
     });
 }
@@ -35,13 +35,15 @@ var timer;
 
 //Pause & Edit
 $("#play").on("click", function () {
-    $("#pause").prop("disabled", false);
-    $("#play").prop("disabled", true);
-    $("#rewind").prop("disabled", false);
-    $("#button-open").prop("disabled", true);
-    startSimulation();
-    changeBalance();
-    changeTables();
+    $.get("changeLandTable").done(function (fragment) {
+        $("#pause").prop("disabled", false);
+        $("#play").prop("disabled", true);
+        $("#rewind").prop("disabled", false);
+        $("#button-open").prop("disabled", true);
+        startSimulation();
+        changeBalance();
+        changeTables();
+    });
 });
 
 $("#pause").prop("disabled", true);
@@ -75,7 +77,7 @@ function changeSpeed() {
             $('#speed').text(data);
         },
         error: function (e) {
-            alert("An error ocurred trying to load the lands");
+            alert("An error ocurred trying to change the speed");
         }
     });
 }
@@ -92,7 +94,7 @@ function changeBalance() {
             $('#balance').text(data);
         },
         error: function (e) {
-            alert("An error ocurred trying to change de balance");
+            alert("An error ocurred trying to load the balance");
         },
         complete: function (data) {
             // Schedule the next

@@ -51,9 +51,9 @@ public class Farm implements Serializable {
         // no need
     }
 
-    public Farm(User user, int budget, int numWorkers) {
+    public Farm(User user, float f, int numWorkers) {
         this.user = user;
-        this.money = budget;
+        this.money = f;
         this.numWorkers = numWorkers;
     }
 
