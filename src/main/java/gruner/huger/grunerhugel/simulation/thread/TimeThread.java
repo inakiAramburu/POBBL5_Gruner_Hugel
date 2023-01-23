@@ -2,7 +2,6 @@ package gruner.huger.grunerhugel.simulation.thread;
 
 import java.text.DateFormat;
 import java.util.Date;
-import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.SimulationRepository;
@@ -39,11 +38,8 @@ public class TimeThread extends Thread {
 
     @Override
     public void run() {
-        GrunerhugelApplication.logger.log(Level.INFO, "TimeThread Id: {0}", this.getId());
         try {
             while (!pause && checkDate()) {
-                GrunerhugelApplication.logger.log(Level.INFO, "Date: {0}",
-                        DateFormat.getDateTimeInstance().format(actualDate));
                 WeatherThread.callSignal();
                 isFirstHourOfMonth();
                 isWorkingHours();
