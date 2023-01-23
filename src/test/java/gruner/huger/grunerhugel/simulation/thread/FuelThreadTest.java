@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,12 +61,13 @@ private FuelThread fuelThread;
   @Test
   public void testFuelThread2() {
       
-    timeThread = mock(TimeThread.class);
-        Date date2 = new Date(15002);
+        timeThread = mock(TimeThread.class);
+        Date date2 = new Date();
         LocalDate date = LocalDate.of(2000, 1, 2);
         
-
-        when(timeThread.getActualDate()).thenReturn(Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant()));
+        date2=Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+       
+        when(timeThread.getActualDate()).thenReturn(date2);
     // Arrange
       FuelRepository fuelRepository = mock(FuelRepository.class);
       FuelThread fuelThread = new FuelThread(fuelRepository);
