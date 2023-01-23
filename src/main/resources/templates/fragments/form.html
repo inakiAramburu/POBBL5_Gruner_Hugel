@@ -93,9 +93,9 @@
                                 readonly th:required="required">
                         </div>
                         <div class="mb-3 fs-5 col-6 d-flex justify-content-end justify-content-sm-start">
-                            <label th:text="#{plantation.size}"></label>:
-                            <input class="bcream col-6 rounded-pill border border-dark" type="number" th:field="*{size}"
-                                th:required="required">
+                            <label th:text="#{plantation.size}"></label>(ha):
+                            <input class="bcream col-6 rounded-pill border border-dark" type="number" min="0" max="1000"
+                                th:field="*{size}" th:required="required">
                         </div>
                     </div>
                     <div class="row">

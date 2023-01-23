@@ -159,11 +159,11 @@
                       th:required="required">
                   </div>
                   <div class="mb-3 col fs-5  d-flex justify-content-end justify-content-sm-start">
-                    <label th:text="#{plantation.crop}"></label>:
+                    <label th:text="#{plantation.crop}"></label>(ha):
                     <select class="bcream rounded-pill border border-dark" th:field="*{plantName}"
                       th:required="required">
-                      <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
-                        th:value="${crop.name}" th:text="${crop.name}"></option>
+                      <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}" min="0"
+                        max="1000" th:value="${crop.name}" th:text="${crop.name}"></option>
                     </select>
                   </div>
                 </div>
