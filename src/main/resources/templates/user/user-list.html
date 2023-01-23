@@ -1,11 +1,30 @@
 <!DOCTYPE html>
 <html lang="en" layout:decorate="~{layout/no-footer}">
+<head>
+  <title>User List</title>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//grunerhugermatomo.duckdns.org/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
+</head
     <h1 layout:fragment="title">User List</h1>
     <main class="h-75 d-flex align-items-center justify-content-center" layout:fragment="main">
-      <div class="bgreen3 h-75 w-75 p-5 rounded-2">
+      <div class="bgreen3 h-75 w-75 lg-p-5  sm-p-2 rounded-2">
           <div class="bgreen3 h-100 mx-5 pb-5">
             <form class="h-100 w-100" th:object="${selectedUser}">
-              <div class="table-responsive h-100 w-100 overflow-x-hidden">
+              <div class="table-responsive h-100 w-100 xxl-overflow-x-hidden lg-overflow-auto">
                 <table class="table bcream border border-dark table-striped table-sm table-hover">
                   <caption></caption>
                   <tr>

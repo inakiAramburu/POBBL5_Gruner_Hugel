@@ -11,6 +11,22 @@
     <link th:href="@{/css/sticky-footer-header.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function() {
+            var u="//grunerhugermatomo.duckdns.org/";
+            _paq.push(['setTrackerUrl', u+'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+            g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+
 </head>
 
 <body class="overflow-hidden vh-100 vw-100 p-0 m-0 text-center bgreen2 border border-warning">

@@ -3,11 +3,27 @@
 
 <head>
   <title>Simulation</title>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//grunerhugermatomo.duckdns.org/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
 </head>
 
 <body>
   <aside layout:fragment="aside">
-    <div class="negativel w-75 h-100 d-flex align-items-center">
+    <div class="negativel w-lg-75 w-md-100 h-100 d-flex align-items-center">
     <p th:if="${error}" class="error">End Date can't be before start</p>
       <div>
     <h2
@@ -39,59 +55,58 @@
             <div class="row">
               <label class="mb-3 fs-5 col-8 d-flex justify-content-right">
                 Tractor:
-                <select class="col-6 bcream rounded-pill border border-dark" th:field="*{tractorName}" id="tractor"
+                <select class="col-9 col-xl-5 col-xxl-4 col-lg-6 col-md-7 col-sm-8 bcream rounded-pill border border-dark" th:field="*{tractorName}" id="tractor"
                   th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="tractor : ${tractors}"
                     th:value="${tractor.tractorName}" th:text="${tractor.tractorName}" th:attr="price=${tractor.price}">
                   </option>
                 </select>
-                <input class="d-flex justify-content-end col-1 bcream rounded-pill border border-dark" type="number"
+                <input class="d-flex justify-content-end col-4 col-xl-2 col-xxl-1 col-lg-3 col-md-4 col-sm-4  bcream rounded-pill border border-dark" type="number"
                   id="numTractor" th:field="*{numTractor}" min="0" th:required="required" />
-                <button class="btn col-2 bgreen1" type="button" id="AddTractor">+</button>
               </label>
             </div>
             <div class="row">
               <label class="mb-3 fs-5 col-3 d-flex justify-content-right">
                 Workers:
-                <input class="bcream col-3 rounded-pill border border-dark" type="number" th:field="*{numWorkers}"
+                <input class="bcream col-9 col-xl-4 col-xxl-3 col-md-4 col-sm-6 rounded-pill border border-dark" type="number" th:field="*{numWorkers}"
                   min="0" max="100" th:required="required" />
               </label>
             </div>
             <div class="row">
               <label class="mb-3 fs-5 col-8 d-flex justify-content-right">
                 Plow:
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{plowName}" id="plow"
+                <select class="bcream col-9 col-xl-5 col-xxl-4 col-lg-6 col-md-7 col-sm-8 rounded-pill border border-dark" th:field="*{plowName}" id="plow"
                   th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="plow : ${plows}"
                     th:value="${plow.plowName}" th:text="${plow.plowName}" th:attr="price= ${plow.price}"></option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-4 col-xl-2 col-xxl-1 col-lg-3 col-md-4 col-sm-4 rounded-pill border border-dark" type="number"
                   id="numPlow" th:field="*{numPlow}" min="0" th:required="required" />
               </label>
             </div>
             <div class="row">
               <label class="mb-3 fs-5 col-8 d-flex justify-content-right">
                 Seeder:
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{seederName}"
+                <select class="bcream col-9 col-xl-5 col-xxl-4 col-lg-6 col-md-7 col-sm-8 rounded-pill border border-dark" th:field="*{seederName}"
                   th:required="required" id="seeder">
                   <option class="bcream rounded-pill border border-dark" th:each="seeder : ${seeders}"
                     th:value="${seeder.seederName}" th:text="${seeder.seederName}" th:attr="price = ${seeder.price}">
                   </option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-4 col-xl-2 col-xxl-1 col-lg-3 col-md-4 col-sm-4 rounded-pill border border-dark" type="number"
                   id="numSeeder" th:field="*{numSeeder}" min="0" th:required="required" />
               </label>
             </div>
             <div class="row">
               <label class="mb-3 fs-5 col-8 d-flex justify-content-right">
                 Harvester:
-                <select class="bcream col-6 rounded-pill border border-dark" th:field="*{harvesterName}"
+                <select class="bcream col-9 col-xl-5 col-xxl-4 col-lg-6 col-md-7 col-sm-8 rounded-pill border border-dark" th:field="*{harvesterName}"
                   th:required="required" id="harvester">
                   <option class="bcream rounded-pill border border-dark" th:each="harvester : ${harvesters}"
                     th:value="${harvester.harvesterName}" th:text="${harvester.harvesterName}"
                     th:attr="price=${harvester.price}"></option>
                 </select>
-                <input class="bcream d-flex justify-content-end col-1 rounded-pill border border-dark" type="number"
+                <input class="bcream d-flex justify-content-end col-4 col-xl-2 col-xxl-1 col-lg-3 col-md-4 col-sm-4 rounded-pill border border-dark" type="number"
                   id="numHarvester" th:field="*{numHarvester}" min="0" th:required="required" />
               </label>
             </div>
@@ -117,21 +132,22 @@
             <div class="row">
               <label class="mb-3 fs-5 col-6 d-flex justify-content-right">
                 Longitude(X):
-                <input class="bcream w-50 rounded-pill border border-dark" id="lng" th:field="*{longitude}" readonly
+                <input class="bcream col-6 rounded-pill border border-dark" id="lng" th:field="*{longitude}" readonly
                   th:required="required">
               </label>
-              <label class="mb-3 fs-5 col-6 d-flex justify-content-right">
+              <label class="mb-3 fs-5 col-6 d-flex justify-content-end justify-content-sm-start">
                 Size:
-                <input class="bcream rounded-pill border border-dark" type="number" th:field="*{size}"
+                <input class="bcream col-6 rounded-pill border border-dark" type="number" th:field="*{size}"
                   th:required="required" />
               </label>
             </div>
             <div class="row">
-              <label class="mb-3 col fs-5 d-flex justify-content-right">Latitude(Y):
-                <input class="bcream rounded-pill border border-dark" id="lat" th:field="*{latitude}" readonly
+              <label class="mb-3 col-6 fs-5 d-flex justify-content-right">
+                Latitude(Y):
+                <input class="bcream col-6 rounded-pill border border-dark" id="lat" th:field="*{latitude}" readonly
                   th:required="required">
               </label>
-              <label class="mb-3 col fs-5 d-flex justify-content-right">
+              <label class="mb-3 col fs-5 d-flex justify-content-end justify-content-sm-start">
                 Crop:
                 <select class="bcream rounded-pill border border-dark" th:field="*{plantName}" th:required="required">
                   <option class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
@@ -140,7 +156,7 @@
               </label>
             </div>
             <div class="row">
-              <label class="mb-3 mb-5 fs-5 col d-flex justify-content-right">
+              <label class="mb-3 mb-5 fs-5 col-12 col-sm-10 d-flex justify-content-right">
                 Town:
                 <input class="bcream rounded-pill border border-dark" id="town" th:field="*{town}" readonly
                   th:required="required">
