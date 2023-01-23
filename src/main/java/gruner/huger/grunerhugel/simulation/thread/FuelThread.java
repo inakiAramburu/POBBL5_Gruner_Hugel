@@ -14,7 +14,7 @@ import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.model.Fuel;
 
 public class FuelThread extends Thread {
-    private static Fuel fuel;
+    static Fuel fuel;
     private FuelRepository fRepository;
     private static boolean check = false;
     private static boolean pause = false;
@@ -40,7 +40,7 @@ public class FuelThread extends Thread {
         }
     }
 
-    private void updateFuel() {
+    void updateFuel() {
         Date date = TimeThread.getActualDate();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -85,5 +85,9 @@ public class FuelThread extends Thread {
 
     public static void pause() {
         pause = true;
+    }
+
+    public static Fuel getFuel() {
+        return fuel;
     }
 }
