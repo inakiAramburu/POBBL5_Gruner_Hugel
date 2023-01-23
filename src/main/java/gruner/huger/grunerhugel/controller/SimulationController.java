@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel.controller;
 
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -58,7 +57,6 @@ import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
 import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
-import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 import gruner.huger.grunerhugel.simulation.thread.Balance;
 import gruner.huger.grunerhugel.simulation.thread.TimeThread;
 import jakarta.servlet.http.HttpServletRequest;
