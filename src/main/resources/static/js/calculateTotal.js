@@ -1,4 +1,4 @@
-
+//Total cost functionality
 $("#tractor").change(function () {
     calculeTotal();
 });

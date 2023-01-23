@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.text.DateFormat;
 import java.util.Date;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
@@ -24,7 +23,7 @@ public class TimeThread extends Thread {
     private static final int SECONDS_PER_MINUTE = 60;
     private static final int MINUTES_PER_HOUR = 60;
     private static final int HOURS_TO_UPDATE = 1;
-    private int accelerator = 1;
+    private static int accelerator = 1;
     private static boolean pause = false;
     private static Date actualDate;
     private Date endDate;
@@ -77,11 +76,11 @@ public class TimeThread extends Thread {
         WeatherThread.pause();
     }
 
-    public void setAccelerator(int accelerator) {
-        this.accelerator = accelerator;
+    public static void setAccelerator(int acceleration) {
+        accelerator = acceleration;
     }
 
-    public int getAccelerator() {
+    public static int getAccelerator() {
         return accelerator;
     }
 
@@ -109,13 +108,13 @@ public class TimeThread extends Thread {
     }
 
     private static int getDay() {
-        String date = DateFormat.getDateInstance(DateFormat.MEDIUM).format(actualDate);
-        return Integer.parseInt(date.split(" ")[0]);
+        String date = actualDate.toString();
+        return Integer.parseInt(date.split(" ")[0].split("-")[2]);
     }
 
     private static int getHours() {
-        String time = DateFormat.getTimeInstance(DateFormat.SHORT).format(actualDate);
-        return Integer.parseInt(time.split(":")[0]);
+        String time = actualDate.toString();
+        return Integer.parseInt(time.split(" ")[1].split(":")[0]);
     }
 
     private void saveActualDate() {

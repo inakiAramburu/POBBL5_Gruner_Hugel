@@ -1,6 +1,5 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
-import java.text.DateFormat;
 import java.time.Year;
 import java.util.Date;
 import java.util.Optional;
@@ -39,14 +38,14 @@ public class WheatPriceThread extends Thread {
 
     private void updateWheatPrice() {
         Date date = TimeThread.getActualDate();
-        String[] monthYear = DateFormat.getDateInstance(DateFormat.MEDIUM).format(date).split(" ");
-        Year year = Year.of(Integer.parseInt(monthYear[2]));
+        String[] monthYear = date.toString().split(" ")[0].split("-");
+        Year year = Year.of(Integer.parseInt(monthYear[0]));
         String month = "";
         if (year.isAfter(Year.of(1998))) {
             month = monthYear[1];
         }
         Optional<WheatPrice> opWheatPrices = wpRepository.findByYearAndMonth(year, month);
-        if(opWheatPrices.isPresent()){
+        if (opWheatPrices.isPresent()) {
             wheatPrice = opWheatPrices.get();
         }
     }

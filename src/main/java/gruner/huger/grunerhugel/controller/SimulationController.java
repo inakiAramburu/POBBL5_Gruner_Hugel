@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
 import java.text.Normalizer;
+import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
 
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
@@ -54,7 +56,11 @@ import gruner.huger.grunerhugel.model.User;
 import gruner.huger.grunerhugel.model.formobjects.CreateLand;
 import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
+import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.thread.Balance;
+import gruner.huger.grunerhugel.simulation.thread.TimeThread;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -331,7 +337,7 @@ public class SimulationController {
     }
 
     @PostMapping(value = "/addLand")
-    public String addLand(@ModelAttribute("createLand") CreateLand newLand) {
+    public String addLand(@ModelAttribute("createLand") CreateLand newLand, HttpServletRequest request) {
         // Save land (One to One: Land + Farm)
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Farm farm = farmRepository.findByUser(user);
@@ -358,7 +364,7 @@ public class SimulationController {
             GrunerhugelApplication.logger.log(Level.INFO, "Town not found");
         }
 
-        return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
+        return REDIRECT + request.getContextPath();
     }
 
     @GetMapping(value = "/deleteLand/{id}")
@@ -396,5 +402,62 @@ public class SimulationController {
     public String startSimulation() {
         sim.start();
         return "hi";
+    }
+
+    @GetMapping(value = "/pauseSimulation")
+    @ResponseBody
+    public String pauseSimulation() {
+        TimeThread.pause();
+        return "hi";
+    }
+
+    @GetMapping(value = "/changeAcceleration")
+    @ResponseBody
+    public int changeAcceleration(int value) {
+
+        int newValue;
+
+        switch (value) {
+            case 1:
+                newValue = 2;
+                break;
+            case 2:
+                newValue = 4;
+                break;
+            case 4:
+                newValue = 1;
+                break;
+            default:
+                newValue = 1;
+                break;
+        }
+
+        TimeThread.setAccelerator(newValue);
+
+        return newValue;
+    }
+
+    @GetMapping(value = "/changeBalance")
+    @ResponseBody
+    public int changeBalance() {
+
+        return Balance.getBalance();
+    }
+
+    @GetMapping(value = "/changeLandTable")
+    public ModelAndView changeOperationTable() {
+        ModelAndView mav = new ModelAndView("simulation/simulation :: lands-list");
+        User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        Farm farm = farmRepository.findByUser(user);
+        mav.addObject("lands", landRepository.findByFarm(farm));
+        return mav;
+    }
+
+    @GetMapping(value = "/changeOperationTable")
+    public ModelAndView changeLandTable() {
+        ModelAndView mav = new ModelAndView("simulation/simulation :: operations-list");
+        List<Message> lista = Balance.lMessages;
+        mav.addObject("operations", lista);
+        return mav;
     }
 }
