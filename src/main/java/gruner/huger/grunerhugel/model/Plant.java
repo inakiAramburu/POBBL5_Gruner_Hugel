@@ -200,8 +200,8 @@ public class Plant implements Serializable {
     return growthRate;
   }
 
-  public void setGrowthRate(int growth_rate) {
-    this.growthRate = growth_rate;
+  public void setGrowthRate(int growthRate) {
+    this.growthRate = growthRate;
   }
 
   public int getHealthPoint() {

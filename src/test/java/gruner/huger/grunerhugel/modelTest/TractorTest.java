@@ -1,5 +1,7 @@
 package gruner.huger.grunerhugel.modelTest;
+
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.FarmTractor;
 import gruner.huger.grunerhugel.model.Tractor;
@@ -9,9 +11,10 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+@SpringBootTest
 public class TractorTest {
     @Test
-    public void testGetSet(){
+    public void testGetSet() {
         Tractor tractor = new Tractor();
         tractor.setTractorName("name");
         tractor.setPrice(2);
@@ -19,7 +22,7 @@ public class TractorTest {
         tractor.setPower(2);
         tractor.setMaxSpeed(2);
         tractor.setFuelCapacity(2);
-        List<FarmTractor> farm =new ArrayList();
+        List<FarmTractor> farm = new ArrayList<>();
         tractor.setFarms(farm);
         assertEquals("name", tractor.getTractorName());
         assertEquals(2, tractor.getPrice());
@@ -29,8 +32,9 @@ public class TractorTest {
         assertEquals(2, tractor.getFuelCapacity());
         assertEquals(farm, tractor.getFarms());
     }
+
     @Test
-    public void testToString(){
+    public void testToString() {
         Tractor tractor = new Tractor();
         tractor.setTractorName("name");
         tractor.setPrice(2);
@@ -38,8 +42,9 @@ public class TractorTest {
         tractor.setPower(2);
         tractor.setMaxSpeed(2);
         tractor.setFuelCapacity(2);
-        List<FarmTractor> farm =new ArrayList();
+        List<FarmTractor> farm = new ArrayList<>();
         tractor.setFarms(farm);
-        assertEquals("Tractor [name=name, price=2, maintenance=2, power=2, maxSpeed=2, fuelCapacity=2]", tractor.toString());
+        assertEquals("Tractor [name=name, price=2, maintenance=2, power=2, maxSpeed=2, fuelCapacity=2]",
+                tractor.toString());
     }
 }

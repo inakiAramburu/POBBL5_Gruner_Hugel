@@ -1,12 +1,13 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
-
 import static org.junit.Assert.*;
 import java.time.Year;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.compositekey.WheatPriceId;
 
+@SpringBootTest
 public class WheatPriceIdTest {
 
     @Test
@@ -39,7 +40,6 @@ public class WheatPriceIdTest {
         assertNotEquals(id1.hashCode(), id3.hashCode());
         assertNotEquals(id1.hashCode(), id4.hashCode());
     }
-
 
     @Test
     public void testEqualsWithEqualObjects() {
@@ -98,17 +98,17 @@ public class WheatPriceIdTest {
 
     @Test
     public void testEqualsWithOtherMonthNotNull() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), null);
-    WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
-    assertFalse(id1.equals(id2)); 
-    }
-    @Test
-    public void testEqualsWithSameObject() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id2 = id1;
-    assertTrue(id1.equals(id2)); 
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), null);
+        WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
+        assertFalse(id1.equals(id2));
     }
 
+    @Test
+    public void testEqualsWithSameObject() {
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id2 = id1;
+        assertTrue(id1.equals(id2));
+    }
 
     @Test
     public void testToString() {
@@ -118,17 +118,16 @@ public class WheatPriceIdTest {
 
     @Test
     public void testHashCode2() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
-    WheatPriceId id4 = new WheatPriceId(Year.of(2022), "February");
-    WheatPriceId id5 = new WheatPriceId(null, "February");
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
+        WheatPriceId id4 = new WheatPriceId(Year.of(2022), "February");
+        WheatPriceId id5 = new WheatPriceId(null, "February");
 
-    assertEquals(id1.hashCode(), id2.hashCode());
-    assertNotEquals(id1.hashCode(), id3.hashCode());
-    assertNotEquals(id1.hashCode(), id4.hashCode());
-    assertNotEquals(id1.hashCode(), id5.hashCode());
-}
-
+        assertEquals(id1.hashCode(), id2.hashCode());
+        assertNotEquals(id1.hashCode(), id3.hashCode());
+        assertNotEquals(id1.hashCode(), id4.hashCode());
+        assertNotEquals(id1.hashCode(), id5.hashCode());
+    }
 
 }

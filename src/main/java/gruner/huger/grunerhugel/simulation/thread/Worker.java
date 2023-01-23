@@ -20,7 +20,7 @@ public class Worker extends Thread {
     private boolean jobFinished = true;
     private boolean pause = false;
     private BlockingQueue<Message> queue;
-    private static CountDownLatch cLatch;
+    private static CountDownLatch cLatch = new CountDownLatch(0);
     private Semaphore payCheck;
     private Semaphore work;
     private String command;
@@ -31,7 +31,6 @@ public class Worker extends Thread {
         this.paid = false;
         this.payCheck = new Semaphore(0);
         this.work = new Semaphore(0);
-        cLatch = new CountDownLatch(0);
     }
 
     @Override
@@ -72,8 +71,7 @@ public class Worker extends Thread {
             case COMMAND_SELL:
                 sellProducts(temp, PlantType.WHEAT);
                 break;
-            case COMMAND_HARVEST:
-            case COMMAND_MANTAIN:
+            case COMMAND_HARVEST, COMMAND_MANTAIN:
             default:
         }
         jobFinished = false;

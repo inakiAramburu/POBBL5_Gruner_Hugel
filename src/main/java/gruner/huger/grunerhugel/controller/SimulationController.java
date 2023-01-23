@@ -456,7 +456,7 @@ public class SimulationController {
     @GetMapping(value = "/changeOperationTable")
     public ModelAndView changeLandTable() {
         ModelAndView mav = new ModelAndView("simulation/simulation :: operations-list");
-        List<Message> lista = Balance.lMessages;
+        List<Message> lista = Balance.getlMessages();
         mav.addObject("operations", lista);
         return mav;
     }

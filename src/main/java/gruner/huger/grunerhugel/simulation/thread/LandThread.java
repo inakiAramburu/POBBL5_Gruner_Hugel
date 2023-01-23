@@ -42,7 +42,7 @@ public class LandThread extends Thread {
     private Random rand;
     private List<Tractor> tList;
     private Map<Land, Tractor> tMap;
-    private static Semaphore payment;
+    private static Semaphore payment = new Semaphore(0);
 
     public LandThread(LandRepository landRepository, BlockingQueue<Message> blockingQueue,
             FarmTractorRepository fTractRepository) {
@@ -54,7 +54,6 @@ public class LandThread extends Thread {
         this.rand = new SecureRandom();
         getListTractor(fTractRepository);
         this.tMap = new HashMap<>();
-        payment = new Semaphore(0);
         payWorkers();
     }
 
@@ -212,13 +211,7 @@ public class LandThread extends Thread {
     private LandStatus getLandStatusFromPlant(String status) {
         LandStatus lStatus;
         switch (status) {
-            case "GERMINATION":
-            case "VEGETATIVE":
-            case "TILLERING":
-            case "ANTHESIS":
-            case "MILKY":
-            case "PASTY":
-            case "MATURATION":
+            case "GERMINATION", "VEGETATIVE", "TILLERING", "ANTHESIS", "MILKY", "PASTY", "MATURATION":
                 lStatus = LandStatus.GROWING;
                 break;
             case "MATURING":
@@ -346,7 +339,7 @@ public class LandThread extends Thread {
         for (int i = 0; i < paidWorkers; i++) {
             workers.get(i).pay();
         }
-        for(int i=paidWorkers;i<workers.size();i++){
+        for (int i = paidWorkers; i < workers.size(); i++) {
             workers.get(i).unpay();
         }
         payment.release();
@@ -356,7 +349,7 @@ public class LandThread extends Thread {
         pause = true;
     }
 
-    public static void workingHours(boolean value){
+    public static void workingHours(boolean value) {
         workingHours = value;
     }
 }

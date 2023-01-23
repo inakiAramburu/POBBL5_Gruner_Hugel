@@ -2,13 +2,14 @@ package gruner.huger.grunerhugel.modelTest.formobjects;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 
 import java.util.Date;
 
+@SpringBootTest
 public class CreateSimulationTest {
 
     // Creamos una variable de la clase CreateSimulation
@@ -63,6 +64,7 @@ public class CreateSimulationTest {
         createSimulation.setNumTractor(3);
         assertEquals(3, createSimulation.getNumTractor());
     }
+
     // Prueba para el método setNumWorkers
     @Test
     public void testSetNumWorkers() {
@@ -126,4 +128,3 @@ public class CreateSimulationTest {
         assertEquals(1, createSimulation.getNumHarvester());
     }
 }
-

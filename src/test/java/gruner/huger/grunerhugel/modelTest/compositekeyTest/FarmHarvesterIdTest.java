@@ -1,45 +1,51 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
-
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.compositekey.FarmHarvesterId;
 
+@SpringBootTest
 public class FarmHarvesterIdTest {
-    /*@Test
-   public void coverage(){
-        FarmHarvesterId farmHarvesterId =new FarmHarvesterId();
-        farmHarvesterId.setFarmId(1);
-        FarmHarvesterId a = new FarmHarvesterId();
-        FarmHarvesterId b = new FarmHarvesterId();
-
-        farmHarvesterId.hashCode();
-        assertEquals(true,farmHarvesterId.equals(farmHarvesterId));
-        assertEquals(false, farmHarvesterId.equals(null));
-        assertEquals(true, a.equals(b));
-
-
-
-        assertEquals(false,farmHarvesterId.equals(new FarmHarvesterId()));
-        farmHarvesterId.toString();
-    }*/
+    /*
+     * @Test
+     * public void coverage(){
+     * FarmHarvesterId farmHarvesterId =new FarmHarvesterId();
+     * farmHarvesterId.setFarmId(1);
+     * FarmHarvesterId a = new FarmHarvesterId();
+     * FarmHarvesterId b = new FarmHarvesterId();
+     * 
+     * farmHarvesterId.hashCode();
+     * assertEquals(true,farmHarvesterId.equals(farmHarvesterId));
+     * assertEquals(false, farmHarvesterId.equals(null));
+     * assertEquals(true, a.equals(b));
+     * 
+     * 
+     * 
+     * assertEquals(false,farmHarvesterId.equals(new FarmHarvesterId()));
+     * farmHarvesterId.toString();
+     * }
+     */
     @Test
     public void testHashCode() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id3 = new FarmHarvesterId(2, "def");
 
-        Assert.assertEquals(id1.hashCode(), id2.hashCode());
-        Assert.assertNotEquals(id1.hashCode(), id3.hashCode());
+        assertEquals(id1.hashCode(), id2.hashCode());
+        assertNotEquals(id1.hashCode(), id3.hashCode());
     }
 
     @Test
     public void testEquals() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
-        Assert.assertTrue(id1.equals(id1));
+        assertTrue(id1.equals(id1));
     }
+
     @Test
     public void testGettersAndSetters() {
         FarmHarvesterId id = new FarmHarvesterId();
@@ -50,7 +56,7 @@ public class FarmHarvesterIdTest {
         Assert.assertEquals("abc", id.getHarvesterId());
     }
 
-////////////////////////////////////////////
+    ////////////////////////////////////////////
 
     @Test
     public void testEqualsWithEqualObjects() {
@@ -117,7 +123,6 @@ public class FarmHarvesterIdTest {
         Assert.assertNotEquals(id1.hashCode(), id2.hashCode());
     }
 
-    
     @Test
     public void testHashCodeWithNullHarvesterId() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, null);
@@ -125,7 +130,5 @@ public class FarmHarvesterIdTest {
 
         Assert.assertNotEquals(id1.hashCode(), id2.hashCode());
     }
-
-
 
 }

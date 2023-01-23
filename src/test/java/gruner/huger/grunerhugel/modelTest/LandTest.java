@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Town;
 
+@SpringBootTest
 public class LandTest {
 
     @Test
@@ -21,7 +23,7 @@ public class LandTest {
         Land land = new Land(10.00, farm, town, "100", "100");
         assertEquals(land.getFarm(), farm);
         assertEquals(land.getTown(), town);
-        assertEquals(land.getSize(), 10.00);
+        assertEquals(10.00, land.getSize());
         assertEquals(100, land.getLatitude());
         assertEquals(100, land.getLongitude());
 
@@ -42,11 +44,11 @@ public class LandTest {
         List<Plant> plants = new ArrayList<>();
         land.setPlants(plants);
         assertEquals(land.getPlants(), plants);
-        assertEquals(land.getStatus(), "null");
-        assertEquals(land.getId(), 5);
+        assertEquals("null", land.getStatus());
+        assertEquals(5, land.getId());
         assertEquals(land.getFarm(), farm);
         assertEquals(land.getTown(), town);
-        assertEquals(land.getSize(), 10);
+        assertEquals(10, land.getSize());
         assertEquals(100, land.getLatitude());
         assertEquals(100, land.getLongitude());
 
@@ -58,8 +60,9 @@ public class LandTest {
         Town town = new Town();
         Land land = new Land(10.00, farm, town, "100", "100");
         System.out.println(land.toString());
-        assertEquals(land.toString(),
-                "Land [id=0, size=10.0, status=Empty, farm=Farm [id=0, money=0.0, user=null], town=Town [id=0, name=null, latitude=0.0, longitude=0.0]]");
+        assertEquals(
+                "Land [id=0, size=10.0, status=Empty, farm=Farm [id=0, money=0.0, user=null], town=Town [id=0, name=null, latitude=0.0, longitude=0.0]]",
+                land.toString());
     }
 
     @Test

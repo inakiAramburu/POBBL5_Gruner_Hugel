@@ -1,17 +1,19 @@
 package gruner.huger.grunerhugel.modelTest;
+
 import static org.junit.Assert.assertEquals;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
 import gruner.huger.grunerhugel.model.FarmSeeder;
 import gruner.huger.grunerhugel.model.Seeder;
 
+@SpringBootTest
 public class SeederTest {
     @Test
-    public void testGetSet(){
+    public void testGetSet() {
         Seeder seeder = new Seeder();
         seeder.setSeederName("name");
         seeder.setPrice(5);
@@ -22,7 +24,7 @@ public class SeederTest {
         seeder.setRecommendedPower(2);
         seeder.setFertilized(true);
         seeder.setFrontalSubjection("FrontalSubjection");
-        List<FarmSeeder> farms = new ArrayList();
+        List<FarmSeeder> farms = new ArrayList<>();
         seeder.setFarms(farms);
         assertEquals("name", seeder.getSeederName());
         assertEquals(5, seeder.getPrice());
@@ -35,8 +37,9 @@ public class SeederTest {
         assertEquals("FrontalSubjection", seeder.getFrontalSubjection());
         assertEquals(farms, seeder.getFarms());
     }
+
     @Test
-    public void testToString(){
+    public void testToString() {
         Seeder seeder = new Seeder();
         seeder.setSeederName("name");
         seeder.setPrice(5);
@@ -47,10 +50,11 @@ public class SeederTest {
         seeder.setRecommendedPower(2);
         seeder.setFertilized(true);
         seeder.setFrontalSubjection("FrontalSubjection");
-        List<FarmSeeder> farms = new ArrayList();
+        List<FarmSeeder> farms = new ArrayList<>();
         seeder.setFarms(farms);
-        assertEquals("Seeder [name=name, price=5, maintenance=2, plantType=PlantType, capacity=2, workingAmplitude=2, recommendedPower=2, fertilized=true, frontalSubjection=FrontalSubjection, farms=[]]", seeder.toString());
-  
+        assertEquals(
+                "Seeder [name=name, price=5, maintenance=2, plantType=PlantType, capacity=2, workingAmplitude=2, recommendedPower=2, fertilized=true, frontalSubjection=FrontalSubjection, farms=[]]",
+                seeder.toString());
 
     }
 }

@@ -2,11 +2,12 @@ package gruner.huger.grunerhugel.modelTest.formobjects;
 
 import static org.junit.Assert.*;
 import java.util.Date;
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
 
+@SpringBootTest
 public class EditSimulationTest {
 
     // Creamos una variable de la clase EditSimulation
@@ -16,7 +17,6 @@ public class EditSimulationTest {
 
     // Este método se ejecuta antes de cada prueba
     // En este caso creamos un objeto EditSimulation y una fecha
-    
 
     // Prueba para el método setTractorName
     @Test
@@ -26,6 +26,7 @@ public class EditSimulationTest {
         editSimulation.setTractorName("TractorMaster");
         assertEquals("TractorMaster", editSimulation.getTractorName());
     }
+
     // Prueba para el método setNumTractor
     @Test
     public void testSetNumTractor() {
@@ -97,7 +98,6 @@ public class EditSimulationTest {
         editSimulation.setNumHarvester(1);
         assertEquals(1, editSimulation.getNumHarvester());
     }
-
 
     // Prueba para el método setEndDate
     @Test

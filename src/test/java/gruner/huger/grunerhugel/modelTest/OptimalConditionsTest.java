@@ -2,9 +2,11 @@ package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.OptimalConditions;
 
+@SpringBootTest
 public class OptimalConditionsTest {
 
     @Test

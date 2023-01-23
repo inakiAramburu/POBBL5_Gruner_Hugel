@@ -68,12 +68,12 @@ public class MapController {
         Farm farm = farmRepository.findByUser(user);
         if (farm != null) {
             Iterable<Land> lista = landRepository.findByFarm(farm);
-            return LandCoordinatesToJSON(lista);
+            return landCoordinatesToJSON(lista);
         }
         return null;
     }
 
-    String LandCoordinatesToJSON(Iterable<Land> list) {
+    String landCoordinatesToJSON(Iterable<Land> list) {
         // set list into Json without Gson
         JSONArray jsonArray = new JSONArray();
         for (Land land : list) {

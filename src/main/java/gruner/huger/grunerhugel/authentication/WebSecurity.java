@@ -26,7 +26,7 @@ public class WebSecurity {
                 .permitAll()
                 .requestMatchers("/investor").hasAnyAuthority("INVESTOR", "ADMIN")
                 .requestMatchers("/main", "/simulation").hasAnyAuthority("USER", "ADMIN")
-                .anyRequest().authenticated() // aiqu cambiar esto por .hasAuthority("ADMIN");
+                .anyRequest().hasAuthority("ADMIN")
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         http.formLogin().loginPage(URI.LOGIN.getPath()).successHandler(succesHandler).failureUrl("/login-error")
