@@ -35,7 +35,7 @@
                                     th:required="required">
                             </div>
                             <div class="col-6">
-                                <label th:text="#{user.role}"></label>:
+                                <label onclick="_paq.push(['trackEvent', 'Click', 'RoleChange', 'admin']);" th:text="#{user.role}"></label>:
                                 <select class="bcream rounded-pill border border-dark" th:field="*{role}">
                                     <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}"
                                         th:value="${role.id}" th:text="${role.name}"></option>
@@ -63,9 +63,9 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'Cancel', 'admin']);" class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
                                 th:text="#{button.cancel}"></a>
-                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
+                            <button onclick="_paq.push(['trackEvent', 'Click', 'EditUserSubmit', 'admin']);" class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
                                 th:text="#{button.submit}"></button>
                         </div>
                     </form>
