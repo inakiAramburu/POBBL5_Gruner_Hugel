@@ -31,7 +31,8 @@
                         <div class="row mb-3">
                             <div class="col-6"> <label th:text="#{user.username}"></label>:
                                 <input class="bcream rounded-pill border border-dark" name="username"
-                                    th:field="*{username}" th:placeholder="${old_user.getUsername()}">
+                                    th:field="*{username}" th:placeholder="${old_user.getUsername()}"
+                                    th:required="required">
                             </div>
                             <div class="col-6">
                                 <label th:text="#{user.role}"></label>:
@@ -45,19 +46,20 @@
                             <div class="col-6">
                                 <label th:text="#{user.name}"></label>:
                                 <input class="bcream rounded-pill border border-dark" th:field="*{name}"
-                                    th:placeholder="${old_user.getName()}">
+                                    th:placeholder="${old_user.getName()}" th:required="required">
                             </div>
                             <div class="col-6">
                                 <label th:text="#{user.surname}"></label>:
                                 <input class="bcream rounded-pill border border-dark" name="surname"
-                                    th:field="*{surname}" th:placeholder="${old_user.getSurname()}">
+                                    th:field="*{surname}" th:placeholder="${old_user.getSurname()}"
+                                    th:required="required">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col">
                                 <label th:text="#{user.email}"></label>:
                                 <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}"
-                                    th:placeholder="${old_user.getEmail()}">
+                                    th:placeholder="${old_user.getEmail()}" th:required="required">
                             </div>
                         </div>
                         <div class="row mb-3">
