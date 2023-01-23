@@ -3,6 +3,22 @@
 
 <head>
   <title>Simulation</title>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function () {
+      var u = "//grunerhugermatomo.duckdns.org/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '1']);
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+
 </head>
 
 <body>
@@ -44,7 +60,7 @@
           </button>
         </div>
 
-        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4 lands-list">
+        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4 border border-dark lands-list">
           <div class="table-responsive" th:fragment="lands-list">
             <table class="table bcream table-striped table-sm table-hover">
               <caption></caption>
@@ -57,8 +73,17 @@
               <tbody>
                 <!--Add here the concept and operations-->
                 <tr th:each="land : ${lands}">
-                  <td th:text="${land.town.name}"></td>
-                  <td th:text="${land.status}"></td>
+                  <form action="">
+                    <td class="py-2" th:text="${land.town.name}"></td>
+                    <td class="w-50">
+                      <table class="w-25">
+                        <tr class="w-25">
+                          <td th:text="${land.status}">Aloooooooooo</td>
+                          <td class="p-0 m-0"><img class="btn w-75 bgreen2" th:src="@{/img/bin.png}" alt=""></td>
+                        </tr>
+                      </table>
+                    </td>
+                  </form>
                 </tr>
               </tbody>
             </table>

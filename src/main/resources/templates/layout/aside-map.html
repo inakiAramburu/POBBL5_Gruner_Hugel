@@ -14,15 +14,32 @@
     <link th:href="@{/css/simulation.css}" rel="stylesheet">
     <link th:href="@{/css/style.css}" rel="stylesheet">
     <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//grunerhugermatomo.duckdns.org/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '1']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+
 </head>
 
 <body class="vh-100 vw-100 p-0 m-0 text-center bgreen2">
     <main class="w-100 h-100 p-0 m-0 container-fluid">
         <div class="row w-100 h-100 p-0 m-0">
-            <aside class="col negativel" layout:fragment="aside"></aside>
-            <div class="col">
+            <aside class="col-sm-12 col-md-12 col-lg col-xl negativel border border-danger" layout:fragment="aside">
+            </aside>
+            <div class="col-sm-12 col-md-12 col-lg col-xl">
                 <div class="row d-flex justify-content-end">
-                    <div class="col-5">
+                    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8">
                         <div class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 py-1 mb-5">
                             <div class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
                             <a class="col" id="play">
@@ -41,7 +58,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" th:replace="~{fragments/map :: map}"></div>
+                <div class="row border border-success" style="height:500px" th:include="~{fragments/map :: map}"></div>
             </div>
         </div>
     </main>
