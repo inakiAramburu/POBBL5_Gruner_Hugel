@@ -1,37 +1,40 @@
 package gruner.huger.grunerhugel.modelTest;
+
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Weather;
-public class TownTest {
+
+@SpringBootTest
+class TownTest {
     @Test
-    public void testGetSet(){
+    void testGetSet() {
         Town town = new Town();
         town.setId(5);
         town.setName("name");
-        List<Weather> weather =new ArrayList<>();
+        List<Weather> weather = new ArrayList<>();
         town.setWeather(weather);
         town.setLatitude(1.0);
         town.setLongitude(1.0);
-        assertEquals(town.getId(), 5);
-        assertEquals(town.getName(), "name");
-        assertEquals(town.getWeather(), weather);
-        assertEquals(town.getLatitude(), 1.0, 0.0);
-        assertEquals(town.getLongitude(), 1.0, 0.0);
+        assertEquals(5, town.getId());
+        assertEquals("name", town.getName());
+        assertEquals(weather, town.getWeather());
+        assertEquals(1.0, town.getLatitude(), 0.0);
+        assertEquals(1.0, town.getLongitude(), 0.0);
     }
 
-
     @Test
-    public void testToString(){
+    void testToString() {
         Town town = new Town();
         town.setId(5);
         town.setName("name");
-        List<Weather> weather =new ArrayList<>();
+        List<Weather> weather = new ArrayList<>();
         town.setWeather(weather);
         town.setLatitude(1.0);
         town.setLongitude(1.0);

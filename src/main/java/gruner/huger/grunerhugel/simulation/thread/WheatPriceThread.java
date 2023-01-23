@@ -15,13 +15,11 @@ public class WheatPriceThread extends Thread {
     private WheatPriceRepository wpRepository;
     private static boolean check = false;
     private static boolean pause = false;
-    private static Lock mutex;
-    private static Condition checking;
+    private static Lock mutex = new ReentrantLock();
+    private static Condition checking = mutex.newCondition();
 
     public WheatPriceThread(WheatPriceRepository wheatPriceRepository) {
         this.wpRepository = wheatPriceRepository;
-        mutex = new ReentrantLock();
-        checking = mutex.newCondition();
     }
 
     @Override

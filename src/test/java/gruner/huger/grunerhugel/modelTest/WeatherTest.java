@@ -5,17 +5,19 @@ import static org.junit.Assert.assertEquals;
 import java.util.Date;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Town;
 import gruner.huger.grunerhugel.model.Weather;
 
-public class WeatherTest {
+@SpringBootTest
+class WeatherTest {
     @Test
-    public void testGetSet(){
+    void testGetSet() {
 
         Weather weather = new Weather();
-        Date date =new Date();
-        Town town =new Town();
+        Date date = new Date();
+        Town town = new Town();
         weather.setDateTime(date);
         weather.setTemperature(2);
         weather.setDirectRadiation(2);
@@ -29,25 +31,26 @@ public class WeatherTest {
         weather.setSoilMoisture(2);
         weather.setSoilMoisture2(2);
         weather.setTown(town);
-        assertEquals(weather.getDateTime(), date);
-        assertEquals(weather.getTemperature(), 2, 0.0);
-        assertEquals(weather.getDirectRadiation(), 2, 0.0);
-        assertEquals(weather.getRain(), 2, 0.0);
-        assertEquals(weather.getSnowfall(), 2, 0.0);
-        assertEquals(weather.getCloudcover(), 2, 0.0);
-        assertEquals(weather.getPrecipitation(), 2, 0.0);
-        assertEquals(weather.getWindspeed(), 2, 0.0);
-        assertEquals(weather.getSoilTemperature(), 2, 0.0);
-        assertEquals(weather.getSoilTemperature2(), 2, 0.0);
-        assertEquals(weather.getSoilMoisture(), 2, 0.0);
-        assertEquals(weather.getSoilMoisture2(), 2, 0.0);
-        assertEquals(weather.getTown(), town);
-       }
-       @Test
-    public void testToString(){
+        assertEquals(date, weather.getDateTime());
+        assertEquals(2, weather.getTemperature(), 0.0);
+        assertEquals(2, weather.getDirectRadiation(), 0.0);
+        assertEquals(2, weather.getRain(), 0.0);
+        assertEquals(2, weather.getSnowfall(), 0.0);
+        assertEquals(2, weather.getCloudcover(), 0.0);
+        assertEquals(2, weather.getPrecipitation(), 0.0);
+        assertEquals(2, weather.getWindspeed(), 0.0);
+        assertEquals(2, weather.getSoilTemperature(), 0.0);
+        assertEquals(2, weather.getSoilTemperature2(), 0.0);
+        assertEquals(2, weather.getSoilMoisture(), 0.0);
+        assertEquals(2, weather.getSoilMoisture2(), 0.0);
+        assertEquals(town, weather.getTown());
+    }
+
+    @Test
+    void testToString() {
         Weather weather = new Weather();
-        Date date =new Date();
-        Town town =new Town();
+        Date date = new Date();
+        Town town = new Town();
         weather.setDateTime(date);
         weather.setTemperature(2);
         weather.setDirectRadiation(2);

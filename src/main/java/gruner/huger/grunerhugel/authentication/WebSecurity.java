@@ -16,6 +16,10 @@ import gruner.huger.grunerhugel.config.URI;
 @EnableWebSecurity
 public class WebSecurity {
 
+    final String ADMIN = "ADMIN";
+    final String INVESTOR = "INVESTOR";
+    final String USER = "USER";
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler,
             MyAccessDeniedHandler accessDeniedHandler) throws Exception {
@@ -24,9 +28,9 @@ public class WebSecurity {
                 .requestMatchers("/css/*", "/img/*", "/js/*").permitAll()
                 .requestMatchers("/create", URI.LOGIN.getPath(), "/accessDenied", "/error", URI.HOME_TUTORIAL.getPath())
                 .permitAll()
-                .requestMatchers("/investor").hasAnyAuthority("INVESTOR", "ADMIN")
-                .requestMatchers("/main", "/simulation").hasAnyAuthority("USER", "ADMIN")
-                .anyRequest().authenticated() // aiqu cambiar esto por .hasAuthority("ADMIN");
+                .requestMatchers("/investor").hasAnyAuthority(INVESTOR, ADMIN)
+                .requestMatchers("/main", "/simulation").hasAnyAuthority(USER, ADMIN)
+                .anyRequest().hasAuthority(ADMIN)
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         http.formLogin().loginPage(URI.LOGIN.getPath()).successHandler(succesHandler).failureUrl("/login-error")

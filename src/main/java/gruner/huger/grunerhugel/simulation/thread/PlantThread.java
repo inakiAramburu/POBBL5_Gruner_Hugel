@@ -18,21 +18,18 @@ import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class PlantThread extends Thread {
     static final String PROPERTY_NAME = "PLANT_THREAD";
-    private static Map<Land, List<Plant>> fields;
+    private static Map<Land, List<Plant>> fields = new HashMap<>();
     private List<Land> lands;
     private static boolean check = false;
     private static boolean pause = false;
-    private static Lock mutex;
-    private static Condition checking;
+    private static Lock mutex = new ReentrantLock();
+    private static Condition checking = mutex.newCondition();
     private static PlantRepository pRepository;
     private static OptimalConditionsRepository oRepository;
 
     public PlantThread(PlantRepository plantRepository, OptimalConditionsRepository opCondRepository,
             List<Land> lands) {
         this.lands = lands;
-        fields = new HashMap<>();
-        mutex = new ReentrantLock();
-        checking = mutex.newCondition();
         pRepository = plantRepository;
         oRepository = opCondRepository;
         updateMap();
@@ -42,7 +39,8 @@ public class PlantThread extends Thread {
         OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
         Plant plant = new Plant(oConditions, land);
         List<Plant> list = fields.get(land);
-        if(list == null) list = new ArrayList<>();
+        if (list == null)
+            list = new ArrayList<>();
         list.add(plant);
         fields.put(land, list);
     }
@@ -118,7 +116,7 @@ public class PlantThread extends Thread {
         }
     }
 
-    public void savePlants(){
+    public void savePlants() {
         List<Plant> all = new ArrayList<>();
         fields.values().forEach(all::addAll);
         pRepository.saveAll(all);

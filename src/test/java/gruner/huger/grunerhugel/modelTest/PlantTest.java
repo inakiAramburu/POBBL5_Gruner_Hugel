@@ -3,15 +3,17 @@ package gruner.huger.grunerhugel.modelTest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Land;
 import gruner.huger.grunerhugel.model.OptimalConditions;
 import gruner.huger.grunerhugel.model.Plant;
 import gruner.huger.grunerhugel.model.Weather;
 
-public class PlantTest {
+@SpringBootTest
+class PlantTest {
     @Test
-    public void costructorTest() {
+    void costructorTest() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
@@ -20,39 +22,35 @@ public class PlantTest {
     }
 
     @Test
-    public void testcheck() {
-        
+    void testcheck() {
 
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
         Weather weather = new Weather();
-        
+
         plant.check(weather);
-        assertEquals(plant.getStatus(), "GERMINATION");
+        assertEquals("GERMINATION", plant.getStatus());
         plant.setStatus("VEGETATIVE");
         plant.check(weather);
-        assertEquals(plant.getStatus(), "VEGETATIVE");
+        assertEquals("VEGETATIVE", plant.getStatus());
         plant.setStatus("TILLERING");
         plant.check(weather);
-        assertEquals(plant.getStatus(), "TILLERING");
+        assertEquals("TILLERING", plant.getStatus());
         plant.setStatus("ANTHESIS");
         plant.check(weather);
-        assertEquals(plant.getStatus(), "ANTHESIS");
+        assertEquals("ANTHESIS", plant.getStatus());
         plant.setStatus("MILKY");
         plant.check(weather);
-        assertEquals(plant.getStatus(), "MILKY");
+        assertEquals("MILKY", plant.getStatus());
         plant.setStatus("PASTY");
         plant.check(weather);
-        assertEquals(plant.getStatus(), "PASTY");
-
-        
-
+        assertEquals("PASTY", plant.getStatus());
 
     }
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant();
@@ -64,53 +62,53 @@ public class PlantTest {
         plant.setGrowthRate(200);
         plant.setLand(land);
         assertEquals(200, plant.getGrowthRate());
-        assertEquals(plant.getId(), 0);
-        assertEquals(plant.getName(), "name");
-        assertEquals(plant.getStatus(), "GERMINATION");
-        assertEquals(plant.getHealthPoint(), 100);
+        assertEquals(0, plant.getId());
+        assertEquals("name", plant.getName());
+        assertEquals("GERMINATION", plant.getStatus());
+        assertEquals(100, plant.getHealthPoint());
         assertEquals(plant.getOptimalConditions(), optimalConditions);
         assertEquals(plant.getLand(), land);
 
         plant.loseHealth();
-        assertEquals(plant.getHealthPoint(), 95);
+        assertEquals(95, plant.getHealthPoint());
         plant.setHealthPoint(0);
         plant.loseHealth();
-        assertEquals( "DEAD",plant.getStatus());
+        assertEquals("DEAD", plant.getStatus());
     }
-       
-   @Test
-    public void testGrowPlant() {
+
+    @Test
+    void testGrowPlant() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
         plant.setGrowthRate(100);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "VEGETATIVE");
+        assertEquals("VEGETATIVE", plant.getStatus());
         plant.setGrowthRate(200);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "TILLERING");
+        assertEquals("TILLERING", plant.getStatus());
         plant.setGrowthRate(300);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "ANTHESIS");
+        assertEquals("ANTHESIS", plant.getStatus());
         plant.setGrowthRate(400);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "MILKY");
+        assertEquals("MILKY", plant.getStatus());
         plant.setGrowthRate(500);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "PASTY");
+        assertEquals("PASTY", plant.getStatus());
         plant.setGrowthRate(600);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "MATURATION");
+        assertEquals("MATURATION", plant.getStatus());
         plant.setGrowthRate(700);
         plant.growPlant();
-        assertEquals(plant.getStatus(), "GERMINATION");
+        assertEquals("GERMINATION", plant.getStatus());
         plant.setGrowthRate(800);
         plant.growPlant();
-     }
+    }
 
     /*
      * @Test
-     * public void testcheckOptimalCondition() {
+     * void testcheckOptimalCondition() {
      * Plant plant = new Plant();
      * Weather weather = new Weather();
      * 
@@ -128,10 +126,8 @@ public class PlantTest {
      * }
      */
 
-     
-
     @Test
-    public void testString() {
+    void testString() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);

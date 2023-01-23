@@ -1,16 +1,17 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
-
 import static org.junit.Assert.*;
 import java.time.Year;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.compositekey.WheatPriceId;
 
-public class WheatPriceIdTest {
+@SpringBootTest
+class WheatPriceIdTest {
 
     @Test
-    public void testGettersAndSetters() {
+    void testGettersAndSetters() {
         WheatPriceId id = new WheatPriceId();
         id.setMonth("January");
         id.setYear(Year.of(2022));
@@ -19,7 +20,7 @@ public class WheatPriceIdTest {
     }
 
     @Test
-    public void testEquals() {
+    void testEquals() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
@@ -30,7 +31,7 @@ public class WheatPriceIdTest {
     }
 
     @Test
-    public void testHashCode() {
+    void testHashCode() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
@@ -40,95 +41,93 @@ public class WheatPriceIdTest {
         assertNotEquals(id1.hashCode(), id4.hashCode());
     }
 
-
     @Test
-    public void testEqualsWithEqualObjects() {
+    void testEqualsWithEqualObjects() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
         assertTrue(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithDifferentObjects() {
+    void testEqualsWithDifferentObjects() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2021), "January");
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithDifferentYear() {
+    void testEqualsWithDifferentYear() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2021), "January");
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithDifferentMonth() {
+    void testEqualsWithDifferentMonth() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         WheatPriceId id2 = new WheatPriceId(Year.of(2022), "February");
         assertFalse(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithNullObject() {
+    void testEqualsWithNullObject() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         assertFalse(id1.equals(null));
     }
 
     @Test
-    public void testEqualsWithDifferentClassObject() {
+    void testEqualsWithDifferentClassObject() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
         String str = "some string";
         assertFalse(id1.equals(str));
     }
 
     @Test
-    public void testEqualsWithNullYear() {
+    void testEqualsWithNullYear() {
         WheatPriceId id1 = new WheatPriceId(null, "January");
         WheatPriceId id2 = new WheatPriceId(null, "January");
         assertTrue(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithNullMonth() {
+    void testEqualsWithNullMonth() {
         WheatPriceId id1 = new WheatPriceId(Year.of(2022), null);
         WheatPriceId id2 = new WheatPriceId(Year.of(2022), null);
         assertTrue(id1.equals(id2));
     }
 
     @Test
-    public void testEqualsWithOtherMonthNotNull() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), null);
-    WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
-    assertFalse(id1.equals(id2)); 
-    }
-    @Test
-    public void testEqualsWithSameObject() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id2 = id1;
-    assertTrue(id1.equals(id2)); 
+    void testEqualsWithOtherMonthNotNull() {
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), null);
+        WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
+        assertFalse(id1.equals(id2));
     }
 
+    @Test
+    void testEqualsWithSameObject() {
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id2 = id1;
+        assertTrue(id1.equals(id2));
+    }
 
     @Test
-    public void testToString() {
+    void testToString() {
         WheatPriceId id = new WheatPriceId(Year.of(2022), "January");
         assertEquals("WheatPriceId [month=January, year=2022]", id.toString());
     }
 
     @Test
-    public void testHashCode2() {
-    WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
-    WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
-    WheatPriceId id4 = new WheatPriceId(Year.of(2022), "February");
-    WheatPriceId id5 = new WheatPriceId(null, "February");
+    void testHashCode2() {
+        WheatPriceId id1 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id2 = new WheatPriceId(Year.of(2022), "January");
+        WheatPriceId id3 = new WheatPriceId(Year.of(2021), "January");
+        WheatPriceId id4 = new WheatPriceId(Year.of(2022), "February");
+        WheatPriceId id5 = new WheatPriceId(null, "February");
 
-    assertEquals(id1.hashCode(), id2.hashCode());
-    assertNotEquals(id1.hashCode(), id3.hashCode());
-    assertNotEquals(id1.hashCode(), id4.hashCode());
-    assertNotEquals(id1.hashCode(), id5.hashCode());
-}
-
+        assertEquals(id1.hashCode(), id2.hashCode());
+        assertNotEquals(id1.hashCode(), id3.hashCode());
+        assertNotEquals(id1.hashCode(), id4.hashCode());
+        assertNotEquals(id1.hashCode(), id5.hashCode());
+    }
 
 }

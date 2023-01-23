@@ -2,13 +2,15 @@ package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.OptimalConditions;
 
-public class OptimalConditionsTest {
+@SpringBootTest
+class OptimalConditionsTest {
 
     @Test
-    public void testGetSet() {
+    void testGetSet() {
         OptimalConditions optimalConditions = new OptimalConditions();
         optimalConditions.setName("name");
         optimalConditions.setMinGerminationTemp(0);
@@ -60,7 +62,7 @@ public class OptimalConditionsTest {
     }
 
     @Test
-    public void testToString() {
+    void testToString() {
         OptimalConditions optimalConditions = new OptimalConditions();
         optimalConditions.setName("name");
         optimalConditions.setMinGerminationTemp(0);

@@ -2,14 +2,15 @@ package gruner.huger.grunerhugel.modelTest.formobjects;
 
 import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 
 import java.util.Date;
 
-public class CreateSimulationTest {
+@SpringBootTest
+class CreateSimulationTest {
 
     // Creamos una variable de la clase CreateSimulation
     CreateSimulation createSimulation;
@@ -21,7 +22,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setStartDate
     @Test
-    public void testSetStartDate() {
+    void testSetStartDate() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setStartDate(date);
@@ -30,7 +31,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setEndDate
     @Test
-    public void testSetEndDate() {
+    void testSetEndDate() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setEndDate(date);
@@ -39,7 +40,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setBudget
     @Test
-    public void testSetBudget() {
+    void testSetBudget() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setBudget(1000);
@@ -48,7 +49,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setTractorName
     @Test
-    public void testSetTractorName() {
+    void testSetTractorName() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setTractorName("John Deere");
@@ -57,15 +58,16 @@ public class CreateSimulationTest {
 
     // Prueba para el método setNumTractor
     @Test
-    public void testSetNumTractor() {
+    void testSetNumTractor() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setNumTractor(3);
         assertEquals(3, createSimulation.getNumTractor());
     }
+
     // Prueba para el método setNumWorkers
     @Test
-    public void testSetNumWorkers() {
+    void testSetNumWorkers() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setNumWorkers(5);
@@ -74,7 +76,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setPlowName
     @Test
-    public void testSetPlowName() {
+    void testSetPlowName() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setPlowName("PlowMaster");
@@ -83,7 +85,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setNumPlow
     @Test
-    public void testSetNumPlow() {
+    void testSetNumPlow() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setNumPlow(2);
@@ -92,7 +94,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setSeederName
     @Test
-    public void testSetSeederName() {
+    void testSetSeederName() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setSeederName("SeedMaster");
@@ -101,7 +103,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setNumSeeder
     @Test
-    public void testSetNumSeeder() {
+    void testSetNumSeeder() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setNumSeeder(4);
@@ -110,7 +112,7 @@ public class CreateSimulationTest {
 
     // Prueba para el método setHarvesterName
     @Test
-    public void testSetHarvesterName() {
+    void testSetHarvesterName() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setHarvesterName("HarvestMaster");
@@ -119,11 +121,10 @@ public class CreateSimulationTest {
 
     // Prueba para el método setNumHarvester
     @Test
-    public void testSetNumHarvester() {
+    void testSetNumHarvester() {
         CreateSimulation createSimulation = new CreateSimulation();
         date = new Date();
         createSimulation.setNumHarvester(1);
         assertEquals(1, createSimulation.getNumHarvester());
     }
 }
-

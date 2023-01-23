@@ -3,7 +3,7 @@ package gruner.huger.grunerhugel.modelTest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
-
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Farm;
 import gruner.huger.grunerhugel.model.FarmTractor;
@@ -11,23 +11,24 @@ import gruner.huger.grunerhugel.model.Tractor;
 import gruner.huger.grunerhugel.model.compositekey.FarmTractorId;
 import jakarta.persistence.EmbeddedId;
 
-public class FarmTractorTest {
-    
+@SpringBootTest
+class FarmTractorTest {
+
     @EmbeddedId
     private FarmTractorId id;
 
-
     @Test
-    public void costructorTest(){
+    void costructorTest() {
         Farm farm = new Farm();
         Tractor tractor = new Tractor();
         FarmTractor farmTractor = new FarmTractor(farm, tractor, 10);
         assertEquals(farmTractor.getFarm(), farm);
         assertEquals(farmTractor.getTractor(), tractor);
-        assertEquals(farmTractor.getQuantity(), 10);
+        assertEquals(10, farmTractor.getQuantity());
     }
+
     @Test
-    public void testGetSet(){
+    void testGetSet() {
         Farm farm = new Farm();
         Tractor tractor = new Tractor();
         FarmTractor farmTractor = new FarmTractor();
@@ -38,9 +39,10 @@ public class FarmTractorTest {
         assertEquals(farmTractor.getId(), id);
         assertEquals(farmTractor.getFarm(), farm);
         assertEquals(farmTractor.getTractor(), tractor);
-        assertEquals(farmTractor.getQuantity(), 10);
+        assertEquals(10, farmTractor.getQuantity());
 
-        //toString
-        assertEquals(farmTractor.toString(), "FarmTractor [farm=" + farm + ", tractor=" + tractor + ", quantity=" + 10 + "]");
+        // toString
+        assertEquals(farmTractor.toString(),
+                "FarmTractor [farm=" + farm + ", tractor=" + tractor + ", quantity=" + 10 + "]");
     }
 }

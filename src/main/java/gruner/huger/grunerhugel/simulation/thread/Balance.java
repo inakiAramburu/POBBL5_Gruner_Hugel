@@ -14,39 +14,39 @@ import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 
 public class Balance extends Thread {
     public static final int WORKER_PAYMENT = 800;
-    public static int balance;
-    public static Object mutex;
+    private static int totalMoney;
+    private static Object mutex = new Object();
     private BlockingQueue<Message> blockingQueue;
     private static boolean check;
-    private static Lock lock;
-    private static Condition checking;
+    private static Lock lock = new ReentrantLock();
+    private static Condition checking = lock.newCondition();;
     private static boolean pause = false;
-    public static List<Message> lMessages;
+    public static List<Message> lMessages = new ArrayList<>();
 
     public Balance(double initialBalance, BlockingQueue<Message> blockingQueue) {
-        mutex = new Object();
         this.blockingQueue = blockingQueue;
-        balance = (int) initialBalance;
-        lock = new ReentrantLock();
-        checking = lock.newCondition();
-        lMessages = new ArrayList<>();
+        Balance.setTotalMoney((int) initialBalance);
+    }
+
+    public static void setTotalMoney(int totalMoney) {
+        Balance.totalMoney = totalMoney;
     }
 
     public static int getBalance() {
         synchronized (mutex) {
-            return balance;
+            return totalMoney;
         }
     }
 
     public static void moneyCost(double cost) {
         synchronized (mutex) {
-            balance -= cost;
+            totalMoney -= cost;
         }
     }
 
     public static void moneyEarned(double earn) {
         synchronized (mutex) {
-            balance += earn;
+            totalMoney += earn;
         }
     }
 
@@ -92,11 +92,11 @@ public class Balance extends Thread {
         synchronized (mutex) {
             int count = 0;
             int result;
-            while (balance > 0 && numWorkers > count) {
-                balance -= WORKER_PAYMENT;
+            while (totalMoney > 0 && numWorkers > count) {
+                totalMoney -= WORKER_PAYMENT;
                 count++;
             }
-            if (balance <= 0) {
+            if (totalMoney <= 0) {
                 result = -1;
             } else {
                 result = count;
@@ -121,7 +121,12 @@ public class Balance extends Thread {
 
     public void saveBalance() {
         synchronized (mutex) {
-            SimulationProcesses.setMoney(balance);
+            SimulationProcesses.setMoney(totalMoney);
         }
     }
+
+    public static List<Message> getlMessages() {
+        return lMessages;
+    }
+
 }

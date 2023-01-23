@@ -18,20 +18,17 @@ import gruner.huger.grunerhugel.model.Weather;
 public class WeatherThread extends Thread {
     static final String WEATHER_CHECK = "WEATHER CHECK";
     private WeatherRepository wRepository;
-    private static Map<String, Weather> forecast;
+    private static Map<String, Weather> forecast = new HashMap<>();
     Date date;
     List<String> villages;
     private static boolean check = false;
     private static boolean pause = false;
-    private static Lock mutex;
-    private static Condition checking;
+    private static Lock mutex = new ReentrantLock();
+    private static Condition checking = mutex.newCondition();
 
     public WeatherThread(WeatherRepository wRepository, Date date, List<Land> lands) {
         this.wRepository = wRepository;
-        forecast = new HashMap<>();
         initialize(date, lands);
-        mutex = new ReentrantLock();
-        checking = mutex.newCondition();
     }
 
     public void initialize(Date date, List<Land> lands) {
@@ -63,7 +60,7 @@ public class WeatherThread extends Thread {
     private void updateWeather() {
         date = TimeThread.getActualDate();
         List<Weather> list = findAllRelevantWeathers();
-        if (!list.isEmpty() || list != null) {
+        if (!list.isEmpty()) {
             list.forEach(w -> forecast.put(w.getTown().getName(), w));
         }
     }
@@ -94,9 +91,9 @@ public class WeatherThread extends Thread {
 
     public static void callSignal() {
         mutex.lock();
-        try{
-        check = true;
-        checking.signal();
+        try {
+            check = true;
+            checking.signal();
         } finally {
             mutex.unlock();
         }

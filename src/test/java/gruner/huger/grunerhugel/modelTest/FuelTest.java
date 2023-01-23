@@ -1,59 +1,57 @@
 package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import gruner.huger.grunerhugel.model.Fuel;
 
-public class FuelTest {
-    
-    
+@SpringBootTest
+class FuelTest {
+
     @Test
-    public void testGetSet(){
+    void testGetSet() {
         Fuel fuel = new Fuel();
-        
 
-        
-        //ID
+        // ID
         fuel.setFuelId(null);
-        assertEquals(fuel.getFuelId(), null);
+        assertEquals(null, fuel.getFuelId());
 
-        //Price
+        // Price
         fuel.setPrice(10);
-        assertEquals(fuel.getPrice(), 10);
-        
-        //Currency
-        fuel.setCurrency("EURO");
-        assertEquals(fuel.getCurrency(), "EURO");
+        assertEquals(10, fuel.getPrice());
 
-        
+        // Currency
+        fuel.setCurrency("EURO");
+        assertEquals("EURO", fuel.getCurrency());
+
     }
 
     @Test
-    public void equalsTest(){
+    void equalsTest() {
         Fuel fuel = new Fuel();
         Fuel fuel2 = new Fuel();
         Fuel fuel3 = new Fuel();
         fuel3.setPrice(15);
-        //true
-        assertEquals(fuel.equals(fuel2), true);
-        assertEquals(fuel.equals(fuel), true);
+        // true
+        assertEquals(fuel, fuel2);
+        assertEquals(fuel, fuel);
 
-        //false
-        assertEquals(fuel.equals(fuel3), false);
-        assertEquals(fuel.equals(null), false);
+        // false
+        assertNotEquals(fuel, fuel3);
+        assertNotEquals(fuel, null);
     }
-    
+
     @Test
-    public void hashCodeTest(){
+    void hashCodeTest() {
         Fuel fuel = new Fuel();
         Fuel fuel2 = new Fuel();
 
-        //true
+        // true
         assertEquals(fuel.hashCode(), fuel2.hashCode());
         assertEquals(fuel.hashCode(), fuel.hashCode());
-
 
     }
 }
