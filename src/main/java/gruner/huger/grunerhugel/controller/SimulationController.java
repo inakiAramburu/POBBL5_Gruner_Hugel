@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.controller;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.config.URI;
@@ -58,6 +58,7 @@ import gruner.huger.grunerhugel.model.formobjects.CreateSimulation;
 import gruner.huger.grunerhugel.model.formobjects.EditSimulation;
 import gruner.huger.grunerhugel.simulation.Message;
 import gruner.huger.grunerhugel.simulation.SimulationProcesses;
+import gruner.huger.grunerhugel.simulation.enumeration.Sign;
 import gruner.huger.grunerhugel.simulation.thread.Balance;
 import gruner.huger.grunerhugel.simulation.thread.TimeThread;
 import jakarta.servlet.http.HttpServletRequest;
@@ -428,19 +429,17 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/changeLandTable")
-    public ModelAndView changeOperationTable() {
-        ModelAndView mav = new ModelAndView("simulation/simulation :: lands-list");
+    public String changeOperationTable(ModelMap model) {
         User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
         Farm farm = farmRepository.findByUser(user);
-        mav.addObject("lands", landRepository.findByFarm(farm));
-        return mav;
+        model.addAttribute("lands", landRepository.findByFarm(farm));
+        return "simulation/simulation :: #lands-list";
     }
 
     @GetMapping(value = "/changeOperationTable")
-    public ModelAndView changeLandTable() {
-        ModelAndView mav = new ModelAndView("simulation/simulation :: operations-list");
-        List<Message> lista = Balance.getlMessages();
-        mav.addObject("operations", lista);
-        return mav;
+    public String changeLandTable(ModelMap model) {
+        List<Message> lista = Balance.lMessages;
+        model.addAttribute("operations", lista);
+        return "simulation/simulation :: #operations-list";
     }
 }
