@@ -11,12 +11,12 @@
       <div class="row justify-content-center">
         <div class="col-lg-5 bgreen3 rounded border border-dark mt-5">
           <form class="p-0" th:action="@{/login}" method="post">
-            <label for="username" class="form-label col-3 mb-4 mt-5" th:text="#{user.username}"></label>
+            <label class="form-label col-3 mb-4 mt-5" th:text="#{user.username}"></label>
             <input th:type="text" name="username" placeholder="myname"
-              class="col-6 bcream rounded-pill border border-dark" />
-            <label for="password" class="form-label col-3 mt-4" th:text="#{user.password}"></label>
+              class="col-6 bcream rounded-pill border border-dark">
+            <label class="form-label col-3 mt-4" th:text="#{user.password}"></label>
             <input th:type="password" name="password" placeholder="mypassword"
-              class="col-6 bcream rounded-pill border border-dark mb-3" />
+              class="col-6 bcream rounded-pill border border-dark mb-3">
             <button type="submit" class="shadow-sm btn bgreen1 col-3 border border-dark mb-3"
               th:text="#{button.login}"></button>
           </form>

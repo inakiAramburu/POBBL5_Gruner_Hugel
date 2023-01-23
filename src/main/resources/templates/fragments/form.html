@@ -9,7 +9,8 @@
             <form class="form" method="post" th:action="@{/updateSimulation}" th:object="${simulationEdit}">
                 <div class="row mb-3">
                     <label class="fs-5 col-2">End Date:</label>
-                    <input class="col-6 bcream rounded-pill border border-dark" type="date" min="1959-01-01" max="2022-08-31" th:field="*{endDate}" th:required="required" />
+                    <input class="col-6 bcream rounded-pill border border-dark" type="date" min="1959-01-01"
+                        max="2022-08-31" th:field="*{endDate}" th:required="required">
                 </div>
                 <div class="row mb-3">
                     <label class="fs-5 col-2">Tractor:</label>
@@ -17,7 +18,7 @@
                         <label class="fs-5 col " th:text="${farmTractor.tractor.tractorName}"></label>
                         <input class="col bcream rounded-pill border border-dark" type="number"
                             th:placeholder="${farmTractor.quantity}" th:field="*{numTractor}" min="0"
-                            th:required="required" />
+                            th:required="required">
                     </div>
                     <div class="col-2">
                         <button type="button" class="action" id="addTractor">+</button>
@@ -27,15 +28,14 @@
                 <div class="row mb-3">
                     <label class="fs-5 col-2">Workers:</label>
                     <input class="col-6 bcream rounded-pill border border-dark" type="number"
-                        th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0" th:required="required" />
+                        th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0" th:required="required">
                 </div>
                 <div class="row mb-3">
                     <label class="fs-5 col-2">Plow:</label>
                     <div class="col" th:each="farmPlow : ${plows}">
                         <label class="col fs-5" th:text="${farmPlow.plow.plowName}"></label>
                         <input class="col bcream rounded-pill border border-dark" type="number"
-                            th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0"
-                            th:required="required" />
+                            th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0" th:required="required">
                     </div>
                     <div class="col-2">
                         <button type="button" class="action" id="addPlow">+</button>
@@ -48,7 +48,7 @@
                         <label class="col fs-5" th:text="${farmSeeder.seeder.seederName}"></label>
                         <input class="col bcream rounded-pill border border-dark" type="number"
                             th:placeholder="${farmSeeder.quantity}" th:field="*{numSeeder}" min="0"
-                            th:required="required" />
+                            th:required="required">
                     </div>
                     <div class="col-2">
                         <button type="button" class="action" id="addSeeder">+</button>
@@ -61,7 +61,7 @@
                         <label class="fs-5" th:text="${farmHarvester.harvester.harvesterName}"></label>
                         <input class="col bcream rounded-pill border border-dark" type="number"
                             th:placeholder="${farmHarvester.quantity}" th:field="*{numHarvester}" min="0"
-                            th:required="required" />
+                            th:required="required">
                     </div>
                     <div class="col-2">
                         <button type="button" class="action" id="addHarvester">+</button>
@@ -70,7 +70,7 @@
                 </div>
                 <div class="row mb-3">
                     <div class="col-2">
-                        <label class="fs-5" >Balance:</label>
+                        <label class="fs-5">Balance:</label>
                         <label class="fs-5" th:text="${total}"></label>€
                     </div>
                     <div class="col d-flex justify-content-end">
@@ -99,7 +99,7 @@
                         <label class="mb-3 fs-5 col-6 d-flex justify-content-right">
                             Size:
                             <input class="bcream rounded-pill border border-dark" type="number" th:field="*{size}"
-                                th:required="required" />
+                                th:required="required">
                         </label>
                     </div>
                     <div class="row">
@@ -123,10 +123,10 @@
                                 th:required="required">
                         </label>
                         <button type="submit" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
-                            <img class="w-50" th:src="@{/img/tick.png}" alt="tick" />
+                            <img class="w-50" th:src="@{/img/tick.png}" alt="tick">
                         </button>
                         <button type="reset" class="btn bgreen1 m-2 p-1 rounded-4 col-2 border border-dark">
-                            <img class="w-50" th:src="@{/img/x.png}" alt="x" />
+                            <img class="w-50" th:src="@{/img/x.png}" alt="x">
                         </button>
                     </div>
                 </form>
