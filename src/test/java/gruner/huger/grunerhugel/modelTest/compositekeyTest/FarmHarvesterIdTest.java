@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
