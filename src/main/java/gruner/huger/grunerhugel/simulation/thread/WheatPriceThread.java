@@ -29,7 +29,6 @@ public class WheatPriceThread extends Thread {
     public void run() {
         while (!pause) {
             if (check) {
-                GrunerhugelApplication.logger.info("UPDATE WHEATPRICE");
                 updateWheatPrice();
                 check = false;
             }
@@ -75,8 +74,8 @@ public class WheatPriceThread extends Thread {
         }
     }
 
-    public static double sellWheat(int tones) {
-        return tones * wheatPrice.getPrice();
+    public static double sellWheat(double quantity) {
+        return quantity * wheatPrice.getPrice();
     }
 
     public static void pause() {

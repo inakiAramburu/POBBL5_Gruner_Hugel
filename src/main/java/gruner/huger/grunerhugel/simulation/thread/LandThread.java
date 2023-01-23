@@ -28,8 +28,7 @@ import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class LandThread extends Thread {
     private static final int PORCENTAJE = 65;
-    private static final String SPLITTER = "\\*";
-    private Map<Land, List<Worker>> assignationMap;
+    private static Map<Land, List<Worker>> assignationMap;
     private List<Land> lands;
     private LandRepository lRepository;
     private static List<Worker> workers;
@@ -49,7 +48,7 @@ public class LandThread extends Thread {
         queue = blockingQueue;
         workers = setWorkers();
         this.lRepository = landRepository;
-        this.assignationMap = new HashMap<>();
+        assignationMap = new HashMap<>();
         this.lands = new ArrayList<>();
         this.rand = new SecureRandom();
         getListTractor(fTractRepository);
@@ -243,7 +242,7 @@ public class LandThread extends Thread {
 
     private void work() {
         for (Entry<Land, List<Worker>> lEntry : assignationMap.entrySet()) {
-            if (!lEntry.getValue().isEmpty() && lEntry.getValue().get(0).getCount() == -1) {
+            if (!lEntry.getValue().isEmpty() && lEntry.getValue().get(0).getCount() == 0) {
                 deassignTractorFromLand(lEntry.getKey());
                 assignTractorToLand(lEntry.getKey());
                 int workHours = calculateWorkHours(lEntry.getKey().getSize(),
@@ -281,13 +280,19 @@ public class LandThread extends Thread {
     }
 
     private LandStatus getLandStatus(String status) {
-        if (status.equals(LandStatus.EMPTY.getStatus()) || status.equals(LandStatus.PLANTING.getStatus())) {
-            return LandStatus.PLANTING;
-        } else if (status.equals(LandStatus.RIPE.getStatus()) || status.equals(LandStatus.HARVESTING.getStatus())) {
-            return LandStatus.HARVESTING;
+        LandStatus lStatus;
+        if (status.equals(LandStatus.EMPTY.getStatus())) {
+            lStatus = LandStatus.EMPTY;
+        } else if (status.equals(LandStatus.PLANTING.getStatus())) {
+            lStatus = LandStatus.PLANTING;
+        }else if(status.equals(LandStatus.RIPE.getStatus())){
+            lStatus = LandStatus.RIPE;
+        } else if (status.equals(LandStatus.HARVESTING.getStatus())) {
+            lStatus = LandStatus.HARVESTING;
         } else {
-            return LandStatus.GROWING;
+            lStatus = LandStatus.GROWING;
         }
+        return lStatus;
     }
 
     private double calculateTractorEfficiency(Land land) {
@@ -303,26 +308,29 @@ public class LandThread extends Thread {
 
     private void initializeWorkers(List<Worker> value, int workHours, Land land) {
         for (Worker w : value) {
-            String[] command = getCommandAndVariable(land.getStatus(), land).split(SPLITTER);
-            w.setWork(workHours, command[0], Integer.valueOf(command[1]));
+            String[] command = getCommandAndVariable(land.getStatus(), land);
+            w.setWork(workHours, command[0], Double.valueOf(command[1]));
         }
     }
 
-    private String getCommandAndVariable(String status, Land land) {
+    private String[] getCommandAndVariable(String status, Land land) {
         String command;
+        String number;
         switch (status) {
             case "Ripe":
-                command = Worker.COMMAND_HARVEST.concat(SPLITTER)
-                        .concat(String.valueOf(land.getSize() * PlantType.WHEAT.getTPerHa()));
+                command = Worker.COMMAND_HARVEST;
+                number = String.valueOf(land.getSize() * PlantType.WHEAT.getTPerHa());
                 break;
             case "Empty":
-                command = Worker.COMMAND_SEEDS.concat(SPLITTER).concat(String.valueOf(land.getSize()));
+                command = Worker.COMMAND_SEEDS;
+                number = String.valueOf(land.getSize());
                 break;
             case "Growing":
             default:
-                command = Worker.COMMAND_MANTAIN.concat(SPLITTER).concat(String.valueOf(0));
+                command = Worker.COMMAND_MANTAIN;
+                number = "0";
         }
-        return command;
+        return new String[] {command,number};
     }
 
     public void saveLand() {
@@ -330,6 +338,24 @@ public class LandThread extends Thread {
     }
 
     // -----------------------------------
+
+    public static void addNewPlant(Worker worker, PlantType pType, double numSeed) {
+        Land land = getLandFromWorker(worker);
+        if (land != null) {
+            PlantThread.addPlant(land, pType, (int)numSeed);
+        }
+    }
+
+    public static Land getLandFromWorker(Worker worker) {
+        Land land = null;
+        for (Entry<Land, List<Worker>> entry : assignationMap.entrySet()) {
+            if (entry.getValue().contains(worker)) {
+                land = entry.getKey();
+                break;
+            }
+        }
+        return land;
+    }
 
     public static void callSignal() {
         mutex.lock();
@@ -346,7 +372,7 @@ public class LandThread extends Thread {
         for (int i = 0; i < paidWorkers; i++) {
             workers.get(i).pay();
         }
-        for(int i=paidWorkers;i<workers.size();i++){
+        for (int i = paidWorkers; i < workers.size(); i++) {
             workers.get(i).unpay();
         }
         payment.release();
@@ -356,7 +382,7 @@ public class LandThread extends Thread {
         pause = true;
     }
 
-    public static void workingHours(boolean value){
+    public static void workingHours(boolean value) {
         workingHours = value;
     }
 }

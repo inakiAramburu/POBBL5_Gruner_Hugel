@@ -152,6 +152,7 @@ public class SimulationController {
                 farmTractorRepository);
         sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farmRepository,
                 simulationRepository);
+        sim.start();
         return URI.HOME_USER_FARM.getView();
     }
 
