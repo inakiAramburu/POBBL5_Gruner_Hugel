@@ -7,7 +7,6 @@ import java.util.Optional;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.FuelRepository;
@@ -27,10 +26,8 @@ public class FuelThread extends Thread {
 
     @Override
     public void run() {
-        GrunerhugelApplication.logger.log(Level.INFO, "TimeThread Id: {0}", this.getId());
         while (!pause) {
             if (check) {
-                GrunerhugelApplication.logger.info("UPDATE FUEL");
                 updateFuel();
                 check = false;
             }

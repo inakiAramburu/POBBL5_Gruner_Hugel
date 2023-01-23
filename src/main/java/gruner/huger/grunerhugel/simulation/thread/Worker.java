@@ -1,7 +1,6 @@
 package gruner.huger.grunerhugel.simulation.thread;
 
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Semaphore;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
@@ -16,20 +15,22 @@ public class Worker extends Thread {
     public static final String COMMAND_SELL = "SELL PRODUCT";
     public static final String COMMAND_MANTAIN = "MANTAIN LANDS";
     public static final String COMMAND_HARVEST = "HARVEST PRODUCTS";
+    private static int workingHours = 0;
     private boolean paid;
-    private boolean jobFinished = true;
     private boolean pause = false;
     private BlockingQueue<Message> queue;
-    private static CountDownLatch cLatch = new CountDownLatch(0);
     private Semaphore payCheck;
+    private Semaphore toWork;
     private Semaphore work;
     private String command;
-    private Integer temp;
+    private double temp;
+    private Object mutex = new Object();
 
     public Worker(BlockingQueue<Message> blockingQueue) {
         this.queue = blockingQueue;
         this.paid = false;
         this.payCheck = new Semaphore(0);
+        this.toWork = new Semaphore(0);
         this.work = new Semaphore(0);
     }
 
@@ -49,10 +50,9 @@ public class Worker extends Thread {
     private void awaitWork() {
         try {
             while (paid) {
-                work.acquire();
+                toWork.acquire();
                 doWork();
-                cLatch.await();
-                jobFinished = true;
+                work.acquire();
             }
         } catch (InterruptedException e) {
             GrunerhugelApplication.logger.warning("Working Interrupted!");
@@ -63,7 +63,7 @@ public class Worker extends Thread {
     private void doWork() {
         switch (command) {
             case COMMAND_FUEL:
-                buyFuel(temp);
+                buyFuel((int)temp);
                 break;
             case COMMAND_SEEDS:
                 buySeeds(temp, PlantType.WHEAT);
@@ -74,7 +74,6 @@ public class Worker extends Thread {
             case COMMAND_HARVEST, COMMAND_MANTAIN:
             default:
         }
-        jobFinished = false;
     }
 
     private void buyFuel(int litres) {
@@ -82,8 +81,10 @@ public class Worker extends Thread {
     }
 
     private void buySeeds(double size, PlantType pType) {
-        buy(((pType.getKgsPerHa() * size) / KG_PER_SEED_SACK) * pType.getSeedPrice(),
+        double numSeed = ((pType.getKgsPerHa() * size) / KG_PER_SEED_SACK);
+        buy(numSeed * pType.getSeedPrice(),
                 "Cost of seeds of " + pType.getPlantType() + " for " + size + " hectares.");
+        LandThread.addNewPlant(this, pType, numSeed);
     }
 
     private void buy(double cost, String concept) {
@@ -95,7 +96,7 @@ public class Worker extends Thread {
         }
     }
 
-    private void sellProducts(int quantity, PlantType pType) {
+    private void sellProducts(double quantity, PlantType pType) {
         try {
             Message msg = new Message(Sign.PLUS, WheatPriceThread.sellWheat(quantity),
                     "Sell of " + quantity + " tons of " + pType.getPlantType());
@@ -108,11 +109,13 @@ public class Worker extends Thread {
 
     // -----------------------------------------------------
 
-    public void setWork(int workHours, String instruction, Integer variable) {
-        cLatch = new CountDownLatch(workHours);
-        command = instruction;
-        temp = variable;
-        work.release();
+    public void setWork(int workHours, String instruction, Double variable) {
+        synchronized (mutex) {
+            workingHours = workHours;
+            command = instruction;
+            temp = variable;
+        }
+        toWork.release();
     }
 
     public void pay() {
@@ -129,21 +132,20 @@ public class Worker extends Thread {
     }
 
     public long getCount() {
-        long result;
-        if (cLatch == null) {
-            result = -2;
-        } else if (jobFinished) {
-            result = -1;
-        } else {
-            result = cLatch.getCount();
+        synchronized (mutex) {
+            return workingHours;
         }
-        return result;
     }
 
     public void hourPass() {
-        if (cLatch != null && cLatch.getCount() != 0) {
-            GrunerhugelApplication.logger.info("Worker countedDown");
-            cLatch.countDown();
+        synchronized (mutex) {
+            if (workingHours > 0) {
+                GrunerhugelApplication.logger.info("Worker countedDown");
+                workingHours--;
+            }
+            if (workingHours == 0) {
+                work.release();
+            }
         }
     }
 

@@ -35,13 +35,16 @@ public class PlantThread extends Thread {
         updateMap();
     }
 
-    public static void addPlant(Land land, PlantType pType) {
+    public static void addPlant(Land land, PlantType pType, int numSeed) {
         OptimalConditions oConditions = oRepository.findByName(pType.getPlantType());
-        Plant plant = new Plant(oConditions, land);
         List<Plant> list = fields.get(land);
         if (list == null)
             list = new ArrayList<>();
-        list.add(plant);
+        Plant plant;
+        for (int i = 0; i < numSeed; i++) {
+            plant = new Plant(oConditions, land);
+            list.add(plant);
+        }
         fields.put(land, list);
     }
 
