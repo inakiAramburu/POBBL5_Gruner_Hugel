@@ -45,12 +45,12 @@ public class SimulationProcesses extends Thread {
     private static Farm farm;
     private static boolean pause = false;
     private Balance balance;
-    private WeatherThread wThread;
-    private PlantThread pThread;
-    private TimeThread tThread;
-    private FuelThread fThread;
-    private WheatPriceThread wpThread;
-    private LandThread lThread;
+    WeatherThread wThread;
+    PlantThread pThread;
+    TimeThread tThread;
+    FuelThread fThread;
+    WheatPriceThread wpThread;
+    LandThread lThread;
     private static Lock mutex = new ReentrantLock();
     private static Condition cond = mutex.newCondition();
 
@@ -72,6 +72,10 @@ public class SimulationProcesses extends Thread {
         this.fHarvRepository = farmHarvRepository;
         this.fPlowRepository = farmPlowRepository;
         this.fSeedRepository = farmSeedRepository;
+        this.fTractRepository = farmTractRepository;
+    }
+
+    public void constructVehicleRepositories(FarmTractorRepository farmTractRepository) {
         this.fTractRepository = farmTractRepository;
     }
 
