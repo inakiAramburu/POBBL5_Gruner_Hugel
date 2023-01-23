@@ -34,8 +34,8 @@
             <label id="balance">0</label>€
           </div>
         </div>
-        <div class="bcream  h-25 overflow-x-hidden mb-4 rounded-4 operations-list">
-          <div class="table-responsive" th:fragment="operations-list">
+        <div class="bcream  h-25 overflow-x-hidden mb-4 rounded-4">
+          <div class="table-responsive">
             <table class="table bcream table-striped table-sm table-hover">
               <caption></caption>
               <thead>
@@ -44,7 +44,7 @@
                   <th th:text="#{simulation.operation}"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="operations-list">
                 <!--Add here the concept and operations-->
                 <tr th:each="operation : ${operations}">
                   <td th:text="${operation.getConcept()}"></td>
@@ -60,8 +60,8 @@
           </button>
         </div>
 
-        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4 border border-dark lands-list">
-          <div class="table-responsive" th:fragment="lands-list">
+        <div class="bcream h-25 overflow-x-hidden mb-4 rounded-4 border border-dark">
+          <div class="table-responsive">
             <table class="table bcream table-striped table-sm table-hover">
               <caption></caption>
               <thead>
@@ -71,7 +71,7 @@
                   <th th:text="#{delete}"></th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="lands-list">
                 <!--Add here the concept and operations-->
                 <tr th:each="land : ${lands}">
                   <td class="py-2" th:text="${land.town.name}"></td>
