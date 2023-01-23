@@ -34,25 +34,17 @@ public class WeatherThread extends Thread {
         checking = mutex.newCondition();
     }
 
-    public void initialize(Date date, List<Land> lands) { // to change all about date and lands
-        this.date = date; // change date
-        this.villages = initializeVillages(lands); // change village names
-        forecast.clear(); // clear map
+    public void initialize(Date date, List<Land> lands) {
+        this.date = date;
+        this.villages = initializeVillages(lands);
+        forecast.clear();
     }
 
-    private List<String> initializeVillages(List<Land> lands) { // take village names out from lands
+    private List<String> initializeVillages(List<Land> lands) {
         List<String> temp = new ArrayList<>();
         lands.forEach(l -> temp.add(l.getTown().getName()));
         return temp;
     }
-
-    // public void initialize(int hoursPassed, List<Land> lands){ // to change all
-    // about lands and add N hours to Date
-    // date.setTime(date.getTime() + hoursPassed*3600000); // 3600000 = 1000ms * 60s
-    // * 60min
-    // this.villages = initializeVillages(lands); // change village names
-    // forecast.clear(); // clear map
-    // }
 
     @Override
     public void run() {
@@ -70,9 +62,9 @@ public class WeatherThread extends Thread {
 
     private void updateWeather() {
         date = TimeThread.getActualDate();
-        List<Weather> list = findAllRelevantWeathers(); // get all weather from repository with date
+        List<Weather> list = findAllRelevantWeathers();
         if (!list.isEmpty() || list != null) {
-            list.forEach(w -> forecast.put(w.getTown().getName(), w)); // take only
+            list.forEach(w -> forecast.put(w.getTown().getName(), w));
         }
     }
 

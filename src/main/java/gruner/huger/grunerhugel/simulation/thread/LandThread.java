@@ -55,6 +55,7 @@ public class LandThread extends Thread {
         getListTractor(fTractRepository);
         this.tMap = new HashMap<>();
         payment = new Semaphore(0);
+        payWorkers();
     }
 
     private List<Worker> setWorkers() {
