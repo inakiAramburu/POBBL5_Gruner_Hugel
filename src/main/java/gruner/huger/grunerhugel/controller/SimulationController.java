@@ -150,9 +150,9 @@ public class SimulationController {
 
         sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
                 fuelRepository, wheatPriceRepository);
-        sim.constructVehicleRepositories(farmHarvesterRepository, farmPlowRepository, farmSeederRepository,
-                farmTractorRepository);
-        sim.initialize(farm.getMoney(), simulation.getStartDate(), simulation.getEndDate(), farmRepository,
+        sim.constructVehicleRepositories(farmTractorRepository);
+        sim.initialize(farm.getMoney(), simulation.getStartDate(),
+                simulation.getEndDate(), farmRepository,
                 simulationRepository);
         return URI.HOME_USER_FARM.getView();
     }
@@ -436,7 +436,7 @@ public class SimulationController {
 
     @GetMapping(value = "/changeOperationTable")
     public String changeLandTable(ModelMap model) {
-        List<Message> lista = Balance.lMessages;
+        List<Message> lista = Balance.getlMessages();
         model.addAttribute("operations", lista);
         return "simulation/simulation :: #operations-list";
     }

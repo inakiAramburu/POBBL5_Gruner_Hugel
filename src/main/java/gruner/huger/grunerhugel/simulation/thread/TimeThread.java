@@ -51,6 +51,7 @@ public class TimeThread extends Thread {
             GrunerhugelApplication.logger.warning("TimeThread was interrupted!");
             this.interrupt();
         }
+        GrunerhugelApplication.logger.info("Time PAUSE");
     }
 
     private boolean checkDate() {
@@ -66,14 +67,19 @@ public class TimeThread extends Thread {
     }
 
     public static void pause() {
-        pause = true;
-        Balance.pause();
-        FuelThread.pause();
-        WheatPriceThread.pause();
-        SimulationProcesses.pause();
-        LandThread.pause();
-        PlantThread.pause();
-        WeatherThread.pause();
+        try {
+            PlantThread.pause();
+            Balance.pause();
+            FuelThread.pause();
+            WheatPriceThread.pause();
+            LandThread.pause();
+            WeatherThread.pause();
+            Thread.sleep(500);
+            SimulationProcesses.pause();
+            pause = true;
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
     }
 
     public static void setAccelerator(int acceleration) {

@@ -82,7 +82,7 @@ public class LandThread extends Thread {
             work();
             check = false;
         }
-        saveLand();
+        GrunerhugelApplication.logger.info("Land PAUSE");
     }
 
     private void awaitPayment() {
@@ -372,10 +372,17 @@ public class LandThread extends Thread {
     }
 
     public static void pause() {
+        for(List<Worker> list : assignationMap.values()){
+            list.forEach(Worker::pause);
+        }
         pause = true;
     }
 
     public static void workingHours(boolean value) {
         workingHours = value;
+    }
+
+    public static List<Land> getLands(){
+        return new ArrayList<>(assignationMap.keySet());
     }
 }

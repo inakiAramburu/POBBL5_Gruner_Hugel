@@ -17,7 +17,7 @@ public class Worker extends Thread {
     public static final String COMMAND_HARVEST = "HARVEST PRODUCTS";
     private static int workingHours = 0;
     private boolean paid;
-    private boolean pause = false;
+    private static boolean pause = false;
     private BlockingQueue<Message> queue;
     private Semaphore payCheck;
     private Semaphore toWork;
@@ -151,5 +151,10 @@ public class Worker extends Thread {
 
     public void unpay() {
         paid = false;
+    }
+
+    public void pause(){
+        pause = true;
+        this.interrupt();
     }
 }

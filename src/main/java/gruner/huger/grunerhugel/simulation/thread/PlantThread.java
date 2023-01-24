@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.OptimalConditionsRepository;
 import gruner.huger.grunerhugel.domain.repository.PlantRepository;
@@ -68,19 +69,52 @@ public class PlantThread extends Thread {
         } finally {
             mutex.unlock();
         }
+        GrunerhugelApplication.logger.info("Plant PAUSE");
     }
 
     private void updatePlants() {
+        updateLands();
         Map<String, Weather> forecast = WeatherThread.getForecast();
         List<Integer> deadList = new ArrayList<>();
         for (List<Plant> list : fields.values()) {
-            deadList.addAll(checkPlants(list, forecast));
+            if (list != null && !list.isEmpty()) {
+                deadList.addAll(checkPlants(list, forecast));
+            }
         }
         if (!deadList.isEmpty()) {
             eliminateDeadPlants(deadList);
             deadList.clear();
         }
         check = false;
+    }
+
+    private void updateLands() {
+        List<Land> list = LandThread.getLands();
+        for (Land land : list) {
+            if (!fields.containsKey(land)) {
+                updateLand(land);
+            }
+        }
+    }
+
+    private void updateLand(Land land) {
+        Land temp = isLandInList(land, new ArrayList<>(fields.keySet()));
+        if (temp != null) {
+            List<Plant> plants = fields.remove(temp);
+            fields.put(land, plants);
+        }
+    }
+
+    private Land isLandInList(Land land, List<Land> list) {
+        boolean found = false;
+        int kont;
+        for (kont = 0; kont < list.size() && !found; kont++) {
+            if (list.get(kont).getSize() == land.getSize() && list.get(kont).getLatitude() == land.getLatitude()
+                    && list.get(kont).getLongitude() == land.getLongitude()) {
+                found = true;
+            }
+        }
+        return (found) ? list.get(kont - 1) : null;
     }
 
     private List<Integer> checkPlants(List<Plant> list, Map<String, Weather> forecast) {
@@ -121,7 +155,11 @@ public class PlantThread extends Thread {
 
     public void savePlants() {
         List<Plant> all = new ArrayList<>();
-        fields.values().forEach(all::addAll);
+        for (List<Plant> list : fields.values()) {
+            if (list != null && !list.isEmpty()) {
+                all.addAll(list);
+            }
+        }
         pRepository.saveAll(all);
     }
 
@@ -131,5 +169,6 @@ public class PlantThread extends Thread {
 
     public static void pause() {
         pause = true;
+        callSignal();
     }
 }

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
-import java.util.logging.Level;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
 import gruner.huger.grunerhugel.domain.repository.WeatherRepository;
@@ -45,7 +44,6 @@ public class WeatherThread extends Thread {
 
     @Override
     public void run() {
-        GrunerhugelApplication.logger.log(Level.INFO, "WeatherThread Id: {0}", this.getId());
 
         while (!pause) {
             if (check) {
@@ -55,6 +53,7 @@ public class WeatherThread extends Thread {
             }
             awaitCheck();
         }
+        GrunerhugelApplication.logger.info("Weather PAUSE");
     }
 
     private void updateWeather() {
@@ -105,5 +104,6 @@ public class WeatherThread extends Thread {
 
     public static void pause() {
         pause = true;
+        callSignal();
     }
 }

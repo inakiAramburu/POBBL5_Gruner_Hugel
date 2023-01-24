@@ -21,7 +21,7 @@ public class Balance extends Thread {
     private static Lock lock = new ReentrantLock();
     private static Condition checking = lock.newCondition();;
     private static boolean pause = false;
-    public static List<Message> lMessages = new ArrayList<>();
+    protected static List<Message> lMessages = new ArrayList<>();
 
     public Balance(double initialBalance, BlockingQueue<Message> blockingQueue) {
         this.blockingQueue = blockingQueue;
@@ -57,6 +57,7 @@ public class Balance extends Thread {
             readMessages();
         }
         saveBalance();
+        GrunerhugelApplication.logger.info("Balance PAUSE");
     }
 
     public void awaitCheck() {
@@ -75,9 +76,11 @@ public class Balance extends Thread {
 
     public void readMessages() {
         List<Message> list = new ArrayList<>();
-        blockingQueue.drainTo(list);
-        list.forEach(this::doAction);
-        lMessages.addAll(list);
+        if (!blockingQueue.isEmpty()) {
+            blockingQueue.drainTo(list);
+            list.forEach(this::doAction);
+            lMessages.addAll(list);
+        }
     }
 
     public void doAction(Message msg) {
@@ -116,6 +119,7 @@ public class Balance extends Thread {
     }
 
     public static void pause() {
+        callSignal();
         pause = true;
     }
 
