@@ -20,7 +20,7 @@ import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 public class PlantThread extends Thread {
     static final String PROPERTY_NAME = "PLANT_THREAD";
     private static Map<Land, List<Plant>> fields = new HashMap<>();
-    private List<Land> lands;
+    private static List<Land> lands;
     private static boolean check = false;
     private static boolean pause = false;
     private static Lock mutex = new ReentrantLock();
@@ -29,8 +29,8 @@ public class PlantThread extends Thread {
     private static OptimalConditionsRepository oRepository;
 
     public PlantThread(PlantRepository plantRepository, OptimalConditionsRepository opCondRepository,
-            List<Land> lands) {
-        this.lands = lands;
+            List<Land> farmLands) {
+        lands = farmLands;
         pRepository = plantRepository;
         oRepository = opCondRepository;
         updateMap();
@@ -95,6 +95,7 @@ public class PlantThread extends Thread {
                 updateLand(land);
             }
         }
+        lands = list;
     }
 
     private void updateLand(Land land) {
@@ -153,14 +154,27 @@ public class PlantThread extends Thread {
         }
     }
 
-    public void savePlants() {
-        List<Plant> all = new ArrayList<>();
+    public static void savePlants() {
+        List<Plant> old = new ArrayList<>();
+        for (Land land : lands) {
+            old.addAll(pRepository.findByLand(land));
+        }
+        List<Plant> newList = new ArrayList<>();
         for (List<Plant> list : fields.values()) {
             if (list != null && !list.isEmpty()) {
-                all.addAll(list);
+                newList.addAll(list);
             }
         }
-        pRepository.saveAll(all);
+        for(int i=0;i<old.size();i++){
+            for(int j=0;j<newList.size();j++){
+                if(old.get(i).getId() == newList.get(j).getId()){
+                    old.get(i).setGrowthRate(newList.get(j).getGrowthRate());
+                    old.get(i).setHealthPoint(newList.get(j).getHealthPoint());
+                    old.get(i).setStatus(newList.get(j).getStatus());
+                }
+            }
+        }
+        pRepository.saveAll(old);
     }
 
     public static Map<Land, List<Plant>> getLandAndPlantList() {
@@ -168,6 +182,7 @@ public class PlantThread extends Thread {
     }
 
     public static void pause() {
+        savePlants();
         pause = true;
         callSignal();
     }
