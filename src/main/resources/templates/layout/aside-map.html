@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="icon" th:href="@{/img/logo.png}" type="image/png">
+    <!--API navarra map-->
+    <script src="//sitna.navarra.es/api/"></script>
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/simulation.css}" rel="stylesheet">
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+    <title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Gruner Hugel</title>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//grunerhugermatomo.duckdns.org/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+
+</head>
+
+<body class="vh-100 vw-100 p-0 m-0 text-center bgreen2">
+    <main class="w-100 h-100 p-0 m-0 container-fluid">
+        <div class="row w-100 h-100 p-0 m-0">
+            <aside class="col-sm-12 col-md-12 col-lg col-xl negativel" layout:fragment="aside">
+            </aside>
+            <div class="col-sm-12 col-md-12 col-lg col-xl">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8">
+                        <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnNav', 'change on navigation']);" class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 py-1 mb-5">
+                            <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnAside', 'click on aside button']);" class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPlay', 'click on play button']);" class="col" id="play">
+                                <img class="w-100" th:src="@{/img/play.png}" alt="play">
+                            </a>
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPause', 'click on pause button']);" class="col" id="pause">
+                                <img class="w-100" th:src="@{/img/pause.png}" alt="pause">
+                            </a>
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnRewind', 'click on rewind button']);" class="col" id="rewind">
+                                <img class="w-100" th:src="@{/img/rewind.png}" alt="rewind">
+                            </a>
+                            <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2">
+                                x
+                                <label id="speed" th:text="1"></label>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnMap', 'click on map']);" class="row h-75" style="min-height:500px" th:include="~{fragments/map :: map}"></div>
+            </div>
+        </div>
+    </main>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+        integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+        integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+        crossorigin="anonymous"></script>
+
+    <script th:src="@{/js/adder.js}"></script>
+    <script th:src="@{/js/calculateTotal.js}"></script>
+    <script th:src="@{/js/simulation.js}"></script>
+</body>
+
+</html>

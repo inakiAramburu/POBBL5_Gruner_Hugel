@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang=en layout:decorate="~{layout/login_layout}">
+
+<head>
+  <title>Login</title>
+  <!-- Matomo -->
+  <script>
+    var _paq = window._paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    (function() {
+      var u="//grunerhugermatomo.duckdns.org/";
+      _paq.push(['setTrackerUrl', u+'matomo.php']);
+      _paq.push(['setSiteId', '2']);
+      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
+    })();
+  </script>
+  <!-- End Matomo Code -->
+</head>
+
+<body >
+  <main layout:fragment="main">
+    <div class="container vw-100">
+      <div class="row w-100 justify-content-center">
+        <div class="col-10 col-sm-8 col-md-6 col-lg-4 bgreen3 rounded border border-dark mt-5">
+          <form class="p-0" th:action="@{/login}" method="post">
+            <label class="form-label col-3 mb-4 mt-5" th:text="#{user.username}"></label>
+            <input th:type="text" name="username" placeholder="myname"
+              class="col-6 bcream rounded-pill border border-dark">
+            <label class="form-label col-3 mt-4" th:text="#{user.password}"></label>
+            <input th:type="password" name="password" placeholder="mypassword"
+              class="col-6 bcream rounded-pill border border-dark mb-3">
+            <button onclick="_paq.push(['trackEvent', 'Click', 'Login', 'click on Login ']);" type="submit" class="shadow-sm btn bgreen1 col-3 border border-dark mb-3"
+              th:text="#{button.login}"></button>
+          </form>
+        </div>
+        <div class="row align-items-center justify-content-center d-inline">
+          <p  th:text="#{message.no-account}"></p><a  th:href="@{/create}" th:text="#{message.click-here}"></a>
+        </div>
+      </div>
+    </div>
+  </main>
+</body>
+
+</html>

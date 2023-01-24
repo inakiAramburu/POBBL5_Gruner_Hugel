@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" layout:decorate="~{layout/no-footer}">
+
+<head>
+    <title th:text="#{title.user-edit}"></title>
+    <!-- Matomo -->
+    <script>
+        var _paq = window._paq = window._paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//grunerhugermatomo.duckdns.org/";
+            _paq.push(['setTrackerUrl', u + 'matomo.php']);
+            _paq.push(['setSiteId', '2']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
+
+</head>
+
+<body>
+    <h1 layout:fragment="title" th:text="#{title.user-edit}"></h1>
+    <main layout:fragment="main">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 p-4 bgreen3 rounded-3 border border-dark mt-5">
+                    <form method="post" th:action="@{/update/{id} (id=${old_user.getId()})}" th:object="${new_user}">
+                        <div class="row mb-3">
+                            <div class="col-6"> <label th:text="#{user.username}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="username"
+                                    th:field="*{username}" th:placeholder="${old_user.getUsername()}"
+                                    th:required="required">
+                            </div>
+                            <div class="col-6">
+                                <label onclick="_paq.push(['trackEvent', 'Click', 'RoleChange', 'admin']);" th:text="#{user.role}"></label>:
+                                <select class="bcream rounded-pill border border-dark" th:field="*{role}">
+                                    <option class="bcream rounded-pill border border-dark" th:each="role : ${roles}"
+                                        th:value="${role.id}" th:text="${role.name}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label th:text="#{user.name}"></label>:
+                                <input class="bcream rounded-pill border border-dark" th:field="*{name}"
+                                    th:placeholder="${old_user.getName()}" th:required="required">
+                            </div>
+                            <div class="col-6">
+                                <label th:text="#{user.surname}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="surname"
+                                    th:field="*{surname}" th:placeholder="${old_user.getSurname()}"
+                                    th:required="required">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <label th:text="#{user.email}"></label>:
+                                <input class="bcream rounded-pill border border-dark" name="email" th:field="*{email}"
+                                    th:placeholder="${old_user.getEmail()}" th:required="required">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'Cancel', 'admin']);" class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
+                                th:text="#{button.cancel}"></a>
+                            <button onclick="_paq.push(['trackEvent', 'Click', 'EditUserSubmit', 'admin']);" class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
+                                th:text="#{button.submit}"></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
