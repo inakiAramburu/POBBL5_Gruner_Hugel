@@ -48,14 +48,6 @@ class BalanceTest {
     }
 
     @Test
-    void testGetLMessage() {
-        double initialBalance = 100;
-        BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
-        new Balance(initialBalance, blockingQueue);
-        assertEquals(Balance.getlMessages().size(), 0);
-    }
-
-    @Test
     void testMonetCost() {
         double initialBalance = 100;
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();

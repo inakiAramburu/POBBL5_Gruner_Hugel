@@ -2,9 +2,8 @@
 <aside onclick="_paq.push(['trackEvent', 'Click', 'AsideClick', 'click on aside']);" class="z-2 w-50 h-75 start-0 position-absolute collapse in collapse-horizontal" id="collapseWidthExample"
     th:fragment="aside-form-farm-edit">
     <div class="h-100 w-75 bgreen1 pb-5 px-3 rounded-3">
-        <h2
-            class="mx-auto negativet w-75 rounded-pill justify-content-center bgreen1 border-top border-dark pb-5 text-decoration-underline">
-            SIMULATION EDIT</h2>
+        <h2 class="mx-auto negativet w-75 rounded-pill justify-content-center bgreen1 border-top border-dark pb-5 text-decoration-underline"
+            th:text="#{title.simulation-edit}"> </h2>
         <div class="bgreen3 z-3 negativet rounded-4 p-3">
             <form onclick="_paq.push(['trackEvent', 'Click', 'EditFormClick', 'edit simulation form']);" class="form" method="post" th:action="@{/updateSimulation}" th:object="${simulationEdit}">
                 <div class="row mb-3">
@@ -12,8 +11,8 @@
                     <input onclick="_paq.push(['trackEvent', 'Edit', 'EndDateEdit', 'edit end date']);" class="col-6 bcream rounded-pill border border-dark" type="date" min="1959-01-01"
                         max="2022-08-31" th:field="*{endDate}" th:required="required">
                 </div>
-                <div class="row mb-3">
-                    <label class="fs-5 col-2">Tractor:</label>
+                <div class="row">
+                    <label class="fs-5 col-2" th:text="#{simulation.tractor}"></label>:
                     <div class="col" th:each="farmTractor : ${tractors}">
                         <label onclick="_paq.push(['trackEvent', 'Edit', 'TractorModelEdit', 'edit tractor model']);" class="fs-5 col " th:text="${farmTractor.tractor.tractorName}"></label>
                         <input onclick="_paq.push(['trackEvent', 'Edit', 'TractorModelAmountEdit', 'edit tractor amount']);"class="col bcream rounded-pill border border-dark" type="number"
@@ -30,8 +29,8 @@
                     <input onclick="_paq.push(['trackEvent', 'Edit', 'WorkerAmountEdit', 'edit tractor amount']);" class="col-6 bcream rounded-pill border border-dark" type="number"
                         th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0" th:required="required">
                 </div>
-                <div class="row mb-3">
-                    <label class="fs-5 col-2">Plow:</label>
+                <div class="row">
+                    <label class="fs-5 col-2" th:text="#{simulation.plow}"></label>:
                     <div class="col" th:each="farmPlow : ${plows}">
                         <label class="col fs-5" th:text="${farmPlow.plow.plowName}"></label>
                         <input onclick="_paq.push(['trackEvent', 'Edit', 'PlowModelAmountEdit', 'edit plow amount']);" class="col bcream rounded-pill border border-dark" type="number"
@@ -42,8 +41,8 @@
                         <button onclick="_paq.push(['trackEvent', 'Remove', 'PlowModelRemove', 'remove plow model']);" type="button" class="btn rounded-circle red border-dark px-2" id="removePlow">-</button>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label class="fs-5 col-2">Seeder:</label>
+                <div class="row">
+                    <label class="fs-5 col-2" th:text="#{simulation.seeder}"></label>:
                     <div class="col" th:each="farmSeeder : ${seeders}">
                         <label class="col fs-5" th:text="${farmSeeder.seeder.seederName}"></label>
                         <input onclick="_paq.push(['trackEvent', 'Edit', 'SeederModelAmountEdit', 'edit seeder model amount']);" class="col bcream rounded-pill border border-dark" type="number"
@@ -55,8 +54,8 @@
                         <button onclick="_paq.push(['trackEvent', 'Remove', 'SeederModelRemove', 'remove seeder model']);"type="button" class="btn rounded-circle red border-dark px-2"  id="removeSeeder">-</button>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <label class="fs-5 col-2">Harvester:</label>
+                <div class="row">
+                    <label class="fs-5 col-2" th:text="#{simulation.harvester}"></label>:
                     <div class="col" th:each="farmHarvester : ${harversters}">
                         <label class="fs-5" th:text="${farmHarvester.harvester.harvesterName}"></label>
                         <input onclick="_paq.push(['trackEvent', 'Edit', 'HarvesterModelAmountEdit', 'edit harvester model amount']);"class="col bcream rounded-pill border border-dark" type="number"
@@ -68,13 +67,10 @@
                         <button onclick="_paq.push(['trackEvent', 'Remove', 'HarvesterModelAdd', 'remove harvester model']);" type="button" class="btn rounded-circle red border-dark px-2" id="removeHarvester">-</button>
                     </div>
                 </div>
-                <div class="row mb-3">
-                    <div class="col-2">
-                        <label class="fs-5">Balance:</label>
-                        <label class="fs-5" th:text="${total}"></label>€
-                    </div>
+                <div class="row">
                     <div class="col d-flex justify-content-end">
-                        <button type="submit" class="fs-5 btn rounded border border-dark bgreen1">UPDATE</button>
+                        <button type="submit" class="fs-5 btn rounded border border-dark bgreen1"
+                            th:text="#{button.update}"></button>
                     </div>
                 </div>
             </form>
@@ -106,15 +102,15 @@
                         <label class="mb-3 col fs-5 d-flex justify-content-right">Latitude(Y):
                             <input onclick="_paq.push(['trackEvent', 'Click', 'ClickLatitude', 'click on latitude']);" class="bcream rounded-pill border border-dark" id="lat" th:field="*{latitude}"
                                 readonly th:required="required">
-                        </label>
-                        <label class="mb-3 col fs-5 d-flex justify-content-right">
-                            Crop:
+                        </div>
+                        <div class="mb-3 col fs-5  d-flex justify-content-end justify-content-sm-start">
+                            <label th:text="#{plantation.crop}"></label>:
                             <select class="bcream rounded-pill border border-dark" th:field="*{plantName}"
                                 th:required="required">
                                 <option onclick="_paq.push(['trackEvent', 'Select', 'SelectCropType', 'select crop type']);" class="bcream rounded-pill border border-dark" th:each="crop : ${crops}"
                                     th:value="${crop.name}" th:text="${crop.name}"></option>
                             </select>
-                        </label>
+                        </div>
                     </div>
                     <div class="row">
                         <label class="mb-3 mb-5 fs-5 col d-flex justify-content-right">

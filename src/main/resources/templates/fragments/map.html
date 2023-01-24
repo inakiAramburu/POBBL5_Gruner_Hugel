@@ -38,9 +38,7 @@
       crs: "EPSG:4326",
       baseLayers: [SITNA.Consts.layer.IDENA_CADASTER],
       initialExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
-      maxExtent: [-2.8482, 41.7891, -0.32135, 43.5578],
-      zoom: 12,
-      maxZoom: 12,
+      maxExtent: [-2.8482, 41.7891, -0.32135, 43.5578]
     });
 
     //On load cargar los puntos desde la base de datos
@@ -63,9 +61,6 @@
               map.addMarker(coord, markerOptions);
             }
           }
-        },
-        error: function (e) {
-          alert("An error ocurred trying to load the lands");
         }
       });
     }

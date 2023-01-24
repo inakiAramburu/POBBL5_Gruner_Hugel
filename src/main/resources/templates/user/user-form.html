@@ -12,7 +12,7 @@
         (function () {
             var u = "//grunerhugermatomo.duckdns.org/";
             _paq.push(['setTrackerUrl', u + 'matomo.php']);
-            _paq.push(['setSiteId', '1']);
+            _paq.push(['setSiteId', '2']);
             var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
             g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
         })();
@@ -55,9 +55,9 @@
                             </div>
                         </div>
                         <div class="row">
-                            <a class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
+                            <a onclick="_paq.push(['trackEvent', 'Click', 'Cancel', 'admin']);" class="col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" href="/"
                                 th:text="#{button.cancel}"></a>
-                            <button class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
+                            <button onclick="_paq.push(['trackEvent', 'Click', 'CreateUser', 'admin']);" class=" col mx-5 shadow-sm btn bgreen1 border border-dark mb-3" type="Submit"
                                 th:text="#{button.submit}"></button>
                         </div>
                     </form>

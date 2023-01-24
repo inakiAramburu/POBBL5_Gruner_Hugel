@@ -12,7 +12,7 @@
     (function() {
       var u="//grunerhugermatomo.duckdns.org/";
       _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '1']);
+      _paq.push(['setSiteId', '2']);
       var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
       g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
     })();
@@ -32,7 +32,7 @@
             <label class="form-label col-3 mt-4" th:text="#{user.password}"></label>
             <input th:type="password" name="password" placeholder="mypassword"
               class="col-6 bcream rounded-pill border border-dark mb-3">
-            <button type="submit" class="shadow-sm btn bgreen1 col-3 border border-dark mb-3"
+            <button onclick="_paq.push(['trackEvent', 'Click', 'Login', 'click on Login ']);" type="submit" class="shadow-sm btn bgreen1 col-3 border border-dark mb-3"
               th:text="#{button.login}"></button>
           </form>
         </div>

@@ -12,7 +12,7 @@
     (function () {
       var u = "//grunerhugermatomo.duckdns.org/";
       _paq.push(['setTrackerUrl', u + 'matomo.php']);
-      _paq.push(['setSiteId', '1']);
+      _paq.push(['setSiteId', '2']);
       var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
       g.async = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
     })();
@@ -41,16 +41,16 @@
           <td th:text="${user.email}"></td>
           <td th:text="${user.role.getName()}"></td>
           <td>
-            <a class="btn bgreen3" th:href="@{/edit/{id}(id=${user.id})}" th:text="#{edit}"></a>
+            <a onclick="_paq.push(['trackEvent', 'Click', 'Edit', 'admin']);" class="btn bgreen3" th:href="@{/edit/{id}(id=${user.id})}" th:text="#{edit}"></a>
           </td>
           <td>
-            <a class="btn bgreen3" th:href="@{/delete/{id}(id=${user.id})}" th:text="#{delete}"></a>
+            <a onclick="_paq.push(['trackEvent', 'Click', 'Delete', 'admin']);" class="btn bgreen3" th:href="@{/delete/{id}(id=${user.id})}" th:text="#{delete}"></a>
           </td>
         </tr>
       </table>
     </div>
     <div>
-      <a class="btn bgreen1" href="/create" th:text="#{button.create}"></a>
+      <a onclick="_paq.push(['trackEvent', 'Click', 'Register', 'admin']);" class="btn bgreen1" href="/create" th:text="#{button.create}"></a>
     </div>
   </div>
   </div>

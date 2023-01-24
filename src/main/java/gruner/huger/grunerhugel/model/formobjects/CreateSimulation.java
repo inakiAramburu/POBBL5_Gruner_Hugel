@@ -10,7 +10,7 @@ public class CreateSimulation {
     Date startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     Date endDate;
-    int budget;
+    float budget;
     String tractorName;
     int numTractor;
     int numWorkers;
@@ -41,11 +41,11 @@ public class CreateSimulation {
         this.endDate = endDate;
     }
 
-    public int getBudget() {
+    public float getBudget() {
         return budget;
     }
 
-    public void setBudget(int budget) {
+    public void setBudget(float budget) {
         this.budget = budget;
     }
 
