@@ -8,10 +8,7 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import gruner.huger.grunerhugel.GrunerhugelApplication;
-import gruner.huger.grunerhugel.domain.repository.FarmHarvesterRepository;
-import gruner.huger.grunerhugel.domain.repository.FarmPlowRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmRepository;
-import gruner.huger.grunerhugel.domain.repository.FarmSeederRepository;
 import gruner.huger.grunerhugel.domain.repository.FarmTractorRepository;
 import gruner.huger.grunerhugel.domain.repository.FuelRepository;
 import gruner.huger.grunerhugel.domain.repository.LandRepository;
@@ -34,16 +31,12 @@ public class SimulationProcesses extends Thread {
     private WeatherRepository wRepository;
     private PlantRepository pRepository;
     private OptimalConditionsRepository oRepository;
-    private FarmHarvesterRepository fHarvRepository;
-    private FarmPlowRepository fPlowRepository;
-    private FarmSeederRepository fSeedRepository;
     private FarmTractorRepository fTractRepository;
     private LandRepository lRepository;
     private FuelRepository fRepository;
     private WheatPriceRepository wpRepository;
     private static FarmRepository faRepository;
     private static Farm farm;
-    private static boolean pause = false;
     private Balance balance;
     WeatherThread wThread;
     PlantThread pThread;
@@ -51,6 +44,7 @@ public class SimulationProcesses extends Thread {
     FuelThread fThread;
     WheatPriceThread wpThread;
     LandThread lThread;
+    private static boolean pause = false;
     private static Lock mutex = new ReentrantLock();
     private static Condition cond = mutex.newCondition();
 
@@ -64,15 +58,6 @@ public class SimulationProcesses extends Thread {
         this.lRepository = landRepository;
         this.fRepository = fuelRepository;
         this.wpRepository = wPriceRepository;
-    }
-
-    public void constructVehicleRepositories(FarmHarvesterRepository farmHarvRepository,
-            FarmPlowRepository farmPlowRepository, FarmSeederRepository farmSeedRepository,
-            FarmTractorRepository farmTractRepository) {
-        this.fHarvRepository = farmHarvRepository;
-        this.fPlowRepository = farmPlowRepository;
-        this.fSeedRepository = farmSeedRepository;
-        this.fTractRepository = farmTractRepository;
     }
 
     public void constructVehicleRepositories(FarmTractorRepository farmTractRepository) {

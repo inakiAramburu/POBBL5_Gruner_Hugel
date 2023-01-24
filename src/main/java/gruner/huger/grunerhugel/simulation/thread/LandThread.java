@@ -29,8 +29,8 @@ import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 public class LandThread extends Thread {
     private static final int PORCENTAJE = 65;
     private static Map<Land, List<Worker>> assignationMap;
-    private List<Land> lands;
-    private LandRepository lRepository;
+    private static List<Land> lands = new ArrayList<>();
+    private static LandRepository lRepository;
     private static List<Worker> workers;
     private static boolean check = false;
     private static boolean pause = false;
@@ -47,9 +47,8 @@ public class LandThread extends Thread {
             FarmTractorRepository fTractRepository) {
         queue = blockingQueue;
         workers = setWorkers();
-        this.lRepository = landRepository;
+        lRepository = landRepository;
         assignationMap = new HashMap<>();
-        this.lands = new ArrayList<>();
         this.rand = new SecureRandom();
         getListTractor(fTractRepository);
         this.tMap = new HashMap<>();
@@ -82,7 +81,7 @@ public class LandThread extends Thread {
             work();
             check = false;
         }
-        saveLand();
+        GrunerhugelApplication.logger.info("Land PAUSE");
     }
 
     private void awaitPayment() {
@@ -372,10 +371,23 @@ public class LandThread extends Thread {
     }
 
     public static void pause() {
+        List<Land> old = lRepository.findByFarm(SimulationProcesses.getFarm());
+        for(int i=0;i<old.size();i++){
+            for(int j=0;j<lands.size();j++){
+                if(old.get(i).getId() == lands.get(j).getId()){
+                    old.get(i).setStatus(lands.get(j).getStatus());
+                }
+            }
+        }
+        lRepository.saveAll(old);
         pause = true;
     }
 
     public static void workingHours(boolean value) {
         workingHours = value;
+    }
+
+    public static List<Land> getLands(){
+        return new ArrayList<>(assignationMap.keySet());
     }
 }

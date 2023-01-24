@@ -31,6 +31,7 @@ public class WheatPriceThread extends Thread {
             }
             awaitCheck();
         }
+        GrunerhugelApplication.logger.info("WheatPrice PAUSE");
     }
 
     private void updateWheatPrice() {
@@ -77,5 +78,6 @@ public class WheatPriceThread extends Thread {
 
     public static void pause() {
         pause = true;
+        callSignal();
     }
 }

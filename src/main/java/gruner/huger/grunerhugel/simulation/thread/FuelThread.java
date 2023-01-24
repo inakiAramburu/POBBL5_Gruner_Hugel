@@ -33,6 +33,7 @@ public class FuelThread extends Thread {
             }
             awaitCheck();
         }
+        GrunerhugelApplication.logger.info("Fuel PAUSE");
     }
 
     void updateFuel() {
@@ -80,6 +81,7 @@ public class FuelThread extends Thread {
 
     public static void pause() {
         pause = true;
+        callSignal();
     }
 
     public static Fuel getFuel() {
