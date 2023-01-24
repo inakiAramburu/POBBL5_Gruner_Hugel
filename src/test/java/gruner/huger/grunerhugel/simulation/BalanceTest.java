@@ -44,7 +44,7 @@ class BalanceTest {
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
         Balance.setTotalMoney(10);
-        assertEquals(Balance.getBalance(), 10, 0.0);
+        assertEquals(10, Balance.getBalance(), 0.0);
     }
 
     @Test
@@ -53,7 +53,7 @@ class BalanceTest {
         BlockingQueue<Message> blockingQueue = new LinkedBlockingQueue<>();
         new Balance(initialBalance, blockingQueue);
         Balance.moneyCost(10);
-        assertEquals(Balance.getBalance(), 90);
+        assertEquals(90, Balance.getBalance());
         Balance.moneyEarned(10.0);
         assertEquals(100, Balance.getBalance());
     }
@@ -69,7 +69,6 @@ class BalanceTest {
         balance.doAction(ms);
         balance.readMessages();
         balance.awaitCheck();
-
     }
 
 }

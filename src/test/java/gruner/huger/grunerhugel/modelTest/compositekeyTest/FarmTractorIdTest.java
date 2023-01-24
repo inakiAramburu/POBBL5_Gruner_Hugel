@@ -1,9 +1,7 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -48,7 +46,7 @@ class FarmTractorIdTest {
     void testEquals() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(1, "tractor1");
-        assertTrue(id1.equals(id2));
+        assertEquals(true, id1.equals(id2));
     }
 
     // Prueba del método equals con objetos de diferentes clases
@@ -64,7 +62,7 @@ class FarmTractorIdTest {
     void testEquals_whenFarmIdNotEqual() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(2, "tractor1");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals cuando el tractorId es diferente
@@ -72,14 +70,14 @@ class FarmTractorIdTest {
     void testEquals_whenTractorIdNotEqual() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = new FarmTractorId(1, "tractor2");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals cuando el objeto actual es igual al objeto comparado
     @Test
     void testEquals_whenThisObjectIsEqualToOtherObject() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
-        assertTrue(id1.equals(id1));
+        assertEquals(true, id1.equals(id1));
     }
 
     // Prueba del método equals cuando el objeto comparado es null
@@ -87,7 +85,7 @@ class FarmTractorIdTest {
     void testEquals_whenOtherObjectIsNull() {
         FarmTractorId id1 = new FarmTractorId(1, "tractor1");
         FarmTractorId id2 = null;
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
 }

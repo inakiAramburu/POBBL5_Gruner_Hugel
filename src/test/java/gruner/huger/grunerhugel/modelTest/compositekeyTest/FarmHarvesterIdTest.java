@@ -62,7 +62,7 @@ class FarmHarvesterIdTest {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "abc");
 
-        Assert.assertTrue(id1.equals(id2));
+        assertEquals(true, id1.equals(id2));
     }
 
     @Test
@@ -70,7 +70,7 @@ class FarmHarvesterIdTest {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(2, "abc");
 
-        Assert.assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     @Test
@@ -78,7 +78,7 @@ class FarmHarvesterIdTest {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         FarmHarvesterId id2 = new FarmHarvesterId(1, "def");
 
-        Assert.assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     @Test
@@ -86,14 +86,14 @@ class FarmHarvesterIdTest {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
         String str = "not an FarmHarvesterId object";
 
-        Assert.assertFalse(id1.equals(str));
+        assertEquals(false, id1.equals(str));
     }
 
     @Test
     void testEqualsWithNullObject() {
         FarmHarvesterId id1 = new FarmHarvesterId(1, "abc");
 
-        Assert.assertFalse(id1.equals(null));
+        assertEquals(false, id1.equals(null));
     }
 
     @Test

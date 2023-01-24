@@ -1,9 +1,7 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import java.time.Year;
 
@@ -45,7 +43,7 @@ class FuelIdTest {
     void testEquals() {
         FuelId id1 = new FuelId(Year.of(2020), 1);
         FuelId id2 = new FuelId(Year.of(2020), 1);
-        assertTrue(id1.equals(id2));
+        assertEquals(true, id1.equals(id2));
     }
 
     // Prueba del método equals cuando los años son diferentes
@@ -53,7 +51,7 @@ class FuelIdTest {
     void testEquals_whenYearNotEqual() {
         FuelId id1 = new FuelId(Year.of(2020), 1);
         FuelId id2 = new FuelId(Year.of(2021), 1);
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals cuando las semanas son diferentes
@@ -61,7 +59,7 @@ class FuelIdTest {
     void testEquals_whenWeekNotEqual() {
         FuelId id1 = new FuelId(Year.of(2020), 1);
         FuelId id2 = new FuelId(Year.of(2020), 2);
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals con objetos de diferentes clases
@@ -76,7 +74,7 @@ class FuelIdTest {
     @Test
     void testEquals_whenThisObjectIsEqualToOtherObject() {
         FuelId id1 = new FuelId(Year.of(2020), 1);
-        assertTrue(id1.equals(id1));
+        assertEquals(true, id1.equals(id1));
     }
 
     // Prueba del método equals cuando el objeto comparado es null
@@ -84,7 +82,7 @@ class FuelIdTest {
     void testEquals_whenOtherObjectIsNull() {
         FuelId id1 = new FuelId(Year.of(2020), 1);
         FuelId id2 = null;
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método toString()
@@ -99,7 +97,7 @@ class FuelIdTest {
         FuelId fuelId = new FuelId();
         FuelId fuelId2 = new FuelId();
         fuelId2.setYear(Year.of(2000));
-        assertFalse(fuelId.equals(fuelId2));
+        assertEquals(false, fuelId.equals(fuelId2));
     }
 
     @Test

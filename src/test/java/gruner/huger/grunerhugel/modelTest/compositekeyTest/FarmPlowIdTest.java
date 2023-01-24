@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -60,34 +61,34 @@ class FarmPlowIdTest {
     void testEquals() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(1, "plow1");
-        assertTrue(id1.equals(id2));
+        assertEquals(true, id1.equals(id2));
     }
 
     @Test
     void testEquals_whenFarmIdNotEqual() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(2, "plow1");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     @Test
     void testEquals_whenPlowIdNotEqual() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = new FarmPlowId(1, "plow2");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     @Test
     void testEquals_whenThisObjectIsEqualToOtherObject() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
-        assertTrue(id1.equals(id1));
+        assertEquals(true, id1.equals(id1));
     }
 
     @Test
     void testEquals_whenOtherObjectIsNull() {
         FarmPlowId id1 = new FarmPlowId(1, "plow1");
         FarmPlowId id2 = null;
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     @Test

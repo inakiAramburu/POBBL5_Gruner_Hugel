@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -106,32 +107,13 @@ class PlantTest {
         plant.growPlant();
     }
 
-    /*
-     * @Test
-     * void testcheckOptimalCondition() {
-     * Plant plant = new Plant();
-     * Weather weather = new Weather();
-     * 
-     * // false
-     * plant.checkOptimalCondition(weather);
-     * assertEquals(plant.getHealthPoint(), -5);
-     * 
-     * // true
-     * /*
-     * weather.setTemperature(21);
-     * plant.setStatus("VEGETATIVE");
-     * plant.checkOptimalCondition(weather);
-     * 
-     * System.out.println(plant.getHealthPoint());
-     * }
-     */
-
     @Test
     void testString() {
         OptimalConditions optimalConditions = new OptimalConditions();
         Land land = new Land();
         Plant plant = new Plant(optimalConditions, land);
         System.out.println(plant.toString());
+        assertNotNull(plant);
     }
 
 }

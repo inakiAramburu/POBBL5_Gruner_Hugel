@@ -1,6 +1,7 @@
 package gruner.huger.grunerhugel.modelTest;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.Date;
 
@@ -65,5 +66,6 @@ class WeatherTest {
         weather.setSoilMoisture2(2);
         weather.setTown(town);
         System.out.println(weather.toString());
+        assertNotNull(weather);
     }
 }

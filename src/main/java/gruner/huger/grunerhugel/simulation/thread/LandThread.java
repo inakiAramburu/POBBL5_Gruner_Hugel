@@ -28,7 +28,7 @@ import gruner.huger.grunerhugel.simulation.enumeration.PlantType;
 
 public class LandThread extends Thread {
     private static final int PORCENTAJE = 65;
-    private static Map<Land, List<Worker>> assignationMap;
+    private static Map<Land, List<Worker>> assignationMap = new HashMap<>();;
     private static List<Land> lands = new ArrayList<>();
     private static LandRepository lRepository;
     private static List<Worker> workers;
@@ -48,7 +48,6 @@ public class LandThread extends Thread {
         queue = blockingQueue;
         workers = setWorkers();
         lRepository = landRepository;
-        assignationMap = new HashMap<>();
         this.rand = new SecureRandom();
         getListTractor(fTractRepository);
         this.tMap = new HashMap<>();

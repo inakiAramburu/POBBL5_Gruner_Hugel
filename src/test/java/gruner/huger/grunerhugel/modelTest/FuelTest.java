@@ -41,7 +41,7 @@ class FuelTest {
 
         // false
         assertNotEquals(fuel, fuel3);
-        assertNotEquals(fuel, null);
+        assertNotEquals(null, fuel);
     }
 
     @Test

@@ -19,7 +19,7 @@ public class Balance extends Thread {
     private BlockingQueue<Message> blockingQueue;
     private static boolean check;
     private static Lock lock = new ReentrantLock();
-    private static Condition checking = lock.newCondition();;
+    private static Condition checking = lock.newCondition();
     private static boolean pause = false;
     protected static List<Message> lMessages = new ArrayList<>();
 

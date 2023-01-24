@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import gruner.huger.grunerhugel.config.URI;
-
-public class URITest {
+class URITest {
     
     @Test
-    public void testGetPath() {
+    void testGetPath() {
         assertEquals("/login", URI.LOGIN.getPath());
         assertEquals("/register", URI.REGISTER.getPath());
         assertEquals("/main", URI.HOME_USER_NO_FARM.getPath());
@@ -20,7 +18,7 @@ public class URITest {
     }
 
     @Test
-    public void testGetView() {
+    void testGetView() {
         assertEquals("login", URI.LOGIN.getView());
         assertEquals("user/user-form", URI.REGISTER.getView());
         assertEquals("simulation/simulation-form", URI.HOME_USER_NO_FARM.getView());

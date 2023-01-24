@@ -57,7 +57,7 @@ class HarvesterTest {
 
         // false
         assertNotEquals(harvester, harvester3);
-        assertNotEquals(harvester, null);
+        assertNotEquals(null, harvester);
     }
 
     @Test

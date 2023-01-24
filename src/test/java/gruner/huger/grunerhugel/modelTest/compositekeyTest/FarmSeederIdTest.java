@@ -1,9 +1,7 @@
 package gruner.huger.grunerhugel.modelTest.compositekeyTest;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,7 +60,7 @@ class FarmSeederIdTest {
     void testEquals() {
         FarmSeederId id1 = new FarmSeederId(1, "seeder1");
         FarmSeederId id2 = new FarmSeederId(1, "seeder1");
-        assertTrue(id1.equals(id2));
+        assertEquals(true, id1.equals(id2));
     }
 
     // Prueba del método equals con objetos de diferentes clases
@@ -78,7 +76,7 @@ class FarmSeederIdTest {
     void testEquals_whenFarmIdNotEqual() {
         FarmSeederId id1 = new FarmSeederId(1, "seeder1");
         FarmSeederId id2 = new FarmSeederId(2, "seeder1");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals cuando el seederId es diferente
@@ -86,14 +84,14 @@ class FarmSeederIdTest {
     void testEquals_whenSeederIdNotEqual() {
         FarmSeederId id1 = new FarmSeederId(1, "seeder1");
         FarmSeederId id2 = new FarmSeederId(1, "seeder2");
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 
     // Prueba del método equals cuando el objeto es igual a sí mismo
     @Test
     void testEquals_whenThisObjectIsEqualToOtherObject() {
         FarmSeederId id1 = new FarmSeederId(1, "seeder1");
-        assertTrue(id1.equals(id1));
+        assertEquals(true, id1.equals(id1));
     }
 
     // Prueba del método equals cuando el otro objeto es null
@@ -101,6 +99,6 @@ class FarmSeederIdTest {
     void testEquals_whenOtherObjectIsNull() {
         FarmSeederId id1 = new FarmSeederId(1, "seeder1");
         FarmSeederId id2 = null;
-        assertFalse(id1.equals(id2));
+        assertEquals(false, id1.equals(id2));
     }
 }

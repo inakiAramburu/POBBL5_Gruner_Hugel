@@ -16,9 +16,9 @@ import gruner.huger.grunerhugel.config.URI;
 @EnableWebSecurity
 public class WebSecurity {
 
-    final String ADMIN = "ADMIN";
-    final String INVESTOR = "INVESTOR";
-    final String USER = "USER";
+    static final String ADMIN = "ADMIN";
+    static final String INVESTOR = "INVESTOR";
+    static final String USER = "USER";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomSuccesHandler succesHandler,

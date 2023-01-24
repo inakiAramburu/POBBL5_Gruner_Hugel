@@ -263,22 +263,12 @@ public class SimulationController {
                     oldSimulation.setEndDate(newSimulation.getEndDate());
                 } else {
                     GrunerhugelApplication.logger.info("Start date must be before end date");
-                    return REDIRECT + "/simulation"; // aiqu cambiarlo tendria no deberia de reiniciar toda la
-                                                     // simulacion
-                                                     // xd
+                    return REDIRECT + "/simulation";
                 }
             }
 
             // Tools
             for (FarmTractor oldFarmTractor : oldFarmTractors) {
-                /*
-                 * if (oldFarmTractor.getTractor().getTractorName().equals(newSimulation.
-                 * getTractorName())) {
-                 * } else {
-                 * oldFarmTractor.getTractor().setTractorName(newSimulation.getTractorName());
-                 * }
-                 */
-
                 if (oldFarmTractor.getQuantity() != newSimulation.getNumTractor()) {
                     oldFarmTractor.setQuantity(newSimulation.getNumTractor());
                 }
@@ -286,15 +276,6 @@ public class SimulationController {
             }
 
             for (FarmHarvester oldFarmHarvester : oldFarmHarvesters) {
-                /*
-                 * if (oldFarmHarvester.getHarvester().getHarvesterName().equals(newSimulation.
-                 * getHarvesterName())) {
-                 * } else {
-                 * oldFarmHarvester.getHarvester().setHarvesterName(newSimulation.
-                 * getHarvesterName());
-                 * }
-                 */
-
                 if (oldFarmHarvester.getQuantity() != newSimulation.getNumHarvester()) {
                     oldFarmHarvester.setQuantity(newSimulation.getNumHarvester());
                 }
@@ -302,12 +283,6 @@ public class SimulationController {
             }
 
             for (FarmPlow oldFarmPlow : oldFarmPlows) {
-                // if (oldFarmPlow.getPlow().getPlowName().equals(newSimulation.getPlowName()))
-                // {
-                // } else {
-                // oldFarmPlow.getPlow().setPlowName(newSimulation.getPlowName());
-                // }
-
                 if (oldFarmPlow.getQuantity() != newSimulation.getNumPlow()) {
                     oldFarmPlow.setQuantity(newSimulation.getNumPlow());
                 }
@@ -315,13 +290,6 @@ public class SimulationController {
             }
 
             for (FarmSeeder oldFarmSeeder : oldFarmSeeders) {
-                // if
-                // (oldFarmSeeder.getSeeder().getSeederName().equals(newSimulation.getSeederName()))
-                // {
-                // } else {
-                // oldFarmSeeder.getSeeder().setSeederName(newSimulation.getSeederName());
-                // }
-
                 if (oldFarmSeeder.getQuantity() != newSimulation.getNumSeeder()) {
                     oldFarmSeeder.setQuantity(newSimulation.getNumSeeder());
                 }
@@ -342,7 +310,6 @@ public class SimulationController {
         Farm farm = farmRepository.findByUser(user);
 
         // Normalize town name
-
         String townName = Normalizer.normalize(newLand.getTown(), Normalizer.Form.NFD);
         townName = townName.replaceAll("[^\\p{ASCII}]", "");
         if (townName.contains("/")) {
