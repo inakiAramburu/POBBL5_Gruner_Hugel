@@ -7,9 +7,6 @@ function startSimulation() {
         dataType: "text",
         success: function (data) {
             console.log("Simulation started");
-        },
-        error: function (e) {
-            alert("An error ocurred trying to start Simulation");
         }
     });
 }
@@ -23,14 +20,11 @@ function pauseSimulation() {
         dataType: "text",
         success: function (data) {
             console.log("Simulation paused");
-        },
-        error: function (e) {
-            alert("An error ocurred trying to pause Simulation");
         }
     });
 }
 
-var interval = 600000;
+var interval = 30000;
 var timer;
 
 //Pause & Edit
@@ -65,7 +59,6 @@ $("#rewind").on("click", function () {
 //Change speed
 function changeSpeed() {
     var speed = $('#speed').html();
-    alert(speed);
     $.ajax({
         url: "/changeAcceleration",
         type: "GET",
@@ -113,5 +106,5 @@ function changeTables() {
         $("#operations-list").replaceWith(fragment);
     });
 
-    timer2 = setTimeout(changeTables, 5000);
+    timer2 = setTimeout(changeTables, 35000);
 }
