@@ -347,17 +347,13 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/startSimulation")
-    @ResponseBody
-    public String startSimulation() {
+    public void startSimulation() {
         sim.start();
-        return "hi";
     }
 
     @GetMapping(value = "/pauseSimulation")
-    @ResponseBody
-    public String pauseSimulation() {
+    public void pauseSimulation() {
         TimeThread.pause();
-        return "hi";
     }
 
     @GetMapping(value = "/changeAcceleration")

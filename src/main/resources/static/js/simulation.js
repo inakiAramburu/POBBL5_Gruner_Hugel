@@ -4,7 +4,6 @@ function startSimulation() {
         type: "GET",
         cache: false,
         timeout: 1000,
-        dataType: "text",
         success: function (data) {
             console.log("Simulation started");
         },
@@ -20,7 +19,6 @@ function pauseSimulation() {
         type: "GET",
         cache: false,
         timeout: 1000,
-        dataType: "text",
         success: function (data) {
             console.log("Simulation paused");
         },
@@ -30,7 +28,7 @@ function pauseSimulation() {
     });
 }
 
-var interval = 600000;
+var interval = 60000;
 var timer;
 
 //Pause & Edit
@@ -64,8 +62,7 @@ $("#rewind").on("click", function () {
 
 //Change speed
 function changeSpeed() {
-    var speed = $('#speed').html();
-    alert(speed);
+    var speed = $('#speed').html();;
     $.ajax({
         url: "/changeAcceleration",
         type: "GET",

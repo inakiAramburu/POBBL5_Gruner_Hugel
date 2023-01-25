@@ -42,7 +42,7 @@
     });
 
     //On load cargar los puntos desde la base de datos
-    map.loaded().then(function () {
+    map.loaded(function () {
       loadMarkers();
     });
 
