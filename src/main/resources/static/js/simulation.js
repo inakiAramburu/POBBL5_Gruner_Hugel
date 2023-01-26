@@ -22,7 +22,7 @@ function pauseSimulation() {
     });
 }
 
-var interval = 60000;
+var interval = 30000;
 var timer;
 
 //Pause & Edit
@@ -90,7 +90,7 @@ function changeBalance() {
         },
         complete: function (data) {
             // Schedule the next
-            timer = setTimeout(changeBalance, interval);
+            timer = setTimeout(changeBalance, 10000);
         }
     });
 }
@@ -105,5 +105,5 @@ function changeTables() {
         $("#operations-list").replaceWith(fragment);
     });
 
-    timer2 = setTimeout(changeTables, 5000);
+    timer2 = setTimeout(changeTables, interval);
 }

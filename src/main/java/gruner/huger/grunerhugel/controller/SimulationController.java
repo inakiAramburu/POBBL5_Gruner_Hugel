@@ -148,13 +148,6 @@ public class SimulationController {
         // Set land
         model.addAttribute("createLand", new CreateLand());
 
-        sim = null;
-        sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
-                fuelRepository, wheatPriceRepository);
-        sim.constructVehicleRepositories(farmTractorRepository);
-        sim.initialize(farm.getMoney(), simulation.getStartDate(),
-                simulation.getEndDate(), farmRepository,
-                simulationRepository);
         return URI.HOME_USER_FARM.getView();
     }
 
@@ -371,11 +364,26 @@ public class SimulationController {
     }
 
     @GetMapping(value = "/startSimulation")
+    @ResponseBody
     public void startSimulation() {
+
+        if (sim == null) {
+            User user = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+            Farm farm = farmRepository.findByUser(user);
+            Simulation simulation = simulationRepository.findByFarm(farm);
+
+            sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
+                    fuelRepository, wheatPriceRepository);
+            sim.constructVehicleRepositories(farmTractorRepository);
+            sim.initialize(farm.getMoney(), simulation.getStartDate(),
+                    simulation.getEndDate(), farmRepository,
+                    simulationRepository);
+        }
         sim.start();
     }
 
     @GetMapping(value = "/pauseSimulation")
+    @ResponseBody
     public void pauseSimulation() {
         TimeThread.pause();
     }
@@ -424,7 +432,9 @@ public class SimulationController {
     @GetMapping(value = "/changeOperationTable")
     public String changeLandTable(ModelMap model) {
         List<Message> lista = Balance.getlMessages();
-        model.addAttribute("operations", lista);
+        if (!lista.isEmpty()) {
+            model.addAttribute("operations", lista);
+        }
         return "simulation/simulation :: #operations-list";
     }
 }
