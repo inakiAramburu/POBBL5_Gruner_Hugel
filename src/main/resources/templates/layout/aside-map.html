@@ -40,17 +40,24 @@
             <div class="col-sm-12 col-md-12 col-lg col-xl">
                 <div class="row d-flex justify-content-end">
                     <div class="col-xl-5 col-lg-6 col-md-7 col-sm-8">
-                        <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnNav', 'change on navigation']);" class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 py-1 mb-5">
-                            <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnAside', 'click on aside button']);" class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
-                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPlay', 'click on play button']);" class="col" id="play">
+                        <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnNav', 'change on navigation']);"
+                            class="row d-flex align-items-center justify-content-end bgreen1 rounded-3 py-1 mb-5">
+                            <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnAside', 'click on aside button']);"
+                                class="col" th:insert="~{fragments/header :: profile-dropdown}"></div>
+                            <button onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPlay', 'click on play button']);"
+                                class="col btn bgreen3 p-2" id="play">
                                 <img class="w-100" th:src="@{/img/play.png}" alt="play">
-                            </a>
-                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPause', 'click on pause button']);" class="col" id="pause">
+                            </button>
+                            <button
+                                onclick="_paq.push(['trackEvent', 'Click', 'ClickOnPause', 'click on pause button']);"
+                                class="col btn bgreen3 p-2" id="pause">
                                 <img class="w-100" th:src="@{/img/pause.png}" alt="pause">
-                            </a>
-                            <a onclick="_paq.push(['trackEvent', 'Click', 'ClickOnRewind', 'click on rewind button']);" class="col" id="rewind">
+                            </button>
+                            <button
+                                onclick="_paq.push(['trackEvent', 'Click', 'ClickOnRewind', 'click on rewind button']);"
+                                class="col btn bgreen3 p-2" id="rewind">
                                 <img class="w-100" th:src="@{/img/rewind.png}" alt="rewind">
-                            </a>
+                            </button>
                             <label class="col fs-4 d-flex justify-content-start  rounded-4 bcream rounded p-2">
                                 x
                                 <label id="speed" th:text="1"></label>
@@ -58,7 +65,8 @@
                         </div>
                     </div>
                 </div>
-                <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnMap', 'click on map']);" class="h-75" style="min-height:500px" th:include="~{fragments/map :: map}"></div>
+                <div onclick="_paq.push(['trackEvent', 'Click', 'ClickOnMap', 'click on map']);" class="h-75"
+                    style="min-height:500px" th:include="~{fragments/map :: map}"></div>
             </div>
         </div>
     </main>

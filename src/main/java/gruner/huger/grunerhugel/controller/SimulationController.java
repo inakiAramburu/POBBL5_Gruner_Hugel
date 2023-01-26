@@ -148,7 +148,7 @@ public class SimulationController {
         // Set land
         model.addAttribute("createLand", new CreateLand());
 
-        sim=null;
+        sim = null;
         sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
                 fuelRepository, wheatPriceRepository);
         sim.constructVehicleRepositories(farmTractorRepository);
@@ -215,30 +215,53 @@ public class SimulationController {
         return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
     }
 
+    @GetMapping(value = "/delete/{id}")
+    public String delete(@PathVariable int id) {
+
+        try {
+            User user = userRepository.findById(id).get();
+            Farm farm = farmRepository.findByUser(user);
+            if (farm != null) {
+                deleteSimulation(id);
+            }
+        } catch (Exception e) {
+            GrunerhugelApplication.logger.log(Level.WARNING, "User or farm not found");
+        }
+        userRepository.deleteById(id);
+        return "redirect:" + URI.HOME_ADMIN.getPath();
+    }
+
     @GetMapping(value = "/deleteSimulation")
-    public String deleteSimulation(Model model, Authentication authentication) {
+    public String deleteSimulation(int id) {
         // Get data
-        User user = userRepository.findByUsername(authentication.getName());
-        Farm farm = farmRepository.findByUser(user);
-        Simulation simulation = simulationRepository.findByFarm(farm);
 
-        // Delete data
-        farmTractorRepository.findByFarm(farm)
-                .forEach(farmTractor -> farmTractorRepository.delete(farmTractor));
-        farmHarvesterRepository.findByFarm(farm)
-                .forEach(farmHarvester -> farmHarvesterRepository.delete(farmHarvester));
-        farmPlowRepository.findByFarm(farm)
-                .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
-        farmSeederRepository.findByFarm(farm)
-                .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
-        landRepository.findByFarm(farm)
-                .forEach(land -> {
-                    plantRepository.findByLand(land).forEach(plant -> plantRepository.delete(plant));
-                    landRepository.delete(land);
-                });
+        try {
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                Farm farm = farmRepository.findByUser(user.get());
+                Simulation simulation = simulationRepository.findByFarm(farm);
 
-        simulationRepository.delete(simulation);
-        farmRepository.delete(farm);
+                // Delete data
+                farmTractorRepository.findByFarm(farm)
+                        .forEach(farmTractor -> farmTractorRepository.delete(farmTractor));
+                farmHarvesterRepository.findByFarm(farm)
+                        .forEach(farmHarvester -> farmHarvesterRepository.delete(farmHarvester));
+                farmPlowRepository.findByFarm(farm)
+                        .forEach(farmPlow -> farmPlowRepository.delete(farmPlow));
+                farmSeederRepository.findByFarm(farm)
+                        .forEach(farmSeeder -> farmSeederRepository.delete(farmSeeder));
+                landRepository.findByFarm(farm)
+                        .forEach(land -> {
+                            plantRepository.findByLand(land).forEach(plant -> plantRepository.delete(plant));
+                            landRepository.delete(land);
+                        });
+
+                simulationRepository.delete(simulation);
+                farmRepository.delete(farm);
+            }
+        } catch (Exception e) {
+            GrunerhugelApplication.logger.log(Level.SEVERE, "Error deleting simulation: " + e.getMessage());
+        }
 
         return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
     }

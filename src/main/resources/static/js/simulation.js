@@ -39,6 +39,7 @@ $("#play").on("click", function () {
 });
 
 $("#pause").prop("disabled", true);
+$("#rewind").prop("disabled", true);
 
 $("#pause").on("click", function () {
     $("#pause").prop("disabled", true);

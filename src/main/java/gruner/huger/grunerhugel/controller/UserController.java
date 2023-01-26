@@ -39,12 +39,6 @@ public class UserController {
         return "user/user-edit";
     }
 
-    @GetMapping(value = "/delete/{id}")
-    public String delete(@PathVariable int id) {
-        userRepository.deleteById(id);
-        return "redirect:" + URI.HOME_ADMIN.getPath();
-    }
-
     @PostMapping(value = "/update/{id}")
     public String update(@ModelAttribute("new_user") User user, @PathVariable int id) {
         User oldUser = userRepository.findById(id).orElseThrow(() -> new UsernameNotFoundException("User not found"));
