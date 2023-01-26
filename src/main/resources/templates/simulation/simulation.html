@@ -26,11 +26,11 @@
     <!--Left-Aside Edit form-->
     <div th:replace="~{fragments/form :: aside-form-farm-edit}"></div>
     <!--Left-Aside Simulation Info-->
-    <div class="z-0 position-absolute start-0 negativel border-dark bgreen1 h-75 rounded-4 p-4 pl-2 d-flex">
+    <div class="start-0 negativel border-dark bgreen1 h-75 rounded-4 p-4 pl-2 d-flex">
       <div class="bgreen2 px-2 rounded-4 pt-3" th:fragment="aside-simulation-info">
         <div class="text-center mb-4">
           <img onclick="_paq.push(['trackEvent', 'Click', 'ClickFarmImg', 'click on farm image']);" class="mx-auto d-block" th:src="@{/img/farm.png}" alt="Farm">
-          <div class="fs-1  negativext text-center z-3 cgreen1">
+          <div class="fs-1  negativext text-center cgreen1">
             <label id="balance">0</label>€
           </div>
         </div>
