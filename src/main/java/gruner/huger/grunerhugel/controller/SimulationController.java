@@ -216,16 +216,17 @@ public class SimulationController {
     public String delete(@PathVariable int id) {
 
         try {
-            User user = userRepository.findById(id).get();
-            Farm farm = farmRepository.findByUser(user);
-            if (farm != null) {
-                deleteSimulation(id);
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                Farm farm = farmRepository.findByUser(user.get());
+                Simulation simulation = simulationRepository.findByFarm(farm);
+                simulationRepository.delete(simulation);
             }
         } catch (Exception e) {
             GrunerhugelApplication.logger.log(Level.WARNING, "User or farm not found");
         }
         userRepository.deleteById(id);
-        return "redirect:" + URI.HOME_ADMIN.getPath();
+        return REDIRECT + URI.HOME_ADMIN.getPath();
     }
 
     @GetMapping(value = "/deleteSimulation")
@@ -257,7 +258,7 @@ public class SimulationController {
                 farmRepository.delete(farm);
             }
         } catch (Exception e) {
-            GrunerhugelApplication.logger.log(Level.SEVERE, "Error deleting simulation: " + e.getMessage());
+            GrunerhugelApplication.logger.log(Level.SEVERE, "Error deleting simulation");
         }
 
         return REDIRECT + URI.HOME_USER_NO_FARM.getPath();
