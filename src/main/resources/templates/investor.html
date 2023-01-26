@@ -23,8 +23,9 @@
 <body>
   <h1 layout:fragment="title" th:text="#{title.simulation-rank}"></h1>
   <main class="h-75 w-75" layout:fragment="main">
-    <div class="bgreen3 mh-50 w-75 position-absolute top-50 translate-middle start-50 rounded p-5 border border-dark">
-      <div class="table-responsive xxl-overflow-x-hidden lg-overflow-auto">
+    <div class="bgreen3 h-50 w-75 position-absolute top-50 translate-middle start-50 rounded p-5 border border-dark">
+      <div class="h-100 xl-overflow-x-hidden md-overflow-auto">
+      <div class="table-responsive overflow-x-hidden  ">
         <table class="table bcream table-striped table-sm table-hover">
           <caption></caption>
           <tr>
@@ -42,11 +43,12 @@
             <tr th:each="simulation : ${simulations}">
               <td></td> <!--make++-->
               <td th:text="${simulation.startDate}"></td>
-              <td></td> <!--simulation endDate - startDate -->
-              <td></td> <!--simulation budget - balance -->
+              <td th:text="${simulation.endDate}"></td> <!--simulation endDate - startDate -->
+              <td th:text="${simulation.farm.money}"></td> <!--simulation budget - balance -->
             </tr>
           </div>
         </table>
+      </div>
       </div>
       <div class="d-flex align-items-center justify-content-center">
         <select onclick="_paq.push(['trackEvent', 'Click', 'filter', 'User']);" class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">

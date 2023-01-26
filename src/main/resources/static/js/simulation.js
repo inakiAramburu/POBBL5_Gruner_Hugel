@@ -21,9 +21,6 @@ function pauseSimulation() {
         timeout: 1000,
         success: function (data) {
             console.log("Simulation paused");
-        },
-        error: function (e) {
-            alert("An error ocurred trying to pause Simulation");
         }
     });
 }
@@ -62,7 +59,7 @@ $("#rewind").on("click", function () {
 
 //Change speed
 function changeSpeed() {
-    var speed = $('#speed').html();;
+    var speed = $('#speed').html();
     $.ajax({
         url: "/changeAcceleration",
         type: "GET",

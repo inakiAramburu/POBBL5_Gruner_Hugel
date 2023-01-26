@@ -24,6 +24,7 @@
   <main layout:fragment="main">
     <div class="container vw-100">
       <div class="row w-100 justify-content-center">
+        <p th:if="${loginError}" class="error">User of password not correct, try again</p>
         <div class="col-10 col-sm-8 col-md-6 col-lg-4 bgreen3 rounded border border-dark mt-5">
           <form class="p-0" th:action="@{/login}" method="post">
             <label class="form-label col-3 mb-4 mt-5" th:text="#{user.username}"></label>

@@ -148,6 +148,7 @@ public class SimulationController {
         // Set land
         model.addAttribute("createLand", new CreateLand());
 
+        sim=null;
         sim = new SimulationProcesses(farm, weatherRepository, plantRepository, plantTypeRepository, landRepository,
                 fuelRepository, wheatPriceRepository);
         sim.constructVehicleRepositories(farmTractorRepository);

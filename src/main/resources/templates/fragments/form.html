@@ -12,7 +12,7 @@
                     <label class="fs-5 col-2">End Date:</label>
                     <input onclick="_paq.push(['trackEvent', 'Edit', 'EndDateEdit', 'edit end date']);"
                         class="col-6 bcream rounded-pill border border-dark" type="date" min="1959-01-01"
-                        max="2022-08-31" th:field="*{endDate}" th:required="required">
+                        max="2022-08-31" th:field="*{endDate}">
                 </div>
                 <div class="row">
                     <label class="fs-5 col-2" th:text="#{simulation.tractor}"></label>:
@@ -22,8 +22,7 @@
                         <input
                             onclick="_paq.push(['trackEvent', 'Edit', 'TractorModelAmountEdit', 'edit tractor amount']);"
                             class="col bcream rounded-pill border border-dark" type="number"
-                            th:placeholder="${farmTractor.quantity}" th:field="*{numTractor}" min="0"
-                            th:required="required">
+                            th:placeholder="${farmTractor.quantity}" th:field="*{numTractor}" min="0">
                     </div>
                     <div class="col-2">
                         <button onclick="_paq.push(['trackEvent', 'Add', 'TractorModelAdd', 'add tractor model']);"
@@ -38,7 +37,7 @@
                     <label class="fs-5 col-2">Workers:</label>
                     <input onclick="_paq.push(['trackEvent', 'Edit', 'WorkerAmountEdit', 'edit tractor amount']);"
                         class="col-6 bcream rounded-pill border border-dark" type="number"
-                        th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0" th:required="required">
+                        th:placeholder="${farm.numWorkers}" th:field="*{numWorkers}" min="0">
                 </div>
                 <div class="row">
                     <label class="fs-5 col-2" th:text="#{simulation.plow}"></label>:
@@ -46,7 +45,7 @@
                         <label class="col fs-5" th:text="${farmPlow.plow.plowName}"></label>
                         <input onclick="_paq.push(['trackEvent', 'Edit', 'PlowModelAmountEdit', 'edit plow amount']);"
                             class="col bcream rounded-pill border border-dark" type="number"
-                            th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0" th:required="required">
+                            th:placeholder="${farmPlow.quantity}" th:field="*{numPlow}" min="0">
                     </div>
                     <div class="col-2">
                         <button onclick="_paq.push(['trackEvent', 'Add', 'PlowModelAdd', 'add plow model']);"
@@ -63,8 +62,7 @@
                         <input
                             onclick="_paq.push(['trackEvent', 'Edit', 'SeederModelAmountEdit', 'edit seeder model amount']);"
                             class="col bcream rounded-pill border border-dark" type="number"
-                            th:placeholder="${farmSeeder.quantity}" th:field="*{numSeeder}" min="0"
-                            th:required="required">
+                            th:placeholder="${farmSeeder.quantity}" th:field="*{numSeeder}" min="0">
                     </div>
                     <div class="col-2">
                         <button onclick="_paq.push(['trackEvent', 'Add', 'SeederModelAdd', 'add seeder model']);"
@@ -82,8 +80,7 @@
                         <input
                             onclick="_paq.push(['trackEvent', 'Edit', 'HarvesterModelAmountEdit', 'edit harvester model amount']);"
                             class="col bcream rounded-pill border border-dark" type="number"
-                            th:placeholder="${farmHarvester.quantity}" th:field="*{numHarvester}" min="0"
-                            th:required="required">
+                            th:placeholder="${farmHarvester.quantity}" th:field="*{numHarvester}" min="0">
                     </div>
                     <div class="col-2">
                         <button onclick="_paq.push(['trackEvent', 'Add', 'HarvesterModelAdd', 'add harvester model']);"
