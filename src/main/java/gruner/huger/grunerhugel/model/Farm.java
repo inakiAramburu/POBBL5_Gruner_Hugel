@@ -17,7 +17,7 @@ import jakarta.persistence.Table;
 @Table(name = "farm")
 public class Farm implements Serializable {
 
-    @Id
+    @Id //
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     int id;
