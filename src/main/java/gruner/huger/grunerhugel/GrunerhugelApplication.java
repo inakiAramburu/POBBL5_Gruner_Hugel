@@ -12,6 +12,5 @@ public class GrunerhugelApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(GrunerhugelApplication.class, args);
-		System.out.println("cambio");
 	}
 }

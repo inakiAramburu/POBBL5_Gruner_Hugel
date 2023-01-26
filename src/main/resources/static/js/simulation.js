@@ -6,9 +6,6 @@ function startSimulation() {
         timeout: 1000,
         success: function (data) {
             console.log("Simulation started");
-        },
-        error: function (e) {
-            alert("An error ocurred trying to start Simulation");
         }
     });
 }

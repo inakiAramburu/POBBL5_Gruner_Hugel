@@ -29,6 +29,7 @@ public class WebSecurity {
                 .requestMatchers("/create", URI.LOGIN.getPath(), "/accessDenied", "/error").permitAll()
                 .requestMatchers("/investor").hasAnyAuthority(INVESTOR, ADMIN)
                 .requestMatchers("/main", "/simulation").hasAnyAuthority(USER, ADMIN)
+                .requestMatchers("/admin").hasAuthority(ADMIN)
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
