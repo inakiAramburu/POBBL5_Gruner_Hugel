@@ -148,6 +148,10 @@ public class SimulationController {
         // Set land
         model.addAttribute("createLand", new CreateLand());
 
+        if (sim != null) {
+            TimeThread.pause();
+        }
+
         return URI.HOME_USER_FARM.getView();
     }
 

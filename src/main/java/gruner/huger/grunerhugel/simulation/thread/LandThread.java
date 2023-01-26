@@ -105,7 +105,9 @@ public class LandThread extends Thread {
             for (int i = 0; i < wpl[1]; i++) {
                 List<Worker> temp = assignationMap.get(lands.get(i));
                 for (int j = kont; j < (kont + wpl[0]); j++) {
-                    temp.add(lWorkers.get(j));
+                    if (j < lWorkers.size()) {
+                        temp.add(lWorkers.get(j));
+                    }
                 }
                 kont += wpl[0];
                 assignationMap.put(lands.get(i), temp);
@@ -276,7 +278,7 @@ public class LandThread extends Thread {
             lStatus = LandStatus.EMPTY;
         } else if (status.equals(LandStatus.PLANTING.getStatus())) {
             lStatus = LandStatus.PLANTING;
-        }else if(status.equals(LandStatus.RIPE.getStatus())){
+        } else if (status.equals(LandStatus.RIPE.getStatus())) {
             lStatus = LandStatus.RIPE;
         } else if (status.equals(LandStatus.HARVESTING.getStatus())) {
             lStatus = LandStatus.HARVESTING;
@@ -321,7 +323,7 @@ public class LandThread extends Thread {
                 command = Worker.COMMAND_MANTAIN;
                 number = "0";
         }
-        return new String[] {command,number};
+        return new String[] { command, number };
     }
 
     public void saveLand() {
@@ -333,7 +335,7 @@ public class LandThread extends Thread {
     public static void addNewPlant(Worker worker, PlantType pType, double numSeed) {
         Land land = getLandFromWorker(worker);
         if (land != null) {
-            PlantThread.addPlant(land, pType, (int)numSeed);
+            PlantThread.addPlant(land, pType, (int) numSeed);
         }
     }
 
@@ -371,9 +373,9 @@ public class LandThread extends Thread {
 
     public static void pause() {
         List<Land> old = lRepository.findByFarm(SimulationProcesses.getFarm());
-        for(int i=0;i<old.size();i++){
-            for(int j=0;j<lands.size();j++){
-                if(old.get(i).getId() == lands.get(j).getId()){
+        for (int i = 0; i < old.size(); i++) {
+            for (int j = 0; j < lands.size(); j++) {
+                if (old.get(i).getId() == lands.get(j).getId()) {
                     old.get(i).setStatus(lands.get(j).getStatus());
                 }
             }
@@ -386,7 +388,7 @@ public class LandThread extends Thread {
         workingHours = value;
     }
 
-    public static List<Land> getLands(){
+    public static List<Land> getLands() {
         return new ArrayList<>(assignationMap.keySet());
     }
 }
