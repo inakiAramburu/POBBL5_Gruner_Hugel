@@ -25,33 +25,34 @@
   <main class="h-75 w-75" layout:fragment="main">
     <div class="bgreen3 h-50 w-75 position-absolute top-50 translate-middle start-50 rounded p-5 border border-dark">
       <div class="h-100 xl-overflow-x-hidden md-overflow-auto">
-      <div class="table-responsive overflow-x-hidden  ">
-        <table class="table bcream table-striped table-sm table-hover">
-          <caption></caption>
-          <tr>
-            <th th:text="#{simulation.rank}"></th>
-            <th th:text="#{simulation.startDate}"></th>
-            <th th:text="#{simulation.time}"></th>
-            <th th:text="#{simulation.benefit}"></th>
-          </tr>
-          <div th:if="${simulations} == null">
+        <div class="h-100 table-responsive overflow-x-hidden  ">
+          <table class="table bcream table-striped table-sm table-hover">
+            <caption></caption>
             <tr>
-              <td colspan=100% th:text="#{message.no-simulation}"></td>
+              <th th:text="#{simulation.rank}"></th>
+              <th th:text="#{simulation.startDate}"></th>
+              <th th:text="#{simulation.time}"></th>
+              <th th:text="#{simulation.benefit}"></th>
             </tr>
-          </div>
-          <div th:unless="${simulations} == null">
-            <tr th:each="simulation : ${simulations}">
-              <td></td> <!--make++-->
-              <td th:text="${simulation.startDate}"></td>
-              <td th:text="${simulation.endDate}"></td> <!--simulation endDate - startDate -->
-              <td th:text="${simulation.farm.money}"></td> <!--simulation budget - balance -->
-            </tr>
-          </div>
-        </table>
-      </div>
+            <div th:if="${simulations} == null">
+              <tr>
+                <td colspan=100% th:text="#{message.no-simulation}"></td>
+              </tr>
+            </div>
+            <div th:unless="${simulations} == null">
+              <tr th:each="simulation : ${simulations}">
+                <td></td> <!--make++-->
+                <td th:text="${simulation.startDate}"></td>
+                <td th:text="${simulation.endDate}"></td> <!--simulation endDate - startDate -->
+                <td th:text="${simulation.farm.money}"></td> <!--simulation budget - balance -->
+              </tr>
+            </div>
+          </table>
+        </div>
       </div>
       <div class="d-flex align-items-center justify-content-center">
-        <select onclick="_paq.push(['trackEvent', 'Click', 'filter', 'User']);" class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">
+        <select onclick="_paq.push(['trackEvent', 'Click', 'filter', 'User']);"
+          class="form-select bcream rounded-pill border border-dark w-50 " aria-label="Filter">
           <option selected th:text="#{filter}"></option>
           <option value="1" th:text="#{simulation.startDate}"></option>
           <option value="2" th:text="#{simulation.time}"></option>
